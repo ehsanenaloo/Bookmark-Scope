@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bookmark Manager Settings</title>
+    <link rel="stylesheet" href="options.css">
+  </head>
+  <body>
+    <main class="options-shell">
+      <section class="options-card">
+        <h1>Bookmark Manager Settings</h1>
+        <p class="lede">This is the part where the extension grows up and stops pretending defaults are enough.</p>
+        <form id="settings-form" class="settings-grid">
+          <label>
+            <span>Default mode</span>
+            <select id="default-mode"></select>
+          </label>
+          <label>
+            <span>Default sort</span>
+            <select id="default-sort"></select>
+          </label>
+          <label>
+            <span>Popup width</span>
+            <select id="popup-width"></select>
+          </label>
+          <label>
+            <span>Theme</span>
+            <select id="theme-mode"></select>
+          </label>
+          <label>
+            <span>Duplicate merge strategy</span>
+            <select id="merge-strategy"></select>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="ignore-query">
+            <span>Ignore query string in page matching</span>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="ignore-hash">
+            <span>Ignore hash fragment in page matching</span>
+          </label>
+          <div class="actions">
+            <button type="submit" class="primary">Save settings</button>
+            <button type="button" id="reset-defaults" class="ghost">Reset defaults</button>
+          </div>
+          <div id="status" class="status" aria-live="polite"></div>
+        </form>
+      </section>
+    </main>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>
