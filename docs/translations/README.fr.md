@@ -152,8 +152,7 @@ L'extension ne lit pas les pages que vous visitez. Elle lit seulement l'adresse 
 <a id="good-to-know"></a>
 ## Bon à savoir
 
-- **Traductions.** J'ai corrigé les traductions avec l'aide d'une IA et des contrôles automatiques. Seuls l'anglais et le persan ont été relus par une personne. Les autres langues peuvent contenir des erreurs ou quelques mots anglais. Si vous en voyez une, [ouvrez un ticket](https://github.com/ehsanenaloo/Bookmark-Scope/issues) ou envoyez une pull request. Voir [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
-- **Cette version française.** Elle a été écrite avec l'aide d'une IA et n'a pas encore été relue par une personne dont le français est la langue maternelle. Si vous voyez une erreur ou une phrase peu naturelle, ouvrez un ticket ou envoyez une pull request.
+- **Traductions.** Les traductions sont automatiques : elles peuvent contenir des erreurs ou laisser quelques mots en anglais. Si l'une de ces langues est votre langue maternelle et que vous pouvez écrire une traduction correcte et naturelle, aidez-nous : [ouvrez une issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) ou envoyez une pull request. Détails dans [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
 - **L'import est à plat.** Quand vous importez un fichier `bookmarks.html`, le nom du dossier s'affiche sous forme de chemin, mais les dossiers ne sont pas créés et les dates d'origine ne sont pas conservées. Utilisez un instantané si vous devez reconstruire une arborescence de dossiers.
 - **Les vérifications de liens sont des indications.** Toute réponse 4xx compte comme un lien cassé. Une page qui se charge mais affiche une erreur ou un écran de connexion compte comme saine.
 - **CSV.** J'ai testé l'export CSV avec l'importeur et avec un vrai téléchargement dans Chrome. Je ne l'ai pas encore ouvert dans Excel, Numbers ou Google Sheets.

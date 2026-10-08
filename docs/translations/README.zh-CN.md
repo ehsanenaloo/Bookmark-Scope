@@ -152,8 +152,7 @@ Edge、Brave 等其他 Chromium 浏览器通常也可以从同一个页面安装
 <a id="good-to-know"></a>
 ## 注意事项
 
-- **翻译。** 我借助 AI 和自动检查修正了翻译。只有英语和波斯语经过真人审读。其他语言可能有错误，或者留有一些英文单词。如果你发现了，请[提交 issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) 或发 pull request。见 [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations)。
-- **这份简体中文 README。** 这份译文是借助 AI 写的，还没有母语者审读过。如果有不通顺或不准确的地方，欢迎通过 issue 或 pull request 告诉我。
+- **翻译。** 翻译是机器翻译的，可能有错误，也可能留有一些英文单词。如果其中某种语言是你的母语，并且你能写出准确、自然的译文，欢迎一起完善：[提交 issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) 或发送 pull request。详情见 [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations)。
 - **导入是扁平的。** 导入 `bookmarks.html` 文件时，文件夹名称会显示为路径，但不会创建文件夹，也不会保留原来的日期。如果你需要重建文件夹树，请使用快照。
 - **链接检查只是提示。** 任何 4xx 响应都算失效。页面能打开，但显示错误或登录界面，仍然算正常。
 - **CSV。** 我用导入功能和真实的 Chrome 下载测试过 CSV 导出。我还没有在 Excel、Numbers 或 Google Sheets 里打开过它。

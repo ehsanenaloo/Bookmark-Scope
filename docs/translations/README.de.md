@@ -153,8 +153,7 @@ Die Erweiterung liest nicht die Seiten, die du besuchst. Sie liest nur die Adres
 
 ## Gut zu wissen
 
-- **Übersetzungen.** Ich habe die Übersetzungen mit KI-Hilfe und automatischen Prüfungen korrigiert. Nur Englisch und Persisch hat ein Mensch gelesen. In anderen Sprachen können Fehler oder einzelne englische Wörter vorkommen. Wenn dir einer auffällt, [öffne bitte ein Issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) oder schick einen Pull Request. Siehe [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
-- **Diese README.** Die deutsche Version wurde mit KI-Hilfe geschrieben. Ein Muttersprachler hat sie noch nicht gelesen. Korrekturen sind willkommen, per Issue oder Pull Request.
+- **Übersetzungen.** Die Übersetzungen sind maschinell erstellt und können Fehler enthalten oder einzelne englische Wörter lassen. Wenn eine dieser Sprachen deine Muttersprache ist und du eine richtige, natürliche Übersetzung schreiben kannst, hilf uns: [Eröffne ein Issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) oder schick einen Pull Request. Mehr dazu in [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
 - **Der Import ist flach.** Wenn du eine Datei `bookmarks.html` importierst, wird der Ordnername als Pfad angezeigt. Ordner werden aber nicht angelegt, und die ursprünglichen Datumsangaben bleiben nicht erhalten. Nimm einen Snapshot, wenn du einen Ordnerbaum wiederherstellen musst.
 - **Linkprüfungen sind Hinweise.** Jede 4xx-Antwort gilt als kaputt. Eine Seite, die lädt, aber einen Fehler oder einen Login-Bildschirm zeigt, gilt als in Ordnung.
 - **CSV.** Ich habe den CSV-Export mit dem Importer und mit einem echten Chrome-Download getestet. In Excel, Numbers oder Google Sheets habe ich ihn noch nicht geöffnet.
