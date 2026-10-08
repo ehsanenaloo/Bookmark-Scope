@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope – domēna un lapas pārvaldnieks"
+   },
+   "app_description": {
+      "message": "Pārbaudi, kārto un tīri grāmatzīmes pēc lapas, domēna, dublikātiem un vecuma — ar pilnu paneli pārskatam, veselības pārbaudēm, atgādinājumiem un tīrīšanai."
+   },
+   "app_name": {
+      "message": "Bookmark Scope"
+   },
+   "collapse_groups": {
+      "message": "Sakļaut grupas"
+   },
+   "expand_groups": {
+      "message": "Izvērst grupas"
+   }
+}

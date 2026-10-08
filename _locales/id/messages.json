@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Periksa, atur, dan bersihkan bookmark berdasarkan halaman, domain, duplikat, dan usia—dengan dasbor lengkap untuk triase, pemindaian kesehatan, pengingat, dan pembersihan."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Pengelola Domain & Halaman"
+   },
+   "collapse_groups": {
+      "message": "Ciutkan grup"
+   },
+   "expand_groups": {
+      "message": "Perluas grup"
+   }
+}

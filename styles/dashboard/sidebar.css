@@ -1,0 +1,208 @@
+/*
+ * Bookmark Scope - Domain & Page Manager
+ * Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.
+ *
+ * Side rail (Stats / Clean / Health / Activity), its panel, and the flyout
+ * used when the rail is collapsed or the viewport is mid-sized.
+ */
+
+.dashboard-sidebar-shell {
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 68px minmax(0, 1fr);
+}
+.dashboard-sidebar.collapsed .dashboard-sidebar-shell { grid-template-columns: 68px 0; }
+
+/* ── Rail ─────────────────────────────────────────────────────────────── */
+.dashboard-side-rail {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  overflow: hidden;
+}
+
+.sidebar-rail-toggle {
+  align-self: center;
+  margin-bottom: var(--space-1);
+}
+
+.sidebar-rail-tab {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  min-width: 0;
+  min-height: 54px;
+  padding: var(--space-2) var(--space-1);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.sidebar-rail-tab:hover { background: var(--hover); color: var(--text); }
+.sidebar-rail-tab.active { background: var(--accent-soft); color: var(--accent-text); }
+.sidebar-tab-icon { display: inline-flex; }
+.sidebar-tab-icon svg { width: 20px; height: 20px; display: block; }
+.sidebar-tab-label {
+  display: block;
+  max-width: 100%;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-medium);
+  line-height: 1.2;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Panel ────────────────────────────────────────────────────────────── */
+.dashboard-sidebar-panel-wrap {
+  min-width: 0;
+  min-height: 0;
+  background: var(--bg);
+  border-inline-start: 1px solid var(--divider);
+}
+.dashboard-sidebar.collapsed .dashboard-sidebar-panel-wrap { display: none; }
+.dashboard-sidebar-panel-wrap .sidebar-scroll {
+  height: 100%;
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+
+.sidebar-panel {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.sidebar-panel > .review-card-title {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+}
+.sidebar-panel > .helper-text { margin-top: calc(var(--space-2) * -1); }
+
+.compact-summary-list,
+.review-queue,
+.history-list { display: grid; gap: 0; }
+.compact-review-queue { gap: var(--space-2); }
+
+.compact-summary-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--divider);
+}
+.compact-summary-row:last-child { border-bottom: 0; }
+.compact-summary-label { color: var(--muted); font-size: var(--text-xs); }
+.compact-summary-value {
+  color: var(--text);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+.compact-summary-row.warning .compact-summary-value { color: var(--warning-fg); }
+
+.review-card,
+.history-item,
+.sidebar-panel-empty {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.review-card.compact { grid-template-columns: minmax(0, 1fr); justify-items: start; }
+.review-card-compact-copy { min-width: 0; }
+.review-card.danger,
+.history-item.danger { border-color: var(--danger-line); background: var(--danger-bg); }
+.review-card-title { font-size: var(--text-sm); font-weight: var(--weight-medium); line-height: var(--leading-snug); color: var(--text); }
+.review-card-cta { min-height: var(--control-sm); font-size: var(--text-xs); }
+.sidebar-panel-empty { border-style: dashed; background: transparent; }
+.slim-history-list { display: grid; gap: var(--space-2); }
+.history-item { padding: var(--space-2) var(--space-3); gap: 2px; }
+.sidebar-panel .footer-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+/* ── Flyout (rail collapsed or mid-width) ─────────────────────────────── */
+.dashboard-sidebar.overlay-mode { overflow: visible; position: relative; z-index: var(--z-flyout); }
+.dashboard-sidebar-shell.has-flyout-mode { position: relative; overflow: visible; grid-template-columns: 68px; }
+.dashboard-sidebar.overlay-open .dashboard-side-rail { position: relative; z-index: 3; }
+
+.sidebar-flyout-panel {
+  position: absolute;
+  top: var(--space-2);
+  inset-inline-start: calc(100% + 4px);
+  width: min(360px, calc(100vw - 100px));
+  max-height: calc(100vh - 160px);
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-3);
+  z-index: 20;
+  animation: menu-in var(--dur-base) var(--ease);
+}
+.sidebar-flyout-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--divider);
+}
+.sidebar-flyout-head .about-title { font-size: var(--text-md); }
+.sidebar-flyout-scroll {
+  min-height: 0;
+  max-height: calc(100vh - 260px);
+  overflow: auto;
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+}
+
+/* ── Stacked layout ───────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .dashboard-sidebar-shell,
+  .dashboard-sidebar.collapsed .dashboard-sidebar-shell { grid-template-columns: minmax(0, 1fr); height: auto; }
+  .dashboard-sidebar.collapsed .dashboard-sidebar-panel-wrap,
+  .dashboard-sidebar-panel-wrap { display: block; border-inline-start: 0; }
+
+  .dashboard-side-rail {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    background: var(--surface);
+    border-bottom: 1px solid var(--divider);
+    overflow: visible;
+  }
+  .sidebar-rail-toggle { display: none; }
+  .sidebar-rail-tab { flex-direction: row; gap: 6px; min-height: var(--control-md); padding: 0 var(--space-2); }
+  .sidebar-tab-icon svg { width: 16px; height: 16px; }
+
+  .dashboard-sidebar-panel-wrap .sidebar-scroll { height: auto; max-height: 240px; padding: var(--space-3); }
+}
+
+@media (max-width: 480px) {
+  .sidebar-rail-tab .sidebar-tab-icon { display: none; }
+  .sidebar-tab-label { font-size: var(--text-xs); }
+}

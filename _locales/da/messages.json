@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Inspicér, organiser og ryd op i bogmærker efter side, domæne, dubletter og alder – med et fuldt panel til triage, sundhedstjek, påmindelser og oprydning."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Domæne- og sidehåndtering"
+   },
+   "collapse_groups": {
+      "message": "Skjul grupper"
+   },
+   "expand_groups": {
+      "message": "Udvid grupper"
+   }
+}

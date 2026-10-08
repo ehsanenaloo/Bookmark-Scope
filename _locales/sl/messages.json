@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Preglejte, organizirajte in počistite zaznamke po strani, domeni, dvojnikih in starosti — s polno nadzorno ploščo za triažo, preverjanje stanja, opomnike in čiščenje."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Upravitelj domen in strani"
+   },
+   "collapse_groups": {
+      "message": "Strni skupine"
+   },
+   "expand_groups": {
+      "message": "Razširi skupine"
+   }
+}

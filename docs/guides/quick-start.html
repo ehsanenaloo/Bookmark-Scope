@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quick start and first run | Bookmark Scope user guide</title>
+<meta name="description" content="Install Bookmark Scope, pin it, see what is already saved for the site you are on, and open the dashboard. About ten minutes.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+<link rel="stylesheet" href="../styles.css">
+<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script defer src="../app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html" aria-current="page">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
+<main id="main">
+<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Get started</p><h1>Quick start and first run</h1><p class="lead">In about ten minutes you will see every bookmark you already have for the site you are on, open the full library dashboard, find a duplicate, and learn how to undo a delete.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
+<div class="shell doc-layout has-toc">
+<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html" aria-current="page">Quick start &amp; first run</a><a href="installation.html">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
+<article class="prose">
+
+<p><strong>What you will do:</strong> install the extension, pin it, use the popup on a normal web page, open the dashboard, and try one safe cleanup.</p>
+<p><strong>Before you start:</strong> Chrome (the only browser this guide has been checked against) and a few existing bookmarks. You do not need to change any settings.</p>
+
+<h2 id="1-install-and-pin">1. Install and pin<a class="anchor" href="#1-install-and-pin" aria-label="Link to this section">#</a></h2>
+<p>Add the extension from the <a href="https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo" rel="noopener">Chrome Web Store</a> (or follow <a href="installation.html">Installation</a> to load it unpacked). Then pin it so the toolbar button is always visible:</p>
+<ol>
+  <li>Click the Extensions (puzzle piece) button in the Chrome toolbar.</li>
+  <li>Find <strong>Bookmark Scope</strong> and click its pin icon.</li>
+</ol>
+<p>On a fresh install Bookmark Scope also shows a notification titled <em>Pin Bookmark Scope for faster access</em>, and a <em>Quick setup</em> card at the top of the dashboard. Choose <strong>Got it</strong> on the card to dismiss it.</p>
+
+<h2 id="2-open-the-popup-on-a-normal-website">2. Open the popup on a normal website<a class="anchor" href="#2-open-the-popup-on-a-normal-website" aria-label="Link to this section">#</a></h2>
+<p>Go to any <code>http</code> or <code>https</code> page, then click the Bookmark Scope toolbar button.</p>
+<figure class="shot popup" style="--ratio:420 / 580"><div class="frame" data-file="popup-light.png / popup-dark.png "><img class="for-light" src="../assets/screenshots/popup-light.png" alt="The Bookmark Scope popup showing the current page address, a count of bookmarks in scope, a search box, a Page, Host, Domain switch and a short list of matching bookmarks (light theme)" loading="lazy" decoding="async" width="420" height="580"><img class="for-dark" src="../assets/screenshots/popup-dark.png" alt="The Bookmark Scope popup showing the current page address, a count of bookmarks in scope, a search box, a Page, Host, Domain switch and a short list of matching bookmarks (dark theme)" loading="lazy" decoding="async" width="420" height="580"></div><figcaption>The popup answers one question: what do I already have saved for this site?</figcaption></figure>
+<div class="expect"><p><strong>You should see:</strong> the page address under the title, a pill such as <em>3 in scope</em>, a search box, and a three-way <strong>Page / Host / Domain</strong> switch. The list shows up to eight matching bookmarks. On a page you have never saved the list is empty.</p></div>
+<p>On a browser-internal page (for example <code>chrome://extensions</code>) the popup says <em>Unsupported page</em> and shows <em>No scope</em>. That is expected: Bookmark Scope only matches web addresses.</p>
+
+<h2 id="3-change-the-scope">3. Change the scope<a class="anchor" href="#3-change-the-scope" aria-label="Link to this section">#</a></h2>
+<p>Choose <strong>Page</strong>, <strong>Host</strong> or <strong>Domain</strong> to widen or narrow what counts as &ldquo;the same site&rdquo;:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Scope</th><th scope="col">Matches</th><th scope="col">Example for https://docs.example.com/guide</th></tr></thead><tbody><tr><td>Page</td><td>The same page address</td><td>Only bookmarks of that exact page</td></tr><tr><td>Host</td><td>The same host name</td><td>Anything on <code>docs.example.com</code></td></tr><tr><td>Domain</td><td>The same registrable domain (the default)</td><td>Anything on <code>example.com</code>, including <code>www.example.com</code> and <code>shop.example.com</code></td></tr></tbody></table></div>
+<p>Your choice is remembered. The number shown on the toolbar icon follows the same scope. <a href="popup.html">The popup guide</a> explains each control.</p>
+
+<h2 id="4-bookmark-or-un-bookmark-the-page">4. Bookmark or un-bookmark the page<a class="anchor" href="#4-bookmark-or-un-bookmark-the-page" aria-label="Link to this section">#</a></h2>
+<p>The star button in the popup header says <em>Bookmark current page</em> when the page is not saved, and <em>Remove bookmark</em> when it is. Removing a bookmark from the popup shows a toast with <strong>Undo</strong>.</p>
+
+<h2 id="5-open-the-dashboard">5. Open the dashboard<a class="anchor" href="#5-open-the-dashboard" aria-label="Link to this section">#</a></h2>
+<p>Choose <strong>Dashboard</strong> in the popup header. The dashboard opens in a new tab and shows your whole bookmark library, not just one site.</p>
+<figure class="shot " style="--ratio:1440 / 900"><div class="frame" data-file="dashboard-desktop-light.png / dashboard-desktop-dark.png "><img class="for-light" src="../assets/screenshots/dashboard-desktop-light.png" alt="The Bookmark Scope dashboard with the filter chips, a side rail of panels, the bookmark list and a detail panel (light theme)" loading="lazy" decoding="async" width="1440" height="900"><img class="for-dark" src="../assets/screenshots/dashboard-desktop-dark.png" alt="The Bookmark Scope dashboard with the filter chips, a side rail of panels, the bookmark list and a detail panel (dark theme)" loading="lazy" decoding="async" width="1440" height="900"></div><figcaption>The dashboard: search and filters on top, your library in the middle, details for the active bookmark on the right.</figcaption></figure>
+<div class="expect"><p><strong>You should see:</strong> a header reading <em>N total bookmarks in the library</em>, a search box, filter chips (<em>All, Duplicates, Untitled, Old, Collisions</em>) with counts, and the list. Nothing has been changed or sent anywhere.</p></div>
+
+<h2 id="6-find-your-duplicates">6. Find your duplicates<a class="anchor" href="#6-find-your-duplicates" aria-label="Link to this section">#</a></h2>
+<ol class="steps">
+  <li><h3>Filter</h3><p>Click the <strong>Duplicates</strong> chip. The list now shows only bookmarks whose page address appears more than once.</p></li>
+  <li><h3>Inspect</h3><p>Click a row. The detail panel shows its full address, folder, the date it was added and its age.</p></li>
+  <li><h3>Preview, do not delete yet</h3><p>Open <strong>Library tools</strong> and choose <strong>Duplicate preview</strong>. You pick which copy to keep in each group and see exactly what will be removed. Nothing changes until you press <strong>Merge and remove duplicates</strong>.</p></li>
+</ol>
+<p>Full details, including how tags are merged, are in <a href="cleaning-up.html">Cleaning up</a>.</p>
+
+<h2 id="7-know-how-undo-works-before-you-delete-anything">7. Know how Undo works before you delete anything<a class="anchor" href="#7-know-how-undo-works-before-you-delete-anything" aria-label="Link to this section">#</a></h2>
+<p>After a delete, a toast shows how many bookmarks were deleted and an <strong>Undo</strong> button. Undo recreates the bookmarks in their folders and puts their tags back, but:</p>
+<ul>
+  <li>the browser gives them <strong>new internal IDs and a new &ldquo;date added&rdquo;</strong>, because a bookmark cannot be recreated with its original ones;</li>
+  <li>Undo only lives in the open dashboard or popup. If you close the tab, you cannot undo.</li>
+</ul>
+<aside class="callout warn"><span class="callout-title">Be careful</span><p>Before a large cleanup, take a backup: <strong>Library tools &rarr; Export snapshot</strong>. See <a href="backup-and-restore.html">Backup and restore</a>.</p></aside>
+
+<h2 id="what-to-try-next">What to try next<a class="anchor" href="#what-to-try-next" aria-label="Link to this section">#</a></h2>
+<ul>
+  <li><a href="organizing.html">Tag bookmarks</a> and filter by tag.</li>
+  <li><a href="link-health.html">Check for broken links</a>. This is the one feature that contacts the sites you bookmarked, and it asks for your permission first.</li>
+  <li><a href="command-palette.html">Learn the keyboard shortcuts</a>, starting with <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>.</li>
+  <li><a href="settings-reference.html">Open settings</a> to set your default scope, theme and language.</li>
+</ul>
+
+<div class="reading-footer"><span></span><a class="next" href="installation.html"><small>Next</small>Installation</a></div>
+</article>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#1-install-and-pin">1. Install and pin</a></li><li><a href="#2-open-the-popup-on-a-normal-website">2. Open the popup on a normal website</a></li><li><a href="#3-change-the-scope">3. Change the scope</a></li><li><a href="#4-bookmark-or-un-bookmark-the-page">4. Bookmark or un-bookmark the page</a></li><li><a href="#5-open-the-dashboard">5. Open the dashboard</a></li><li><a href="#6-find-your-duplicates">6. Find your duplicates</a></li><li><a href="#7-know-how-undo-works-before-you-delete-anything">7. Know how Undo works before you delete anything</a></li><li><a href="#what-to-try-next">What to try next</a></li></ol></nav>
+</div>
+</main>
+<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+</body>
+</html>

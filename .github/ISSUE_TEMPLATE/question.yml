@@ -1,0 +1,31 @@
+name: Question
+description: Ask how to use Bookmark Scope.
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please check the user guide first (docs/README.md in this repository), especially the Troubleshooting and FAQ page.
+        This is a volunteer project, so replies are best effort. Do not paste private bookmark data or personal URLs.
+  - type: textarea
+    id: question
+    attributes:
+      label: What do you want to do?
+      description: Say what you are trying to do and what you tried so far.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Bookmark Scope version
+      description: Shown on chrome://extensions.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I read the user guide and searched existing issues.
+          required: true
+        - label: I did not include private bookmark data or personal URLs.
+          required: true

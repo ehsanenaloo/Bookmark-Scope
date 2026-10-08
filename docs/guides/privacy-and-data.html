@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy, permissions and data | Bookmark Scope user guide</title>
+<meta name="description" content="Which permissions Bookmark Scope asks for and why, what it stores on your device, and the only cases in which anything leaves your browser.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+<link rel="stylesheet" href="../styles.css">
+<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script defer src="../app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
+<main id="main">
+<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Trust and support</p><h1>Privacy, permissions and data</h1><p class="lead">Bookmark Scope has no server, no account and no analytics. The one thing that touches the network is link checking, and only after you grant permission.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
+<div class="shell doc-layout has-toc">
+<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html" aria-current="page">Privacy, permissions &amp; data</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
+<article class="prose">
+
+<h2 id="the-short-version">The short version<a class="anchor" href="#the-short-version" aria-label="Link to this section">#</a></h2>
+<ul>
+  <li>Everything Bookmark Scope knows is stored in your browser profile. Nothing is sent to the developer.</li>
+  <li>The extension&rsquo;s own code contains exactly one kind of outgoing request to arbitrary sites: the <strong>link-health check</strong> of the addresses in <em>your</em> bookmarks. It needs a permission you grant.</li>
+  <li>Your bookmarks stay in Chrome&rsquo;s bookmark store. Bookmark Scope reads and edits them through Chrome&rsquo;s bookmarks API, and keeps tags and other extras separately.</li>
+</ul>
+
+<h2 id="permissions-and-why-each-is-there">Permissions, and why each is there<a class="anchor" href="#permissions-and-why-each-is-there" aria-label="Link to this section">#</a></h2>
+<p>These come from the extension&rsquo;s manifest. Chrome&rsquo;s install prompt may group or reword them.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Permission</th><th scope="col">What Bookmark Scope uses it for</th></tr></thead><tbody><tr><td><code>bookmarks</code></td><td>Read your bookmark tree; create, edit, move and delete bookmarks when you ask it to</td></tr><tr><td><code>tabs</code></td><td>Read the address and title of the active tab (for scope matching and the star button) and open tabs</td></tr><tr><td><code>storage</code></td><td>Keep settings, tags, saved views, history, caches and journals on this device</td></tr><tr><td><code>alarms</code></td><td>Wake the background worker for the optional scheduled link check and review reminders</td></tr><tr><td><code>notifications</code></td><td>Show the three notifications listed in <a href="review-reminders.html">Review reminders and notifications</a></td></tr><tr><td><code>contextMenus</code></td><td>Add the three right-click entries</td></tr><tr><td><code>clipboardWrite</code></td><td>Copy the addresses of selected bookmarks when you press <strong>Copy URLs</strong> or <strong>Copy</strong></td></tr><tr><td><code>favicon</code></td><td>Ask Chrome for the small site icons it already has, so rows can show them</td></tr><tr><td><strong>Optional:</strong> <code>http://*/*</code> and <code>https://*/*</code></td><td>Contact bookmarked sites to check whether they still load. <strong>Not granted at install.</strong> Chrome asks when you first start a check or enable the scheduled scan.</td></tr></tbody></table></div>
+<p>The extension declares no content scripts, so it does not run inside the web pages you visit, and it does not read page content.</p>
+
+<h2 id="what-is-stored-on-your-device">What is stored on your device<a class="anchor" href="#what-is-stored-on-your-device" aria-label="Link to this section">#</a></h2>
+<p>All of this lives in the extension&rsquo;s local storage for the current browser profile. It is not synced to your Google account and not shared between devices.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Data</th><th scope="col">What it contains</th><th scope="col">Limit / retention</th></tr></thead><tbody><tr><td>Preferences</td><td>Your settings, dashboard filter, grouping, theme, language</td><td>Small</td></tr><tr><td>Tags</td><td>A map from bookmark ID to its tags</td><td>32 characters per tag, 20 tags per bookmark. Removed when the bookmark is deleted</td></tr><tr><td>Link-health cache</td><td>Per page address: status, time, status code, final address, error text</td><td>Ignored after 7 days; at most 5,000 results</td></tr><tr><td>Manual scan job</td><td>The list of addresses in your saved scan and its progress</td><td>One job; up to 50,000 addresses</td></tr><tr><td>Scheduled-scan state</td><td>On/off, interval, last run, broken count, and the last address it attempted</td><td>Small</td></tr><tr><td>Saved views</td><td>Search text, filters, grouping, tag filter</td><td>Up to 50</td></tr><tr><td>Activity history</td><td>Counts, times and short notes about actions Bookmark Scope took</td><td>Latest 60 entries</td></tr><tr><td>Import and restore journals</td><td>The bookmarks created by an import or restore and their outcomes</td><td>Latest 20 completed, plus any incomplete ones. <strong>Contains your bookmark addresses and titles</strong></td></tr><tr><td>Diagnostic events</td><td>Technical event names and timestamps. A few events can include a bookmark address in this local store</td><td>Latest 200 (info, warning, error)</td></tr></tbody></table></div>
+<p>The extension does not use browser sync storage. Clearing the link-health cache, resetting defaults and uninstalling are covered in <a href="installation.html#uninstalling-and-your-data">Installation</a>.</p>
+
+<h2 id="what-can-leave-your-browser">What can leave your browser<a class="anchor" href="#what-can-leave-your-browser" aria-label="Link to this section">#</a></h2>
+<ol class="steps">
+  <li><h3>Link-health requests (only with your permission)</h3><p>A check sends a <code>HEAD</code> request, or a <code>GET</code> if the site refuses <code>HEAD</code>, directly from your browser to the bookmarked address. The site sees an ordinary request from your computer. Bookmark Scope receives the response status and final address, and nothing else. No proxy, relay or developer server is involved. It happens only if you start a check or enable the scheduled scan.</p></li>
+  <li><h3>Links you choose to click</h3><p>The footer and About screens contain links to the GitHub repository, a support page and a store review page. They open in a new tab only when you click.</p></li>
+  <li><h3>Chrome&rsquo;s own extension update checks</h3><p>These are performed by Chrome, not by Bookmark Scope.</p></li>
+</ol>
+<p>Everything else, including searching, tagging, scanning for duplicates, snapshots and translations, runs locally. The language files are packaged with the extension and read from it, not downloaded.</p>
+<aside class="callout note"><span class="callout-title">How this was checked</span><p>This statement comes from reading the extension&rsquo;s JavaScript for network calls: the only <code>fetch</code> to outside addresses is the health check, and the only other fetch reads packaged language files. It is not a network traffic capture or an independent security audit.</p></aside>
+
+<h2 id="sharing-files-safely">Sharing files safely<a class="anchor" href="#sharing-files-safely" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">File</th><th scope="col">Contains your bookmarks?</th></tr></thead><tbody><tr><td>Snapshot (<code>bookmark-scope-snapshot.json</code>)</td><td><strong>Yes</strong>: titles, addresses, folders, tags</td></tr><tr><td>Restore or import recovery journal</td><td><strong>Yes</strong></td></tr><tr><td>Export visible (<code>bookmark-manager-visible-&hellip;.json</code> or <code>.csv</code>)</td><td><strong>Yes</strong></td></tr><tr><td>Diagnostic export</td><td><strong>No</strong>. See <a href="diagnostics.html">Diagnostics</a></td></tr></tbody></table></div>
+
+<h2 id="controlling-access">Controlling access<a class="anchor" href="#controlling-access" aria-label="Link to this section">#</a></h2>
+<ul>
+  <li>Decline the site-access prompt and link checks simply do not run. Everything else works.</li>
+  <li>Revoke site access later from the extension&rsquo;s <em>Details</em> page in <code>chrome://extensions</code>.</li>
+  <li>Remove the extension to delete its stored data.</li>
+</ul>
+
+<div class="reading-footer"><a href="appearance-and-languages.html"><small>Previous</small>Appearance &amp; languages</a><a class="next" href="diagnostics.html"><small>Next</small>Diagnostics</a></div>
+</article>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#the-short-version">The short version</a></li><li><a href="#permissions-and-why-each-is-there">Permissions, and why each is there</a></li><li><a href="#what-is-stored-on-your-device">What is stored on your device</a></li><li><a href="#what-can-leave-your-browser">What can leave your browser</a></li><li><a href="#sharing-files-safely">Sharing files safely</a></li><li><a href="#controlling-access">Controlling access</a></li></ol></nav>
+</div>
+</main>
+<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+</body>
+</html>

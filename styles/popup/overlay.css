@@ -1,0 +1,35 @@
+/*
+ * Bookmark Scope - Domain & Page Manager
+ * Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.
+ *
+ * Popup dialogs (about, quick setup, confirmation) and toast.
+ */
+
+.modal-overlay { padding: var(--space-3); }
+.modal-card { width: 100%; max-height: calc(100vh - 24px); padding: var(--space-4); border-radius: var(--radius-lg); }
+.confirm-dialog { padding: 0; }
+
+.about-modal .about-feature-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.about-modal .about-feature-card { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-2); text-align: center; }
+.about-modal .about-feature-title { font-size: var(--text-xs); line-height: var(--leading-snug); }
+.about-modal .about-kicker { font-size: var(--text-lg); }
+
+.pin-onboarding-modal { display: grid; gap: var(--space-3); }
+.pin-onboarding-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.pin-onboarding-head-copy { display: grid; gap: var(--space-1); min-width: 0; }
+.pin-onboarding-modal .pin-onboarding-body { display: grid; gap: var(--space-2); }
+.pin-onboarding-modal .pin-onboarding-actions { display: flex; justify-content: flex-end; }
+.pin-onboarding-modal .pin-onboarding-button { min-width: 96px; }
+
+.toast { bottom: var(--space-3); max-width: calc(100vw - 24px); }
+
+.popup-about-modal .about-body { gap: var(--space-3); }
+.popup-about-modal .about-head { margin-bottom: var(--space-3); }
+.popup-about-modal .about-hero { padding: var(--space-3); gap: var(--space-1); }
+.popup-about-modal .about-support-card { padding: var(--space-3); }
+.popup-about-modal .popup-about-credit { text-align: center; }

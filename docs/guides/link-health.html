@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Link health: checking, scanning and repairing | Bookmark Scope user guide</title>
+<meta name="description" content="How Bookmark Scope checks whether bookmarked pages still load: statuses, the optional site-access permission, manual and resumable scans, scheduled background scans, redirect repair and the cache.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+<link rel="stylesheet" href="../styles.css">
+<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script defer src="../app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
+<main id="main">
+<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Link health</p><h1>Link health: checking, scanning and repairing</h1><p class="lead">Link health is the only feature that contacts the sites you bookmarked. It is off until you ask, it asks permission first, and it never edits anything by itself.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
+<div class="shell doc-layout has-toc">
+<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html" aria-current="page">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
+<article class="prose">
+
+<h2 id="the-short-version">The short version<a class="anchor" href="#the-short-version" aria-label="Link to this section">#</a></h2>
+<ul>
+  <li>A check sends a lightweight request to each bookmarked address from your own browser and records what came back.</li>
+  <li>You must grant Chrome&rsquo;s optional <strong>site access</strong> for <code>http</code> and <code>https</code> pages first. If you say no, nothing is requested.</li>
+  <li>Results are kept in a local cache for seven days.</li>
+  <li>A result is a hint, not a verdict. Sites block bots, require sign-in and rate-limit, which can look like &ldquo;broken&rdquo;.</li>
+</ul>
+
+<h2 id="what-the-statuses-mean">What the statuses mean<a class="anchor" href="#what-the-statuses-mean" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Status shown</th><th scope="col">When it is assigned</th><th scope="col">What it usually means</th></tr></thead><tbody><tr><td>Healthy</td><td>The server answered with a success status and no change of address</td><td>The page loaded. This does not prove the content is the same as when you saved it.</td></tr><tr><td>Redirected</td><td>The request was redirected, or ended on a different page than the one you saved (differences in the <code>#fragment</code> are ignored)</td><td>The page moved. You may be able to <a href="#repairing-redirects">repair the bookmark</a>. A different <code>#fragment</code> or host letter case alone does not count as a move.</td></tr><tr><td>Broken</td><td>HTTP status 400&ndash;499, shown with the code</td><td>Not found (404), gone (410) &mdash; but also sign-in required (401), forbidden (403) and rate-limited (429). <strong>Check before deleting.</strong></td></tr><tr><td>Server error</td><td>HTTP status 500 or higher</td><td>The site had a problem. Often temporary.</td></tr><tr><td>Unreachable / Timed out</td><td>No response: DNS failure, refused connection, no network, or no answer in 8 seconds</td><td>The site may be gone, or you may be offline.</td></tr><tr><td>Unchecked</td><td>No result recorded yet</td><td>Run a check.</td></tr><tr><td>Check failed (skipped)</td><td>The request was skipped by policy, aborted, or produced no response</td><td>Chrome Web Store addresses and non-web addresses are skipped.</td></tr></tbody></table></div>
+<h3>How the check works</h3>
+<ul>
+  <li>The extension asks for the page&rsquo;s headers with a <code>HEAD</code> request, following redirects and bypassing the HTTP cache.</li>
+  <li>If the server answers <strong>405 Method Not Allowed</strong>, it tries a <code>GET</code> instead, with a 5-second limit.</li>
+  <li>The normal limit is 8 seconds per address.</li>
+  <li>The classification looks at the status code and whether the final address changed. It does not read or judge the page content.</li>
+</ul>
+
+<h2 id="the-permission-model">The permission model<a class="anchor" href="#the-permission-model" aria-label="Link to this section">#</a></h2>
+<p>Bookmark Scope declares <code>http://*/*</code> and <code>https://*/*</code> as <strong>optional</strong> host permissions. They are not granted when you install.</p>
+<ol class="steps">
+  <li><h3>You start a check</h3><p>Choose <strong>Inspect visible</strong>, <strong>Inspect selected</strong>, <strong>Inspect this group</strong>, or start a resumable scan.</p></li>
+  <li><h3>Chrome asks</h3><p>If access has not been granted, Chrome shows its own prompt for site access. Read it. Bookmark Scope needs the broad pattern because it contacts whichever sites you bookmarked.</p></li>
+  <li><h3>You decide</h3><p>If you decline, you get <em>Health scans need temporary site access. Permission denied, so the scan was not run.</em> and no request is made.</p></li>
+</ol>
+<aside class="callout note"><span class="callout-title">Revoking access</span><p>The prompt wording says &ldquo;temporary&rdquo;, but Bookmark Scope does not revoke the permission for you afterwards. To remove it, open <code>chrome://extensions</code>, choose <em>Details</em> for Bookmark Scope and change its site access there. Chrome controls those screens and their exact wording.</p></aside>
+<p>Enabling the <a href="#scheduled-background-scans">scheduled scan</a> in Settings also asks for the same permission when you save.</p>
+
+<h2 id="running-a-check-from-the-dashboard">Running a check from the dashboard<a class="anchor" href="#running-a-check-from-the-dashboard" aria-label="Link to this section">#</a></h2>
+<ol class="steps">
+  <li><h3>Choose what to check</h3><p>The check covers your <strong>selected</strong> bookmarks if any are selected; otherwise everything <strong>visible</strong> after filters. Duplicate addresses are checked once.</p></li>
+  <li><h3>Press Inspect</h3><p>The button reads <em>Inspect visible</em> or <em>Inspect selected</em>. While it runs it shows <em>Stop inspect 12/80</em>. Up to four addresses are checked at a time.</p></li>
+  <li><h3>Watch the results appear</h3><p>Rows gain a health badge (for example <em>Healthy 200</em> or <em>Broken 404</em>). Hover a badge for a redirect target or an error note. The Health panel and the score update as results arrive.</p></li>
+  <li><h3>Stop any time</h3><p>Press the same button again. Results already received are kept: <em>Inspection stopped after 12/80 links&hellip; Partial results were kept.</em></p></li>
+</ol>
+<p>When a run finishes you get a summary such as <em>Health scan finished for Entire library: 70 healthy &middot; 3 redirected &middot; 4 broken &middot; 1 server &middot; 2 unreachable.</em> A scan is recorded in the Activity panel.</p>
+<p>To find what a scan flagged, search <code>health:bad</code> (broken, server error or unreachable), <code>health:redirected</code> or <code>health:good</code>.</p>
+
+<h2 id="resumable-scans">Resumable scans<a class="anchor" href="#resumable-scans" aria-label="Link to this section">#</a></h2>
+<p>For long lists, use <strong>Library tools &rarr; Resumable scan</strong>. It keeps its progress in storage so closing the page does not lose it.</p>
+<ul>
+  <li>The dialog states its scope (selected or visible) and <em>Unique supported URLs to check</em>.</li>
+  <li><strong>Start new scan</strong> creates the job and begins. If an unfinished job already exists, tick <em>Starting a new scan replaces the previous progress</em> first.</li>
+  <li><strong>Pause scan</strong>, <strong>Resume scan</strong> and <strong>Cancel scan</strong> do what they say. A canceled job cannot be resumed; start a new one.</li>
+  <li>The progress line reads <em>Completed / total / remaining</em> followed by a status: <em>No saved scan</em>, <em>Ready to start</em>, <em>Scanning</em>, <em>Paused</em>, <em>Canceled</em> or <em>Completed</em>.</li>
+  <li>Addresses are checked one at a time. A job can hold between 1 and 50,000 addresses, and only one job is saved.</li>
+</ul>
+<aside class="callout warn"><span class="callout-title">It is paused, not running in the background</span><p>A resumable scan only runs while its dashboard tab is open. <strong>Closing the dialog, or the tab, pauses it.</strong> Reopen <em>Library tools</em>; a <em>Saved scan progress</em> button shows how far it got, and <strong>Resume scan</strong> continues. If a request was in flight when it stopped, that address may be checked again, but it is never counted twice.</p></aside>
+
+<h2 id="scheduled-background-scans">Scheduled background scans</h2>
+<p>If you want link checks without opening the dashboard, enable the scheduled scan in <a href="settings-reference.html#scheduled-health-scan">Settings</a>.</p>
+<ul>
+  <li>It is <strong>off by default</strong>. Enabling it prompts for site access; if you decline it stays off.</li>
+  <li>The interval is 1&ndash;90 days (default 7). It is driven by a Chrome alarm, so it only runs while the browser is running, and timing is approximate.</li>
+  <li>Each run checks up to <strong>250</strong> bookmarks, one at a time. It remembers where it stopped and continues from there next time, so over several runs it works through the whole library instead of re-checking the same first 250.</li>
+  <li>If, after a run, some bookmarks have newly turned broken, server-error or unreachable, you get one notification: <em>Bookmark Scope: new broken links found &mdash; N bookmarks now appear broken. Open the dashboard to review and clean up.</em></li>
+  <li>Settings shows <em>Last scan: &hellip;. N bookmarks currently look broken.</em> This number counts every cached result, including ones from manual scans.</li>
+</ul>
+<p>A scheduled scan never deletes, edits or moves anything.</p>
+
+<h2 id="repairing-redirects">Repairing redirects</h2>
+<p>When a check finds that a bookmark now lands on a different address, you can update the bookmark to the final address.</p>
+<ul>
+  <li>Use <strong>Repair redirected</strong> in the selection bar (selected bookmarks), <em>Repair redirect</em> in a row&rsquo;s menu, the same button in the Stats panel recommendations, or <strong>Library tools &rarr; Repair redirected</strong> (all visible bookmarks that qualify).</li>
+  <li>You are asked <em>Repair redirected bookmarks?</em> with the count. Confirm with <strong>Update bookmarks</strong>.</li>
+  <li>Only the address changes. Title, folder, position, ID, date and tags are kept. The bookmark&rsquo;s stale health result is dropped so it can be checked again.</li>
+</ul>
+<aside class="callout warn"><span class="callout-title">Be careful</span><p><strong>Repairing a redirect cannot be undone from Bookmark Scope.</strong> There is no Undo toast for it. Open the detail panel first and read <em>Redirects to</em>: a redirect to a sign-in page, a cookie notice or a homepage is not a repair. Export a snapshot if you are unsure.</p></aside>
+
+<h2 id="the-health-cache">The health cache<a class="anchor" href="#the-health-cache" aria-label="Link to this section">#</a></h2>
+<ul>
+  <li>Results are stored locally, keyed by the normalised page address (so the URL-identity options affect them).</li>
+  <li>A result older than <strong>7 days</strong> is ignored. The cache holds at most 5,000 results; if it overflows, the oldest are trimmed.</li>
+  <li><strong>Library tools &rarr; Clear cached health data</strong> (also in the list&rsquo;s More actions menu) asks <em>Clear cached health data?</em> and forgets all results. Bookmarks are untouched.</li>
+  <li>If you clear the cache while a scan is running, results from that earlier scan cannot repopulate it.</li>
+</ul>
+
+<h2 id="practical-tips">Practical tips<a class="anchor" href="#practical-tips" aria-label="Link to this section">#</a></h2>
+<ul>
+  <li>Check a group or a domain first (<strong>Inspect this group</strong>) before the whole library.</li>
+  <li>Re-check anything flagged <em>Broken 403</em>, <em>401</em> or <em>429</em> in your browser before deleting it.</li>
+  <li>A flagged <em>Unreachable</em> result while you were offline or on a restricted network is not evidence the site is gone.</li>
+  <li>Intranet or <code>localhost</code> bookmarks may only work from certain networks; results reflect where your browser is.</li>
+</ul>
+
+<div class="reading-footer"><a href="cleaning-up.html"><small>Previous</small>Cleaning up</a><a class="next" href="review-reminders.html"><small>Next</small>Review reminders &amp; notifications</a></div>
+</article>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#the-short-version">The short version</a></li><li><a href="#what-the-statuses-mean">What the statuses mean</a></li><li><a href="#the-permission-model">The permission model</a></li><li><a href="#running-a-check-from-the-dashboard">Running a check from the dashboard</a></li><li><a href="#resumable-scans">Resumable scans</a></li><li><a href="#the-health-cache">The health cache</a></li><li><a href="#practical-tips">Practical tips</a></li></ol></nav>
+</div>
+</main>
+<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+</body>
+</html>

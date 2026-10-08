@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Sprawdzaj, porządkuj i czyść zakładki według strony, domeny, duplikatów i wieku — z pełnym panelem do triażu, skanów zdrowia, przypomnień i sprzątania."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Menedżer domen i stron"
+   },
+   "collapse_groups": {
+      "message": "Zwiń grupy"
+   },
+   "expand_groups": {
+      "message": "Rozwiń grupy"
+   }
+}

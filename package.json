@@ -1,0 +1,16 @@
+{
+  "name": "bookmark-scope",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "Bookmark Scope browser extension. This package.json only provides shortcuts for the dependency-free scripts; it is not published to npm.",
+  "repository": { "type": "git", "url": "git+https://github.com/ehsanenaloo/Bookmark-Scope.git" },
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "test": "node scripts/test.mjs",
+    "validate": "node scripts/validate.mjs",
+    "check": "npm run validate && npm test",
+    "test:browser": "node tests/browser/run.mjs",
+    "runtime-files": "node scripts/list-runtime-files.mjs"
+  }
+}

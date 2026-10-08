@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Yer imlerini sayfa, alan adı, kopya ve yaşa göre inceleyin, düzenleyin ve temizleyin; ayrıca triyaj, sağlık taramaları, hatırlatmalar ve temizlik için tam bir pano kullanın."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Alan Adı ve Sayfa Yöneticisi"
+   },
+   "collapse_groups": {
+      "message": "Grupları daralt"
+   },
+   "expand_groups": {
+      "message": "Grupları genişlet"
+   }
+}

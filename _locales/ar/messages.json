@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "افحص الإشارات المرجعية ونظّمها ونظّفها حسب الصفحة والنطاق والتكرارات والعمر، مع لوحة كاملة للفرز السريع وفحوصات الصحة والتذكيرات والتنظيف."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – مدير النطاقات والصفحات"
+   },
+   "collapse_groups": {
+      "message": "طي المجموعات"
+   },
+   "expand_groups": {
+      "message": "توسيع المجموعات"
+   }
+}

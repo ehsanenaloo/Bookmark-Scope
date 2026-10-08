@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Installation, updates and removal | Bookmark Scope user guide</title>
+<meta name="description" content="Install Bookmark Scope from the Chrome Web Store or load it unpacked, pin it, update it, and remove it without losing your bookmarks.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+<link rel="stylesheet" href="../styles.css">
+<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script defer src="../app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
+<main id="main">
+<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Get started</p><h1>Installation, updates and removal</h1><p class="lead">Two ways to install, how updates behave, what survives an update, and exactly what happens to your data when you uninstall.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
+<div class="shell doc-layout has-toc">
+<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html" aria-current="page">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
+<article class="prose">
+
+<h2 id="requirements">Requirements<a class="anchor" href="#requirements" aria-label="Link to this section">#</a></h2>
+<ul>
+  <li><strong>Chrome</strong> with Manifest V3 extension support. Chromium-based browsers share the extension format, but this guide and the project&rsquo;s recorded acceptance tests only cover Chromium/Chrome. Other browsers, including Firefox, are not verified.</li>
+  <li>No account and no sign-in. Bookmark Scope has no server component.</li>
+</ul>
+
+<h2 id="option-a-chrome-web-store">Option A: Chrome Web Store<a class="anchor" href="#option-a-chrome-web-store" aria-label="Link to this section">#</a></h2>
+<ol class="steps">
+  <li><h3>Find it</h3><p>Open the <a href="https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo" rel="noopener">Bookmark Scope &ndash; Domain &amp; Page Manager listing</a> in the Chrome Web Store. The project&rsquo;s <a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub repository</a> is the other place to confirm you have the right extension.</p></li>
+  <li><h3>Add it</h3><p>Choose <strong>Add to Chrome</strong> and read Chrome&rsquo;s permission prompt before you confirm. The permissions Bookmark Scope declares are listed in <a href="privacy-and-data.html">Privacy, permissions and data</a>.</p></li>
+  <li><h3>Pin it</h3><p>Open the Extensions menu (puzzle piece) and pin <strong>Bookmark Scope</strong>.</p></li>
+</ol>
+<aside class="callout note"><span class="callout-title">Older releases</span><p>This guide describes the current release. If Chrome&rsquo;s install prompt asks for access to <em>all websites</em> up front, you are looking at an older release that predates the optional site-access model described in <a href="link-health.html">Link health</a>. Update to a current release to match this guide.</p></aside>
+
+<h2 id="option-b-load-unpacked-from-source">Option B: Load unpacked (from source)<a class="anchor" href="#option-b-load-unpacked-from-source" aria-label="Link to this section">#</a></h2>
+<p>Use this to try a build from the public repository, or to review exactly what runs.</p>
+<ol class="steps">
+  <li><h3>Get the files</h3><p>Download the repository as a ZIP from GitHub and extract it, or clone it with Git:</p>
+<pre><code>git clone https://github.com/ehsanenaloo/Bookmark-Scope.git</code></pre></li>
+  <li><h3>Open the extensions page</h3><p>Go to <code>chrome://extensions</code> and turn on <strong>Developer mode</strong> (top right).</p></li>
+  <li><h3>Load the folder</h3><p>Choose <strong>Load unpacked</strong> and select the folder that directly contains <code>manifest.json</code>, <code>popup.html</code> and <code>dashboard.html</code>.</p></li>
+</ol>
+<div class="expect"><p><strong>You should see:</strong> a card named <em>Bookmark Scope &ndash; Domain &amp; Page Manager</em> with the version number and no error badge. If Chrome shows <em>Manifest file is missing or unreadable</em>, you selected a folder one level too high or too low.</p></div>
+<aside class="callout note"><span class="callout-title">Note</span><p>An unpacked copy gets its own extension ID, so it can be installed next to the Web Store version. The two do not share data: tags, saved views and settings are separate. An unpacked extension also depends on the folder staying where it is. If you move or delete the folder, Chrome disables the extension. Your bookmarks are never affected, but see <a href="#uninstalling-and-your-data">Uninstalling and your data</a> for what happens to Bookmark Scope&rsquo;s own data.</p></aside>
+
+<h2 id="pinning-and-quick-access">Pinning and quick access<a class="anchor" href="#pinning-and-quick-access" aria-label="Link to this section">#</a></h2>
+<p>Pin the extension from the Extensions menu. Chrome also lets you assign a keyboard shortcut to an extension&rsquo;s toolbar button at <code>chrome://extensions/shortcuts</code>. That is a Chrome feature rather than something Bookmark Scope adds, and Bookmark Scope does not ship a default shortcut.</p>
+
+<h2 id="updating">Updating<a class="anchor" href="#updating" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">How you installed</th><th scope="col">How it updates</th></tr></thead><tbody><tr><td>Chrome Web Store</td><td>Chrome updates it automatically in the background. To check now, open <code>chrome://extensions</code>, turn on Developer mode and use <strong>Update</strong>.</td></tr><tr><td>Load unpacked</td><td>Replace the folder contents (or run <code>git pull</code>), then press the reload icon on the extension&rsquo;s card.</td></tr></tbody></table></div>
+<p><strong>Your data survives updates.</strong> On startup Bookmark Scope checks its stored data format (currently schema version 7), fills in defaults for anything new and keeps your tags, saved views, history and preferences. One deliberate exception: cached link-health results from before a format change may be discarded and are rebuilt the next time you run a scan. They are only a cache.</p>
+
+<h2 id="uninstalling-and-your-data">Uninstalling and your data</h2>
+<p>To remove the extension, open <code>chrome://extensions</code> and choose <strong>Remove</strong>.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">What</th><th scope="col">After you uninstall</th></tr></thead><tbody><tr><td>Your bookmarks, folders and their order</td><td><strong>Unchanged.</strong> They belong to the browser, not to the extension.</td></tr><tr><td>Bookmark Scope tags, saved views, link-health results, history, settings, recovery journals</td><td><strong>Removed.</strong> Chrome deletes an extension&rsquo;s stored data when it is uninstalled. Tags are stored by the extension, not in the bookmark itself, so they do not survive.</td></tr><tr><td>Optional site access you granted for link checks</td><td>Removed together with the extension.</td></tr></tbody></table></div>
+<aside class="callout warn"><span class="callout-title">Before you uninstall</span><p>If you want to keep your tags, export a snapshot first (<strong>Library tools &rarr; Export snapshot</strong>). A snapshot file includes your folder tree and tags. See <a href="backup-and-restore.html">Backup and restore</a>.</p></aside>
+
+<h3>Clearing only some data</h3>
+<ul>
+  <li><strong>Link-health cache:</strong> <em>Library tools &rarr; Clear cached health data</em>. Bookmarks are untouched.</li>
+  <li><strong>Preferences:</strong> <em>Settings &rarr; Reset defaults</em> restores nine preferences (see <a href="settings-reference.html">Settings reference</a>). It does not remove tags, saved views, history or scan settings.</li>
+  <li><strong>Site access:</strong> revoke it any time from the extension&rsquo;s <em>Details</em> page at <code>chrome://extensions</code>. The exact wording of Chrome&rsquo;s site-access controls is up to Chrome.</li>
+</ul>
+
+<div class="reading-footer"><a href="quick-start.html"><small>Previous</small>Quick start &amp; first run</a><a class="next" href="popup.html"><small>Next</small>Popup</a></div>
+</article>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#requirements">Requirements</a></li><li><a href="#option-a-chrome-web-store">Option A: Chrome Web Store</a></li><li><a href="#option-b-load-unpacked-from-source">Option B: Load unpacked (from source)</a></li><li><a href="#pinning-and-quick-access">Pinning and quick access</a></li><li><a href="#updating">Updating</a></li></ol></nav>
+</div>
+</main>
+<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+</body>
+</html>

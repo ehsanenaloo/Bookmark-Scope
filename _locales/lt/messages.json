@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope – domeno ir puslapio tvarkyklė"
+   },
+   "app_description": {
+      "message": "Tirkite, tvarkykite ir valykite žymes pagal puslapį, domeną, dublikatus ir amžių — su pilnu valdymo skydeliu peržiūrai, būklės tikrinimui, priminimams ir valymui."
+   },
+   "app_name": {
+      "message": "Bookmark Scope"
+   },
+   "collapse_groups": {
+      "message": "Sutraukti grupes"
+   },
+   "expand_groups": {
+      "message": "Išplėsti grupes"
+   }
+}

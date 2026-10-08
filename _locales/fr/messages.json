@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Inspectez, organisez et nettoyez vos favoris par page, domaine, doublons et ancienneté, avec un tableau de bord complet pour le tri, les contrôles de santé, les rappels et le nettoyage."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Gestionnaire de domaines et de pages"
+   },
+   "collapse_groups": {
+      "message": "Réduire les groupes"
+   },
+   "expand_groups": {
+      "message": "Développer les groupes"
+   }
+}

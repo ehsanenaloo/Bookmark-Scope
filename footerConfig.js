@@ -2,28 +2,42 @@
 window.FOOTER_NAV_CONFIG = {
   autoRotate: true,
   rotateEveryMs: 5000,
+  storeExtensionId: '',
+  allowRuntimeReviewFallback: true,
   items: [
     {
       id: 'about',
-      label: 'About',
-      message: 'Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.',
-      ctaLabel: 'Learn More',
+      labelKey: 'About',
+      messageKey: 'Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.',
+      ctaLabelKey: 'Learn More',
+      showCtaButton: false,
       action: 'info'
     },
     {
       id: 'github',
-      label: 'GitHub',
-      message: 'Source code, releases, and project details live in your GitHub repo.',
-      ctaLabel: 'Open GitHub',
-      url: 'https://github.com/ehsanenaloo/ChatGPT-Bulk-Tools',
+      labelKey: 'GitHub',
+      messageKey: 'Source code, releases, and project details live in your GitHub repo.',
+      ctaLabelKey: 'Open GitHub',
+      showCtaButton: true,
+      url: 'https://github.com/ehsanenaloo/Bookmark-Scope',
       action: 'link'
     },
     {
       id: 'rate',
-      label: 'Rate',
-      message: 'Enjoying the extension? A good rating helps the extension build trust faster.',
-      ctaLabel: 'Rate on Store',
-      url: 'https://chromewebstore.google.com/detail/chatgpt-bulk-tools-clean+/eppokcmemgiphpegpighpfnhpjggpmoc/reviews',
+      labelKey: 'Rate',
+      messageKey: 'Enjoying the extension? A good rating helps the extension build trust faster.',
+      ctaLabelKey: 'Rate on Store',
+      showCtaButton: true,
+      url: '',
+      action: 'link'
+    },
+    {
+      id: 'support',
+      labelKey: 'Support',
+      messageKey: 'If Bookmark Scope saves you time, you can support the project with a small coffee.',
+      ctaLabelKey: 'Buy me a coffee',
+      showCtaButton: true,
+      url: 'https://buymeacoffee.com/enaloo',
       action: 'link'
     }
   ]

@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope – domeeni ja lehe haldur"
+   },
+   "app_description": {
+      "message": "Kontrolli, korrasta ja puhasta järjehoidjaid lehe, domeeni, duplikaatide ja vanuse järgi — koos täieliku armatuurlauaga ülevaatuseks, tervisekontrolliks, meeldetuletusteks ja puhastuseks."
+   },
+   "app_name": {
+      "message": "Bookmark Scope"
+   },
+   "collapse_groups": {
+      "message": "Ahenda rühmad"
+   },
+   "expand_groups": {
+      "message": "Laienda rühmad"
+   }
+}

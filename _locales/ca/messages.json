@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Inspecciona, organitza i neteja marcadors per pàgina, domini, duplicats i antiguitat, amb un tauler complet per a triatge, comprovacions de salut, recordatoris i neteja."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Gestor de dominis i pàgines"
+   },
+   "collapse_groups": {
+      "message": "Replega els grups"
+   },
+   "expand_groups": {
+      "message": "Expandeix els grups"
+   }
+}

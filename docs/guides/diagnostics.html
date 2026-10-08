@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagnostics export | Bookmark Scope user guide</title>
+<meta name="description" content="Download a privacy-filtered diagnostic file to attach to a bug report. See exactly what is in it before you save it.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+<link rel="stylesheet" href="../styles.css">
+<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script defer src="../app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
+<main id="main">
+<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Trust and support</p><h1>Diagnostics export</h1><p class="lead">If you report a problem, a diagnostic file helps, and it is designed not to contain your bookmarks.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
+<div class="shell doc-layout has-toc">
+<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="diagnostics.html" aria-current="page">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
+<article class="prose">
+
+<h2 id="create-one">Create one<a class="anchor" href="#create-one" aria-label="Link to this section">#</a></h2>
+<ol class="steps">
+  <li><h3>Open it</h3><p>In the dashboard choose <strong>Library tools &rarr; Diagnostic export</strong> (or find <em>Diagnostic export</em> in the command palette).</p></li>
+  <li><h3>Read it</h3><p>The dialog shows the <em>exact</em> text that would be saved. Nothing has been downloaded yet.</p></li>
+  <li><h3>Download</h3><p>Choose <strong>Download</strong>. Your browser saves <code>bookmark-scope-diagnostics.json</code>. Nothing is uploaded anywhere; sending it to anyone is up to you.</p></li>
+</ol>
+
+<h2 id="what-is-in-it">What is in it<a class="anchor" href="#what-is-in-it" aria-label="Link to this section">#</a></h2>
+<pre><code>{
+  "format": "bookmark-scope-diagnostics",
+  "version": 1,
+  "extensionVersion": "5.0.0",
+  "createdAt": "2026-10-07T09:30:00.000Z",
+  "redaction": "allowlisted-fields-only",
+  "events": [
+    { "ts": "2026-10-07T09:29:51.120Z", "scope": "dashboard",
+      "event": "init_started", "level": "info", "metrics": {} }
+  ]
+}</code></pre>
+<ul>
+  <li>The extension version and the time of export.</li>
+  <li>Up to 200 recent events, each with a time, a scope (<code>background</code>, <code>dashboard</code>, <code>popup</code>, <code>options</code> or <code>app</code>), an event name from a fixed list, a level, and a few numeric or true/false counters such as <code>count</code>, <code>failed</code>, <code>skipped</code> or <code>total</code>.</li>
+</ul>
+
+<h2 id="what-is-left-out">What is left out<a class="anchor" href="#what-is-left-out" aria-label="Link to this section">#</a></h2>
+<p>The filter works on an allowlist: anything it does not recognise is dropped or replaced with <code>other</code>. In particular the file never includes bookmark addresses or titles, bookmark IDs, tag names, free-form error messages, or any nested data.</p>
+<p>The dialog repeats this: <em>Includes event types, timestamps and numeric counts. Excludes bookmark URLs, titles, IDs, tags and error text.</em></p>
+<aside class="callout warn"><span class="callout-title">Be careful</span><p>This protection applies only to the diagnostic export. Snapshots, recovery journals and Export visible files <strong>do</strong> contain your bookmarks. Do not attach those to a public bug report.</p></aside>
+
+<h2 id="where-to-send-it">Where to send it<a class="anchor" href="#where-to-send-it" aria-label="Link to this section">#</a></h2>
+<p>Open an issue on the <a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub repository</a> and describe what you did, what you expected and what happened. Mention your browser and version. Read the file once yourself first.</p>
+
+<div class="reading-footer"><a href="privacy-and-data.html"><small>Previous</small>Privacy, permissions &amp; data</a><a class="next" href="troubleshooting-faq.html"><small>Next</small>Troubleshooting &amp; FAQ</a></div>
+</article>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#create-one">Create one</a></li><li><a href="#what-is-in-it">What is in it</a></li><li><a href="#what-is-left-out">What is left out</a></li><li><a href="#where-to-send-it">Where to send it</a></li></ol></nav>
+</div>
+</main>
+<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+</body>
+</html>

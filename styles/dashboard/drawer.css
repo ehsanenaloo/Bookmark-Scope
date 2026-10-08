@@ -1,0 +1,114 @@
+/*
+ * Bookmark Scope - Domain & Page Manager
+ * Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.
+ *
+ * Detail panel for the active bookmark.
+ */
+
+.dashboard-drawer {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  border-inline-start: 1px solid var(--border);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.drawer-head {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.drawer-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.drawer-title-row .item-favicon {
+  flex-basis: 28px;
+  width: 28px;
+  height: 28px;
+  margin-top: 0;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+.drawer-title-wrap { min-width: 0; display: grid; gap: 2px; }
+.drawer-title {
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+  font-weight: var(--weight-semibold);
+  overflow-wrap: anywhere;
+}
+.drawer-title-wrap .helper-text { overflow-wrap: anywhere; }
+
+.drawer-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.drawer-actions .ghost-button { min-height: var(--control-sm); padding: 0 var(--space-3); font-size: var(--text-xs); }
+.drawer-actions .drawer-primary-action {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+.drawer-actions .drawer-primary-action:hover:not(:disabled) { background: var(--accent-hover); border-color: var(--accent-hover); }
+.drawer-badges { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+
+.drawer-body {
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: grid;
+  align-content: start;
+  padding: var(--space-1) var(--space-4) var(--space-4);
+}
+
+.detail-field {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--divider);
+}
+.detail-field:last-child { border-bottom: 0; }
+.detail-label {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+.detail-value {
+  margin: 0;
+  color: var(--text-2);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  overflow-wrap: anywhere;
+}
+
+.drawer-url-row { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-2); }
+.drawer-url-link {
+  min-width: 0;
+  color: var(--accent-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-decoration: none;
+  word-break: break-all;
+}
+.drawer-url-link:hover { text-decoration: underline; text-underline-offset: 2px; }
+.drawer-copy-url-btn { flex: 0 0 auto; min-height: var(--control-sm); padding: 0 var(--space-3); font-size: var(--text-xs); }
+
+.drawer-empty {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  margin: var(--space-4);
+  padding: var(--space-5);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+.drawer-empty .review-card-title { font-size: var(--text-md); font-weight: var(--weight-semibold); }
+
+@media (max-width: 1100px) {
+  .dashboard-drawer { display: none; }
+}

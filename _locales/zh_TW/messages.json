@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "按頁面、域名、重復項和時間檢查、整理並清理書籤，並提供完整儀表板用于分流、健康掃描、提醒與清理。"
+   },
+   "app_name": {
+      "message": "Bookmark Scope – 網域與頁面管理器"
+   },
+   "collapse_groups": {
+      "message": "摺疊群組"
+   },
+   "expand_groups": {
+      "message": "展開群組"
+   }
+}

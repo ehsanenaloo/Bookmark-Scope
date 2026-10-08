@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Ispeziona, organizza e ripulisci i segnalibri per pagina, dominio, duplicati ed età, con una dashboard completa per triage, controlli di stato, promemoria e pulizia."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Gestore di domini e pagine"
+   },
+   "collapse_groups": {
+      "message": "Comprimi gruppi"
+   },
+   "expand_groups": {
+      "message": "Espandi gruppi"
+   }
+}

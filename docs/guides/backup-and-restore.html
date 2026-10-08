@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Backup, restore, import and export | Bookmark Scope user guide</title>
+<meta name="description" content="Snapshots, import (browser bookmarks.html files, Pocket, Pinboard, Raindrop, the built-in JSON and CSV formats and plain URL lists), export as JSON or CSV, recovery journals, and what cannot be restored.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+<link rel="stylesheet" href="../styles.css">
+<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script defer src="../app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
+<main id="main">
+<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Saved work</p><h1>Backup, restore, import and export</h1><p class="lead">Use a snapshot before you change a lot, import to bring bookmarks in, and export to take a readable copy out. Know what each one keeps.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
+<div class="shell doc-layout has-toc">
+<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html" aria-current="page">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
+<article class="prose">
+
+<h2 id="which-tool-for-which-job">Which tool for which job<a class="anchor" href="#which-tool-for-which-job" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">I want to&hellip;</th><th scope="col">Use</th><th scope="col">Keeps</th></tr></thead><tbody><tr><td>Back up my folder tree and tags before a cleanup</td><td><strong>Export snapshot</strong></td><td>Folders, order, titles, addresses, dates (descriptive), tags</td></tr><tr><td>Put a backup back</td><td><strong>Restore snapshot</strong></td><td>Recreates the tree in a new folder with new IDs</td></tr><tr><td>Bring in bookmarks from a browser <code>bookmarks.html</code> file, Pocket, Pinboard, Raindrop or a text list</td><td><strong>Import bookmarks&hellip;</strong></td><td>Titles, addresses, tags, descriptive dates</td></tr><tr><td>Hand a list of what I see to a spreadsheet or script</td><td><strong>Export visible</strong> (JSON) or <strong>Export visible as CSV</strong></td><td>Title, address, folder path, date, tags</td></tr></tbody></table></div>
+<figure class="shot " style="--ratio:1440 / 900"><div class="frame" data-file="library-tools.png "><img src="../assets/screenshots/library-tools.png" alt="The Library tools dialog with the Backup and import group listing Export snapshot, Restore snapshot and Import bookmarks" loading="lazy" decoding="async" width="1440" height="900"></div><figcaption>Backup and import commands live in Library tools.</figcaption></figure>
+
+<h2 id="snapshots">Snapshots<a class="anchor" href="#snapshots" aria-label="Link to this section">#</a></h2>
+<h3>Export a snapshot</h3>
+<p>Choose <strong>Library tools &rarr; Export snapshot</strong>. Your browser downloads <code>bookmark-scope-snapshot.json</code>. It records the full nested folder tree in order, with each bookmark&rsquo;s title, address, date added and tags, plus a creation time and the extension version. Format name: <code>bookmark-scope-snapshot</code>, version 1.</p>
+<aside class="callout warn"><span class="callout-title">Privacy</span><p>A snapshot contains your bookmark titles, addresses and tags in plain text. Treat it like any personal document and review it before you share it.</p></aside>
+
+<h3>Restore a snapshot</h3>
+<ol class="steps">
+  <li><h3>Choose the file</h3><p><strong>Library tools &rarr; Restore snapshot</strong>, then pick a snapshot JSON (up to 10 MiB).</p></li>
+  <li><h3>Read the preview</h3><p>The dialog reports <em>Folders / bookmarks / excluded</em>, shows the tree, and lists anything excluded because its address is not <code>http</code>/<code>https</code>. Nothing has been created yet. Technical details are available as an optional disclosure.</p></li>
+  <li><h3>Choose a destination</h3><p>Pick a writable folder. Restoration is <strong>additive</strong>: it creates a new folder named <em>Bookmark Scope snapshot YYYY-MM-DD</em> inside it and rebuilds the tree there. Existing bookmarks are never overwritten, merged or deduplicated.</p></li>
+  <li><h3>Restore</h3><p>Choose <strong>Restore into new folder</strong>. The result reads <em>Created / excluded / failed / remaining</em>, followed by a result for each item.</p></li>
+</ol>
+<h3>What a restore cannot do</h3>
+<ul>
+  <li><strong>Original IDs and original dates added are not restored.</strong> Chrome assigns them. Dates in the snapshot are descriptive only.</li>
+  <li>It does not restore Chrome&rsquo;s own root folders as roots. They become ordinary folders inside the new snapshot folder.</li>
+  <li>It does not restore saved views, history, settings or health results.</li>
+  <li>A folder that fails to be created leaves its children <em>not attempted</em>. Nothing is retried automatically.</li>
+  <li>Running the same restore twice makes a second copy. Check the result and your bookmarks before retrying.</li>
+</ul>
+<h3>The recovery journal</h3>
+<p>While restoring, Bookmark Scope records each created item in a journal in its local storage, so a partial or interrupted restore leaves evidence. The <strong>Recovery journal</strong> button downloads it as <code>bookmark-scope-restore-journal.json</code>. The twenty most recent completed restores are kept; incomplete ones are kept until you resolve them. Creation of a bookmark and writing the journal are separate browser operations, so a crash between the two can leave a bookmark that is not journaled.</p>
+
+<h2 id="import">Import<a class="anchor" href="#import" aria-label="Link to this section">#</a></h2>
+<p>Choose <strong>More actions &rarr; Import bookmarks&hellip;</strong> (list header) or <strong>Library tools &rarr; Import bookmarks&hellip;</strong>, then pick a file of up to <strong>10 MB</strong>. The picker offers <code>.html</code>, <code>.json</code>, <code>.csv</code> and <code>.txt</code>.</p>
+
+<h3>Supported formats</h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Source</th><th scope="col">File</th><th scope="col">How it is recognised</th><th scope="col">What is imported</th></tr></thead><tbody><tr><td>Chrome, Edge, Firefox, Safari, Brave and most bookmark managers</td><td><code>bookmarks.html</code> (Netscape bookmark file)</td><td>The content starts with the <code>NETSCAPE-Bookmark-file-1</code> doctype or has the nested folder and link structure; the file name does not matter</td><td>Title, address, Firefox tags, folder path and added date (both descriptive)</td></tr><tr><td>Pocket</td><td>HTML export</td><td>File name contains <em>pocket</em> or <em>ril_export</em>, or the content starts like a Pocket list</td><td>Title, address, added time, tags</td></tr><tr><td>Pinboard</td><td>JSON export</td><td>File name contains <em>pinboard</em> and either ends in <code>.json</code> or the content starts with <code>[</code></td><td>Title (Pinboard&rsquo;s &ldquo;description&rdquo;), address, time, tags</td></tr><tr><td>Raindrop.io</td><td>CSV export</td><td>File name contains <em>raindrop</em>, or the header starts <code>id,title,</code></td><td>Title, address, created time, tags</td></tr><tr><td>Bookmark Scope</td><td>JSON export (array or an object with a <code>bookmarks</code> array)</td><td>File name ends in <code>.json</code></td><td>Title, address, path, date, tags</td></tr><tr><td>Bookmark Scope</td><td>CSV export (<code>Title,URL,Folder path,Date added,Tags,Text encoding</code>)</td><td>File name ends in <code>.csv</code></td><td>Same fields</td></tr><tr><td>Plain text</td><td>One address per line</td><td>Any other file</td><td>Addresses only; titles become <em>Imported 1</em>, <em>Imported 2</em>&hellip;</td></tr></tbody></table></div>
+<aside class="callout note"><span class="callout-title">Browser bookmark files</span><p>A <code>bookmarks.html</code> exported by Chrome, Edge, Firefox or Safari goes through the same preview as every other format. Bookmarks are created <strong>flat</strong> in the folder you choose; the file&rsquo;s folders show only as a path on each row (for example <em>Bookmarks bar / News</em>) and are not recreated, and the added date is not set. To rebuild a folder tree, use a Bookmark Scope snapshot. Bookmarks that are not <code>http</code> or <code>https</code> (bookmarklets, <code>place:</code> and <code>about:</code> entries) are excluded, and a warning counts them. Embedded icons in the file are ignored. Firefox tags are kept; Chrome files have none.</p></aside>
+
+<h3>The import preview</h3>
+<p>Nothing is created until you confirm. The dialog shows how many bookmarks the file contains, how many match your existing library or repeat within the file, and how many were excluded (invalid or not <code>http</code>/<code>https</code>), plus any parser warnings. You choose:</p>
+<ul>
+  <li><strong>Destination</strong>: a writable folder. All imported bookmarks are created <em>flat</em> in that folder; folder paths and original dates in the file are descriptive only.</li>
+  <li><strong>Duplicate policy</strong>:
+    <ul>
+      <li><em>Skip matches</em> (default): do not create bookmarks that match an existing bookmark or an earlier row in the same file.</li>
+      <li><em>Keep all</em>: create every supported row.</li>
+      <li><em>Merge tags</em>: add the row&rsquo;s tags to the first existing match instead of creating a copy; the existing bookmark&rsquo;s title, address and folder are not changed.</li>
+    </ul>
+  </li>
+</ul>
+<p>Choose <strong>Import bookmarks</strong> to apply. The library is re-checked at that moment. The result reads <em>Created / merged / skipped / failed / remaining</em> with a line per item.</p>
+<h3>Safety rules for imports</h3>
+<ul>
+  <li>Only <code>http</code> and <code>https</code> addresses are imported; anything else is excluded and counted.</li>
+  <li>If saving a bookmark&rsquo;s tags fails, Bookmark Scope tries to remove that one new bookmark so you do not get a half-imported item, and records what it could and could not do.</li>
+  <li>A partial import is journaled. If the dashboard finds an unfinished import on startup it shows an <em>Import recovery</em> toast with a <strong>JSON</strong> button to download the evidence. The <strong>Recovery journal</strong> button in the import dialog does the same.</li>
+</ul>
+
+<h2 id="export-visible">Export visible (JSON or CSV)<a class="anchor" href="#export-visible" aria-label="Link to this section">#</a></h2>
+<p>In the list header menu, choose <strong>Export visible</strong>. You get <code>bookmark-manager-visible-&lt;timestamp&gt;.json</code> containing the bookmarks that match the current search and filters: title, address, folder path, date added and tags. It does not include IDs, preferences, history or health results.</p>
+<p>This JSON can be fed back into <em>Import bookmarks&hellip;</em>.</p><p>For a spreadsheet, choose <strong>Export visible as CSV</strong> in the same menu (it is also in the command palette and under <strong>Library tools</strong>). You get <code>bookmark-manager-visible-&lt;timestamp&gt;.csv</code> with the same bookmarks and a header row: <code>Title,URL,Folder path,Date added,Tags,Text encoding</code>. The file is UTF-8 with a byte-order mark so that Excel reads non-Latin text, every cell is quoted, rows end in CRLF, and tags are a JSON list in one cell. A cell that starts with <code>=</code>, <code>+</code>, <code>-</code>, <code>@</code>, a tab, a line break or an apostrophe gets a leading apostrophe so that a spreadsheet does not run it as a formula; the <em>Text encoding</em> column tells Bookmark Scope to remove that apostrophe when you import the file again. Importing the CSV restores titles, addresses, folder path, tags and date as descriptive data; folders are not recreated.</p>
+
+<h2 id="a-backup-routine-that-works">A backup routine that works<a class="anchor" href="#a-backup-routine-that-works" aria-label="Link to this section">#</a></h2>
+<ol>
+  <li>Before big changes: <strong>Export snapshot</strong>. Keep the file somewhere you back up.</li>
+  <li>After big changes: take another one.</li>
+  <li>If something goes wrong: <strong>Restore snapshot</strong> into a new folder, then move back what you need. You can also open the restored folder in Chrome&rsquo;s bookmark manager.</li>
+</ol>
+<p>Bookmark Scope&rsquo;s Undo and journals are for recovering from mistakes within a session. They are not a substitute for a snapshot.</p>
+
+<div class="reading-footer"><a href="smart-views.html"><small>Previous</small>Smart views</a><a class="next" href="command-palette.html"><small>Next</small>Command palette &amp; shortcuts</a></div>
+</article>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#which-tool-for-which-job">Which tool for which job</a></li><li><a href="#snapshots">Snapshots</a></li><li><a href="#import">Import</a></li><li><a href="#export-visible">Export visible (JSON or CSV)</a></li><li><a href="#a-backup-routine-that-works">A backup routine that works</a></li></ol></nav>
+</div>
+</main>
+<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+</body>
+</html>

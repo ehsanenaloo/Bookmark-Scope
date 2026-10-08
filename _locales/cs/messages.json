@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Kontrolujte, organizujte a čistěte záložky podle stránky, domény, duplicit a stáří — s plným přehledem pro třídění, kontroly stavu, připomínky a úklid."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Správce domén a stránek"
+   },
+   "collapse_groups": {
+      "message": "Sbalit skupiny"
+   },
+   "expand_groups": {
+      "message": "Rozbalit skupiny"
+   }
+}

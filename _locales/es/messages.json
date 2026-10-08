@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Inspecciona, organiza y limpia marcadores por página, dominio, duplicados y antigüedad, con un panel completo para triaje, análisis de salud, recordatorios y limpieza."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Gestor de dominios y páginas"
+   },
+   "collapse_groups": {
+      "message": "Contraer grupos"
+   },
+   "expand_groups": {
+      "message": "Expandir grupos"
+   }
+}

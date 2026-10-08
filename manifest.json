@@ -1,37 +1,29 @@
 {
-  "manifest_version": 3,
-  "name": "Bookmark Manager per Domain and Page",
-  "version": "4.6.7",
-  "description": "Compact bookmark triage in the popup, plus a full Library Dashboard for health scans, reminders, cleanup recommendations, and deep maintenance across your whole bookmark collection.",
-  "permissions": [
-    "tabs",
-    "bookmarks",
-    "storage",
-    "clipboardWrite",
-    "alarms",
-    "notifications"
-  ],
-  "background": {
-    "service_worker": "background.js",
-    "type": "module"
-  },
-  "action": {
-    "default_popup": "popup.html",
-    "default_title": "Bookmark Manager",
-    "default_icon": {
-      "16": "icon.png",
-      "48": "icon.png",
-      "128": "icon.png"
-    }
-  },
-  "options_page": "options.html",
-  "icons": {
-    "16": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png"
-  },
-  "host_permissions": [
-    "http://*/*",
-    "https://*/*"
-  ]
+   "action": {
+      "default_icon": {
+         "128": "icon-128.png",
+         "16": "icon-16.png",
+         "32": "icon-32.png",
+         "48": "icon-48.png"
+      },
+      "default_popup": "popup.html",
+      "default_title": "__MSG_action_title__"
+   },
+   "background": {
+      "service_worker": "background.js",
+      "type": "module"
+   },
+   "default_locale": "en",
+   "description": "__MSG_app_description__",
+   "icons": {
+      "128": "icon-128.png",
+      "16": "icon-16.png",
+      "32": "icon-32.png",
+      "48": "icon-48.png"
+   },   "manifest_version": 3,
+   "name": "__MSG_app_name__",
+   "optional_host_permissions": [ "http://*/*", "https://*/*" ],
+   "options_page": "options.html",
+   "permissions": [ "tabs", "bookmarks", "storage", "clipboardWrite", "alarms", "notifications", "favicon", "contextMenus" ],
+   "version": "5.0.0"
 }

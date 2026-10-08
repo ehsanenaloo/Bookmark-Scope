@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "ページ、ドメイン、重複、経過日数ごとにブックマークを確認・整理・掃除でき、トリアージ、ヘルススキャン、リマインダー、クリーンアップ用の本格ダッシュボードも備えています。"
+   },
+   "app_name": {
+      "message": "Bookmark Scope – ドメイン & ページ マネージャー"
+   },
+   "collapse_groups": {
+      "message": "グループを折りたたむ"
+   },
+   "expand_groups": {
+      "message": "グループを展開"
+   }
+}

@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Suriin, ayusin, at linisin ang mga bookmark ayon sa pahina, domain, mga duplicate, at edad — may buong dashboard para sa triage, health scan, mga paalala, at cleanup."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – tagapamahala ng domain at pahina"
+   },
+   "collapse_groups": {
+      "message": "I-collapse ang mga grupo"
+   },
+   "expand_groups": {
+      "message": "Palawakin ang mga grupo"
+   }
+}

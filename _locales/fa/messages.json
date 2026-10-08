@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "بوکمارک‌ها را بر اساس صفحه، دامنه، موارد تکراری و عمرشان بررسی، مرتب و پاکسازی کن؛ با یک داشبورد کامل برای ارزیابی، اسکن سلامت، یادآورها و پاکسازی."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – مدیر دامنه و صفحهٔ بوکمارک‌ها"
+   },
+   "collapse_groups": {
+      "message": "بستن گروه‌ها"
+   },
+   "expand_groups": {
+      "message": "باز کردن گروه‌ها"
+   }
+}
