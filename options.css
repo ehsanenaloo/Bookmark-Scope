@@ -1,32 +1,179 @@
-:root {
-  color-scheme: light;
-  --bg: #f8fafc;
-  --card: #ffffff;
-  --muted: #64748b;
-  --text: #0f172a;
-  --border: #e2e8f0;
-  --accent: #2563eb;
+/*
+ * Bookmark Scope - Domain & Page Manager
+ * Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.
+ *
+ * Settings page: a centered column of section cards with a sticky save bar.
+ */
+
+@import url("./styles/base.css");
+
+body[data-view="options"] {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
 }
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #0f172a;
-  --card: #111827;
-  --muted: #94a3b8;
-  --text: #e5e7eb;
-  --border: #334155;
+
+.options-page {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-5) var(--space-10);
+  display: flex;
+  flex-direction: column;
 }
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 Inter, ui-sans-serif, system-ui, sans-serif; }
-.options-shell { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
-.options-card { width: min(760px, 100%); background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12); }
-h1 { margin: 0 0 6px; font-size: 28px; }
-.lede { margin: 0 0 20px; color: var(--muted); }
-.settings-grid { display: grid; gap: 16px; }
-label { display: grid; gap: 8px; font-weight: 600; }
-select, button { font: inherit; }
-select { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 12px; background: transparent; color: var(--text); }
-.checkbox-row { grid-template-columns: auto 1fr; align-items: center; gap: 10px; }
-.actions { display: flex; gap: 12px; flex-wrap: wrap; padding-top: 8px; }
-button { border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; cursor: pointer; background: transparent; color: var(--text); font-weight: 700; }
-button.primary { background: var(--accent); border-color: var(--accent); color: white; }
-.status { min-height: 20px; color: var(--muted); font-size: 13px; }
+
+.options-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.options-header-logo {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+.options-header-logo img { width: 26px; height: 26px; display: block; }
+.options-header-title {
+  font-size: var(--text-2xl);
+  line-height: var(--leading-tight);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+.options-header-sub { margin-top: 2px; font-size: var(--text-md); color: var(--muted); }
+
+#settings-form { display: grid; gap: var(--space-4); }
+
+/* ── Section cards ────────────────────────────────────────────────────── */
+.settings-section {
+  padding: var(--space-5) var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+.section-title {
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+  font-weight: var(--weight-semibold);
+  color: var(--text);
+}
+.section-copy {
+  margin: var(--space-1) 0 var(--space-5);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.section-copy:empty { display: none; }
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-4) var(--space-5);
+}
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field-label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--text-2);
+}
+.field select,
+.field input[type="number"] { height: 36px; border-radius: var(--radius-md); }
+.field input[type="number"] { max-width: 160px; font-variant-numeric: tabular-nums; }
+
+/* ── Toggle rows ──────────────────────────────────────────────────────── */
+.toggle-stack {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.settings-grid + .section-copy,
+.toggle-stack + .settings-grid { margin-top: var(--space-4); }
+.section-copy#bg-scan-status { margin: var(--space-3) 0 0; }
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease);
+}
+.checkbox-row + .checkbox-row { border-top: 1px solid var(--divider); }
+.checkbox-row:hover { background: var(--surface-2); }
+.checkbox-row > span { flex: 1 1 auto; min-width: 0; order: 1; }
+.checkbox-row .field-label { display: block; font-size: var(--text-sm); color: var(--text); }
+.field-help { display: block; margin-top: 2px; font-size: var(--text-xs); line-height: var(--leading-normal); color: var(--muted); }
+
+/* Switch: the native checkbox, drawn as a track and knob. */
+.checkbox-row input[type="checkbox"] {
+  order: 2;
+  position: relative;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 22px;
+  min-width: 38px;
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-full);
+  background: var(--surface-3);
+  background-image: none;
+  transition: background-color var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease);
+}
+.checkbox-row input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  inset-inline-start: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.3);
+  transition: transform var(--dur-base) var(--ease);
+}
+.checkbox-row input[type="checkbox"]:checked { background-color: var(--accent); border-color: var(--accent); background-image: none; }
+.checkbox-row input[type="checkbox"]:checked::before { transform: translateX(16px); }
+html[dir="rtl"] .checkbox-row input[type="checkbox"]:checked::before { transform: translateX(-16px); }
+.checkbox-row input[type="checkbox"]:hover:not(:disabled) { border-color: var(--accent-text); }
+
+/* ── Save bar ─────────────────────────────────────────────────────────── */
+.settings-section:last-of-type {
+  position: sticky;
+  bottom: var(--space-4);
+  z-index: var(--z-sticky);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-3);
+}
+.actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.actions .button { min-height: 36px; padding: 0 var(--space-5); }
+.status {
+  min-height: 20px;
+  color: var(--accent-text);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+.status:empty { display: none; }
+
+@media (max-width: 600px) {
+  .options-page { padding: var(--space-5) var(--space-3) var(--space-8); }
+  .settings-section { padding: var(--space-4); border-radius: var(--radius-lg); }
+  .settings-grid { grid-template-columns: 1fr; }
+  .options-header-title { font-size: var(--text-xl); }
+}

@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Inspectează, organizează și curăță semnele de carte după pagină, domeniu, duplicate și vechime — cu un panou complet pentru triere, verificări de sănătate, mementouri și curățare."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Manager de domenii și pagini"
+   },
+   "collapse_groups": {
+      "message": "Restrânge grupurile"
+   },
+   "expand_groups": {
+      "message": "Extinde grupurile"
+   }
+}

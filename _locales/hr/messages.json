@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Pregledavajte, organizirajte i čistite knjižne oznake prema stranici, domeni, duplikatima i starosti — uz punu nadzornu ploču za trijažu, provjere zdravlja, podsjetnike i čišćenje."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Upravitelj domena i stranica"
+   },
+   "collapse_groups": {
+      "message": "Sažmi grupe"
+   },
+   "expand_groups": {
+      "message": "Proširi grupe"
+   }
+}

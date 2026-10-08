@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Prüfe, organisiere und bereinige Lesezeichen nach Seite, Domain, Duplikaten und Alter – mit einem vollständigen Dashboard für Triage, Zustandsprüfungen, Erinnerungen und Bereinigung."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Domain- und Seitenmanager"
+   },
+   "collapse_groups": {
+      "message": "Gruppen reduzieren"
+   },
+   "expand_groups": {
+      "message": "Gruppen erweitern"
+   }
+}

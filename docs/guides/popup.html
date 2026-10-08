@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The popup: scope, search and quick actions | Bookmark Scope user guide</title>
+<meta name="description" content="How the Bookmark Scope popup works: page, host and domain scope, URL matching, search with fuzzy fallback, quick actions, the toolbar badge and the right-click menu.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+<link rel="stylesheet" href="../styles.css">
+<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script defer src="../app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
+<main id="main">
+<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Everyday use</p><h1>The popup: scope, search and quick actions</h1><p class="lead">The popup is for quick, scoped triage of the site you are on. Anything bigger belongs in the dashboard.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
+<div class="shell doc-layout has-toc">
+<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html">Installation</a><p>Everyday use</p><a href="popup.html" aria-current="page">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
+<article class="prose">
+
+<figure class="shot popup" style="--ratio:420 / 580"><div class="frame" data-file="popup-light.png / popup-dark.png "><img class="for-light" src="../assets/screenshots/popup-light.png" alt="The popup with the page address, scope pills, a search box, the Page Host Domain switch and bookmark rows with Open, Show in bookmarks and Delete buttons (light theme)" loading="lazy" decoding="async" width="420" height="580"><img class="for-dark" src="../assets/screenshots/popup-dark.png" alt="The popup with the page address, scope pills, a search box, the Page Host Domain switch and bookmark rows with Open, Show in bookmarks and Delete buttons (dark theme)" loading="lazy" decoding="async" width="420" height="580"></div><figcaption>The popup on a page that already has several bookmarks.</figcaption></figure>
+
+<h2 id="what-the-popup-shows">What the popup shows<a class="anchor" href="#what-the-popup-shows" aria-label="Link to this section">#</a></h2>
+<dl>
+  <dt>Header</dt>
+  <dd>The Bookmark Scope name and the address of the current tab. On a page that cannot be matched it says <em>Unsupported page</em>.</dd>
+  <dt><strong>Dashboard</strong> button</dt>
+  <dd>Opens the library dashboard in a new tab.</dd>
+  <dt>Star button</dt>
+  <dd><em>Bookmark current page</em> or <em>Remove bookmark</em>, depending on whether this exact address is already bookmarked. It is disabled on unsupported pages.</dd>
+  <dt><strong>More controls</strong> menu</dt>
+  <dd><em>Open settings</em>, <em>Open Chrome bookmarks</em>, <em>About</em>, plus the sort order, colour palette and theme controls.</dd>
+  <dt>Status pills</dt>
+  <dd><em>N in scope</em>, and when relevant <em>N old</em> and <em>N duplicate</em> (duplicate groups). Hover a pill for its explanation.</dd>
+  <dt>Search box and scope switch</dt>
+  <dd>The search filters only the bookmarks in the current scope. The <strong>Page / Host / Domain</strong> switch changes the scope.</dd>
+  <dt>List</dt>
+  <dd>Up to eight bookmarks. If there are more, the popup says <em>Showing 8 of N</em> and points you to the dashboard.</dd>
+</dl>
+<figure class="shot " style="--ratio:420 / 580"><div class="frame" data-file="popup-about.png "><img src="../assets/screenshots/popup-about.png" alt="The popup with the About tab selected in the footer, showing the app name, version and the line Made by Ehsan Enaloo" loading="lazy" decoding="async" width="420" height="580"></div><figcaption>The popup footer: About shows the name, version and author; GitHub, Rate and Support open their pages.</figcaption></figure>
+
+<h2 id="scope-page-host-or-domain">Scope: page, host or domain<a class="anchor" href="#scope-page-host-or-domain" aria-label="Link to this section">#</a></h2>
+<p>The scope decides which saved bookmarks count as &ldquo;this site&rdquo;. The default is <strong>Domain</strong>; change the default under <a href="settings-reference.html">Settings &rarr; Default mode</a>. Switching scope in the popup is remembered.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Mode</th><th scope="col">Two bookmarks match when&hellip;</th><th scope="col">Details</th></tr></thead><tbody><tr><td>Page</td><td>Their normalised page address is identical</td><td>Protocol, host (with a non-default port), path and, depending on your settings, query and fragment must agree.</td></tr><tr><td>Host</td><td>Their host name is identical</td><td><code>docs.example.com</code> and <code>example.com</code> are different hosts. Ports are ignored in host mode.</td></tr><tr><td>Domain</td><td>Their registrable domain is identical</td><td>Computed with the Public Suffix List packaged inside the extension, so <code>example.co.uk</code> is treated as one site and two <code>github.io</code> project sites are not.</td></tr></tbody></table></div>
+<p>How strictly a &ldquo;page&rdquo; is compared is controlled by two options, <em>Ignore query string</em> and <em>Ignore hash fragment</em>. The details and examples are in <a href="finding-and-searching.html#how-bookmark-scope-decides-two-urls-are-the-same">Finding and searching</a>.</p>
+
+<h2 id="searching-in-the-popup">Searching in the popup<a class="anchor" href="#searching-in-the-popup" aria-label="Link to this section">#</a></h2>
+<p>Type in the search box. The popup first looks for an exact match: every word you type must appear somewhere in the bookmark&rsquo;s title, address or folder path, in any order, ignoring case. You can use the search operators too (for example <code>is:duplicate</code>); see the <a href="finding-and-searching.html">operator table</a>.</p>
+<p>If nothing matches and you used <strong>no operators</strong>, the popup falls back to <strong>fuzzy matching</strong> and says <em>No exact matches &mdash; showing fuzzy results</em>. Fuzzy matching accepts letters that appear in order but not next to each other (so <code>ghb</code> can find <code>github.com</code>), and ranks results by relevance: title matches count most, then the address, then the folder path. Fuzzy results keep their relevance order and ignore the sort setting.</p>
+<p>Fuzzy matching is a popup feature. The dashboard search is exact (substring) matching.</p>
+
+<h2 id="quick-actions-on-a-bookmark">Quick actions on a bookmark<a class="anchor" href="#quick-actions-on-a-bookmark" aria-label="Link to this section">#</a></h2>
+<ul>
+  <li><strong>Open</strong> opens the address in a new tab.</li>
+  <li><strong>Show in bookmarks</strong> opens Chrome&rsquo;s bookmark manager on the bookmark&rsquo;s folder.</li>
+  <li><strong>Delete</strong> asks <em>Delete bookmark?</em> with <strong>Delete</strong> and <strong>Keep it</strong>. The result is a toast such as <em>Deleted: 1. Failed: 0.</em> with <strong>Undo</strong>.</li>
+</ul>
+<p>Each row can show badges: <em>Duplicate</em>, <em>Old</em> with an approximate age, <em>Untitled</em> and <em>Title collision</em>. What each means is explained in <a href="cleaning-up.html">Cleaning up</a>.</p>
+
+<h3>Removing the page you are on</h3>
+<p>The star looks filled only when a bookmark has exactly the same address text as the tab. If you saved the page with a different query string, fragment or trailing slash, the star stays empty and clicking it adds a second bookmark.</p>
+<p>If the star is filled, clicking it removes <strong>every</strong> bookmark whose normalised address matches the current tab (usually just one), then offers Undo. It does not ask first, so look at the toast.</p>
+
+<h3>What popup Undo can and cannot do</h3>
+<ul>
+  <li>It recreates the removed bookmarks in the same folder and position where possible, and puts their tags back.</li>
+  <li>It cannot restore the original browser ID or the original date added.</li>
+  <li>If some bookmarks could not be removed, the toast reports both numbers (<em>Deleted</em> and <em>Failed</em>), and Undo covers only those that were actually removed.</li>
+  <li>The Undo is kept only while the popup stays open. Closing the popup ends it.</li>
+</ul>
+
+<h2 id="the-toolbar-badge">The toolbar badge<a class="anchor" href="#the-toolbar-badge" aria-label="Link to this section">#</a></h2>
+<p>The number on the toolbar icon is the count of bookmarks in your popup scope for the active tab. It disappears when the count is zero or the page is unsupported, and is capped at 999. It updates when you switch tabs, finish loading a page, or change bookmarks.</p>
+
+<h2 id="the-right-click-menu">The right-click menu<a class="anchor" href="#the-right-click-menu" aria-label="Link to this section">#</a></h2>
+<p>Bookmark Scope adds three entries to Chrome&rsquo;s context menu:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Where you right-click</th><th scope="col">Menu entry</th></tr></thead><tbody><tr><td>Anywhere on a page</td><td><em>Show all bookmarks of this domain</em></td></tr><tr><td>Anywhere on a page</td><td><em>Find duplicates of this page in bookmarks</em></td></tr><tr><td>A link</td><td><em>Find duplicates of this link in bookmarks</em></td></tr></tbody></table></div>
+<p>Each entry opens the dashboard with a hint about the address you chose.</p>
+<p>The dashboard opens already narrowed to the address you chose:</p>
+<ul>
+  <li><em>Show all bookmarks of this domain</em> opens the dashboard in domain scope: only bookmarks on that registrable domain are listed.</li>
+  <li><em>Find duplicates of this page/link in bookmarks</em> opens it in page scope with the <em>Duplicates</em> filter on, so you see only bookmarks of that exact page that exist more than once.</li>
+</ul>
+<p>The scope is not shown as a chip. The count line (for example <em>3 shown &middot; 3 total</em>) reflects the narrowed list, and the header still says how many bookmarks the library has. To return to the whole library, open the dashboard again from the popup or reload it without the link. While you are in a scoped dashboard, the keys <kbd>1</kbd>, <kbd>2</kbd> and <kbd>3</kbd> switch between page, host and domain scope of that same address.</p>
+
+<h2 id="popup-limits">Popup limits<a class="anchor" href="#popup-limits" aria-label="Link to this section">#</a></h2>
+<ul>
+  <li>The popup is scoped to the active tab&rsquo;s address. There is no way to browse the whole library from it, by design.</li>
+  <li>It shows at most eight rows. Use the dashboard for the rest.</li>
+  <li>The popup does not edit titles or tags. Use the dashboard.</li>
+  <li>The popup sort control offers Title, Newest, Oldest and URL. A fifth option, Folder path, exists only as a default in Settings.</li>
+</ul>
+
+<div class="reading-footer"><a href="installation.html"><small>Previous</small>Installation</a><a class="next" href="dashboard-tour.html"><small>Next</small>Dashboard tour</a></div>
+</article>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#what-the-popup-shows">What the popup shows</a></li><li><a href="#scope-page-host-or-domain">Scope: page, host or domain</a></li><li><a href="#searching-in-the-popup">Searching in the popup</a></li><li><a href="#quick-actions-on-a-bookmark">Quick actions on a bookmark</a></li><li><a href="#the-toolbar-badge">The toolbar badge</a></li><li><a href="#the-right-click-menu">The right-click menu</a></li><li><a href="#popup-limits">Popup limits</a></li></ol></nav>
+</div>
+</main>
+<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+</body>
+</html>

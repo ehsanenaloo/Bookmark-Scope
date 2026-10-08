@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "ตรวจสอบ จัดระเบียบ และทำความสะอาดบุ๊กมาร์กตามหน้า โดเมน รายการซ้ำ และอายุ — พร้อมแดชบอร์ดเต็มรูปแบบสำหรับคัดกรอง ตรวจสุขภาพ เตือนความจำ และทำความสะอาด"
+   },
+   "app_name": {
+      "message": "Bookmark Scope – ตัวจัดการโดเมนและหน้า"
+   },
+   "collapse_groups": {
+      "message": "ย่อกลุ่ม"
+   },
+   "expand_groups": {
+      "message": "ขยายกลุ่ม"
+   }
+}

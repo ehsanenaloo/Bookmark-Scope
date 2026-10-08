@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Command palette and keyboard shortcuts | Bookmark Scope user guide</title>
+<meta name="description" content="The complete list of Bookmark Scope keyboard shortcuts and the searchable command palette, verified against the source.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+<link rel="stylesheet" href="../styles.css">
+<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script defer src="../app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
+<main id="main">
+<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Reference</p><h1>Command palette and keyboard shortcuts</h1><p class="lead">Press Ctrl+Shift+P (Cmd+Shift+P on Mac) in the dashboard to run any maintenance command from the keyboard.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
+<div class="shell doc-layout has-toc">
+<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html" aria-current="page">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
+<article class="prose">
+
+<h2 id="the-command-palette">The command palette<a class="anchor" href="#the-command-palette" aria-label="Link to this section">#</a></h2>
+<p>In the dashboard, press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> (<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> on Mac). A dialog titled <em>Command palette</em> opens with a <em>Search commands</em> box.</p>
+<figure class="shot " style="--ratio:1440 / 900"><div class="frame" data-file="command-palette.png "><img src="../assets/screenshots/command-palette.png" alt="The command palette dialog with a search box and a list of commands, one highlighted" loading="lazy" decoding="async" width="1440" height="900"></div><figcaption>Type to filter, use the arrow keys to move, press Enter to run.</figcaption></figure>
+<ul>
+  <li>Type to filter by name. Matching ignores case and looks anywhere in the command name.</li>
+  <li><kbd>&darr;</kbd> and <kbd>&uarr;</kbd> move the highlight, and wrap around.</li>
+  <li><kbd>Enter</kbd> runs the highlighted command. <kbd>Esc</kbd> closes the palette without running anything.</li>
+  <li><kbd>Tab</kbd> stays inside the dialog. When it closes, focus returns to where you were.</li>
+  <li>If another dialog is already open, the shortcut does nothing, so you cannot stack dialogs by accident.</li>
+</ul>
+<p>The shortcut was chosen to avoid <kbd>Ctrl</kbd>+<kbd>K</kbd>, which browsers use for search.</p>
+
+<h3>The thirteen commands</h3>
+<p>Commands that change bookmarks keep their normal confirmations; the palette is only a faster way to reach them.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Command</th><th scope="col">Library tools group</th><th scope="col">What it does</th></tr></thead><tbody><tr><td>Saved views</td><td>Organize</td><td>Save, open or delete a <a href="smart-views.html">smart view</a></td></tr><tr><td>Bulk tags</td><td>Organize</td><td>Add, remove, rename or merge tags with preview and undo. See <a href="organizing.html">Organizing</a></td></tr><tr><td>Duplicate preview</td><td>Organize</td><td>Choose survivors and merge duplicates. See <a href="cleaning-up.html">Cleaning up</a></td></tr><tr><td>Delete selected</td><td>Organize</td><td>Delete the selected bookmarks (asks first)</td></tr><tr><td>Resumable scan</td><td>Check links</td><td>Start, pause, resume or cancel a saved link scan. See <a href="link-health.html">Link health</a></td></tr><tr><td>Inspect visible</td><td>Check links</td><td>Check the selected, or else all visible, bookmarks once</td></tr><tr><td>Repair redirected</td><td>Check links</td><td>Update redirected bookmarks to their final address (asks first)</td></tr><tr><td>Export snapshot</td><td>Backup and import</td><td>Download a snapshot file. See <a href="backup-and-restore.html">Backup and restore</a></td></tr><tr><td>Restore snapshot</td><td>Backup and import</td><td>Choose a snapshot file and restore it into a new folder</td></tr><tr><td>Import bookmarks&hellip;</td><td>Backup and import</td><td>Choose a file to import, with preview</td></tr><tr><td>Export visible as CSV</td><td>Backup and import</td><td>Download the visible bookmarks as a spreadsheet-safe CSV file. See <a href="backup-and-restore.html#export-visible">Backup and restore</a></td></tr><tr><td>Diagnostic export</td><td>Troubleshoot</td><td>Preview and download a privacy-filtered diagnostic file. See <a href="diagnostics.html">Diagnostics</a></td></tr><tr><td>Clear cached health data</td><td>Troubleshoot</td><td>Forget cached link-health results (asks first)</td></tr></tbody></table></div>
+<p>The same commands appear under the <strong>Library tools</strong> button, grouped as shown. The palette is the quickest route to them from the keyboard.</p>
+
+<h2 id="keyboard-shortcuts">Keyboard shortcuts<a class="anchor" href="#keyboard-shortcuts" aria-label="Link to this section">#</a></h2>
+<h3>Dashboard</h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Dashboard keyboard shortcuts"><table><caption>Dashboard keyboard shortcuts</caption><thead><tr><th scope="col">Keys</th><th scope="col">Does this</th><th scope="col">Notes</th></tr></thead><tbody><tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> / <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></td><td>Open the command palette</td><td>Works even when a text box has focus; ignored while another dialog is open</td></tr><tr><td><kbd>/</kbd></td><td>Focus the search box</td><td>Only when you are not already typing in a field</td></tr><tr><td><kbd>Ctrl</kbd>+<kbd>A</kbd> / <kbd>Cmd</kbd>+<kbd>A</kbd></td><td>Select all bookmarks in the current view</td><td>Selects the whole filtered view, not only drawn rows</td></tr><tr><td><kbd>&darr;</kbd> / <kbd>&uarr;</kbd></td><td>Move the active row down or up</td><td>The detail panel follows the active row</td></tr><tr><td><kbd>Enter</kbd></td><td>Open the active bookmark in a new tab</td><td></td></tr><tr><td><kbd>E</kbd></td><td>Edit the active bookmark</td><td>Then <kbd>Ctrl</kbd>+<kbd>Enter</kbd> saves and <kbd>Esc</kbd> cancels</td></tr><tr><td><kbd>Space</kbd></td><td>Select or unselect the active row</td><td></td></tr><tr><td><kbd>Delete</kbd> / <kbd>Backspace</kbd></td><td>Delete the selected bookmarks</td><td>Only if something is selected; asks to confirm</td></tr><tr><td><kbd>Esc</kbd></td><td>Back out one layer</td><td>See below</td></tr><tr><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></td><td>Page, Host, Domain scope</td><td>Only when the dashboard was opened from a right-click entry; see below</td></tr></tbody></table></div>
+<p>The 1, 2 and 3 keys switch the dashboard between the page, host and domain scope of an address. They need an address to work from, which only a right-click entry (see <a href="popup.html#the-right-click-menu">the popup guide</a>) provides. On a dashboard you opened normally they show <em>This page is not supported</em> with an empty list; reload the dashboard to get your whole library back.</p>
+
+<h3>When single-key shortcuts are paused</h3>
+<ul>
+  <li>While you are typing in the search box, a title field or a tag field. (The exceptions are <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>, <kbd>Esc</kbd> to cancel an edit, and <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to save one.)</li>
+  <li>While focus is on a button, link, checkbox, menu item or other control, so <kbd>Space</kbd> and <kbd>Enter</kbd> keep their normal meaning on it.</li>
+  <li>While any dialog (confirm, Library tools, palette) is open.</li>
+</ul>
+
+<h2 id="escape-clears-things-one-layer-at-a-time">Escape clears things one layer at a time</h2>
+<p>With the cursor outside any text box, each press of <kbd>Esc</kbd> undoes the innermost thing that is active. In order:</p>
+<ol>
+  <li>Cancel editing a bookmark.</li>
+  <li>Clear the search text.</li>
+  <li>Clear the active filter chip.</li>
+  <li>Clear the selection.</li>
+  <li>Dismiss the toast (which also removes an Undo button you have not used).</li>
+</ol>
+<p>Menus close on <kbd>Esc</kbd> first. Inside any dialog, <kbd>Esc</kbd> closes the dialog.</p>
+
+<h3>Tag field on a row</h3>
+<p><kbd>Enter</kbd> or <kbd>,</kbd> adds the tag and <kbd>Esc</kbd> clears the field. See <a href="organizing.html">Organizing</a>.</p>
+
+<h2 id="popup">Popup<a class="anchor" href="#popup" aria-label="Link to this section">#</a></h2>
+<p>The popup has no custom shortcuts. <kbd>Esc</kbd> closes its menu or dialog, and <kbd>Tab</kbd> moves between controls. Chrome lets you assign a shortcut to open the popup at <code>chrome://extensions/shortcuts</code>.</p>
+
+<h2 id="in-the-settings-page">In the settings page<a class="anchor" href="#in-the-settings-page" aria-label="Link to this section">#</a></h2>
+<p>Standard form behavior: <kbd>Tab</kbd> between fields, <kbd>Enter</kbd> in a field submits <em>Save settings</em>.</p>
+
+<h2 id="accessibility-notes">Accessibility notes<a class="anchor" href="#accessibility-notes" aria-label="Link to this section">#</a></h2>
+<ul>
+  <li>Dialogs have accessible names, trap <kbd>Tab</kbd> while open, close on <kbd>Esc</kbd> or a backdrop click, and return focus to the control that opened them.</li>
+  <li>Each row checkbox is named with the bookmark&rsquo;s title and address.</li>
+  <li>Screen-reader behavior and contrast have not been formally audited. If you find a barrier, please <a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">report it</a>.</li>
+</ul>
+
+<div class="reading-footer"><a href="backup-and-restore.html"><small>Previous</small>Backup &amp; restore</a><a class="next" href="settings-reference.html"><small>Next</small>Settings reference</a></div>
+</article>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#the-command-palette">The command palette</a></li><li><a href="#keyboard-shortcuts">Keyboard shortcuts</a></li><li><a href="#popup">Popup</a></li><li><a href="#in-the-settings-page">In the settings page</a></li><li><a href="#accessibility-notes">Accessibility notes</a></li></ol></nav>
+</div>
+</main>
+<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+</body>
+</html>

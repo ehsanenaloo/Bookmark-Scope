@@ -1,0 +1,15 @@
+# Code owners are asked to review pull requests that touch the files they own.
+# Bookmark Scope has one maintainer, so every rule below names the same person.
+# The last matching pattern wins, so keep the specific paths after the default.
+
+# Default owner for everything in the repository.
+* @ehsanenaloo
+
+# User guide and screenshots.
+/docs/ @ehsanenaloo
+
+# Interface translations and feature copy.
+/src/locales/ @ehsanenaloo
+
+# Browser-level strings (extension name, description, toolbar tooltip).
+/_locales/ @ehsanenaloo

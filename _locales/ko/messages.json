@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "페이지, 도메인, 중복, 오래된 정도를 기준으로 북마크를 검사·정리·청소하고, 트리아지, 상태 스캔, 알림, 정리를 위한 전체 대시보드까지 제공합니다."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – 도메인 및 페이지 관리자"
+   },
+   "collapse_groups": {
+      "message": "그룹 접기"
+   },
+   "expand_groups": {
+      "message": "그룹 펼치기"
+   }
+}

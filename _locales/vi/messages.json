@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Kiểm tra, sắp xếp và dọn dẹp dấu trang theo trang, miền, bản trùng và tuổi — với bảng điều khiển đầy đủ cho phân loại, quét sức khỏe, nhắc nhở và dọn dẹp."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – trình quản lý miền và trang"
+   },
+   "collapse_groups": {
+      "message": "Thu gọn nhóm"
+   },
+   "expand_groups": {
+      "message": "Mở rộng nhóm"
+   }
+}

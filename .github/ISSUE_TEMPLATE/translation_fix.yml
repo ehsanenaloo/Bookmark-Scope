@@ -1,0 +1,62 @@
+name: Translation fix
+description: Report a wrong, awkward or missing translation.
+title: "[Translation]: "
+labels: ["translation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping with translations. Most languages have not yet been reviewed by a native speaker, so your report is useful.
+        You can also send a pull request. See the Translations section of CONTRIBUTING.md.
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      description: The language of the text you want to fix.
+      placeholder: "German (de)"
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Key or screen where the text appears
+      description: The English source text (the key), or the screen and button where you see it. A screenshot with synthetic bookmarks also helps.
+      placeholder: "Popup, filter bar, button 'Entire library'"
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current text
+      description: Copy the text as it appears now.
+    validations:
+      required: true
+  - type: textarea
+    id: suggested
+    attributes:
+      label: Suggested text
+      description: Keep placeholders such as {{count}} exactly as they are.
+    validations:
+      required: true
+  - type: dropdown
+    id: native
+    attributes:
+      label: Are you a native speaker of this language?
+      options:
+        - "Yes, I am a native speaker"
+        - "I am fluent but not a native speaker"
+        - "No, I used a translation tool"
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: For example, why the current text is wrong, or other strings with the same problem.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I did not include private bookmark data or personal URLs.
+          required: true

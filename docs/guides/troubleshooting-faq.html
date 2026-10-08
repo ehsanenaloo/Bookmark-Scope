@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Troubleshooting and FAQ | Bookmark Scope user guide</title>
+<meta name="description" content="Answers to common problems with Bookmark Scope: missing results, permission prompts, scans that stop, Undo, tags, languages and more.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+<link rel="stylesheet" href="../styles.css">
+<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script defer src="../app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html" aria-current="page">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
+<main id="main">
+<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Trust and support</p><h1>Troubleshooting and FAQ</h1><p class="lead">Find your symptom, read the likely reason, and try the fix.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
+<div class="shell doc-layout has-toc">
+<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html" aria-current="page">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
+<article class="prose">
+
+<h2 id="using-the-popup">Using the popup<a class="anchor" href="#using-the-popup" aria-label="Link to this section">#</a></h2>
+<dl>
+  <dt>The popup says &ldquo;Unsupported page&rdquo; or &ldquo;No scope&rdquo;.</dt>
+  <dd>You are on a page that is not <code>http</code> or <code>https</code> (for example <code>chrome://</code>, a new tab or a local file). Open a normal website.</dd>
+  <dt>A bookmark I know I saved is not listed.</dt>
+  <dd>Check the scope switch: <em>Page</em> only matches the exact page address. Widen to <em>Host</em> or <em>Domain</em>. Also clear the search box, and remember the list shows only the first eight rows.</dd>
+  <dt>The star is not filled, but I bookmarked this page.</dt>
+  <dd>The star compares the exact address of the tab with your bookmarks. A bookmark of the same page with a different query string, fragment or trailing slash is not the same string. Search for the site in the popup instead.</dd>
+  <dt>The toolbar badge number differs from what I expected.</dt>
+  <dd>The badge follows your <em>default scope</em> (Page, Host or Domain) and the URL-matching options in <a href="settings-reference.html">Settings</a>.</dd>
+</dl>
+
+<h2 id="searching-and-filters">Searching and filters<a class="anchor" href="#searching-and-filters" aria-label="Link to this section">#</a></h2>
+<dl>
+  <dt>The dashboard shows nothing for my search.</dt>
+  <dd>Dashboard search is exact substring matching with AND logic, in the title, address and folder only. Check for an active filter chip or tag chip too; press <kbd>Esc</kbd> to clear layers. The popup, not the dashboard, has fuzzy fallback.</dd>
+  <dt>Searching <code>tag:work</code> does nothing.</dt>
+  <dd>There is no tag operator. Click a tag chip in the Tags strip above the list.</dd>
+  <dt><code>health:broken</code> finds nothing.</dt>
+  <dd>That filter matches only bookmarks with a recorded result. Run <a href="link-health.html">a check</a> first, and note results expire after 7 days.</dd>
+  <dt>Two bookmarks are marked duplicates that I consider different.</dt>
+  <dd>They resolve to the same page address under your matching options. If a query string is the only difference, make sure <em>Ignore query string</em> is off.</dd>
+  <dt>Two obvious duplicates are not flagged.</dt>
+  <dd>Differences in scheme (<code>http</code> vs <code>https</code>), a <code>www.</code> prefix, a non-default port, letter case in the path, or the query string make them different pages. See <a href="finding-and-searching.html#how-bookmark-scope-decides-two-urls-are-the-same">the examples</a>.</dd>
+</dl>
+
+<h2 id="link-health-and-permissions">Link health and permissions<a class="anchor" href="#link-health-and-permissions" aria-label="Link to this section">#</a></h2>
+<dl>
+  <dt>&ldquo;Health scans need temporary site access. Permission denied&rdquo;.</dt>
+  <dd>You declined Chrome&rsquo;s site-access prompt. Start the check again and accept, or grant access from the extension&rsquo;s <em>Details</em> page.</dd>
+  <dt>Lots of &ldquo;Broken 403&rdquo; / &ldquo;401&rdquo; / &ldquo;429&rdquo;.</dt>
+  <dd>Those statuses mean the site refused an automated request. Open a few in your browser before drawing conclusions.</dd>
+  <dt>A bookmark shows as Redirected but the page looks the same.</dt>
+  <dd>The site really answered with a redirect, for example from <code>http</code> to <code>https</code> or to a new path. A different <code>#fragment</code> or letter case in the host alone is not counted. Check <em>Redirects to</em> in the detail panel before you repair; a redirect to a sign-in or consent page is not a fix. See <a href="link-health.html#repairing-redirects">Repairing redirects</a>.</dd>
+  <dt>My scan stopped when I closed the tab.</dt>
+  <dd>Manual scans run only while the dashboard is open. Reopen <em>Library tools</em> and choose <strong>Resume scan</strong>. Use the <a href="link-health.html#scheduled-background-scans">scheduled scan</a> for hands-free checking.</dd>
+  <dt>The scheduled scan did not run or did not notify me.</dt>
+  <dd>It must be enabled, site access must be granted, and Chrome must be running when it is due. It notifies you only when bookmarks have <em>newly</em> turned broken since the last result. Check the status line in Settings.</dd>
+  <dt>I enabled the scan but the checkbox turned itself off.</dt>
+  <dd>Saving asks for site access; declining switches it off again and shows <em>Background scan needs site-access permission. It was not enabled.</em></dd>
+</dl>
+
+<h2 id="deleting-undo-and-recovery">Deleting, Undo and recovery<a class="anchor" href="#deleting-undo-and-recovery" aria-label="Link to this section">#</a></h2>
+<dl>
+  <dt>Undo has gone.</dt>
+  <dd>Undo exists only while the toast is on screen and the page that created it stays open. Pressing <kbd>Esc</kbd>, starting another action that shows a toast, reloading or closing the tab ends it. Restore from a <a href="backup-and-restore.html">snapshot</a> instead.</dd>
+  <dt>After Undo the bookmark looks new, or is no longer &ldquo;old&rdquo;.</dt>
+  <dd>Chrome gives restored bookmarks a new ID and a new date added. That cannot be changed.</dd>
+  <dt>The toast says &ldquo;Deleted: 3. Failed: 1.&rdquo;</dt>
+  <dd>One bookmark could not be removed (for example it was already gone or protected). Undo covers only the three that were deleted.</dd>
+  <dt>The duplicate merge stopped with &ldquo;Preview changed; reopen it before merging&rdquo;.</dt>
+  <dd>A bookmark in the preview was edited, moved or deleted, or its tags changed, after you opened it. Reopen <strong>Duplicate preview</strong>.</dd>
+  <dt>The merge says the tag limit was exceeded.</dt>
+  <dd>The union of tags would exceed 20 on the survivor. Remove a few tags from one copy, then try again.</dd>
+</dl>
+
+<h2 id="tags">Tags<a class="anchor" href="#tags" aria-label="Link to this section">#</a></h2>
+<dl>
+  <dt>My tags are gone after reinstalling or on another computer.</dt>
+  <dd>Tags live in the extension&rsquo;s local storage, which uninstalling deletes and which is not synced. Export a snapshot before uninstalling; a snapshot restore recreates tags on the restored bookmarks.</dd>
+  <dt>Tag text changed case or lost spaces.</dt>
+  <dd>Tags are normalised to lower case with single spaces and a limit of 32 characters.</dd>
+  <dt>I can&rsquo;t add a tag from the row.</dt>
+  <dd>Click the row first so it becomes active; the <em>+ add tag</em> box appears only on the active row. Press Enter or comma to add. For many bookmarks at once use <strong>Bulk tags</strong>; see <a href="organizing.html">Organizing</a>.</dd>
+  <dt>Bulk tags affected too many (or too few) bookmarks.</dt>
+  <dd>With nothing selected it targets all <em>visible</em> bookmarks. Read the count in the dialog before applying, and use <strong>Undo tag changes</strong> if needed.</dd>
+</dl>
+
+<h2 id="import-export-and-restore">Import, export and restore<a class="anchor" href="#import-export-and-restore" aria-label="Link to this section">#</a></h2>
+<dl>
+  <dt>The import preview shows zero supported bookmarks.</dt>
+  <dd>The file had no <code>http</code>/<code>https</code> addresses the importer understands, or its format was not recognised. Browser <code>bookmarks.html</code> files are supported; check that the file really is a bookmarks export (it should contain folders and links) and that its addresses are <code>http</code> or <code>https</code>, because bookmarklets, <code>place:</code> and <code>about:</code> entries are excluded. See <a href="backup-and-restore.html">Backup and restore</a>.</dd>
+  <dt>&ldquo;Import file is too large (max 10 MB).&rdquo;</dt>
+  <dd>Split the file into smaller ones.</dd>
+  <dt>My restore created a second copy.</dt>
+  <dd>Restore is additive and never deduplicates; each run creates a new folder. Delete the extra folder in Chrome&rsquo;s bookmark manager.</dd>
+  <dt>A restore or import stopped half way.</dt>
+  <dd>Download the <strong>Recovery journal</strong>, look at what was created in Chrome&rsquo;s bookmark manager, and only then decide whether to retry.</dd>
+</dl>
+
+<h2 id="language-and-appearance">Language and appearance<a class="anchor" href="#language-and-appearance" aria-label="Link to this section">#</a></h2>
+<dl>
+  <dt>Some dialogs are in English though I picked another language.</dt>
+  <dd>Some newer strings fall back to English until they are translated and reviewed. See <a href="appearance-and-languages.html">Appearance and languages</a>.</dd>
+  <dt>The popup is the wrong width.</dt>
+  <dd>Choose <em>Popup width</em> under Settings &rarr; Behavior defaults: Compact is 380 px wide and Comfortable (the default) is 420 px. Reopen the popup after saving.</dd>
+  <dt>Colors do not follow my system theme.</dt>
+  <dd>Set <em>Theme</em> to <strong>System</strong> in Settings. A fixed Light or Dark choice overrides the system.</dd>
+</dl>
+
+<h2 id="when-nothing-helps">When nothing helps<a class="anchor" href="#when-nothing-helps" aria-label="Link to this section">#</a></h2>
+<ol>
+  <li>Reload the dashboard tab.</li>
+  <li>Disable and re-enable the extension in <code>chrome://extensions</code>, or press its reload icon if it is unpacked.</li>
+  <li>Create a <a href="diagnostics.html">diagnostic export</a>, check it, and open an issue on <a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub</a>.</li>
+</ol>
+
+<h2 id="faq">FAQ<a class="anchor" href="#faq" aria-label="Link to this section">#</a></h2>
+<dl>
+  <dt>Does Bookmark Scope upload my bookmarks?</dt>
+  <dd>No. There is no server. See <a href="privacy-and-data.html">Privacy, permissions and data</a>.</dd>
+  <dt>Does it change my bookmarks without asking?</dt>
+  <dd>No. Deleting, merging, editing, moving, repairing redirects, importing and restoring are all explicit actions. The scheduled scan only reads.</dd>
+  <dt>Does it sync between my devices?</dt>
+  <dd>Your bookmarks sync through Chrome as usual. Bookmark Scope&rsquo;s tags, views and history do not.</dd>
+  <dt>Does it work in Firefox, Edge or Brave?</dt>
+  <dd>This guide and the project&rsquo;s recorded testing cover Chrome/Chromium only. Other browsers are not verified.</dd>
+  <dt>Is it free?</dt>
+  <dd>It is MIT licensed, and the support link is optional.</dd>
+  <dt>Can I change the 730-day threshold for &ldquo;old&rdquo;?</dt>
+  <dd>Not in the current version.</dd>
+</dl>
+
+<div class="reading-footer"><a href="diagnostics.html"><small>Previous</small>Diagnostics</a><a class="next" href="limits.html"><small>Next</small>Limits &amp; known limitations</a></div>
+</article>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#using-the-popup">Using the popup</a></li><li><a href="#searching-and-filters">Searching and filters</a></li><li><a href="#link-health-and-permissions">Link health and permissions</a></li><li><a href="#deleting-undo-and-recovery">Deleting, Undo and recovery</a></li><li><a href="#tags">Tags</a></li><li><a href="#import-export-and-restore">Import, export and restore</a></li><li><a href="#language-and-appearance">Language and appearance</a></li><li><a href="#when-nothing-helps">When nothing helps</a></li><li><a href="#faq">FAQ</a></li></ol></nav>
+</div>
+</main>
+<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+</body>
+</html>

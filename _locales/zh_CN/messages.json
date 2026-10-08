@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "按页面、域名、重复项和时间检查、整理并清理书签，并提供完整仪表板用于分流、健康扫描、提醒与清理。"
+   },
+   "app_name": {
+      "message": "Bookmark Scope – 域名与页面管理器"
+   },
+   "collapse_groups": {
+      "message": "折叠分组"
+   },
+   "expand_groups": {
+      "message": "展开分组"
+   }
+}

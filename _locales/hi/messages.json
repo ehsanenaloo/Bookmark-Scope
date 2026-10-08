@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "पेज, डोमेन, डुप्लिकेट और उम्र के आधार पर बुकमार्क की जाँच, व्यवस्था और सफाई करें—और ट्रायेज, हेल्थ स्कैन, रिमाइंडर और क्लीनअप के लिए पूरा डैशबोर्ड भी पाएँ।"
+   },
+   "app_name": {
+      "message": "Bookmark Scope – डोमेन और पेज मैनेजर"
+   },
+   "collapse_groups": {
+      "message": "समूह समेटें"
+   },
+   "expand_groups": {
+      "message": "समूह फैलाएँ"
+   }
+}

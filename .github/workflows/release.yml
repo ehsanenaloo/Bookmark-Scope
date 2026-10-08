@@ -1,0 +1,76 @@
+name: Release
+
+# Runs when a version tag such as v5.0.0 is pushed.
+# Builds a zip of the runtime files and attaches it, with a SHA-256 checksum, to a GitHub Release.
+# This workflow does NOT publish to the Chrome Web Store; that remains a manual step.
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish GitHub Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      TAG: ${{ github.ref_name }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Validate repository
+        run: node scripts/validate.mjs
+
+      - name: Assert tag matches manifest version
+        run: |
+          manifest_version="$(node -p "JSON.parse(require('fs').readFileSync('manifest.json','utf8')).version")"
+          if [ "${TAG}" != "v${manifest_version}" ]; then
+            echo "::error::Tag '${TAG}' does not match manifest.json version '${manifest_version}'. Expected tag 'v${manifest_version}'."
+            exit 1
+          fi
+          echo "VERSION=${manifest_version}" >> "$GITHUB_ENV"
+
+      - name: Build extension zip
+        run: |
+          mkdir -p release
+          zip_name="bookmark-scope-${VERSION}.zip"
+          node scripts/list-runtime-files.mjs | zip -q -X "release/${zip_name}" -@
+          (cd release && sha256sum "${zip_name}" > "${zip_name}.sha256")
+          echo "ZIP_NAME=${zip_name}" >> "$GITHUB_ENV"
+          unzip -l "release/${zip_name}" | tail -n 3
+          cat "release/${zip_name}.sha256"
+
+      - name: Extract release notes from CHANGELOG
+        run: |
+          awk -v v="${VERSION}" '
+            index($0, "## [" v "]") == 1 { found = 1; next }
+            found && /^## / { exit }
+            found { print }
+          ' CHANGELOG.md > release/notes.md
+          if [ ! -s release/notes.md ]; then
+            echo "No CHANGELOG section found for ${VERSION}; falling back to generated notes."
+            echo "Release ${VERSION}. See CHANGELOG.md for details." > release/notes.md
+          fi
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${TAG}" \
+            "release/${ZIP_NAME}" \
+            "release/${ZIP_NAME}.sha256" \
+            --title "Bookmark Scope ${VERSION}" \
+            --notes-file release/notes.md \
+            --verify-tag

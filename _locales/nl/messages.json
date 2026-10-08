@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Inspecteer, organiseer en ruim bladwijzers op per pagina, domein, duplicaten en ouderdom, met een volledig dashboard voor triage, gezondheidscontroles, herinneringen en opschoning."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Domein- en paginabeheer"
+   },
+   "collapse_groups": {
+      "message": "Groepen samenvouwen"
+   },
+   "expand_groups": {
+      "message": "Groepen uitvouwen"
+   }
+}

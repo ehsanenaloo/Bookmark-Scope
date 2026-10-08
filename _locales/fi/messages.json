@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Tarkasta, järjestä ja siivoa kirjanmerkkejä sivun, verkkotunnuksen, kaksoiskappaleiden ja iän mukaan — mukana täysi hallintapaneeli triageen, kuntotarkastuksiin, muistutuksiin ja siivoukseen."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – verkkotunnus- ja sivuhallinta"
+   },
+   "collapse_groups": {
+      "message": "Kutista ryhmät"
+   },
+   "expand_groups": {
+      "message": "Laajenna ryhmät"
+   }
+}

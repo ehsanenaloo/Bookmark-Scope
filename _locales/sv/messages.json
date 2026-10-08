@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Inspektera, organisera och rensa bokmärken efter sida, domän, dubbletter och ålder – med en fullständig panel för triage, hälsokontroller, påminnelser och städning."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Domän- och sidhanterare"
+   },
+   "collapse_groups": {
+      "message": "Fäll ihop grupper"
+   },
+   "expand_groups": {
+      "message": "Expandera grupper"
+   }
+}

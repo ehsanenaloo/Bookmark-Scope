@@ -1,3 +1,8 @@
+/*
+ * Bookmark Scope - Domain & Page Manager
+ * Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.
+ */
+
 import {
   MATCH_MODES,
   SORT_OPTIONS,
@@ -10,7 +15,11 @@ import {
   HEALTH_STATUSES,
   HEALTH_SCAN_TIMEOUT_MS,
   HEALTH_SCAN_CONCURRENCY,
-  THEME_MODES
+  THEME_MODES,
+  COLOR_PALETTES,
+  DASHBOARD_STORAGE_KEYS,
+  GROUP_BY_OPTIONS,
+  GROUP_SORT_OPTIONS
 } from './src/constants.js';
 import {
   getNormalizedBookmarks,
@@ -18,648 +27,433 @@ import {
   filterScopedBookmarks,
   sortBookmarks,
   groupDuplicates,
-  getDefaultImportParentId,
-  getCleanupSummary
+  getCleanupSummary,
+  invalidateBookmarkCache
 } from './src/bookmark-utils.js';
 import { getMatchTarget, matchesMode } from './src/url-utils.js';
-import { applyTheme, loadStoredTheme, saveThemeMode, watchSystemTheme } from './src/theme-utils.js';
+import { applyTheme, applyPalette, loadStoredTheme, loadStoredPalette, saveThemeMode, saveColorPalette, watchSystemTheme } from './src/theme-utils.js';
+import { loadDashboardPreferences, saveDashboardPreferences, saveReviewSessions, saveCleanupHistory, saveReviewReminderPreferences, setPinOnboardingVisible } from './src/services/preferences-service.js';
+import { iconSvg, createIconButton, createIconElement } from './src/icon-system.js';
+import { formatDateTime, formatNumber, initI18n, t, translateTree } from './src/i18n.js';
+import { createFaviconNode, debounce, trapFocus, getHostnameSafe } from './src/ui-utils.js';
+import { isoNow, makeStableId, now } from './src/platform/time.js';
+import {
+  addBookmarkEventListeners,
+  addStorageChangedListener,
+  createBookmark,
+  getManifest,
+  getRuntimeUrl,
+  moveBookmark,
+  queryTabs,
+  removeBookmark,
+  sendRuntimeMessage,
+  updateBookmark
+} from './src/platform/browser-api.js';
+import {
+  getHealthKey,
+  getHealthRecord as getStoredHealthRecord,
+  summarizeHealth,
+  getBookmarksByHealthStatus,
+  getRedirectedBookmarks,
+  healthLabel,
+  healthBadgeClass,
+  bookmarkStatusBadgeClass,
+  inspectUrlHealth as inspectUrlHealthRecord,
+  runWithConcurrency
+} from './src/dashboard/health.js';
+import { createReviewTools } from './src/dashboard/review-tools.js';
+import { createViewTools } from './src/dashboard/view-tools.js';
+import { createGroupTools } from './src/dashboard/group-tools.js';
+import { createOverlayTools } from './src/dashboard/overlay-tools.js';
+import { createRenderTools } from './src/dashboard/render-tools.js';
+import { createActionTools } from './src/dashboard/action-tools.js';
+import { createSelectionTools } from './src/dashboard/selection-tools.js';
+import { createInspectTools } from './src/dashboard/inspect-tools.js';
+import { downloadTextFile, createCsvFile, parseImportedFilePreview } from './src/dashboard/import-export-tools.js';
+import { loadImportJournal } from './src/services/import-service.js';
+import { parseImportedThirdPartyFile } from './src/services/third-party-import.js';
+import { createDashboardState } from './src/dashboard/state.js';
+import { createFeatureTools } from './src/dashboard/feature-tools.js';
+import { featureText } from './src/locales/feature-messages.js';
+import { createCommandRegistry } from './src/dashboard/command-registry.js';
+import { MESSAGE_TYPES, runtimeMessages } from './src/runtime/messages.js';
+import { createLogger } from './src/services/diagnostics-service.js';
+import { initializeStorageLayer } from './src/services/storage-service.js';
+import { loadHealthCache, clearHealthCache, deleteHealthRecord, awaitPendingHealthWrites } from './src/services/health-cache-service.js';
+import { loadTagsMap, updateTagsMap, summariseTags, pruneOrphanedTags } from './src/services/tag-service.js';
+import { parseDashboardContextParams, CONTEXT_MENU_ACTIONS } from './src/services/context-menu-service.js';
+import { createVirtualScroller } from './src/dashboard/virtual-scroller.js';
 
 const DASHBOARD_MODE = 'library';
-const DASHBOARD_STORAGE_KEYS = {
-  MODE: 'dashboardMode',
-  SORT: 'dashboardSort',
-  DUPLICATES_ONLY: 'dashboardDuplicatesOnly',
-  CLEANUP_FILTER: 'dashboardCleanupFilter',
-  SIDEBAR_COLLAPSED: 'dashboardSidebarCollapsed'
-};
-
-const state = {
-  mode: DASHBOARD_MODE,
-  sort: SORT_OPTIONS.TITLE_ASC,
-  query: '',
-  duplicatesOnly: false,
-  cleanupFilter: CLEANUP_FILTERS.ALL,
-  ignoreQueryString: false,
-  ignoreHashFragment: true,
-  popupWidth: POPUP_WIDTHS.COMFORTABLE,
-  mergeStrategy: MERGE_STRATEGIES.KEEP_NEWEST,
-  tab: null,
-  target: null,
-  allBookmarks: [],
-  scopedBookmarks: [],
-  visibleBookmarks: [],
-  scopeSummary: null,
-  visibleSummary: null,
-  librarySummary: null,
-  scopeFolderCount: 0,
-  visibleDuplicateGroups: 0,
-  newestVisibleBookmark: null,
-  editingBookmarkId: null,
-  selectedIds: new Set(),
-  lastDeletedBatch: null,
-  toast: null,
-  focusSearchAfterRender: false,
-  searchSelectionStart: null,
-  searchSelectionEnd: null,
-  activeBookmarkId: null,
-  healthByKey: {},
-  healthSummary: null,
-  healthLastRunAt: null,
-  isInspectingHealth: false,
-  healthScanProgress: 0,
-  reviewSessions: [],
-  cleanupHistory: [],
-  reminderEnabled: false,
-  reminderIntervalDays: 14,
-  lastReviewAt: 0,
-  nextReviewAt: 0,
-  sidebarTab: 'overview',
-  sidebarCollapsed: false,
-  themeMode: THEME_MODES.SYSTEM,
-  listScrollTop: 0,
-  shouldScrollActiveIntoView: false,
-  aboutOpen: false,
-  rowMenuBookmarkId: null,
-  rowMenuPosition: null
-};
+const state = createDashboardState(DASHBOARD_MODE);
+const logger = createLogger('dashboard');
 
 const app = document.getElementById('app');
 let searchInputRef = null;
 let importInputRef = null;
 
-async function sendMessage(message) {
-  try {
-    return await chrome.runtime.sendMessage(message);
-  } catch (error) {
-    console.warn('Runtime message failed.', error);
-    return null;
-  }
+// Virtual scroller instance for the flat bookmark list
+let _virtualScroller = null;
+const virtualRowHeights = new Map(); // preserve measured offsets across list rebuilds
+
+// Threshold: use virtual scrolling when list exceeds this count
+const VIRTUAL_SCROLL_THRESHOLD = 150;
+
+function getHealthRecord(bookmark, map = state.healthByKey) {
+  return getStoredHealthRecord(bookmark, map);
 }
 
-async function getActiveTabContext() {
-  try {
-    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-    const tab = tabs?.[0] || null;
-    return { tab, target: tab?.url ? getMatchTarget(tab.url, getParseOptions()) : null };
-  } catch (error) {
-    console.warn('Direct tab lookup failed.', error);
-  }
-
-  const response = await sendMessage({ type: 'GET_ACTIVE_TAB_CONTEXT' });
-  return {
-    tab: response?.tab || null,
-    target: response?.tab?.url ? getMatchTarget(response.tab.url, getParseOptions()) : response?.target || null
+function applyHealthRecordToBookmarks(recordKey, record) {
+  const applyTo = (bookmark) => {
+    if (!bookmark || getHealthKey(bookmark) !== recordKey) return;
+    bookmark.healthStatus = record?.status || '';
+    bookmark.healthCheckedAt = record?.checkedAt || null;
+    bookmark.healthStatusCode = record?.statusCode || null;
+    bookmark.healthFinalUrl = record?.finalUrl || bookmark.url || '';
+    bookmark.healthError = record?.error || '';
+    bookmark.healthMethod = record?.method || '';
   };
+
+  for (const bookmark of state.allBookmarks || []) applyTo(bookmark);
+  for (const bookmark of state.visibleBookmarks || []) applyTo(bookmark);
 }
 
-function getParseOptions() {
-  return {
-    ignoreQueryString: state.ignoreQueryString,
-    ignoreHashFragment: state.ignoreHashFragment
-  };
+const groupTools = createGroupTools({
+  state,
+  t,
+  render,
+  savePreferences,
+  formatNumber,
+  getCleanupSummary,
+  summarizeHealth,
+  recalculateVisibleBookmarks,
+  GROUP_BY_OPTIONS,
+  GROUP_SORT_OPTIONS,
+  SORT_OPTIONS
+});
+
+const {
+  groupByLabel,
+  updateGroupBy,
+  groupSortLabel,
+  updateGroupSort,
+  updateSort,
+  getGroupedVisibleBookmarks,
+  isGroupFullySelected,
+  toggleGroupSelection,
+  isGroupCollapsed,
+  toggleGroupCollapsed,
+  setAllGroupsCollapsed,
+  getGroupHealthSummary
+} = groupTools;
+
+const selectionTools = createSelectionTools({
+  state,
+  render
+});
+const {
+  getSelectedBookmarks,
+  getSelectedCount,
+  hasSelection,
+  isBookmarkSelected,
+  cleanupSelection,
+  clearSelection,
+  setBookmarkSelection,
+  toggleBookmarkSelection,
+  deselectBookmarks,
+  selectAllVisible,
+  areBookmarksSelected,
+  toggleBookmarksSelection,
+  selectBookmarks
+} = selectionTools;
+
+const viewTools = createViewTools({
+  state,
+  t,
+  formatNumber,
+  render,
+  savePreferences,
+  recalculateVisibleBookmarks,
+  summarizeHealth,
+  getCleanupSummary,
+  CLEANUP_FILTERS,
+  OLD_BOOKMARK_DAYS,
+  DASHBOARD_MODE,
+  MATCH_MODES,
+  getSelectedBookmarks,
+  cleanupSelection,
+  areBookmarksSelected,
+  toggleBookmarksSelection,
+  selectBookmarks
+});
+const {
+  modeLabel,
+  getInspectTargetBookmarks,
+  getInspectButtonLabel,
+  ensureActiveBookmark,
+  getActiveBookmark,
+  moveActiveBookmark,
+  setActiveBookmark,
+  getScopedBookmarks,
+  getScopeSummary,
+  getScopeHealthSummary,
+  getLibrarySummary,
+  getViewStats,
+  cleanupFilterLabel,
+  getCleanupCount,
+  clearCleanupFilters,
+  setCleanupFilter,
+  runCleanupPreset
+} = viewTools;
+
+function getActiveScopeLabel() {
+  if (getSelectedCount()) return t('selected bookmarks');
+  if (state.mode === DASHBOARD_MODE) return t('Entire library');
+  return state.target?.label || modeLabel(state.mode) || t('Unknown scope');
 }
 
-function applyPopupWidth() {
-  const width = state.popupWidth === POPUP_WIDTHS.COMPACT ? '430px' : '500px';
-  document.documentElement.style.setProperty('--popup-width', width);
-}
+const inspectTools = createInspectTools({
+  state,
+  t,
+  now,
+  formatNumber,
+  makeStableId,
+  getHealthKey,
+  summarizeHealth,
+  inspectUrlHealthRecord,
+  runWithConcurrency,
+  sendMessage,
+  render,
+  renderListOnly,
+  updateInspectProgress,
+  rememberListScroll,
+  setToast,
+  pushCleanupHistory,
+  applyHealthRecordToBookmarks,
+  getSelectedBookmarks,
+  modeLabel,
+  getSelectionCount: getSelectedCount,
+  getActiveScopeLabel
+});
+const {
+  cancelHealthInspection,
+  inspectBookmarksHealth,
+  ensureHealthPermission,
+  inspectUrlHealth
+} = inspectTools;
 
-async function loadPreferences() {
-  const stored = await chrome.storage.local.get([
-    DASHBOARD_STORAGE_KEYS.MODE,
-    DASHBOARD_STORAGE_KEYS.SORT,
-    DASHBOARD_STORAGE_KEYS.DUPLICATES_ONLY,
-    STORAGE_KEYS.IGNORE_QUERY,
-    STORAGE_KEYS.IGNORE_HASH,
-    STORAGE_KEYS.POPUP_WIDTH,
-    STORAGE_KEYS.MERGE_STRATEGY,
-    DASHBOARD_STORAGE_KEYS.CLEANUP_FILTER,
-    DASHBOARD_STORAGE_KEYS.SIDEBAR_COLLAPSED,
-    STORAGE_KEYS.REVIEW_SESSIONS,
-    STORAGE_KEYS.CLEANUP_HISTORY,
-    STORAGE_KEYS.REVIEW_REMINDER_ENABLED,
-    STORAGE_KEYS.REVIEW_REMINDER_INTERVAL_DAYS,
-    STORAGE_KEYS.REVIEW_REMINDER_LAST_REVIEW_AT,
-    STORAGE_KEYS.REVIEW_REMINDER_NEXT_AT,
-    STORAGE_KEYS.THEME_MODE
-  ]);
-
-  state.mode = DASHBOARD_MODE;
-  state.sort = stored[DASHBOARD_STORAGE_KEYS.SORT] || SORT_OPTIONS.TITLE_ASC;
-  state.ignoreQueryString = Boolean(stored[STORAGE_KEYS.IGNORE_QUERY]);
-  state.ignoreHashFragment = stored[STORAGE_KEYS.IGNORE_HASH] !== false;
-  state.popupWidth = stored[STORAGE_KEYS.POPUP_WIDTH] || POPUP_WIDTHS.COMFORTABLE;
-  state.mergeStrategy = stored[STORAGE_KEYS.MERGE_STRATEGY] || MERGE_STRATEGIES.KEEP_NEWEST;
-  state.cleanupFilter = stored[DASHBOARD_STORAGE_KEYS.CLEANUP_FILTER] || CLEANUP_FILTERS.ALL;
-  state.duplicatesOnly = state.cleanupFilter === CLEANUP_FILTERS.DUPLICATES;
-  state.sidebarCollapsed = Boolean(stored[DASHBOARD_STORAGE_KEYS.SIDEBAR_COLLAPSED]);
-  state.reviewSessions = Array.isArray(stored[STORAGE_KEYS.REVIEW_SESSIONS]) ? stored[STORAGE_KEYS.REVIEW_SESSIONS] : [];
-  state.cleanupHistory = Array.isArray(stored[STORAGE_KEYS.CLEANUP_HISTORY]) ? stored[STORAGE_KEYS.CLEANUP_HISTORY] : [];
-  state.reminderEnabled = Boolean(stored[STORAGE_KEYS.REVIEW_REMINDER_ENABLED]);
-  state.reminderIntervalDays = Number(stored[STORAGE_KEYS.REVIEW_REMINDER_INTERVAL_DAYS] || 14);
-  state.lastReviewAt = Number(stored[STORAGE_KEYS.REVIEW_REMINDER_LAST_REVIEW_AT] || 0);
-  state.nextReviewAt = Number(stored[STORAGE_KEYS.REVIEW_REMINDER_NEXT_AT] || 0);
-  state.themeMode = stored[STORAGE_KEYS.THEME_MODE] || THEME_MODES.SYSTEM;
-  applyTheme(state.themeMode);
-  applyPopupWidth();
-}
-
-async function savePreferences() {
-  await chrome.storage.local.set({
-    [DASHBOARD_STORAGE_KEYS.SORT]: state.sort,
-    [DASHBOARD_STORAGE_KEYS.DUPLICATES_ONLY]: state.duplicatesOnly,
-    [STORAGE_KEYS.IGNORE_QUERY]: state.ignoreQueryString,
-    [STORAGE_KEYS.IGNORE_HASH]: state.ignoreHashFragment,
-    [STORAGE_KEYS.POPUP_WIDTH]: state.popupWidth,
-    [STORAGE_KEYS.MERGE_STRATEGY]: state.mergeStrategy,
-    [DASHBOARD_STORAGE_KEYS.CLEANUP_FILTER]: state.cleanupFilter,
-    [DASHBOARD_STORAGE_KEYS.SIDEBAR_COLLAPSED]: state.sidebarCollapsed
-  });
-}
-
-function create(tag, className, text) {
-  const element = document.createElement(tag);
-  if (className) element.className = className;
-  if (text !== undefined) element.textContent = text;
-  return element;
-}
-
-
-function iconSvg(kind) {
-  const icons = {
-    bookmarks: `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5h8a1 1 0 0 1 1 1v9.2l-5-2.5-5 2.5V3.5a1 1 0 0 1 1-1Z"/></svg>`,
-    settings: `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 5.2a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6Zm5.1 2.8-.96.35a4.72 4.72 0 0 1-.33.79l.44.93-1.1 1.1-.93-.44a4.72 4.72 0 0 1-.79.33l-.35.96H6.91l-.35-.96a4.72 4.72 0 0 1-.79-.33l-.93.44-1.1-1.1.44-.93a4.72 4.72 0 0 1-.33-.79L2.9 8l.35-1.09c.07-.27.18-.53.33-.79l-.44-.93 1.1-1.1.93.44c.26-.15.52-.26.79-.33l.35-.96h2.18l.35.96c.27.07.53.18.79.33l.93-.44 1.1 1.1-.44.93c.15.26.26.52.33.79L13.1 8Z"/></svg>`,
-    system: `<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="3.2" width="11" height="7.8" rx="1.4"/><path d="M6.1 12.6h3.8M8 11v1.6"/></svg>`,
-    light: `<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="2.9"/><path d="M8 1.8v1.7M8 12.5v1.7M3.6 3.6l1.2 1.2M11.2 11.2l1.2 1.2M1.8 8h1.7M12.5 8h1.7M3.6 12.4l1.2-1.2M11.2 4.8l1.2-1.2"/></svg>`,
-    dark: `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.9 1.9A5.7 5.7 0 1 0 14.1 12 6.1 6.1 0 0 1 10.9 1.9Z"/></svg>`,
-    overview: `<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="3" width="4.2" height="4.2" rx="1"/><rect x="9.3" y="3" width="4.2" height="2.8" rx="1"/><rect x="9.3" y="7.2" width="4.2" height="5.8" rx="1"/><rect x="2.5" y="8.6" width="4.2" height="4.4" rx="1"/></svg>`,
-    cleanup: `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5.2h10"/><path d="M6.1 2.8h3.8"/><path d="M5 5.2l.6 7.3h4.8l.6-7.3"/></svg>`,
-    health: `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13.3s-4.7-2.8-4.7-6.5A2.6 2.6 0 0 1 8 5.3a2.6 2.6 0 0 1 4.7 1.5c0 3.7-4.7 6.5-4.7 6.5Z"/><path d="M6.3 8h3.4"/><path d="M8 6.3v3.4"/></svg>`,
-    history: `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3.1A4.9 4.9 0 1 1 3.6 6"/><path d="M2.8 2.8v3.1h3.1"/><path d="M8 5.5v2.8l1.9 1.1"/></svg>`,
-    chevronLeft: `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m9.8 3.2-4.3 4.8 4.3 4.8"/></svg>`,
-    chevronRight: `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6.2 3.2 4.3 4.8-4.3 4.8"/></svg>`,
-    info: `<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.8"/><path d="M8 7.1v3.2"/><circle cx="8" cy="4.9" r=".8" fill="currentColor" stroke="none"/></svg>`
-  };
-  return icons[kind] || icons.system;
-}
-
-function createIconButton(kind, title, classes = 'icon-button mono-icon-button') {
-  const button = create('button', classes);
-  button.type = 'button';
-  button.title = title;
-  button.setAttribute('aria-label', title);
-  button.innerHTML = iconSvg(kind);
-  return button;
-}
-
-async function updateThemeMode(mode) {
-  state.themeMode = mode;
-  applyTheme(mode);
-  await saveThemeMode(mode);
-  updateThemeControls();
-}
-
-function updateThemeControls() {
-  document.querySelectorAll('[data-theme-control]').forEach((button) => {
-    const active = button.dataset.themeControl === state.themeMode;
-    button.classList.toggle('active', active);
-    button.setAttribute('aria-pressed', active ? 'true' : 'false');
-  });
-}
-
-function createThemeControls() {
-  const wrap = create('div', 'theme-controls dashboard-theme-controls');
-  const items = [
-    { mode: THEME_MODES.SYSTEM, icon: 'system', title: 'Follow system theme' },
-    { mode: THEME_MODES.LIGHT, icon: 'light', title: 'Use light theme' },
-    { mode: THEME_MODES.DARK, icon: 'dark', title: 'Use dark theme' }
-  ];
-  for (const item of items) {
-    const button = createIconButton(item.icon, item.title, 'icon-button mono-icon-button theme-button');
-    button.dataset.themeControl = item.mode;
-    button.addEventListener('click', () => updateThemeMode(item.mode));
-    wrap.append(button);
+const actionTools = createActionTools({
+  state,
+  t,
+  formatNumber,
+  sendMessage,
+  // showConfirmDialog is defined by overlayTools which is initialised after
+  // actionTools.  The thunk defers the reference until first call, by which
+  // point overlayTools has already been created.  Do NOT replace with a direct
+  // reference here — it would be undefined at module evaluation time.
+  showConfirmDialog: (...args) => showConfirmDialog(...args),
+  previewDuplicateMerge: () => featureTools.showDuplicatePreview(),
+  setToast,
+  refreshData,
+  renderListOnly,
+  pushCleanupHistory,
+  invalidateBookmarkCache,
+  createBookmark,
+  updateBookmark,
+  removeBookmark,
+  moveBookmark,
+  getHealthRecord: (bookmark, map = state.healthByKey) => getHealthRecord(bookmark, map),
+  getRedirectedBookmarks,
+  groupDuplicates,
+  getSelectedBookmarks,
+  deselectBookmarks,
+  getCurrentPageBookmarkTarget: () => !!(state.tab?.url && state.target?.valid),
+  getCurrentPageBookmarkPayload: () => {
+    if (!state.tab?.url || !state.target?.valid) return null;
+    return { title: state.tab.title || state.target.hostname, url: state.tab.url };
   }
-  return wrap;
-}
+});
 
+const {
+  handleOpen,
+  handleRepairRedirects,
+  handleCopySelectedUrls,
+  handleDeleteMany,
+  handleMergeDuplicates,
+  handleSaveEdit,
+  handleBookmarkCurrentPage,
+  handleClearHealthData,
+  handleDragDropMove,
+  handleAddTag,
+  handleRemoveTag
+} = actionTools;
 
-function getHostnameSafe(url) {
-  try { return new URL(url).hostname || ''; } catch { return ''; }
-}
+const reviewTools = createReviewTools({
+  state,
+  t,
+  formatNumber,
+  isoNow,
+  now,
+  makeStableId,
+  saveReviewReminderPreferences,
+  sendMessage,
+  downloadTextFile,
+  render,
+  setToast,
+  modeLabel,
+  getScopeSummary,
+  getScopeHealthSummary,
+  summarizeHealth,
+  getBookmarksByHealthStatus: (statuses, items = state.visibleBookmarks) => getBookmarksByHealthStatus(statuses, items, state.healthByKey),
+  getRedirectedBookmarks: (items = state.visibleBookmarks) => getRedirectedBookmarks(items, state.healthByKey),
+  clearCleanupFilters,
+  toggleBookmarksSelection,
+  areBookmarksSelected,
+  handleSaveReviewSession,
+  inspectBookmarksHealth,
+  handleRepairRedirects,
+  runCleanupPreset,
+  handleMergeDuplicates,
+  pushCleanupHistory
+});
 
-function createFaviconNode(bookmark) {
-  const host = getHostnameSafe(bookmark.url);
-  const wrap = create('div', 'item-favicon');
-  const fallback = create('span', 'item-favicon-fallback', (host || bookmark.title || '?').trim().charAt(0).toUpperCase() || '?');
-  wrap.append(fallback);
-  if (host) {
-    const img = create('img', 'item-favicon-img');
-    img.alt = '';
-    img.loading = 'lazy';
-    img.referrerPolicy = 'no-referrer';
-    img.src = `${new URL(bookmark.url).origin}/favicon.ico`;
-    img.addEventListener('load', () => { wrap.classList.add('has-image'); });
-    img.addEventListener('error', () => { img.remove(); wrap.classList.remove('has-image'); });
-    wrap.prepend(img);
+const overlayTools = createOverlayTools({
+  state,
+  t,
+  render,
+  renderOverlaysOnly: (...args) => renderOverlaysOnly(...args),
+  create,
+  createIconButton,
+  createIconElement,
+  trapFocus,
+  sendMessage,
+  setPinOnboardingVisible,
+  getFixedMenuPosition,
+  applyFixedMenuPosition,
+  clampFixedMenuToViewport,
+  createThemeControls,
+  updateColorPalette: (...args) => updateColorPalette(...args),
+  COLOR_PALETTES,
+  getManifest,
+  getRuntimeUrl
+});
+const {
+  closeAboutModal,
+  closeConfirmDialog,
+  showConfirmDialog,
+  renderConfirmDialog,
+  renderAboutModal,
+  renderPinOnboarding,
+  closeHeaderMenu,
+  toggleHeaderMenu,
+  openSupportLink,
+  closeListHeadMenu,
+  toggleListHeadMenu,
+  createListHeadActionsMenu,
+  renderHeaderMenuOverlay,
+  renderListHeadMenuOverlay
+} = overlayTools;
+
+const renderTools = createRenderTools({
+  state,
+  t,
+  create,
+  iconSvg,
+  createIconButton,
+  createIconElement,
+  formatNumber,
+  debounce,
+  getManifest,
+  getRuntimeUrl,
+  getCleanupSummary,
+  getHealthRecord,
+  handleOpen,
+  buildInspectButton,
+  inspectBookmarksHealth,
+  renderItem,
+  render,
+  isGroupCollapsed,
+  toggleGroupCollapsed,
+  isGroupFullySelected,
+  toggleGroupSelection,
+  getGroupHealthSummary,
+  getInspectTargetBookmarks,
+  getInspectButtonLabel,
+  modeLabel,
+  getScopedBookmarks,
+  getScopeSummary,
+  getCleanupCount,
+  cleanupFilterLabel,
+  groupByLabel,
+  getGroupedVisibleBookmarks,
+  setAllGroupsCollapsed,
+  setCleanupFilter,
+  handleCopySelectedUrls,
+  handleDeleteMany,
+  createListHeadActionsMenu,
+  handleRepairRedirects,
+  handleExport,
+  openSupportLink,
+  toggleHeaderMenu,
+  recalculateVisibleBookmarks,
+  renderListOnly,
+  updateGroupBy,
+  updateGroupSort,
+  updateSort,
+  groupSortLabel,
+  searchInputRefAccessor: {
+    get: () => searchInputRef,
+    set: (value) => { searchInputRef = value; }
   }
-  return wrap;
+});
+const {
+  renderHeader,
+  renderToolbar,
+  renderBulkBar,
+  renderGroupDisplayControl,
+  renderBookmarkGroup
+} = renderTools;
+
+const {
+  formatActionType,
+  getHistoryTrends,
+  buildReviewReport,
+  exportReviewReport,
+  buildReminderState,
+  getReminderState,
+  computeHealthScore,
+  buildSmartRecommendations,
+  getReviewQueue,
+  persistReminderSettings,
+  handleUpdateReminderSettings,
+  handleMarkReviewedNow
+} = reviewTools;
+
+
+function getBookmarkHostLabel(url) {
+  const host = getHostnameSafe(url);
+  if (!host) return t('Unknown host');
+  return host.replace(/^www\./i, '') || host;
 }
-function modeLabel(mode) {
-  switch (mode) {
-    case MATCH_MODES.PAGE:
-      return 'This page';
-    case MATCH_MODES.HOST:
-      return 'This host';
-    case MATCH_MODES.DOMAIN:
-      return 'This domain';
-    case DASHBOARD_MODE:
-      return 'Entire library';
-    default:
-      return 'This domain';
+
+function formatAgeCompact(days) {
+  if (!Number.isFinite(days) || days < 0) return t('Old');
+  if (days >= 365) return t('~{{count}} years old', { count: formatNumber(Math.max(1, Math.round(days / 365))) });
+  if (days >= 45) return t('~{{count}} months old', { count: formatNumber(Math.max(2, Math.round(days / 30))) });
+  return t('{{count}} days old', { count: formatNumber(days) });
+}
+
+function formatAgeHuman(days) {
+  if (!Number.isFinite(days) || days < 0) return t('Unknown');
+  if (days >= 365) {
+    const years = Math.max(1, Math.round(days / 365));
+    return t('About {{years}} years ago', { years: formatNumber(years) });
   }
-}
-
-function selectedBookmarks() {
-  return state.visibleBookmarks.filter((bookmark) => state.selectedIds.has(bookmark.id));
-}
-
-function cleanupSelection() {
-  const validIds = new Set(state.visibleBookmarks.map((item) => item.id));
-  state.selectedIds = new Set([...state.selectedIds].filter((id) => validIds.has(id)));
-}
-
-function ensureActiveBookmark() {
-  const validIds = new Set(state.visibleBookmarks.map((item) => item.id));
-  if (state.activeBookmarkId && validIds.has(state.activeBookmarkId)) return;
-  state.activeBookmarkId = state.visibleBookmarks[0]?.id || null;
-}
-
-function getActiveBookmark() {
-  return state.visibleBookmarks.find((bookmark) => bookmark.id === state.activeBookmarkId) || null;
-}
-
-function moveActiveBookmark(direction) {
-  if (!state.visibleBookmarks.length) {
-    state.activeBookmarkId = null;
-    return;
+  if (days >= 45) {
+    const months = Math.max(2, Math.round(days / 30));
+    return t('About {{months}} months ago', { months: formatNumber(months) });
   }
-  const currentIndex = state.visibleBookmarks.findIndex((bookmark) => bookmark.id === state.activeBookmarkId);
-  const baseIndex = currentIndex >= 0 ? currentIndex : 0;
-  const nextIndex = Math.max(0, Math.min(state.visibleBookmarks.length - 1, baseIndex + direction));
-  state.activeBookmarkId = state.visibleBookmarks[nextIndex]?.id || state.visibleBookmarks[0]?.id || null;
-  state.shouldScrollActiveIntoView = true;
-}
-
-function rememberListScroll() {
-  const listScroll = app?.querySelector('.list-scroll');
-  if (listScroll) state.listScrollTop = listScroll.scrollTop;
-}
-
-function setActiveBookmark(bookmarkId) {
-  state.activeBookmarkId = bookmarkId;
-}
-
-function getScopedBookmarks() {
-  return state.scopedBookmarks || [];
-}
-
-function getScopeSummary() {
-  return state.scopeSummary || getCleanupSummary(getScopedBookmarks());
-}
-
-function getLibrarySummary() {
-  return state.librarySummary || getCleanupSummary(state.allBookmarks || []);
-}
-
-function getViewStats() {
-  const scoped = getScopedBookmarks();
-  const visible = state.visibleBookmarks || [];
-  return {
-    scopedCount: scoped.length,
-    visibleCount: visible.length,
-    selectedCount: state.selectedIds?.size || 0,
-    duplicateCount: state.visibleSummary?.duplicateCount || 0,
-    duplicateGroupCount: state.visibleDuplicateGroups || 0,
-    folderCount: state.scopeFolderCount || 0
-  };
-}
-
-function getHealthKey(bookmark) {
-  return bookmark?.parsed?.normalizedPageKey || bookmark?.url || '';
-}
-
-function getHealthRecord(bookmark) {
-  const key = getHealthKey(bookmark);
-  return key ? state.healthByKey[key] || null : null;
-}
-
-function summarizeHealth(items) {
-  const summary = {
-    checked: 0,
-    healthy: 0,
-    redirected: 0,
-    broken: 0,
-    serverError: 0,
-    unreachable: 0,
-    unknown: 0
-  };
-  const seen = new Set();
-  for (const item of items || []) {
-    const key = getHealthKey(item);
-    if (!key || seen.has(key)) continue;
-    seen.add(key);
-    const record = state.healthByKey[key];
-    if (!record) {
-      summary.unknown += 1;
-      continue;
-    }
-    summary.checked += 1;
-    switch (record.status) {
-      case HEALTH_STATUSES.HEALTHY:
-        summary.healthy += 1;
-        break;
-      case HEALTH_STATUSES.REDIRECTED:
-        summary.redirected += 1;
-        break;
-      case HEALTH_STATUSES.BROKEN:
-        summary.broken += 1;
-        break;
-      case HEALTH_STATUSES.SERVER_ERROR:
-        summary.serverError += 1;
-        break;
-      case HEALTH_STATUSES.UNREACHABLE:
-        summary.unreachable += 1;
-        break;
-      case HEALTH_STATUSES.UNKNOWN:
-      default:
-        summary.unknown += 1;
-        break;
-    }
-  }
-  return summary;
-}
-
-
-function getBookmarksByHealthStatus(statuses, items = state.visibleBookmarks) {
-  const wanted = new Set(statuses);
-  return (items || []).filter((bookmark) => {
-    const record = getHealthRecord(bookmark);
-    return record && wanted.has(record.status);
-  });
-}
-
-function getRedirectedBookmarks(items = state.visibleBookmarks) {
-  return (items || []).filter((bookmark) => {
-    const record = getHealthRecord(bookmark);
-    return record && record.status === HEALTH_STATUSES.REDIRECTED && record.finalUrl && record.finalUrl !== bookmark.url;
-  });
-}
-
-function getReviewQueue() {
-  const scopeSummary = getScopeSummary();
-  const health = state.healthSummary || summarizeHealth(state.visibleBookmarks);
-  const unhealthyBookmarks = getBookmarksByHealthStatus([
-    HEALTH_STATUSES.BROKEN,
-    HEALTH_STATUSES.SERVER_ERROR,
-    HEALTH_STATUSES.UNREACHABLE
-  ]);
-  const redirectedBookmarks = getRedirectedBookmarks();
-  const cards = [];
-
-  if (unhealthyBookmarks.length) {
-    cards.push({
-      id: 'unhealthy',
-      tone: 'danger',
-      title: 'Unhealthy links need triage',
-      body: `${unhealthyBookmarks.length} visible bookmark${unhealthyBookmarks.length === 1 ? '' : 's'} failed health checks. Broken junk should not squat in your library.`,
-      actions: [
-        { label: 'Select unhealthy', run: () => selectBookmarks(unhealthyBookmarks) },
-        { label: 'Review unhealthy', run: () => { clearCleanupFilters(); state.query = ''; render(); } }
-      ]
-    });
-  }
-
-  if (redirectedBookmarks.length) {
-    cards.push({
-      id: 'redirects',
-      tone: 'warning',
-      title: 'Redirected URLs can be repaired',
-      body: `${redirectedBookmarks.length} visible bookmark${redirectedBookmarks.length === 1 ? '' : 's'} point to a redirect. Update them to the final destination and cut the detour.`,
-      actions: [
-        { label: 'Select redirected', run: () => selectBookmarks(redirectedBookmarks) },
-        { label: 'Repair redirected', run: () => handleRepairRedirects(redirectedBookmarks) }
-      ]
-    });
-  }
-
-  if (scopeSummary.oldCount) {
-    cards.push({
-      id: 'stale',
-      tone: 'muted',
-      title: 'Stale bookmarks deserve review',
-      body: `${scopeSummary.oldCount} bookmark${scopeSummary.oldCount === 1 ? '' : 's'} in this scope are older than ${OLD_BOOKMARK_DAYS} days. Old is not always bad, but it is where dead knowledge likes to hide.`,
-      actions: [
-        { label: 'Review stale', run: () => runCleanupPreset(CLEANUP_FILTERS.OLD, 'age:old') }
-      ]
-    });
-  }
-
-  if (scopeSummary.duplicateGroupCount) {
-    cards.push({
-      id: 'duplicates',
-      tone: 'muted',
-      title: 'Duplicate groups are wasting oxygen',
-      body: `${scopeSummary.duplicateGroupCount} duplicate group${scopeSummary.duplicateGroupCount === 1 ? '' : 's'} found in this scope. Same URL, multiple corpses.`,
-      actions: [
-        { label: 'Review duplicates', run: () => runCleanupPreset(CLEANUP_FILTERS.DUPLICATES, 'is:duplicate') },
-        { label: 'Merge visible duplicates', run: () => handleMergeDuplicates() }
-      ]
-    });
-  }
-
-  if (scopeSummary.untitledCount || scopeSummary.titleCollisionCount) {
-    cards.push({
-      id: 'metadata',
-      tone: 'muted',
-      title: 'Metadata cleanup is still cleanup',
-      body: `${scopeSummary.untitledCount} untitled and ${scopeSummary.titleCollisionCount} title-collision bookmark${scopeSummary.titleCollisionCount === 1 ? '' : 's'} are muddying the water.`,
-      actions: [
-        { label: 'Review untitled', run: () => runCleanupPreset(CLEANUP_FILTERS.UNTITLED, 'is:untitled') },
-        { label: 'Review collisions', run: () => runCleanupPreset(CLEANUP_FILTERS.TITLE_COLLISIONS, 'is:title-collision') }
-      ]
-    });
-  }
-
-  if (!cards.length) {
-    cards.push({
-      id: 'healthy',
-      tone: 'success',
-      title: 'Review queue is clear',
-      body: health.checked ? 'Nothing obvious is screaming for attention in this visible scope. Miracles happen.' : 'No obvious cleanup priority yet. Run a health scan if you want the queue to get pickier.',
-      actions: []
-    });
-  }
-
-  return cards;
-}
-
-function healthLabel(record) {
-  if (!record) return 'Unchecked';
-  switch (record.status) {
-    case HEALTH_STATUSES.HEALTHY:
-      return record.statusCode ? `Healthy ${record.statusCode}` : 'Healthy';
-    case HEALTH_STATUSES.REDIRECTED:
-      return record.statusCode ? `Redirected ${record.statusCode}` : 'Redirected';
-    case HEALTH_STATUSES.BROKEN:
-      return record.statusCode ? `Broken ${record.statusCode}` : 'Broken';
-    case HEALTH_STATUSES.SERVER_ERROR:
-      return record.statusCode ? `Server ${record.statusCode}` : 'Server error';
-    case HEALTH_STATUSES.UNREACHABLE:
-      return 'Unreachable';
-    case HEALTH_STATUSES.UNKNOWN:
-    default:
-      return 'Unchecked';
-  }
-}
-
-function healthBadgeClass(record) {
-  if (!record) return 'duplicate-badge';
-  switch (record.status) {
-    case HEALTH_STATUSES.HEALTHY:
-      return 'duplicate-badge health-healthy';
-    case HEALTH_STATUSES.REDIRECTED:
-      return 'duplicate-badge health-redirected';
-    case HEALTH_STATUSES.BROKEN:
-      return 'duplicate-badge health-broken';
-    case HEALTH_STATUSES.SERVER_ERROR:
-      return 'duplicate-badge health-server-error';
-    case HEALTH_STATUSES.UNREACHABLE:
-      return 'duplicate-badge health-unreachable';
-    default:
-      return 'duplicate-badge';
-  }
-}
-
-function bookmarkStatusBadgeClass(label) {
-  const normalized = String(label || '').toLowerCase();
-  if (normalized.startsWith('old ')) return 'duplicate-badge status-old';
-  if (normalized.includes('duplicate')) return 'duplicate-badge status-duplicate';
-  if (normalized.includes('untitled')) return 'duplicate-badge status-untitled';
-  if (normalized.includes('collision')) return 'duplicate-badge status-collision';
-  return 'duplicate-badge';
-}
-
-function buildInspectButton(label, totalCount, className = 'ghost-button') {
-  const text = state.isInspectingHealth ? `Inspecting ${state.healthScanProgress}/${Math.max(totalCount, 0)}` : label;
-  const button = create('button', `${className}${state.isInspectingHealth ? ' inspect-progress-button is-running' : ''}`, text);
-  button.type = 'button';
-  if (state.isInspectingHealth) {
-    const progress = totalCount > 0 ? Math.min(1, state.healthScanProgress / totalCount) : 0;
-    button.style.setProperty('--inspect-progress', `${progress * 100}%`);
-    button.setAttribute('aria-busy', 'true');
-  } else {
-    button.style.removeProperty('--inspect-progress');
-    button.removeAttribute('aria-busy');
-  }
-  button.disabled = state.isInspectingHealth || totalCount === 0;
-  return button;
-}
-
-async function inspectUrlHealth(url) {
-  const methods = ['HEAD', 'GET'];
-  for (const method of methods) {
-    const controller = new AbortController();
-    const timeoutId = window.setTimeout(() => controller.abort(), HEALTH_SCAN_TIMEOUT_MS);
-    try {
-      const response = await fetch(url, {
-        method,
-        redirect: 'follow',
-        cache: 'no-store',
-        signal: controller.signal
-      });
-      window.clearTimeout(timeoutId);
-      const finalUrl = response.url || url;
-      const sameUrl = finalUrl === url;
-      if (response.status >= 500) {
-        return { status: HEALTH_STATUSES.SERVER_ERROR, statusCode: response.status, checkedAt: Date.now(), finalUrl, method };
-      }
-      if (response.status >= 400) {
-        return { status: HEALTH_STATUSES.BROKEN, statusCode: response.status, checkedAt: Date.now(), finalUrl, method };
-      }
-      if (response.redirected || !sameUrl) {
-        return { status: HEALTH_STATUSES.REDIRECTED, statusCode: response.status, checkedAt: Date.now(), finalUrl, method };
-      }
-      return { status: HEALTH_STATUSES.HEALTHY, statusCode: response.status, checkedAt: Date.now(), finalUrl, method };
-    } catch (error) {
-      window.clearTimeout(timeoutId);
-      const message = String(error?.message || error || '').toLowerCase();
-      if (method === 'HEAD' && (message.includes('405') || message.includes('method') || message.includes('not allowed'))) {
-        continue;
-      }
-      if (method === 'HEAD') continue;
-      return { status: HEALTH_STATUSES.UNREACHABLE, error: error?.message || 'Network failure', checkedAt: Date.now(), finalUrl: url, method };
-    }
-  }
-  return { status: HEALTH_STATUSES.UNKNOWN, checkedAt: Date.now(), finalUrl: url };
-}
-
-async function runWithConcurrency(items, limit, worker) {
-  const queue = [...items];
-  const workers = Array.from({ length: Math.min(limit, Math.max(1, queue.length)) }, async () => {
-    while (queue.length) {
-      const next = queue.shift();
-      if (next) await worker(next);
-    }
-  });
-  await Promise.all(workers);
-}
-
-async function inspectBookmarksHealth(bookmarks) {
-  const unique = [];
-  const seen = new Set();
-  for (const bookmark of bookmarks || []) {
-    const key = getHealthKey(bookmark);
-    if (!key || seen.has(key)) continue;
-    seen.add(key);
-    unique.push(bookmark);
-  }
-
-  if (!unique.length) {
-    setToast('No visible links to inspect. Empty battlefield.', { error: true });
-    return;
-  }
-
-  state.isInspectingHealth = true;
-  state.healthScanProgress = 0;
-  render();
-
-  await runWithConcurrency(unique, HEALTH_SCAN_CONCURRENCY, async (bookmark) => {
-    const record = await inspectUrlHealth(bookmark.url);
-    state.healthByKey[getHealthKey(bookmark)] = record;
-    state.healthScanProgress += 1;
-    state.healthSummary = summarizeHealth(state.visibleBookmarks);
-    render();
-  });
-
-  state.isInspectingHealth = false;
-  state.healthLastRunAt = Date.now();
-  state.healthSummary = summarizeHealth(state.visibleBookmarks);
-  await pushCleanupHistory({
-    type: 'health-scan',
-    count: unique.length,
-    metrics: {
-      healthy: state.healthSummary?.healthy || 0,
-      redirected: state.healthSummary?.redirected || 0,
-      broken: state.healthSummary?.broken || 0,
-      serverError: state.healthSummary?.serverError || 0,
-      unreachable: state.healthSummary?.unreachable || 0
-    },
-    note: `Health scan finished for ${modeLabel(state.mode).toLowerCase()} visible scope.`
-  });
-  render();
-  const summary = state.healthSummary;
-  setToast(`Health scan finished: ${summary.healthy} healthy · ${summary.redirected} redirected · ${summary.broken} broken · ${summary.serverError} server · ${summary.unreachable} unreachable.`);
+  return t('{{days}} days ago', { days: formatNumber(days) });
 }
 
 function createHighlightedFragment(text, query) {
@@ -677,7 +471,7 @@ function createHighlightedFragment(text, query) {
 
   while (startIndex < source.length) {
     const matchIndex = lowerSource.indexOf(lowerNeedle, startIndex);
-    if (matchIndex === -1) {
+    if (matchIndex == -1) {
       fragment.append(document.createTextNode(source.slice(startIndex)));
       break;
     }
@@ -686,7 +480,8 @@ function createHighlightedFragment(text, query) {
       fragment.append(document.createTextNode(source.slice(startIndex, matchIndex)));
     }
 
-    const mark = create('mark', 'highlight-match');
+    const mark = document.createElement('mark');
+    mark.className = 'highlight-match';
     mark.textContent = source.slice(matchIndex, matchIndex + needle.length);
     fragment.append(mark);
     startIndex = matchIndex + needle.length;
@@ -695,61 +490,298 @@ function createHighlightedFragment(text, query) {
   return fragment;
 }
 
-function cleanupFilterLabel(filter) {
-  switch (filter) {
-    case CLEANUP_FILTERS.DUPLICATES:
-      return 'Duplicate URLs';
-    case CLEANUP_FILTERS.UNTITLED:
-      return 'Untitled';
-    case CLEANUP_FILTERS.OLD:
-      return `Old (${OLD_BOOKMARK_DAYS}+ days)`;
-    case CLEANUP_FILTERS.TITLE_COLLISIONS:
-      return 'Title collisions';
-    case CLEANUP_FILTERS.ALL:
-    default:
-      return 'All items';
+let dashboardGlobalDismissAttached = false;
+
+function attachGlobalDismissHandlers() {
+  if (dashboardGlobalDismissAttached) return;
+  dashboardGlobalDismissAttached = true;
+
+  document.addEventListener('pointerdown', (event) => {
+    if (!app?.childElementCount) return;
+
+    let shouldRender = false;
+
+    if (state.headerMenuOpen && !event.target.closest('.dashboard-header-menu-wrap, .dashboard-header-menu-portal')) {
+      state.headerMenuOpen = false;
+      state.headerMenuPosition = null;
+      shouldRender = true;
+    }
+
+    if (state.listHeadMenuOpen && !event.target.closest('.dashboard-list-actions-menu-wrap, .dashboard-list-head-menu-portal')) {
+      state.listHeadMenuOpen = false;
+      state.listHeadMenuPosition = null;
+      shouldRender = true;
+    }
+
+    if (state.rowMenuBookmarkId && !event.target.closest('.item-more-wrap, .item-more-menu-portal')) {
+      state.rowMenuBookmarkId = null;
+      state.rowMenuPosition = null;
+      shouldRender = true;
+    }
+
+    if (state.sidebarOverlayOpen && isSidebarOverlayMode() && !event.target.closest('.dashboard-sidebar')) {
+      clearSidebarOverlayHideTimer();
+      state.sidebarOverlayOpen = false;
+      shouldRender = true;
+    }
+
+    if (shouldRender) renderOverlaysOnly();
+  }, true);
+}
+
+async function sendMessage(message) {
+  const type = message?.type || '';
+  if (!type || !Object.values(MESSAGE_TYPES).includes(type)) {
+    throw new Error(t('Unknown request type.'));
+  }
+  try {
+    return await sendRuntimeMessage(message);
+  } catch (error) {
+    console.warn('Runtime message failed.', error);
+    throw new Error(error?.message || t('Unexpected error.'));
   }
 }
 
-function getCleanupCount(filter) {
-  const summary = getScopeSummary();
-  switch (filter) {
-    case CLEANUP_FILTERS.DUPLICATES:
-      return summary.duplicateCount;
-    case CLEANUP_FILTERS.UNTITLED:
-      return summary.untitledCount;
-    case CLEANUP_FILTERS.OLD:
-      return summary.oldCount;
-    case CLEANUP_FILTERS.TITLE_COLLISIONS:
-      return summary.titleCollisionCount;
-    case CLEANUP_FILTERS.ALL:
-    default:
-      return summary.total;
+// Set by applyContextMenuParams(): a context-menu or shortcut deep link names the
+// page to scope to. The dashboard tab itself is never a valid scope target, so
+// refreshData() must not replace it with the active (dashboard) tab.
+let contextOverrideTab = null;
+
+async function getActiveTabContext() {
+  if (contextOverrideTab?.url) {
+    return { tab: contextOverrideTab, target: getMatchTarget(contextOverrideTab.url, getParseOptions()) };
+  }
+  try {
+    const tabs = await queryTabs({ active: true, currentWindow: true });
+    const tab = tabs?.[0] || null;
+    return { tab, target: tab?.url ? getMatchTarget(tab.url, getParseOptions()) : null };
+  } catch (error) {
+    console.warn('Direct tab lookup failed.', error);
+  }
+
+  const response = await sendMessage(runtimeMessages.getActiveTabContext());
+  return {
+    tab: response?.tab || null,
+    target: response?.tab?.url ? getMatchTarget(response.tab.url, getParseOptions()) : response?.target || null
+  };
+}
+
+function getParseOptions() {
+  return {
+    ignoreQueryString: state.ignoreQueryString,
+    ignoreHashFragment: state.ignoreHashFragment
+  };
+}
+
+function applyPopupWidth() {
+  const width = state.popupWidth === POPUP_WIDTHS.COMPACT ? '380px' : '420px';
+  document.documentElement.style.setProperty('--popup-width', width);
+}
+
+async function loadPreferences() {
+  const prefs = await loadDashboardPreferences();
+  await logger.debug('preferences_loaded', { groupBy: prefs.groupBy, sort: prefs.sort });
+
+  state.mode = DASHBOARD_MODE;
+  state.sort = prefs.sort;
+  state.ignoreQueryString = prefs.ignoreQueryString;
+  state.ignoreHashFragment = prefs.ignoreHashFragment;
+  state.popupWidth = prefs.popupWidth;
+  state.mergeStrategy = prefs.mergeStrategy;
+  state.cleanupFilter = prefs.cleanupFilter;
+  state.duplicatesOnly = prefs.duplicatesOnly;
+  state.sidebarCollapsed = prefs.sidebarCollapsed;
+  state.groupBy = prefs.groupBy;
+  state.groupSort = prefs.groupSort;
+  state.reviewSessions = prefs.reviewSessions;
+  state.cleanupHistory = prefs.cleanupHistory;
+  state.reminderEnabled = prefs.reminderEnabled;
+  state.reminderIntervalDays = prefs.reminderIntervalDays;
+  state.lastReviewAt = prefs.lastReviewAt;
+  state.nextReviewAt = prefs.nextReviewAt;
+  state.themeMode = prefs.themeMode;
+  state.pinOnboardingVisible = prefs.pinOnboardingVisible;
+  applyTheme(state.themeMode);
+  applyPopupWidth();
+}
+
+async function savePreferences() {
+  await saveDashboardPreferences({
+    sort: state.sort,
+    duplicatesOnly: state.duplicatesOnly,
+    ignoreQueryString: state.ignoreQueryString,
+    ignoreHashFragment: state.ignoreHashFragment,
+    popupWidth: state.popupWidth,
+    mergeStrategy: state.mergeStrategy,
+    cleanupFilter: state.cleanupFilter,
+    sidebarCollapsed: state.sidebarCollapsed,
+    groupBy: state.groupBy,
+    groupSort: state.groupSort
+  }, () => state.inspectAbortRequested);
+}
+
+function create(tag, className, text) {
+  const element = document.createElement(tag);
+  if (className) element.className = className;
+  if (text !== undefined) element.textContent = text;
+  return element;
+}
+
+function isRtlDocument() {
+  return document?.documentElement?.dir === 'rtl';
+}
+
+function getFixedMenuPosition(anchorRect, gap = 8) {
+  const position = {
+    top: Math.max(12, Math.round(anchorRect.bottom + gap))
+  };
+
+  if (isRtlDocument()) {
+    position.left = Math.max(12, Math.round(anchorRect.left));
+  } else {
+    position.right = Math.max(12, Math.round(window.innerWidth - anchorRect.right));
+  }
+
+  return position;
+}
+
+function applyFixedMenuPosition(element, position) {
+  if (!element || !position) return;
+  element.style.position = 'fixed';
+  element.style.top = `${position.top}px`;
+  if (Number.isFinite(position.left)) {
+    element.style.left = `${position.left}px`;
+    element.style.right = 'auto';
+  } else if (Number.isFinite(position.right)) {
+    element.style.right = `${position.right}px`;
+    element.style.left = 'auto';
   }
 }
 
-async function setCleanupFilter(filter) {
-  state.cleanupFilter = filter;
-  state.duplicatesOnly = filter === CLEANUP_FILTERS.DUPLICATES;
-  await savePreferences();
-  recalculateVisibleBookmarks();
-  render();
+function clampFixedMenuToViewport(element, margin = 12) {
+  if (!element) return;
+  const rect = element.getBoundingClientRect();
+  let left = rect.left;
+  let top = rect.top;
+
+  if (rect.right > window.innerWidth - margin) {
+    left -= rect.right - (window.innerWidth - margin);
+  }
+  if (left < margin) {
+    left = margin;
+  }
+
+  if (rect.bottom > window.innerHeight - margin) {
+    top -= rect.bottom - (window.innerHeight - margin);
+  }
+  if (top < margin) {
+    top = margin;
+  }
+
+  element.style.left = `${Math.round(left)}px`;
+  element.style.right = 'auto';
+  element.style.top = `${Math.round(top)}px`;
 }
 
-function clearCleanupFilters() {
-  state.cleanupFilter = CLEANUP_FILTERS.ALL;
-  state.duplicatesOnly = false;
+
+const SIDEBAR_OVERLAY_MAX_WIDTH = 1320;
+const SIDEBAR_STACK_MAX_WIDTH = 860;
+
+function isSidebarOverlayMode() {
+  const width = window.innerWidth || document.documentElement.clientWidth || 0;
+  return state.sidebarCollapsed || (width <= SIDEBAR_OVERLAY_MAX_WIDTH && width > SIDEBAR_STACK_MAX_WIDTH);
 }
 
-function runCleanupPreset(filter, query = '') {
-  state.cleanupFilter = filter;
-  state.duplicatesOnly = filter === CLEANUP_FILTERS.DUPLICATES;
-  state.query = query;
-  state.focusSearchAfterRender = true;
-  savePreferences();
-  recalculateVisibleBookmarks();
-  render();
+let sidebarOverlayHideTimer = 0;
+
+function clearSidebarOverlayHideTimer() {
+  if (sidebarOverlayHideTimer) {
+    clearTimeout(sidebarOverlayHideTimer);
+    sidebarOverlayHideTimer = 0;
+  }
 }
+
+function closeSidebarOverlay() {
+  clearSidebarOverlayHideTimer();
+  if (!state.sidebarOverlayOpen) return;
+  state.sidebarOverlayOpen = false;
+  renderOverlaysOnly();
+}
+
+function scheduleSidebarOverlayClose(delay = 180) {
+  clearSidebarOverlayHideTimer();
+  if (!state.sidebarOverlayOpen || !isSidebarOverlayMode()) return;
+  sidebarOverlayHideTimer = setTimeout(() => {
+    sidebarOverlayHideTimer = 0;
+    if (!state.sidebarOverlayOpen || !isSidebarOverlayMode()) return;
+    state.sidebarOverlayOpen = false;
+    renderOverlaysOnly();
+  }, delay);
+}
+
+let resizeRaf = 0;
+function handleResponsiveResize() {
+  if (resizeRaf) cancelAnimationFrame(resizeRaf);
+  resizeRaf = requestAnimationFrame(() => {
+    resizeRaf = 0;
+    if (!app.childElementCount) return;
+    if (!isSidebarOverlayMode()) state.sidebarOverlayOpen = false;
+    state.headerMenuOpen = false;
+    state.headerMenuPosition = null;
+    state.listHeadMenuOpen = false;
+    state.listHeadMenuPosition = null;
+    render();
+  });
+}
+
+
+async function updateThemeMode(mode) {
+  state.themeMode = mode;
+  applyTheme(mode);
+  await saveThemeMode(mode);
+  updateThemeControls();
+}
+
+async function updateColorPalette(palette) {
+  state.colorPalette = palette;
+  applyPalette(palette);
+  await saveColorPalette(palette);
+  updatePaletteControls();
+}
+
+function updatePaletteControls() {
+  document.querySelectorAll('[data-palette-control]').forEach((button) => {
+    const active = button.dataset.paletteControl === state.colorPalette;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
+}
+
+function updateThemeControls() {
+  document.querySelectorAll('[data-theme-control]').forEach((button) => {
+    const active = button.dataset.themeControl === state.themeMode;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
+}
+
+function createThemeControls() {
+  const wrap = create('div', 'theme-controls dashboard-theme-controls');
+  const items = [
+    { mode: THEME_MODES.SYSTEM, icon: 'system', title: t('Follow system theme') },
+    { mode: THEME_MODES.LIGHT, icon: 'light', title: t('Use light theme') },
+    { mode: THEME_MODES.DARK, icon: 'dark', title: t('Use dark theme') }
+  ];
+  for (const item of items) {
+    const button = createIconButton(item.icon, item.title, 'icon-button mono-icon-button theme-button');
+    button.dataset.themeControl = item.mode;
+    button.addEventListener('click', () => updateThemeMode(item.mode));
+    wrap.append(button);
+  }
+  return wrap;
+}
+
+
 
 function recalculateVisibleBookmarks() {
   if (state.mode !== DASHBOARD_MODE && !state.target?.valid) {
@@ -760,7 +792,7 @@ function recalculateVisibleBookmarks() {
     state.visibleDuplicateGroups = 0;
     state.newestVisibleBookmark = null;
     state.visibleBookmarks = [];
-    state.selectedIds.clear();
+    clearSelection();
     return;
   }
 
@@ -775,13 +807,15 @@ function recalculateVisibleBookmarks() {
     state.query,
     {
       duplicatesOnly: state.duplicatesOnly,
-      cleanupFilter: state.cleanupFilter
+      cleanupFilter: state.cleanupFilter,
+      tagsByBookmark: state.tagsByBookmark,
+      requiredTags: state.activeTagFilter
     }
   );
 
   state.visibleBookmarks = sortBookmarks(filtered, state.sort);
   state.visibleSummary = getCleanupSummary(state.visibleBookmarks);
-  state.healthSummary = summarizeHealth(state.visibleBookmarks);
+  state.healthSummary = summarizeHealth(state.visibleBookmarks, state.healthByKey);
   state.visibleDuplicateGroups = state.visibleSummary.duplicateGroupCount;
   state.newestVisibleBookmark = state.visibleBookmarks.reduce((best, bookmark) => {
     if (!best) return bookmark;
@@ -798,6 +832,7 @@ async function refreshData() {
   state.allBookmarks = detectDuplicates(await getNormalizedBookmarks(getParseOptions()));
   state.librarySummary = getCleanupSummary(state.allBookmarks);
   recalculateVisibleBookmarks();
+  await logger.debug('data_refreshed', { totalBookmarks: state.allBookmarks.length, visibleBookmarks: state.visibleBookmarks.length });
 }
 
 function setToast(message, options = {}) {
@@ -809,11 +844,12 @@ function setToast(message, options = {}) {
     action: typeof options.action === 'function' ? options.action : null,
     persist: Boolean(options.persist)
   };
-  render();
+  // Use targeted toast-only render to avoid rebuilding the entire panel
+  renderToastOnly();
   if (!state.toast.persist) {
     setToast.timeoutId = window.setTimeout(() => {
       state.toast = null;
-      render();
+      renderToastOnly();
     }, options.duration ?? 2600);
   }
 }
@@ -824,26 +860,22 @@ function clearToast() {
 }
 
 async function persistReviewSessions() {
-  await chrome.storage.local.set({
-    [STORAGE_KEYS.REVIEW_SESSIONS]: state.reviewSessions.slice(0, 20)
-  });
+  await saveReviewSessions(state.reviewSessions, 20);
 }
 
 async function persistCleanupHistory() {
-  await chrome.storage.local.set({
-    [STORAGE_KEYS.CLEANUP_HISTORY]: state.cleanupHistory.slice(0, 60)
-  });
+  await saveCleanupHistory(state.cleanupHistory, 60);
 }
 
 function buildSessionSnapshot() {
   return {
-    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-    createdAt: Date.now(),
+    id: makeStableId('review-session'),
+    createdAt: now(),
     mode: state.mode,
     query: state.query,
     cleanupFilter: state.cleanupFilter,
     duplicatesOnly: state.duplicatesOnly,
-    targetLabel: state.target?.label || 'Unknown scope',
+    targetLabel: state.target?.label || t('Unknown scope'),
     targetSubtitle: state.target?.subtitle || '',
     targetValue: state.target?.modeValue || state.target?.hostname || state.target?.domain || state.target?.normalizedPageKey || '',
     summary: {
@@ -861,20 +893,20 @@ function buildSessionSnapshot() {
 
 async function handleSaveReviewSession() {
   if (state.mode !== DASHBOARD_MODE && !state.target?.valid) {
-    setToast('Cannot save a session for a page the extension cannot parse.', { error: true });
+    setToast(t('Cannot save a session for a page the extension cannot parse.'), { error: true });
     return;
   }
   const session = buildSessionSnapshot();
   state.reviewSessions = [session, ...state.reviewSessions.filter((item) => item.id !== session.id)].slice(0, 20);
   await persistReviewSessions();
-  setToast(`Saved review session for ${modeLabel(state.mode).toLowerCase()}. Future-you now has breadcrumbs.`);
+  setToast(t('Saved review session for {{scope}}. Future-you now has breadcrumbs.', { scope: modeLabel(state.mode).toLowerCase() }));
   render();
 }
 
 async function handleRestoreReviewSession(sessionId) {
   const session = state.reviewSessions.find((item) => item.id === sessionId);
   if (!session) {
-    setToast('That saved session evaporated.', { error: true });
+    setToast(t('That saved session evaporated.'), { error: true });
     return;
   }
   state.mode = session.mode || MATCH_MODES.DOMAIN;
@@ -885,23 +917,25 @@ async function handleRestoreReviewSession(sessionId) {
   await savePreferences();
   recalculateVisibleBookmarks();
   state.focusSearchAfterRender = true;
-  setToast(`Restored session from ${new Date(session.createdAt).toLocaleString()}.`);
+  setToast(t('Restored session from {{datetime}}.', {
+    datetime: formatDateTime(session.createdAt, { dateStyle: 'medium', timeStyle: 'short' })
+  }));
   render();
 }
 
 async function handleDeleteReviewSession(sessionId) {
   state.reviewSessions = state.reviewSessions.filter((item) => item.id !== sessionId);
   await persistReviewSessions();
-  setToast('Saved session deleted. Memory is now slightly more selective.');
+  setToast(t('Saved session deleted. Memory is now slightly more selective.'));
   render();
 }
 
 async function pushCleanupHistory(entry) {
   const next = {
-    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-    at: Date.now(),
+    id: makeStableId('cleanup-history'),
+    at: now(),
     mode: state.mode,
-    targetLabel: state.target?.label || 'Unknown scope',
+    targetLabel: state.target?.label || t('Unknown scope'),
     ...entry
   };
   state.cleanupHistory = [next, ...(state.cleanupHistory || [])].slice(0, 60);
@@ -909,340 +943,144 @@ async function pushCleanupHistory(entry) {
 }
 
 
-function formatActionType(type) {
-  return String(type || 'action')
-    .split('-')
-    .map((part) => part ? part[0].toUpperCase() + part.slice(1) : '')
-    .join(' ');
-}
-
-function getHistoryTrends() {
-  const entries = Array.isArray(state.cleanupHistory) ? state.cleanupHistory : [];
-  const byType = new Map();
-  let totalTouched = 0;
-  let recentTouched = 0;
-  let redirectsFixed = 0;
-  let imports = 0;
-  let deletes = 0;
-  let latestHealthMetrics = null;
-  const now = Date.now();
-  const recentCutoff = now - (7 * 24 * 60 * 60 * 1000);
-
-  entries.forEach((entry) => {
-    const key = entry?.type || 'action';
-    byType.set(key, (byType.get(key) || 0) + 1);
-    totalTouched += Number(entry?.count || 0);
-    if (Number(entry?.at || 0) >= recentCutoff) {
-      recentTouched += Number(entry?.count || 0);
-    }
-    if (key === 'repair-redirects') redirectsFixed += Number(entry?.count || 0);
-    if (key === 'import') imports += Number(entry?.count || 0);
-    if (key === 'delete') deletes += Number(entry?.count || 0);
-    if (!latestHealthMetrics && key === 'health-scan' && entry?.metrics) {
-      latestHealthMetrics = entry.metrics;
-    }
-  });
-
-  const topTypes = [...byType.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 4)
-    .map(([type, count]) => ({ type, count, label: formatActionType(type) }));
-
-  return {
-    totalActions: entries.length,
-    totalTouched,
-    recentTouched,
-    redirectsFixed,
-    imports,
-    deletes,
-    latestHealthMetrics,
-    topTypes
-  };
-}
-
-function buildReviewReport() {
-  return {
-    generatedAt: new Date().toISOString(),
-    scope: {
-      mode: state.mode,
-      label: state.target?.label || '',
-      subtitle: state.target?.subtitle || ''
-    },
-    preferences: {
-      sort: state.sort,
-      cleanupFilter: state.cleanupFilter,
-      duplicatesOnly: state.duplicatesOnly,
-      ignoreQueryString: state.ignoreQueryString,
-      ignoreHashFragment: state.ignoreHashFragment,
-      reminderEnabled: state.reminderEnabled,
-      reminderIntervalDays: state.reminderIntervalDays,
-      nextReviewAt: state.nextReviewAt
-    },
-    summary: {
-      scope: state.scopeSummary,
-      visible: state.visibleSummary,
-      library: state.librarySummary,
-      health: state.healthSummary,
-      healthScore: computeHealthScore()
-    },
-    reviewQueue: getReviewQueue().map((item) => ({
-      id: item.id,
-      title: item.title,
-      body: item.body,
-      tone: item.tone || 'neutral'
-    })),
-    recentHistory: (state.cleanupHistory || []).slice(0, 20),
-    savedSessions: (state.reviewSessions || []).slice(0, 10)
-  };
-}
-
-function exportReviewReport() {
-  const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-  downloadTextFile(`bookmark-manager-review-report-${stamp}.json`, JSON.stringify(buildReviewReport(), null, 2), 'application/json');
-  setToast('Exported review report JSON. Tiny audit trail, less amnesia.');
-}
-
-
-function getScopeHealthSummary() {
-  return summarizeHealth(state.scopedBookmarks || []);
-}
-
-function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, value));
-}
-
-function formatRelativeDays(timestamp) {
-  if (!timestamp) return 'not scheduled';
-  const diff = timestamp - Date.now();
-  const days = Math.ceil(Math.abs(diff) / (24 * 60 * 60 * 1000));
-  if (days <= 1) return diff >= 0 ? 'within 24h' : 'overdue by <1 day';
-  return diff >= 0 ? `in ${days} days` : `overdue by ${days} days`;
-}
-
-function buildReminderState() {
-  return getReminderState();
-}
-
-function getReminderState() {
-  const nextAt = Number(state.nextReviewAt || 0);
-  const due = Boolean(state.reminderEnabled && nextAt && nextAt <= Date.now());
-  return {
-    enabled: Boolean(state.reminderEnabled),
-    intervalDays: Number(state.reminderIntervalDays || 14),
-    lastReviewAt: Number(state.lastReviewAt || 0),
-    nextReviewAt: nextAt,
-    due,
-    statusLabel: !state.reminderEnabled
-      ? 'Reminders are off'
-      : nextAt
-        ? (due ? `Review due — ${formatRelativeDays(nextAt)}` : `Next review ${formatRelativeDays(nextAt)}`)
-        : 'Reminder schedule has no next date yet'
-  };
-}
-
-function computeHealthScore() {
-  const total = Math.max(1, state.scopedBookmarks.length || 0);
-  const scopeSummary = getScopeSummary();
-  const health = getScopeHealthSummary();
-  const inspected = Math.max(1, health.checked || 0);
-  let score = 100;
-  score -= Math.min(35, ((health.broken + health.serverError + health.unreachable) / inspected) * 55);
-  score -= Math.min(12, (health.redirected / inspected) * 16);
-  score -= Math.min(18, (scopeSummary.duplicateGroupCount / total) * 40);
-  score -= Math.min(16, (scopeSummary.oldCount / total) * 24);
-  score -= Math.min(10, (scopeSummary.untitledCount / total) * 28);
-  score -= Math.min(9, (scopeSummary.titleCollisionCount / total) * 22);
-  const rounded = Math.round(clamp(score, 0, 100));
-  const grade = rounded >= 90 ? 'A' : rounded >= 80 ? 'B' : rounded >= 70 ? 'C' : rounded >= 55 ? 'D' : 'F';
-  const confidence = health.checked ? `Includes link-health data for ${health.checked} checked bookmark${health.checked === 1 ? '' : 's'}.` : 'Metadata-only score until you run a health scan.';
-  return { score: rounded, grade, confidence, health };
-}
-
-function buildSmartRecommendations() {
-  const recommendations = [];
-  const scopeSummary = getScopeSummary();
-  const health = state.healthSummary || summarizeHealth(state.visibleBookmarks);
-  const reminder = getReminderState();
-  const score = computeHealthScore();
-
-  if (reminder.enabled && reminder.due) {
-    recommendations.push({
-      id: 'due-review',
-      tone: 'warning',
-      title: 'Scheduled review is due',
-      body: `Your ${reminder.intervalDays}-day review cadence is overdue. Open the mess now before it ferments.`,
-      actions: [
-        { label: 'Mark reviewed now', run: handleMarkReviewedNow },
-        { label: 'Save review session', run: handleSaveReviewSession }
-      ]
-    });
-  }
-
-  if (!getScopeHealthSummary().checked && state.visibleBookmarks.length) {
-    recommendations.push({
-      id: 'scan-health',
-      tone: 'muted',
-      title: 'Run a health scan on this scope',
-      body: 'Your health score is partly blind because no visible links have been inspected yet.',
-      actions: [
-        { label: 'Inspect visible links', run: () => inspectBookmarksHealth(state.visibleBookmarks) }
-      ]
-    });
-  }
-
-  if ((health.broken + health.serverError + health.unreachable) > 0) {
-    recommendations.push({
-      id: 'unhealthy-links',
-      tone: 'danger',
-      title: 'Cull or repair unhealthy links',
-      body: `${health.broken + health.serverError + health.unreachable} visible bookmark${(health.broken + health.serverError + health.unreachable) === 1 ? '' : 's'} failed health checks. Dead links are pure entropy.`,
-      actions: [
-        { label: 'Select unhealthy', run: () => {
-          state.visibleBookmarks.forEach((bookmark) => {
-            const record = getHealthRecord(bookmark);
-            if (record && [HEALTH_STATUSES.BROKEN, HEALTH_STATUSES.SERVER_ERROR, HEALTH_STATUSES.UNREACHABLE].includes(record.status)) state.selectedIds.add(bookmark.id);
-          });
-          render();
-        } },
-        { label: 'Review unhealthy', run: () => { clearCleanupFilters(); state.query = ''; render(); } }
-      ]
-    });
-  }
-
-  if (health.redirected > 0) {
-    recommendations.push({
-      id: 'redirect-cleanup',
-      tone: 'warning',
-      title: 'Repair redirected bookmarks',
-      body: `${health.redirected} visible bookmark${health.redirected === 1 ? '' : 's'} could be updated to their final URL and lose the redirect detour.`,
-      actions: [
-        { label: 'Repair redirected', run: () => handleRepairRedirects(getRedirectedBookmarks()) }
-      ]
-    });
-  }
-
-  if (scopeSummary.duplicateGroupCount > 0) {
-    recommendations.push({
-      id: 'merge-dupes',
-      tone: 'muted',
-      title: 'Merge duplicate groups',
-      body: `${scopeSummary.duplicateGroupCount} duplicate group${scopeSummary.duplicateGroupCount === 1 ? '' : 's'} are wasting slots in this scope.`,
-      actions: [
-        { label: 'Review duplicates', run: () => runCleanupPreset(CLEANUP_FILTERS.DUPLICATES, 'is:duplicate') },
-        { label: 'Merge visible duplicates', run: handleMergeDuplicates }
-      ]
-    });
-  }
-
-  if (scopeSummary.oldCount > 0 && (scopeSummary.oldCount >= 10 || (scopeSummary.oldCount / Math.max(1, scopeSummary.total)) > 0.25)) {
-    recommendations.push({
-      id: 'stale-review',
-      tone: 'muted',
-      title: 'Review stale bookmarks',
-      body: `${scopeSummary.oldCount} bookmark${scopeSummary.oldCount === 1 ? '' : 's'} in this scope are old enough to vote twice.`,
-      actions: [
-        { label: 'Review old', run: () => runCleanupPreset(CLEANUP_FILTERS.OLD, 'age:old') }
-      ]
-    });
-  }
-
-  if ((scopeSummary.untitledCount + scopeSummary.titleCollisionCount) > 0) {
-    recommendations.push({
-      id: 'metadata',
-      tone: 'muted',
-      title: 'Fix muddy metadata',
-      body: `${scopeSummary.untitledCount} untitled and ${scopeSummary.titleCollisionCount} title-collision bookmark${scopeSummary.titleCollisionCount === 1 ? '' : 's'} are making search dumber than it needs to be.`,
-      actions: [
-        { label: 'Review untitled', run: () => runCleanupPreset(CLEANUP_FILTERS.UNTITLED, 'is:untitled') },
-        { label: 'Review collisions', run: () => runCleanupPreset(CLEANUP_FILTERS.TITLE_COLLISIONS, 'is:title-collision') }
-      ]
-    });
-  }
-
-  if (!recommendations.length) {
-    recommendations.push({
-      id: 'steady-state',
-      tone: 'success',
-      title: score.score >= 90 ? 'Library health looks strong' : 'No urgent cleanup recommendation',
-      body: score.score >= 90 ? `Health score ${score.score}/${100} (${score.grade}). Nothing obvious is rotting in this scope right now.` : 'Nothing acute is screaming for action. Keep the cadence and the swamp stays shallow.',
-      actions: reminder.enabled ? [{ label: 'Mark reviewed now', run: handleMarkReviewedNow }] : []
-    });
-  }
-
-  return recommendations.slice(0, 4);
-}
-
-async function persistReminderSettings() {
-  await chrome.storage.local.set({
-    [STORAGE_KEYS.REVIEW_REMINDER_ENABLED]: state.reminderEnabled,
-    [STORAGE_KEYS.REVIEW_REMINDER_INTERVAL_DAYS]: state.reminderIntervalDays,
-    [STORAGE_KEYS.REVIEW_REMINDER_LAST_REVIEW_AT]: state.lastReviewAt,
-    [STORAGE_KEYS.REVIEW_REMINDER_NEXT_AT]: state.nextReviewAt
-  });
-  await sendMessage({ type: 'SYNC_REVIEW_REMINDER' });
-}
-
-async function handleUpdateReminderSettings(partial = {}) {
-  state.reminderEnabled = partial.enabled ?? state.reminderEnabled;
-  state.reminderIntervalDays = Number(partial.intervalDays || state.reminderIntervalDays || 14);
-  if (partial.lastReviewAt !== undefined) state.lastReviewAt = Number(partial.lastReviewAt || 0);
-  if (partial.nextReviewAt !== undefined) state.nextReviewAt = Number(partial.nextReviewAt || 0);
-  if (state.reminderEnabled && !state.nextReviewAt) {
-    const anchor = state.lastReviewAt || Date.now();
-    state.nextReviewAt = anchor + (state.reminderIntervalDays * 24 * 60 * 60 * 1000);
-  }
-  if (!state.reminderEnabled) {
-    state.nextReviewAt = 0;
-  }
-  await persistReminderSettings();
-  render();
-}
-
-async function handleMarkReviewedNow() {
-  const now = Date.now();
-  state.lastReviewAt = now;
-  state.nextReviewAt = now + (state.reminderIntervalDays * 24 * 60 * 60 * 1000);
-  if (!state.reminderEnabled) state.reminderEnabled = true;
-  await persistReminderSettings();
-  await pushCleanupHistory({
-    type: 'mark-reviewed',
-    count: state.visibleBookmarks.length,
-    note: `Marked ${modeLabel(state.mode).toLowerCase()} as reviewed and scheduled the next reminder.`
-  });
-  setToast(`Review marked complete. Next reminder ${formatRelativeDays(state.nextReviewAt)}.`);
-  render();
-}
-
 function renderFatal(message, error) {
   app.textContent = '';
   const panel = create('div', 'panel');
   const section = create('div', 'section');
   section.append(
-    create('h1', 'title', 'Bookmark Manager'),
+    create('h1', 'title', t('Bookmark Scope')),
     create('div', 'subtitle', message),
-    create('div', 'context-text', error?.message || 'No extra diagnostics available.')
+    create('div', 'context-text', error?.message || t('No extra diagnostics available.'))
   );
   panel.append(section);
   app.append(panel);
 }
 
 let stopWatchingTheme = null;
+const _dashboardLifecycle = new AbortController();
 
 async function init() {
   try {
+    const storage = await initializeStorageLayer();
+    await initI18n();
+    await logger.info('init_started', { storageMigrated: storage.migrated, previousVersion: storage.previousVersion });
     state.themeMode = await loadStoredTheme();
     applyTheme(state.themeMode);
+    state.colorPalette = await loadStoredPalette();
+    applyPalette(state.colorPalette);
     stopWatchingTheme = watchSystemTheme(() => {
       if (state.themeMode === THEME_MODES.SYSTEM) applyTheme(state.themeMode);
     });
     await loadPreferences();
+
+    // Apply context-menu deep-link params BEFORE the first data refresh.
+    // The dashboard's preference loader has already set defaults; we
+    // override mode / cleanupFilter so the right scope is in effect by
+    // the time the list renders. Done synchronously so refreshData picks
+    // up the changed state.
+    applyContextMenuParams();
+
+    // FIX: show skeleton immediately so the dashboard isn't blank during async load
+    renderDashboardSkeleton();
+
+    // Restore previously persisted health-check results so a closed-and-
+    // reopened dashboard doesn't lose minutes of scan work. Expired entries
+    // (past HEALTH_CACHE_TTL_MS) are dropped automatically.
+    try {
+      state.healthByKey = await loadHealthCache();
+    } catch (error) {
+      await logger.warn('health_cache_load_failed', { message: error?.message || String(error) });
+      state.healthByKey = {};
+    }
+
+    // Load the tag overlay. Tags are stored in chrome.storage.local as a
+    // bookmarkId → tags[] map. We load before refreshData so the very
+    // first render sees the right pills on each row; pruneOrphanedTags
+    // runs after refresh when we know which bookmark ids still exist.
+    try {
+      state.tagsByBookmark = await loadTagsMap();
+    const importJournal = await loadImportJournal();
+    const unfinishedImports = Object.values(importJournal).filter(operation => operation.status !== 'completed');
+    if (unfinishedImports.length) {
+      setToast(t('Import recovery'), { error: true, persist: true, actionLabel: t('JSON'), action: () => downloadTextFile('bookmark-scope-import-recovery.json', JSON.stringify(unfinishedImports, null, 2), 'application/json') });
+    }
+    } catch (error) {
+      await logger.warn('tags_load_failed', { message: error?.message || String(error) });
+      state.tagsByBookmark = {};
+    }
+
     await refreshData();
+
+    // Sync edge cases (extension disabled during a bulk delete, profile
+    // imports, etc.) can leave tag entries pointing at bookmarks that
+    // no longer exist. Background's onRemoved hook catches the live
+    // path; this is the cold-start backstop.
+    try {
+      const pruned = pruneOrphanedTags(state.tagsByBookmark, state.allBookmarks);
+      if (pruned.removed > 0) {
+        state.tagsByBookmark = pruned.map;
+        state.tagsByBookmark = await updateTagsMap(map => map);
+        await logger.info('tags_pruned_orphans', { removed: pruned.removed });
+      }
+    } catch (error) {
+      await logger.warn('tags_prune_failed', { message: error?.message || String(error) });
+    }
+
     attachKeyboardShortcuts();
+    attachGlobalDismissHandlers();
+    window.addEventListener('resize', handleResponsiveResize, { passive: true, signal: _dashboardLifecycle.signal });
+    window.addEventListener('pagehide', () => {
+      _dashboardLifecycle.abort();
+      if (typeof stopWatchingTheme === 'function') stopWatchingTheme();
+      // Best-effort: flush any pending health writes before the tab closes.
+      // Fire-and-forget; we cannot block pagehide.
+      awaitPendingHealthWrites().catch(() => {});
+    }, { once: true });
     render();
   } catch (error) {
+    await logger.error('init_failed', { message: error?.message || String(error) });
     console.error(error);
-    renderFatal('The popup face-planted during startup.', error);
+    renderFatal(t('The popup face-planted during startup.'), error);
   }
+}
+
+/**
+ * Applies context-menu deep-link parameters from the dashboard URL.
+ *
+ * - action=show-domain → switch mode to DOMAIN; pre-populate target from
+ *   the right-clicked URL so the domain scope resolves immediately.
+ * - action=find-duplicates → switch mode to PAGE, cleanup filter to
+ *   DUPLICATES, and pre-populate target with the URL.
+ *
+ * Silent no-op when no params are present.
+ */
+function applyContextMenuParams() {
+  const params = parseDashboardContextParams(window.location.search);
+  if (!params || !params.url) return;
+  const target = getMatchTarget(params.url, getParseOptions());
+  if (!target.valid) return;
+  state.target = target;
+  // Synthesise a tab-like object so the rest of the dashboard (which
+  // expects state.tab.url for several UI bits) doesn't see undefined.
+  state.tab = { url: params.url, title: target.label || params.url };
+  contextOverrideTab = state.tab;
+  if (params.action === CONTEXT_MENU_ACTIONS.SHOW_DOMAIN) {
+    state.mode = MATCH_MODES.DOMAIN;
+  } else if (params.action === CONTEXT_MENU_ACTIONS.FIND_DUPLICATES) {
+    state.mode = MATCH_MODES.PAGE;
+    state.cleanupFilter = CLEANUP_FILTERS.DUPLICATES;
+    state.duplicatesOnly = true;
+  }
+}
+
+function renderDashboardSkeleton() {
+  app.textContent = '';
+  const panel = create('div', 'panel');
+  const placeholder = create('div', 'skeleton-loading dashboard-skeleton');
+  placeholder.setAttribute('aria-label', t('Loading library…'));
+  placeholder.setAttribute('aria-busy', 'true');
+  panel.append(placeholder);
+  app.append(panel);
 }
 
 function isEditableTarget(element) {
@@ -1251,129 +1089,130 @@ function isEditableTarget(element) {
   return element.isContentEditable || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
 }
 
-function downloadTextFile(filename, content, mimeType) {
-  const blob = new Blob([content], { type: mimeType });
-  const objectUrl = URL.createObjectURL(blob);
-  const anchor = document.createElement('a');
-  anchor.href = objectUrl;
-  anchor.download = filename;
-  document.body.append(anchor);
-  anchor.click();
-  anchor.remove();
-  window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
-}
-
-function createCsv(items) {
-  const rows = [['title', 'url', 'path', 'dateAdded']];
-  for (const item of items) {
-    rows.push([item.title, item.url, item.path || '', String(item.dateAdded || 0)]);
-  }
-  return rows
-    .map((row) => row.map((value) => `"${String(value || '').replaceAll('\"', '\"\"')}"`).join(','))
-    .join('\n');
-}
-
 function getExportItems(scope = 'selected') {
-  const items = scope === 'visible' ? state.visibleBookmarks : selectedBookmarks();
+  const items = scope === 'visible' ? state.visibleBookmarks : getSelectedBookmarks();
   return items.map((item) => ({
     title: item.title,
     url: item.url,
     path: item.path,
-    dateAdded: item.dateAdded
+    dateAdded: item.dateAdded,
+    tags: [...(state.tagsByBookmark?.[item.id] || [])]
   }));
 }
 
 async function handleExport(format, scope = 'selected') {
   const items = getExportItems(scope);
   if (!items.length) {
-    setToast(`Nothing to export from ${scope}. Empty pockets, empty file.`, { error: true });
+    setToast(t('Nothing to export from {{scope}}. Empty pockets, empty file.', { scope }), { error: true });
     return;
   }
-  const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const stamp = isoNow().replace(/[:.]/g, '-');
   if (format === 'json') {
     downloadTextFile(`bookmark-manager-${scope}-${stamp}.json`, JSON.stringify(items, null, 2), 'application/json');
   } else {
-    downloadTextFile(`bookmark-manager-${scope}-${stamp}.csv`, createCsv(items), 'text/csv;charset=utf-8');
+    downloadTextFile(`bookmark-manager-${scope}-${stamp}.csv`, createCsvFile(items), 'text/csv;charset=utf-8');
   }
-  setToast(`Exported ${items.length} bookmark${items.length === 1 ? '' : 's'} as ${format.toUpperCase()}.`);
+  setToast(t('Exported {{count}} bookmarks as {{format}}.', { count: formatNumber(items.length), format: format.toUpperCase() }));
 }
 
-function parseImportedText(text, fileName = '') {
-  const name = fileName.toLowerCase();
-  const trimmed = text.trim();
-  if (!trimmed) return [];
+const IMPORT_MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 
-  if (name.endsWith('.json')) {
-    const data = JSON.parse(trimmed);
-    const items = Array.isArray(data) ? data : [];
-    return items
-      .map((item) => {
-        if (typeof item === 'string') return { title: item, url: item };
-        return { title: item.title || item.url || '(Imported bookmark)', url: item.url };
-      })
-      .filter((item) => item.url);
+/**
+ * Opens a file picker for the user to choose a bookmark export to import.
+ * A single hidden <input type="file"> is created lazily on first use and
+ * reused thereafter — the alternative of creating a fresh input per
+ * call leaves dangling DOM nodes if the user cancels the dialog.
+ *
+ * Accept attribute lists the formats we recognise (Pocket HTML, Pinboard
+ * JSON, Raindrop CSV, plus our own .json/.csv/.txt exports). The picker
+ * itself doesn't enforce this — it's a suggestion — and the parser auto-
+ * detects so a renamed file still works.
+ */
+function triggerImportPicker() {
+  if (!importInputRef) {
+    importInputRef = document.createElement('input');
+    importInputRef.type = 'file';
+    importInputRef.accept = '.html,.json,.csv,.txt';
+    importInputRef.style.display = 'none';
+    importInputRef.addEventListener('change', async () => {
+      const file = importInputRef.files?.[0];
+      // Reset value so picking the same file again later re-fires change.
+      importInputRef.value = '';
+      if (file) await handleImportFile(file);
+    });
+    document.body.append(importInputRef);
   }
-
-  const lines = trimmed.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
-  const looksCsv = name.endsWith('.csv') || (lines[0] && /(^|,)url(,|$)/i.test(lines[0]));
-  if (looksCsv) {
-    const result = [];
-    for (let index = 1; index < lines.length; index += 1) {
-      const match = lines[index].match(/^\s*"?(.*?)"?\s*,\s*"?(https?:\/\/.*?)"?(?:,|$)/i);
-      if (match?.[2]) {
-        result.push({ title: match[1] || match[2], url: match[2] });
-      }
-    }
-    return result;
-  }
-
-  return lines
-    .map((line) => ({ title: line, url: line }))
-    .filter((item) => /^https?:\/\//i.test(item.url));
+  importInputRef.click();
 }
 
 async function handleImportFile(file) {
   if (!file) return;
   try {
-    const text = await file.text();
-    const rawItems = parseImportedText(text, file.name);
-    const items = rawItems.filter((item) => {
-      try {
-        const url = new URL(item.url);
-        return ['http:', 'https:'].includes(url.protocol);
-      } catch {
-        return false;
-      }
-    });
-
-    if (!items.length) {
-      setToast('Import found no usable http/https URLs. That file was decorative, not useful.', { error: true });
+    if (file.size > IMPORT_MAX_FILE_SIZE) {
+      setToast(t('Import file is too large (max 10 MB). Split it into smaller files.'), { error: true });
       return;
     }
+    const text = await file.text();
 
-    const parentId = await getDefaultImportParentId();
-    for (const item of items) {
-      await chrome.bookmarks.create({
-        parentId,
-        title: item.title || item.url,
-        url: item.url
-      });
+    // Try third-party formats first (Pocket HTML, Pinboard JSON, Raindrop
+    // CSV). Each parser returns the same { bookmarks, errors } shape, so
+    // the rest of the flow doesn't care which one matched. When detection
+    // returns null we fall back to the built-in parseImportedText, which
+    // covers our own JSON/CSV exports and the plain-URLs-per-line case.
+    const thirdParty = parseImportedThirdPartyFile(file.name, text);
+    let rawItems;
+    let detectedFormat = '';
+    let parserWarnings = [];
+    let parserExcluded = 0;
+    if (thirdParty) {
+      rawItems = thirdParty.bookmarks;
+      detectedFormat = thirdParty.format;
+      // Surface non-fatal warnings (skipped unsafe URLs etc.) but keep
+      // going — those are info, not failures.
+      for (const warn of thirdParty.errors || []) {
+        await logger.warn('import_warning', { format: detectedFormat, message: warn.message });
+      }
+    } else {
+      const parsed = parseImportedFilePreview(text, file.name);
+      rawItems = parsed.items; parserWarnings = parsed.warnings; parserExcluded = parsed.excluded;
     }
-    await sendMessage({ type: 'REFRESH_BADGE' });
-    await refreshData();
-    setToast(`Imported ${items.length} bookmark${items.length === 1 ? '' : 's'} into your bookmarks.`);
+
+    await featureTools.showImportPreview(rawItems, thirdParty?.errors || parserWarnings, parserExcluded);
+
   } catch (error) {
     console.error(error);
-    setToast('Import failed. The file fought back and won.', { error: true });
+    await logger.error('import_failed', { message: error?.message || String(error) });
+    setToast(t('Import failed. The file fought back and won.'), { error: true });
   }
 }
 
 function attachKeyboardShortcuts() {
   document.addEventListener('keydown', async (event) => {
+    if (event.defaultPrevented) return;
+    if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key.toLowerCase() === 'p' && !event.altKey) {
+      if (document.querySelector('[role="dialog"]')) return;
+      event.preventDefault(); featureTools.showPalette(); return;
+    }
+    if (featureTools.isDialogOpen() || document.querySelector('[role="dialog"]')) return;
+
+    if (event.key === 'Escape' && state.headerMenuOpen) {
+      state.headerMenuOpen = false;
+      render();
+      return;
+    }
+
+    if (event.key === 'Escape' && state.listHeadMenuOpen) {
+      state.listHeadMenuOpen = false;
+      render();
+      return;
+    }
+
+    // Preserve the focused control's own activation and navigation behavior.
+    if (!isEditableTarget(event.target) && event.target?.closest?.('button, a[href], summary, label, [role="button"], [role="link"], [role="checkbox"], [role="radio"], [role="menuitem"], [role="tab"], [role="switch"], [role="slider"], [role="combobox"]')) return;
+
     if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'a' && !isEditableTarget(event.target)) {
       event.preventDefault();
-      state.visibleBookmarks.forEach((bookmark) => state.selectedIds.add(bookmark.id));
-      render();
+      selectAllVisible({ renderAfter: true });
       return;
     }
 
@@ -1391,6 +1230,8 @@ function attachKeyboardShortcuts() {
       }
       return;
     }
+
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
 
     if (event.key === KEYBOARD_SHORTCUTS.MODE_PAGE) {
       state.mode = MATCH_MODES.PAGE;
@@ -1416,6 +1257,7 @@ function attachKeyboardShortcuts() {
 
     if (event.key === 'ArrowDown') {
       event.preventDefault();
+      state.scrollActiveBookmark = true;
       moveActiveBookmark(1);
       render();
       return;
@@ -1423,6 +1265,7 @@ function attachKeyboardShortcuts() {
 
     if (event.key === 'ArrowUp') {
       event.preventDefault();
+      state.scrollActiveBookmark = true;
       moveActiveBookmark(-1);
       render();
       return;
@@ -1451,18 +1294,13 @@ function attachKeyboardShortcuts() {
       const active = getActiveBookmark();
       if (active) {
         event.preventDefault();
-        if (state.selectedIds.has(active.id)) {
-          state.selectedIds.delete(active.id);
-        } else {
-          state.selectedIds.add(active.id);
-        }
-        render();
+        toggleBookmarkSelection(active.id, { renderAfter: true });
       }
       return;
     }
 
     if (event.key === 'Delete' || event.key === 'Backspace') {
-      const selected = selectedBookmarks();
+      const selected = getSelectedBookmarks();
       if (selected.length) {
         event.preventDefault();
         await handleDeleteMany(selected);
@@ -1490,256 +1328,52 @@ function attachKeyboardShortcuts() {
   });
 }
 
-async function updateMode(mode) {
-  state.mode = DASHBOARD_MODE;
-  await savePreferences();
-  recalculateVisibleBookmarks();
-  render();
-}
-
-async function toggleSidebarCollapsed() {
-  state.sidebarCollapsed = !state.sidebarCollapsed;
-  await savePreferences();
-  render();
-}
-
-async function updatePreference(name, value, needsReload = false) {
-  state[name] = value;
-  await savePreferences();
-  if (name === 'popupWidth') applyPopupWidth();
-  if (needsReload) {
-    await refreshData();
-  } else {
+const commands = createCommandRegistry({
+  snapshotExport: { label:'Export snapshot', run:()=>featureTools.exportSnapshot() },
+  snapshotRestore: { label:'Restore snapshot', run:()=>featureTools.pickSnapshot() },
+  duplicatePreview: { label:'Duplicate preview', run:()=>featureTools.showDuplicatePreview() },
+  savedViews: { label:'Saved views', run:()=>featureTools.showSavedViews() },
+  bulkTags: { label:'Bulk tags', run:()=>featureTools.showBulkTags() },
+  resumableScan: { label:'Resumable scan', run:()=>featureTools.showScan() },
+  importPreview: { label:'Import bookmarks…', run:()=>triggerImportPicker() },
+  exportCsv: { label:'Export visible as CSV', run:()=>handleExport('csv','visible') },
+  diagnosticExport: { label:'Diagnostic export', run:()=>featureTools.showDiagnostics() },
+  inspectVisible: { label:'Inspect visible', run:()=>inspectBookmarksHealth(getInspectTargetBookmarks()) },
+  deleteSelected: { label:'Delete selected', run:()=>handleDeleteMany(getSelectedBookmarks()) },
+  repairRedirects: { label:'Repair redirected', run:()=>handleRepairRedirects() },
+  clearHealth: { label:'Clear cached health data', run:()=>handleClearHealthData() },
+  async updateMode(mode) {
+    state.mode = mode;
+    await savePreferences();
     recalculateVisibleBookmarks();
-  }
-  render();
-}
-
-async function handleOpen(url) {
-  await sendMessage({ type: 'OPEN_URL', url });
-}
-
-
-function selectBookmarks(bookmarks) {
-  for (const bookmark of bookmarks || []) {
-    state.selectedIds.add(bookmark.id);
-  }
-  render();
-}
-
-async function handleRepairRedirects(bookmarks = getRedirectedBookmarks()) {
-  const repairs = (bookmarks || []).filter((bookmark) => {
-    const record = getHealthRecord(bookmark);
-    return record && record.status === HEALTH_STATUSES.REDIRECTED && record.finalUrl && record.finalUrl !== bookmark.url;
-  });
-
-  if (!repairs.length) {
-    setToast('No redirected bookmarks with a usable final URL. Nothing to repair.', { error: true });
-    return;
-  }
-
-  const confirmed = window.confirm(`Update ${repairs.length} redirected bookmark${repairs.length === 1 ? '' : 's'} to their final URL?`);
-  if (!confirmed) return;
-
-  for (const bookmark of repairs) {
-    const record = getHealthRecord(bookmark);
-    await chrome.bookmarks.update(bookmark.id, { url: record.finalUrl });
-  }
-
-  state.healthByKey = {};
-  state.healthSummary = null;
-  state.healthLastRunAt = null;
-  await sendMessage({ type: 'REFRESH_BADGE' });
-  await refreshData();
-  await pushCleanupHistory({
-    type: 'repair-redirects',
-    count: repairs.length,
-    note: `Updated redirected bookmarks to their final URL.`
-  });
-  setToast(`Repaired ${repairs.length} redirected bookmark${repairs.length === 1 ? '' : 's'}. Less detour, more signal.`);
-}
-
-async function handleCopySelectedUrls() {
-  const selected = selectedBookmarks();
-  if (!selected.length) {
-    setToast('Select something first. Telepathy is not implemented.', { error: true });
-    return;
-  }
-  const text = selected.map((item) => item.url).join('\n');
-  try {
-    await navigator.clipboard.writeText(text);
-    setToast(`Copied ${selected.length} URL${selected.length === 1 ? '' : 's'}.`);
-  } catch (error) {
-    console.error(error);
-    setToast('Clipboard failed. Browser goblins remain undefeated.', { error: true });
-  }
-}
-
-async function restoreDeletedBatch() {
-  if (!state.lastDeletedBatch?.items?.length) return;
-  const items = [...state.lastDeletedBatch.items].sort((a, b) => (a.index || 0) - (b.index || 0));
-  for (const item of items) {
-    await chrome.bookmarks.create({
-      parentId: item.parentId || undefined,
-      index: Number.isInteger(item.index) ? item.index : undefined,
-      title: item.title,
-      url: item.url
-    });
-  }
-  state.lastDeletedBatch = null;
-  await sendMessage({ type: 'REFRESH_BADGE' });
-  await refreshData();
-  await pushCleanupHistory({ type: 'undo-delete', count: items.length, note: 'Restored the last deleted batch.' });
-  setToast('Delete undone. Entropy delayed.', { duration: 2800 });
-}
-
-async function handleDeleteMany(bookmarks, options = {}) {
-  if (!bookmarks.length) return;
-  const confirmed = options.skipConfirm ? true : window.confirm(`Delete ${bookmarks.length} bookmark${bookmarks.length === 1 ? '' : 's'}?`);
-  if (!confirmed) return;
-
-  state.lastDeletedBatch = {
-    items: bookmarks.map((bookmark) => ({
-      parentId: bookmark.parentId,
-      index: bookmark.index,
-      title: bookmark.title,
-      url: bookmark.url
-    }))
-  };
-
-  for (const bookmark of bookmarks) {
-    await chrome.bookmarks.remove(bookmark.id);
-    state.selectedIds.delete(bookmark.id);
-  }
-
-  state.editingBookmarkId = null;
-  await sendMessage({ type: 'REFRESH_BADGE' });
-  await refreshData();
-  await pushCleanupHistory({
-    type: 'delete',
-    count: bookmarks.length,
-    note: options.message || 'Deleted bookmarks from the current review scope.'
-  });
-  setToast(
-    options.message || `${bookmarks.length} bookmark${bookmarks.length === 1 ? '' : 's'} deleted.`,
-    { actionLabel: 'Undo', action: restoreDeletedBatch, persist: true }
-  );
-}
-
-async function handleMergeDuplicates() {
-  const groups = groupDuplicates(state.visibleBookmarks);
-  if (!groups.size) {
-    setToast('No duplicate groups in this view. The merge cannon has no target.', { error: true });
-    return;
-  }
-
-  const toDelete = [];
-  for (const list of groups.values()) {
-    const sorted = [...list].sort((a, b) => (a.dateAdded || 0) - (b.dateAdded || 0));
-    if (state.mergeStrategy === MERGE_STRATEGIES.KEEP_NEWEST) {
-      sorted.pop();
+    await logger.info('mode_updated', { mode: state.mode });
+    render();
+  },
+  async toggleSidebarCollapsed() {
+    state.sidebarCollapsed = !state.sidebarCollapsed;
+    await savePreferences();
+    await logger.info('sidebar_toggled', { collapsed: state.sidebarCollapsed });
+    render();
+  },
+  async updatePreference(name, value, needsReload = false) {
+    state[name] = value;
+    await savePreferences();
+    if (name === 'popupWidth') applyPopupWidth();
+    if (needsReload) {
+      invalidateBookmarkCache();
+      await refreshData();
     } else {
-      sorted.shift();
+      recalculateVisibleBookmarks();
     }
-    toDelete.push(...sorted);
+    await logger.debug('preference_updated', { name, needsReload });
+    render();
   }
+});
 
-  if (!toDelete.length) {
-    setToast('Duplicate groups exist, but there was nothing disposable after strategy rules.', { error: true });
-    return;
-  }
-
-  const label = state.mergeStrategy === MERGE_STRATEGIES.KEEP_NEWEST ? 'newest' : 'oldest';
-  const confirmed = window.confirm(`Merge duplicate URLs in this view by keeping the ${label} bookmark and deleting ${toDelete.length} duplicate${toDelete.length === 1 ? '' : 's'}?`);
-  if (!confirmed) return;
-
-  await handleDeleteMany(toDelete, {
-    skipConfirm: true,
-    message: `Merged duplicate URLs. Kept the ${label} bookmark in each group and deleted ${toDelete.length}.`
-  });
-}
-
-async function handleSaveEdit(bookmarkId, titleValue, urlValue) {
-  const title = String(titleValue || '').trim() || '(Untitled bookmark)';
-  const url = String(urlValue || '').trim();
-
-  try {
-    const parsed = new URL(url);
-    if (!['http:', 'https:'].includes(parsed.protocol)) throw new Error('unsupported');
-  } catch {
-    setToast('That URL is broken. Feed it something valid.', { error: true });
-    return;
-  }
-
-  await chrome.bookmarks.update(bookmarkId, { title, url });
-  state.editingBookmarkId = null;
-  await sendMessage({ type: 'REFRESH_BADGE' });
-  await refreshData();
-  setToast('Bookmark updated. Less chaos, more order.');
-}
-
-async function handleBookmarkCurrentPage() {
-  if (!state.tab?.url || !state.target?.valid) {
-    setToast('This page cannot be bookmarked from here.', { error: true });
-    return;
-  }
-
-  await chrome.bookmarks.create({
-    title: state.tab.title || state.target.hostname,
-    url: state.tab.url
-  });
-
-  await sendMessage({ type: 'REFRESH_BADGE' });
-  await refreshData();
-  await pushCleanupHistory({ type: 'bookmark-current-page', count: 1, note: 'Bookmarked the current page from the popup.' });
-  setToast('Current page bookmarked. A rare victory.');
-}
-
-
-
-function closeAboutModal() {
-  if (!state.aboutOpen) return;
-  state.aboutOpen = false;
-  render();
-}
-
-function renderAboutModal(root) {
-  if (!state.aboutOpen) return;
-  const manifest = chrome.runtime.getManifest();
-  const overlay = create('div', 'modal-overlay');
-  overlay.addEventListener('click', (event) => {
-    if (event.target === overlay) closeAboutModal();
-  });
-
-  const modal = create('div', 'modal-card about-modal dashboard-about-modal');
-  const head = create('div', 'about-head');
-  const icon = create('img', 'about-icon');
-  icon.alt = '';
-  icon.src = chrome.runtime.getURL('icon.png');
-  const meta = create('div', 'about-meta');
-  meta.append(
-    create('div', 'about-title', manifest.name || 'Bookmark Manager'),
-    create('div', 'about-version', `Version ${manifest.version || ''}`)
-  );
-  const close = create('button', 'icon-button mono-icon-button modal-close', '×');
-  close.type = 'button';
-  close.setAttribute('aria-label', 'Close about dialog');
-  close.addEventListener('click', closeAboutModal);
-  head.append(icon, meta, close);
-
-  const body = create('div', 'about-body');
-  body.append(
-    create('div', 'about-copy', 'Bookmark Manager per Domain and Page'),
-    create('div', 'about-copy about-copy-muted', 'Popup for quick scoped triage. Dashboard for full library maintenance.'),
-    create('div', 'about-copy about-copy-muted', 'Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.')
-  );
-
-  modal.append(head, body);
-  overlay.append(modal);
-  root.append(overlay);
-}
+const featureTools = createFeatureTools({state,create,trapFocus,t,setToast,downloadTextFile,refreshData,render,savePreferences,recalculateVisibleBookmarks,getSelectedBookmarks,handleDeleteMany,ensureHealthPermission,inspectUrlHealth,sendMessage,commands:()=>commands,logger});
 
 function createMetricCard(label, value, helperText = '') {
+
   const card = create('div', 'metric-card');
   const valueEl = create('div', 'metric-value', value);
   const labelEl = create('div', 'metric-label', label);
@@ -1770,118 +1404,260 @@ function getBookmarkById(bookmarkId) {
   return state.visibleBookmarks.find((bookmark) => bookmark.id === bookmarkId) || null;
 }
 
-function renderHeader(root) {
-  const header = create('div', 'section header dashboard-header-v2');
-  const left = create('div', 'dashboard-header-left');
-  const brand = create('div', 'dashboard-brand-row');
-  const brandIcon = create('img', 'dashboard-brand-icon');
-  brandIcon.alt = '';
-  brandIcon.src = chrome.runtime.getURL('icon.png');
-  const brandText = create('div', 'dashboard-brand-text');
-  const eyebrow = create('div', 'dashboard-eyebrow', 'Library dashboard');
-  const title = create('h1', 'title dashboard-title', 'Bookmark Manager');
-  const context = create('div', 'context-text dashboard-context', `${state.allBookmarks.length} total bookmarks in the library.`);
-  brandText.append(eyebrow, title, context);
-  brand.append(brandIcon, brandText);
-  left.append(brand);
-
-  const right = create('div', 'dashboard-header-right');
-  const actionRow = create('div', 'dashboard-header-actions');
-  const aboutButton = createIconButton('info', 'About extension');
-  aboutButton.addEventListener('click', () => {
-    state.aboutOpen = true;
-    render();
+// Updates every running inspect button's progress bar and counter without
+// rebuilding the DOM, so a Stop press is never lost to a re-render.
+function updateInspectProgress() {
+  const total = Math.max(0, Number(state.healthScanTotal || 0));
+  const done = Math.max(0, Number(state.healthScanProgress || 0));
+  const percent = total > 0 ? Math.min(100, Math.round((done / total) * 100)) : 0;
+  const counter = t('{{done}} / {{total}}', { done: formatNumber(done), total: formatNumber(total) });
+  document.querySelectorAll('.dashboard-inspect-button[data-inspecting="true"]').forEach((button) => {
+    const bar = button.querySelector('.dashboard-inspect-button-progress-bg');
+    if (bar) bar.style.width = percent + '%';
+    const label = button.querySelector('.dashboard-inspect-progress');
+    if (label) label.textContent = counter;
   });
-  const chromeBookmarks = createIconButton('bookmarks', 'Open Chrome bookmarks');
-  chromeBookmarks.addEventListener('click', () => sendMessage({ type: 'OPEN_URL', url: 'chrome://bookmarks/' }));
-  const optionsButton = createIconButton('settings', 'Settings');
-  optionsButton.addEventListener('click', () => sendMessage({ type: 'OPEN_URL', url: chrome.runtime.getURL('options.html') }));
-  const themeControls = createThemeControls();
-  actionRow.append(aboutButton, chromeBookmarks, optionsButton, themeControls);
-  right.append(actionRow);
-
-  header.append(left, right);
-  root.append(header);
 }
 
-function renderToolbar(root) {
-  const toolbar = create('div', 'section toolbar dashboard-toolbar-v2');
-
-  const controls = create('div', 'dashboard-control-strip');
-  const search = create('input', 'search-input dashboard-search-input');
-  search.type = 'search';
-  search.placeholder = 'Search bookmarks';
-  search.value = state.query;
-  search.addEventListener('input', (event) => {
-    state.query = event.target.value;
-    state.focusSearchAfterRender = true;
-    state.searchSelectionStart = event.target.selectionStart;
-    state.searchSelectionEnd = event.target.selectionEnd;
-    recalculateVisibleBookmarks();
-    render();
-  });
-  searchInputRef = search;
-
-  controls.append(search);
-
-  const filters = create('div', 'cleanup-chip-row dashboard-filter-strip');
-  [
-    [CLEANUP_FILTERS.ALL, 'All'],
-    [CLEANUP_FILTERS.DUPLICATES, 'Duplicates'],
-    [CLEANUP_FILTERS.UNTITLED, 'Untitled'],
-    [CLEANUP_FILTERS.OLD, 'Old'],
-    [CLEANUP_FILTERS.TITLE_COLLISIONS, 'Collisions']
-  ].forEach(([value, label]) => {
-    const button = create('button', `filter-chip dashboard-filter-chip${state.cleanupFilter === value ? ' active' : ''}`);
-    button.type = 'button';
-    button.title = `${label}: ${getCleanupCount(value)}`;
-    button.append(
-      create('span', 'filter-chip-label', label),
-      create('span', 'filter-chip-count', String(getCleanupCount(value)))
-    );
-    button.addEventListener('click', () => setCleanupFilter(value));
-    filters.append(button);
+function buildInspectButton(label, count = 0, className = 'ghost-button') {
+  const classes = [className, 'dashboard-inspect-button'].filter(Boolean).join(' ');
+  const button = create('button', classes);
+  button.type = 'button';
+  // Stop on pointer press (not release): the list can still be refreshed between
+  // press and release, which would otherwise swallow the click.
+  button.addEventListener('pointerdown', (event) => {
+    if (event.button !== 0 || !state.isInspectingHealth) return;
+    event.preventDefault();
+    state.inspectStopPressedAt = Date.now();
+    cancelHealthInspection();
   });
 
-  toolbar.append(controls, filters);
-  root.append(toolbar);
+  const inspecting = !!state.isInspectingHealth;
+  const stopping = !!state.inspectStopPending;
+  const effectiveCount = Number.isFinite(count) ? count : 0;
+  const total = Math.max(0, Number(state.healthScanTotal || 0));
+  const done = Math.max(0, Number(state.healthScanProgress || 0));
+  const progressPercent = total > 0 ? Math.min(100, Math.round((done / total) * 100)) : 0;
+
+  button.disabled = (!inspecting && effectiveCount <= 0) || stopping;
+  button.setAttribute('aria-busy', inspecting ? 'true' : 'false');
+  button.dataset.inspecting = inspecting ? 'true' : 'false';
+  if (stopping) button.dataset.stopPending = 'true';
+
+  if (inspecting) {
+    const progressBg = create('span', 'dashboard-inspect-button-progress-bg');
+    progressBg.setAttribute('aria-hidden', 'true');
+    progressBg.style.width = `${progressPercent}%`;
+    button.append(progressBg);
+  }
+
+  const content = create('span', 'dashboard-inspect-button-content');
+  const text = create('span', 'dashboard-inspect-button-text', stopping ? t('Stopping…') : (inspecting ? t('Stop inspect') : label));
+  content.append(text);
+
+  if (inspecting && total > 0) {
+    const progress = create('span', 'dashboard-inspect-progress', t('{{done}} / {{total}}', {
+      done: formatNumber(done),
+      total: formatNumber(total)
+    }));
+    content.append(progress);
+  }
+
+  button.append(content);
+  return button;
 }
 
-function renderBulkBar(root) {
-  if (!state.selectedIds.size && !state.isInspectingHealth) return;
+function rememberListScroll() {
+  const listScroll = app?.querySelector?.('.list-scroll');
+  if (listScroll) state.listScrollTop = listScroll.scrollTop;
+}
 
-  const bar = create('div', 'section bulk-bar dashboard-bulk-bar');
-  const duplicateGroupCount = state.visibleDuplicateGroups;
-  const text = create('div', 'summary-line compact-bulk-summary', `${state.selectedIds.size} selected · ${state.visibleBookmarks.length} shown · ${cleanupFilterLabel(state.cleanupFilter)}`);
+/**
+ * Adds or removes a tag from the active tag filter. The dashboard
+ * recalculates the visible list and re-renders. Tags in the filter
+ * use AND semantics — adding more narrows the result set.
+ */
+function toggleTagFilter(tag) {
+  const current = Array.isArray(state.activeTagFilter) ? state.activeTagFilter : [];
+  const idx = current.indexOf(tag);
+  state.activeTagFilter = idx >= 0
+    ? current.filter((t) => t !== tag)
+    : [...current, tag];
+  recalculateVisibleBookmarks();
+  render();
+}
 
-  const actions = create('div', 'footer-actions wrap');
-  const clear = create('button', 'ghost-button', 'Clear');
-  clear.type = 'button';
-  clear.addEventListener('click', () => { state.selectedIds.clear(); render(); });
-  const selectDupes = create('button', 'ghost-button', 'Select duplicates');
-  selectDupes.type = 'button';
-  selectDupes.disabled = duplicateGroupCount === 0;
-  selectDupes.addEventListener('click', () => { state.visibleBookmarks.filter((item) => item.isDuplicate).forEach((bookmark) => state.selectedIds.add(bookmark.id)); render(); });
-  const inspectVisible = buildInspectButton('Inspect visible', state.visibleBookmarks.length, 'ghost-button');
-  inspectVisible.addEventListener('click', () => inspectBookmarksHealth(state.visibleBookmarks));
-  const openSelected = create('button', 'ghost-button', 'Open');
-  openSelected.type = 'button';
-  openSelected.disabled = state.selectedIds.size === 0;
-  openSelected.addEventListener('click', async () => { for (const bookmark of selectedBookmarks()) await handleOpen(bookmark.url); });
-  const deleteSelected = create('button', 'ghost-button danger-button', 'Delete');
-  deleteSelected.type = 'button';
-  deleteSelected.disabled = state.selectedIds.size === 0;
-  deleteSelected.addEventListener('click', () => handleDeleteMany(selectedBookmarks()));
-  actions.append(clear, selectDupes, inspectVisible, openSelected, deleteSelected);
-  bar.append(text, actions);
-  root.append(bar);
+/**
+ * Clears the active tag filter entirely. Bound to a "clear" affordance
+ * in the filter chip strip.
+ */
+function clearTagFilter() {
+  if (!state.activeTagFilter?.length) return;
+  state.activeTagFilter = [];
+  recalculateVisibleBookmarks();
+  render();
+}
+
+/**
+ * Builds the tag filter strip that sits above the list. Returns null when
+ * there are no tags anywhere in the library — no point in showing the
+ * bar when the user hasn't started tagging yet.
+ *
+ * Layout: a "Tags:" label, up to 12 top-used tag chips (most-used first,
+ * via summariseTags), and a clear-all button when any filter is active.
+ * Clicking a chip toggles it in the active filter.
+ */
+function renderTagFilterStrip() {
+  const summary = summariseTags(state.tagsByBookmark);
+  if (!summary.length) return null;
+
+  const strip = create('div', 'tag-filter-strip');
+  strip.append(create('span', 'tag-filter-label', t('Tags:')));
+
+  const active = new Set(state.activeTagFilter || []);
+
+  // Always include any active filter tags first so the user can see and
+  // un-toggle them even if they're not in the top 12. Then fill the rest
+  // with the most-used tags not already shown.
+  const visibleTags = [];
+  const seen = new Set();
+  for (const tag of active) {
+    visibleTags.push({ tag, count: summary.find((s) => s.tag === tag)?.count ?? 0 });
+    seen.add(tag);
+  }
+  for (const entry of summary) {
+    if (seen.has(entry.tag)) continue;
+    visibleTags.push(entry);
+    seen.add(entry.tag);
+    if (visibleTags.length >= 12) break;
+  }
+
+  for (const { tag, count } of visibleTags) {
+    const isActive = active.has(tag);
+    const chip = create('button', `tag-filter-chip${isActive ? ' is-active' : ''}`);
+    chip.type = 'button';
+    chip.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    chip.append(create('span', 'tag-filter-chip-label', tag));
+    chip.append(create('span', 'tag-filter-chip-count', String(count)));
+    chip.addEventListener('click', () => toggleTagFilter(tag));
+    strip.append(chip);
+  }
+
+  if (active.size) {
+    const clear = create('button', 'tag-filter-clear');
+    clear.type = 'button';
+    clear.textContent = t('Clear');
+    clear.title = t('Clear tag filter');
+    clear.addEventListener('click', clearTagFilter);
+    strip.append(clear);
+  }
+
+  return strip;
+}
+
+// ─── Drag-and-drop ─────────────────────────────────────────────────────────
+// Lightweight session state. Holds the set of bookmark IDs being dragged
+// (could be a single item or, when the user drags a row that's already
+// part of a multi-selection, the entire selection). Cleared on drop or
+// dragend so subsequent unrelated drags can't accidentally see stale data.
+const _dragSession = {
+  sourceIds: [],
+  // Stored at dragstart so the drop handler doesn't need to re-resolve
+  // bookmark objects (they might have moved out of the visible window
+  // due to scroll, and visibleBookmarks is the only thing scoped to
+  // the current view).
+  sourceBookmarks: []
+};
+
+function resetDragSession() {
+  _dragSession.sourceIds = [];
+  _dragSession.sourceBookmarks = [];
+}
+
+function findBookmarksByIds(ids) {
+  const idSet = new Set(ids);
+  // Drag sources can be anywhere in the library, not just the current
+  // visible window. Look in allBookmarks so multi-selection that spans
+  // pages doesn't lose items.
+  return (state.allBookmarks || []).filter((b) => idSet.has(b.id));
+}
+
+function attachDragHandlers(itemEl, bookmark) {
+  itemEl.addEventListener('dragstart', (event) => {
+    // If the dragged row is part of a multi-selection, move all selected
+    // bookmarks. Otherwise move just this one.
+    const selected = getSelectedBookmarks();
+    const isPartOfSelection = selected.some((b) => b.id === bookmark.id);
+    const sources = isPartOfSelection && selected.length > 1 ? selected : [bookmark];
+    _dragSession.sourceIds = sources.map((b) => b.id);
+    _dragSession.sourceBookmarks = sources;
+    // We don't actually use the payload — handlers read _dragSession —
+    // but the API requires *some* data for the drag to "take" in Chrome.
+    try { event.dataTransfer?.setData('text/plain', sources[0].url || ''); } catch {}
+    if (event.dataTransfer) event.dataTransfer.effectAllowed = 'move';
+    itemEl.classList.add('dragging');
+  });
+
+  itemEl.addEventListener('dragend', () => {
+    itemEl.classList.remove('dragging');
+    clearAllDropIndicators();
+    resetDragSession();
+  });
+
+  itemEl.addEventListener('dragover', (event) => {
+    if (!_dragSession.sourceIds.length) return;
+    if (_dragSession.sourceIds.includes(bookmark.id)) return; // can't drop on self
+    event.preventDefault(); // required to allow drop
+    if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+    const rect = itemEl.getBoundingClientRect();
+    const position = event.clientY < rect.top + rect.height / 2 ? 'before' : 'after';
+    setDropIndicator(itemEl, position);
+  });
+
+  itemEl.addEventListener('dragleave', (event) => {
+    // dragleave fires when entering a child element too — only clear the
+    // indicator when the pointer actually leaves the row bounds.
+    if (!itemEl.contains(event.relatedTarget)) {
+      clearDropIndicator(itemEl);
+    }
+  });
+
+  itemEl.addEventListener('drop', async (event) => {
+    event.preventDefault();
+    if (!_dragSession.sourceIds.length) return;
+    if (_dragSession.sourceIds.includes(bookmark.id)) return;
+    const rect = itemEl.getBoundingClientRect();
+    const position = event.clientY < rect.top + rect.height / 2 ? 'before' : 'after';
+    const sourceBookmarks = _dragSession.sourceBookmarks.slice();
+    clearAllDropIndicators();
+    resetDragSession();
+    await handleDragDropMove(sourceBookmarks, bookmark, position);
+  });
+}
+
+function setDropIndicator(itemEl, position) {
+  // Reuse the same indicator across rows — visually it's just one bar at
+  // a time, so clear any previous mark first.
+  clearAllDropIndicators();
+  itemEl.classList.add(position === 'before' ? 'drop-target-before' : 'drop-target-after');
+}
+
+function clearDropIndicator(itemEl) {
+  itemEl.classList.remove('drop-target-before', 'drop-target-after');
+}
+
+function clearAllDropIndicators() {
+  app?.querySelectorAll?.('.drop-target-before, .drop-target-after')
+    .forEach((el) => { el.classList.remove('drop-target-before', 'drop-target-after'); });
 }
 
 function renderItem(bookmark) {
-  const item = create('div', `item${state.activeBookmarkId === bookmark.id ? ' active-item' : ''}`);
+  const item = create('div', `item${state.activeBookmarkId === bookmark.id ? ' active-item' : ''}${state.compactMode ? ' item-compact' : ''}`);
   const top = create('div', 'item-top');
   item.dataset.bookmarkId = bookmark.id;
   item.tabIndex = -1;
+  item.draggable = true;
+  attachDragHandlers(item, bookmark);
   item.addEventListener('mousedown', (event) => {
     if (event.target.closest('button, input, select, a, label')) return;
     if (state.activeBookmarkId === bookmark.id) return;
@@ -1893,14 +1669,10 @@ function renderItem(bookmark) {
   const leading = create('div', 'item-leading');
   const selector = create('input', 'item-checkbox');
   selector.type = 'checkbox';
-  selector.checked = state.selectedIds.has(bookmark.id);
+  selector.setAttribute('aria-label', `${featureText('Select bookmark')}: ${bookmark.title || bookmark.url}${bookmark.title ? ` — ${bookmark.url}` : ''}`);
+  selector.checked = isBookmarkSelected(bookmark.id);
   selector.addEventListener('change', (event) => {
-    if (event.target.checked) {
-      state.selectedIds.add(bookmark.id);
-    } else {
-      state.selectedIds.delete(bookmark.id);
-    }
-    render();
+    setBookmarkSelection(bookmark.id, event.target.checked, { renderAfter: true });
   });
   leading.append(selector);
 
@@ -1917,14 +1689,10 @@ function renderItem(bookmark) {
     urlInput.style.marginTop = '8px';
 
     const actions = create('div', 'item-actions');
-    const save = create('button', 'icon-button success', '✓');
-    save.title = 'Save changes';
-    save.type = 'button';
+    const save = createIconButton('save', t('Save changes'), 'icon-button success');
     save.addEventListener('click', () => handleSaveEdit(bookmark.id, titleInput.value, urlInput.value));
 
-    const cancel = create('button', 'icon-button', '✕');
-    cancel.title = 'Cancel editing';
-    cancel.type = 'button';
+    const cancel = createIconButton('close', t('Cancel editing'), 'icon-button');
     cancel.addEventListener('click', () => {
       state.editingBookmarkId = null;
       render();
@@ -1946,55 +1714,121 @@ function renderItem(bookmark) {
   }
 
   const headline = create('div', 'item-headline');
-  const favicon = createFaviconNode(bookmark);
+  const favicon = createFaviconNode(bookmark, create);
   const title = create('h2', 'item-title');
+  title.dir = 'auto';
+  title.title = bookmark.title || '';
   title.append(createHighlightedFragment(bookmark.title, state.query));
   headline.append(favicon, title);
+  const metaRow = create('div', 'item-meta-row');
+  const hostChip = create('div', 'item-host-pill', getBookmarkHostLabel(bookmark.url));
+  hostChip.title = getBookmarkHostLabel(bookmark.url);
+  metaRow.append(hostChip);
+  if (bookmark.path && bookmark.path !== 'Bookmarks bar' && bookmark.path !== 'Root') {
+    const pathInline = create('div', 'item-path-inline');
+    pathInline.dir = 'auto';
+    pathInline.title = bookmark.path;
+    pathInline.append(createHighlightedFragment(bookmark.path, state.query));
+    metaRow.append(pathInline);
+  }
   const meta = create('div', 'item-url');
+  meta.dir = 'auto';
   meta.title = bookmark.url;
   meta.append(createHighlightedFragment(bookmark.url, state.query));
-  const path = create('div', 'item-path');
-  path.title = bookmark.path || 'Root';
-  path.append(createHighlightedFragment(bookmark.path || 'Root', state.query));
 
-  body.append(headline, meta, path);
+  // Folder path and URL share one line; badges and tags share another.
+  const subline = create('div', 'item-sub');
+  subline.append(metaRow, meta);
+  const chips = create('div', 'item-chips');
+  body.append(headline, subline);
   const badges = [];
-  if (bookmark.isDuplicate) badges.push('Duplicate URL');
-  if (bookmark.isUntitled) badges.push('Untitled');
-  if (bookmark.isOld) badges.push(`Old ${bookmark.ageDays}d`);
-  if (bookmark.hasTitleCollision) badges.push('Title collision');
+  if (bookmark.isDuplicate) badges.push(t('Duplicate URL'));
+  if (bookmark.isUntitled) badges.push(t('Untitled'));
+  if (bookmark.isOld) badges.push(t('Old · {{age}}', { age: formatAgeCompact(bookmark.ageDays) }));
+  if (bookmark.hasTitleCollision) badges.push(t('Title collision'));
   const healthRecord = getHealthRecord(bookmark);
   if (badges.length || healthRecord) {
     const badgeRow = create('div', 'badge-row');
     badges.forEach((label) => badgeRow.append(create('div', bookmarkStatusBadgeClass(label), label)));
     if (healthRecord) {
-      const badge = create('div', healthBadgeClass(healthRecord), healthLabel(healthRecord));
-      if (healthRecord.finalUrl && healthRecord.finalUrl !== bookmark.url) badge.title = `Final URL: ${healthRecord.finalUrl}`;
+      const badge = create('div', healthBadgeClass(healthRecord), healthLabel(healthRecord, t));
+      if (healthRecord.finalUrl && healthRecord.finalUrl !== bookmark.url) badge.title = `${t('Redirects to')}: ${healthRecord.finalUrl}`;
       if (healthRecord.error) badge.title = healthRecord.error;
       badgeRow.append(badge);
     }
-    body.append(badgeRow);
+    chips.append(badgeRow);
   }
 
+  // Tag row: pills for each tag + a small "+ tag" input. Rendered only
+  // when there are tags OR the active bookmark is this row (to keep the
+  // list visually quiet for the long tail of untagged bookmarks).
+  const bookmarkTags = state.tagsByBookmark?.[bookmark.id] || [];
+  const isActiveRow = state.activeBookmarkId === bookmark.id;
+  if (bookmarkTags.length || isActiveRow) {
+    const tagRow = create('div', 'tag-row');
+    for (const tag of bookmarkTags) {
+      const pill = create('span', 'tag-pill');
+      pill.append(create('span', 'tag-pill-label', tag));
+      const removeBtn = create('button', 'tag-pill-remove');
+      removeBtn.type = 'button';
+      removeBtn.title = t('Remove tag');
+      removeBtn.setAttribute('aria-label', t('Remove tag {{tag}}', { tag }));
+      removeBtn.textContent = '×';
+      removeBtn.addEventListener('click', (event) => {
+        event.stopPropagation();
+        handleRemoveTag(bookmark.id, tag);
+      });
+      pill.append(removeBtn);
+      // Clicking the label adds this tag to the active filter so users
+      // can pivot to "show me everything also tagged X" with one click.
+      pill.addEventListener('click', (event) => {
+        // Don't fire when the click was on the × — that already had its
+        // own handler with stopPropagation.
+        if (event.target.closest('.tag-pill-remove')) return;
+        toggleTagFilter(tag);
+      });
+      tagRow.append(pill);
+    }
+    // Inline add-tag input shows only on the active row to avoid 1000s
+    // of inputs in a large library. Pressing Enter or comma commits.
+    if (isActiveRow) {
+      const input = create('input', 'tag-add-input');
+      input.type = 'text';
+      input.placeholder = t('+ add tag');
+      input.maxLength = 48; // gentle: actual cap is enforced in normaliseTag
+      input.addEventListener('click', (event) => event.stopPropagation());
+      input.addEventListener('mousedown', (event) => event.stopPropagation());
+      input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ',') {
+          event.preventDefault();
+          const value = input.value.trim();
+          if (!value) return;
+          handleAddTag(bookmark.id, value);
+          input.value = '';
+        } else if (event.key === 'Escape') {
+          input.value = '';
+          input.blur();
+        }
+      });
+      tagRow.append(input);
+    }
+    chips.append(tagRow);
+  }
+  if (chips.childNodes.length) body.append(chips);
+
   const actions = create('div', 'item-actions');
-  const open = create('button', 'icon-button primary-row-action', '↗');
-  open.type = 'button';
-  open.title = 'Open bookmark';
+  const open = createIconButton('open', t('Open bookmark'), 'icon-button primary-row-action row-icon-button');
   open.addEventListener('click', () => handleOpen(bookmark.url));
 
-  const folder = create('button', 'icon-button folder-row-action', '▣');
-  folder.type = 'button';
-  folder.title = 'Show in bookmarks';
+  const folder = createIconButton('folderOpen', t('Show in bookmarks'), 'icon-button folder-row-action row-icon-button');
   folder.addEventListener('click', async () => {
-    await sendMessage({ type: 'OPEN_BOOKMARK_FOLDER', parentId: bookmark.parentId });
+    await sendMessage(runtimeMessages.openBookmarkFolder(bookmark.parentId));
   });
 
   const redirectRecord = getHealthRecord(bookmark);
   const canRepair = !!(redirectRecord && redirectRecord.status === HEALTH_STATUSES.REDIRECTED && redirectRecord.finalUrl && redirectRecord.finalUrl !== bookmark.url);
   const moreWrap = create('div', 'item-more-wrap');
-  const more = create('button', `icon-button item-more-button more-row-action${state.rowMenuBookmarkId === bookmark.id ? ' active' : ''}`, '⋯');
-  more.type = 'button';
-  more.title = 'More actions';
+  const more = createIconButton('more', t('More actions'), `icon-button item-more-button more-row-action row-icon-button${state.rowMenuBookmarkId === bookmark.id ? ' active' : ''}`);
   more.dataset.bookmarkId = bookmark.id;
   more.addEventListener('click', (event) => {
     event.stopPropagation();
@@ -2002,13 +1836,13 @@ function renderItem(bookmark) {
     if (state.rowMenuBookmarkId === bookmark.id) {
       state.rowMenuBookmarkId = null;
       state.rowMenuPosition = null;
-      render();
+      renderOverlaysOnly();
       return;
     }
     const rect = event.currentTarget.getBoundingClientRect();
     state.rowMenuBookmarkId = bookmark.id;
-    state.rowMenuPosition = { top: rect.bottom + 6, right: Math.max(12, window.innerWidth - rect.right) };
-    render();
+    state.rowMenuPosition = getFixedMenuPosition(rect, 6);
+    renderOverlaysOnly();
   });
   moreWrap.append(more);
 
@@ -2028,7 +1862,7 @@ function buildSidebarPanel(titleText, helperText) {
 function createDetailsField(label, value, title = '') {
   const field = create('div', 'detail-field');
   field.append(create('div', 'detail-label', label));
-  const valueEl = create('div', 'detail-value', value || '—');
+  const valueEl = create('div', 'detail-value', value || t('—'));
   if (title) valueEl.title = title;
   field.append(valueEl);
   return field;
@@ -2040,8 +1874,8 @@ function renderDetailsDrawer(root) {
   if (!active) {
     const empty = create('div', 'drawer-empty');
     empty.append(
-      create('div', 'review-card-title', 'No bookmark selected'),
-      create('div', 'helper-text', 'Pick a bookmark from the list to inspect the full URL, status, and quick actions.')
+      create('div', 'review-card-title', t('No bookmark selected')),
+      create('div', 'helper-text', t('Select a bookmark to see the full URL, status, and actions.'))
     );
     drawer.append(empty);
     root.append(drawer);
@@ -2050,73 +1884,266 @@ function renderDetailsDrawer(root) {
 
   const head = create('div', 'drawer-head');
   const titleRow = create('div', 'drawer-title-row');
-  titleRow.append(createFaviconNode(active));
+  titleRow.append(createFaviconNode(active, create));
   const titleWrap = create('div', 'drawer-title-wrap');
-  titleWrap.append(create('div', 'review-card-title drawer-title', active.title || '(Untitled bookmark)'));
-  titleWrap.append(create('div', 'helper-text', modeLabel(state.mode)));
+  titleWrap.append(create('div', 'review-card-title drawer-title', active.title || t('(Untitled bookmark)')));
+  titleWrap.append(create('div', 'helper-text', active.path || t('Root')));
   titleRow.append(titleWrap);
   head.append(titleRow);
 
   const actions = create('div', 'footer-actions wrap drawer-actions');
-  const open = create('button', 'ghost-button drawer-primary-action', 'Open');
+  const open = create('button', 'ghost-button drawer-primary-action', t('Open'));
   open.type = 'button';
   open.addEventListener('click', () => handleOpen(active.url));
-  const edit = create('button', 'ghost-button drawer-tertiary-action', 'Edit');
+  const edit = create('button', 'ghost-button drawer-tertiary-action', t('Edit'));
   edit.type = 'button';
   edit.addEventListener('click', () => { state.editingBookmarkId = active.id; render(); });
-  const folder = create('button', 'ghost-button drawer-secondary-action', 'Show folder');
+  const folder = create('button', 'ghost-button drawer-secondary-action', t('Show folder'));
   folder.type = 'button';
-  folder.addEventListener('click', () => sendMessage({ type: 'OPEN_BOOKMARK_FOLDER', parentId: active.parentId }));
-  const remove = create('button', 'ghost-button danger-button', 'Delete');
+  folder.addEventListener('click', () => sendMessage(runtimeMessages.openBookmarkFolder(active.parentId)));
+  const remove = create('button', 'ghost-button danger-button', t('Delete'));
   remove.type = 'button';
   remove.addEventListener('click', () => handleDeleteMany([active]));
   actions.append(open, edit, folder, remove);
   head.append(actions);
 
   const badgeRow = create('div', 'badge-row drawer-badges');
-  if (active.isDuplicate) badgeRow.append(create('div', 'badge warning', 'Duplicate URL'));
-  if (active.isOld) badgeRow.append(create('div', 'badge warning', `Old ${active.ageDays}d`));
-  if (active.isUntitled) badgeRow.append(create('div', 'badge', 'Untitled'));
-  if (active.hasTitleCollision) badgeRow.append(create('div', 'badge', 'Title collision'));
+  if (active.isDuplicate) badgeRow.append(create('div', 'badge status-duplicate', t('Duplicate URL')));
+  if (active.isOld) {
+    const oldBadge = create('div', 'badge status-old', t('Old · {{age}}', { age: formatAgeCompact(active.ageDays) }));
+    oldBadge.title = t('{{count}} days old', { count: formatNumber(active.ageDays) });
+    badgeRow.append(oldBadge);
+  }
+  if (active.isUntitled) badgeRow.append(create('div', 'badge status-untitled', t('Untitled')));
+  if (active.hasTitleCollision) badgeRow.append(create('div', 'badge status-collision', t('Title collision')));
   const healthRecord = getHealthRecord(active);
   if (healthRecord) {
-    const healthBadge = create('div', healthBadgeClass(healthRecord), healthLabel(healthRecord));
+    const healthBadge = create('div', healthBadgeClass(healthRecord), healthLabel(healthRecord, t));
     badgeRow.append(healthBadge);
   }
   if (badgeRow.childNodes.length) head.append(badgeRow);
   drawer.append(head);
 
   const body = create('div', 'drawer-body');
+  const urlField = create('div', 'detail-field drawer-url-field');
+  urlField.append(create('div', 'detail-label', t('URL')));
+  const urlRow = create('div', 'drawer-url-row');
+  const urlLink = create('a', 'detail-value drawer-url-link', active.url);
+  urlLink.href = active.url;
+  urlLink.title = active.url;
+  urlLink.addEventListener('click', (event) => {
+    event.preventDefault();
+    handleOpen(active.url);
+  });
+  const copyUrlBtn = create('button', 'ghost-button drawer-copy-url-btn', t('Copy'));
+  copyUrlBtn.type = 'button';
+  copyUrlBtn.title = t('Copy URL to clipboard');
+  copyUrlBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(active.url);
+      copyUrlBtn.textContent = t('Copied!');
+      setTimeout(() => { copyUrlBtn.textContent = t('Copy'); }, 1800);
+    } catch {
+      setToast(t('Clipboard failed.'), { error: true });
+    }
+  });
+  urlRow.append(urlLink, copyUrlBtn);
+  urlField.append(urlRow);
+
   body.append(
-    createDetailsField('URL', active.url, active.url),
-    createDetailsField('Folder', active.path || 'Root', active.path || 'Root'),
-    createDetailsField('Added', active.dateAdded ? new Date(active.dateAdded).toLocaleString() : 'Unknown'),
-    createDetailsField('Age', Number.isFinite(active.ageDays) ? `${active.ageDays} days` : 'Unknown')
+    urlField,
+    createDetailsField(t('Folder'), active.path || t('Root'), active.path || t('Root')),
+    createDetailsField(t('Added'), active.dateAdded ? formatDateTime(active.dateAdded) : t('Unknown')),
+    createDetailsField(t('Age'), Number.isFinite(active.ageDays) ? formatAgeHuman(active.ageDays) : t('Unknown'))
   );
   if (healthRecord?.finalUrl && healthRecord.finalUrl !== active.url) {
-    body.append(createDetailsField('Redirects to', healthRecord.finalUrl, healthRecord.finalUrl));
+    body.append(createDetailsField(t('Redirects to'), healthRecord.finalUrl, healthRecord.finalUrl));
   }
   if (healthRecord?.error) {
-    body.append(createDetailsField('Health note', healthRecord.error, healthRecord.error));
+    body.append(createDetailsField(t('Health note'), healthRecord.error, healthRecord.error));
   }
   drawer.append(body);
   root.append(drawer);
 }
 
+function appendSidebarPanelContent(scroll) {
+  const scopedBookmarks = getScopedBookmarks();
+  const scopeCleanup = getScopeSummary();
+  const health = state.healthSummary || summarizeHealth(state.visibleBookmarks, state.healthByKey);
+  const scopeHealth = getScopeHealthSummary();
+  const reminder = buildReminderState();
+  const score = computeHealthScore();
+
+  if (state.sidebarTab === 'overview') {
+    const panel = buildSidebarPanel(t('Overview'), t('Library snapshot · {{count}} bookmarks in scope.', { count: formatNumber(scopedBookmarks.length) }));
+    const stats = create('div', 'compact-summary-list overview-summary-list');
+    const priorityCount = scopeHealth.broken + scopeHealth.serverError + scopeHealth.unreachable + scopeHealth.redirected;
+    [
+      createSummaryRow(t('Library'), formatNumber(scopedBookmarks.length)),
+      createSummaryRow(t('Health'), score.isMetadataOnly ? t('{{score}} · metadata-only', { score: formatNumber(score.score) }) : t('{{score}} · grade {{grade}}', { score: formatNumber(score.score), grade: score.grade })),
+      createSummaryRow(t('Checked'), formatNumber(scopeHealth.checked)),
+      createSummaryRow(t('Priority'), formatNumber(priorityCount))
+    ].forEach((row) => stats.append(row));
+    panel.append(stats);
+    const recommendations = getReviewQueue().filter((entry) => entry.id !== 'healthy').slice(0, 2);
+    if (recommendations.length) {
+      const queue = create('div', 'review-queue compact-review-queue overview-review-queue');
+      recommendations.forEach((entry) => {
+        const card = create('div', `review-card sidebar-review-card compact ${entry.tone || ''}`.trim());
+        const titleWrap = create('div', 'review-card-compact-copy');
+        titleWrap.append(create('div', 'review-card-title', entry.title));
+        card.append(titleWrap);
+        if (entry.actions?.[0]) {
+          const action = create('button', 'ghost-button review-card-cta', entry.actions[0].label);
+          action.type = 'button';
+          action.addEventListener('click', entry.actions[0].run);
+          card.append(action);
+        }
+        queue.append(card);
+      });
+      panel.append(queue);
+    }
+    scroll.append(panel);
+  }
+
+  if (state.sidebarTab === 'cleanup') {
+    const cleanupPanel = buildSidebarPanel(t('Cleanup'), t('{{duplicates}} duplicate URLs · {{old}} old · {{untitled}} untitled.', { duplicates: formatNumber(scopeCleanup.duplicateCount), old: formatNumber(scopeCleanup.oldCount), untitled: formatNumber(scopeCleanup.untitledCount) }));
+    const presets = create('div', 'footer-actions wrap');
+    [
+      [CLEANUP_FILTERS.DUPLICATES, t('Duplicates')],
+      [CLEANUP_FILTERS.OLD, t('Old')],
+      [CLEANUP_FILTERS.UNTITLED, t('Untitled')],
+      [CLEANUP_FILTERS.TITLE_COLLISIONS, t('Collisions')]
+    ].forEach(([filter, label]) => {
+      const button = create('button', 'ghost-button', label);
+      button.type = 'button';
+      button.addEventListener('click', () => setCleanupFilter(filter));
+      presets.append(button);
+    });
+    cleanupPanel.append(presets);
+    scroll.append(cleanupPanel);
+  }
+
+  if (state.sidebarTab === 'health') {
+    const totalUniqueVisible = new Set(state.visibleBookmarks.map((bookmark) => getHealthKey(bookmark))).size;
+    const healthPanel = buildSidebarPanel(t('Health'), t('{{checked}}/{{total}} checked · {{redirected}} redirected · {{unhealthy}} unhealthy.', { checked: formatNumber(health.checked), total: formatNumber(totalUniqueVisible), redirected: formatNumber(health.redirected), unhealthy: formatNumber(health.broken + health.serverError + health.unreachable) }));
+    const actions = create('div', 'footer-actions wrap');
+    const inspectButton = buildInspectButton(getInspectButtonLabel(), getInspectTargetBookmarks().length || totalUniqueVisible, 'ghost-button');
+    inspectButton.addEventListener('click', () => inspectBookmarksHealth(getInspectTargetBookmarks()));
+    const markReviewed = create('button', 'ghost-button', t('Mark reviewed now'));
+    markReviewed.type = 'button';
+    markReviewed.addEventListener('click', handleMarkReviewedNow);
+    actions.append(inspectButton, markReviewed);
+    healthPanel.append(actions);
+    const stats = create('div', 'compact-summary-list');
+    [
+      createSummaryRow(t('Healthy'), formatNumber(health.healthy)),
+      createSummaryRow(t('Redirected'), formatNumber(health.redirected)),
+      createSummaryRow(t('Unhealthy'), formatNumber(health.broken + health.serverError + health.unreachable), 'warning'),
+      createSummaryRow(t('Next review'), reminder.enabled ? reminder.statusLabel : t('Manual'))
+    ].forEach((row) => stats.append(row));
+    healthPanel.append(stats);
+    scroll.append(healthPanel);
+  }
+
+  if (state.sidebarTab === 'history') {
+    const trends = getHistoryTrends();
+    const hasActivity = trends.totalActions > 0 || state.reviewSessions.length > 0;
+    const historyPanel = buildSidebarPanel(
+      t('Activity'),
+      hasActivity
+        ? t('{{actions}} logged actions · {{sessions}} saved sessions.', { actions: formatNumber(state.cleanupHistory.length), sessions: formatNumber(state.reviewSessions.length) })
+        : t('No cleanup history yet. Run inspect, delete, import, or repair actions to build activity history.')
+    );
+
+    if (hasActivity) {
+      const stats = create('div', 'compact-summary-list');
+      [
+        createSummaryRow(t('Actions'), formatNumber(trends.totalActions)),
+        createSummaryRow(t('Redirects fixed'), formatNumber(trends.redirectsFixed)),
+        createSummaryRow(t('Imports'), formatNumber(trends.imports)),
+        createSummaryRow(t('Deletes'), formatNumber(trends.deletes))
+      ].forEach((row) => stats.append(row));
+      historyPanel.append(stats);
+
+      const latest = create('div', 'history-list slim-history-list');
+      if (state.cleanupHistory.length) {
+        state.cleanupHistory.slice(0, 5).forEach((entry) => {
+          const item = create('div', 'history-item compact-history-item');
+          item.append(
+            create('div', 'review-card-title', t('{{type}} · {{count}}', { type: formatActionType(entry.type) || t('action'), count: formatNumber(entry.count || 0) })),
+            create('div', 'helper-text', `${formatDateTime(entry.at)}${entry.note ? ` · ${entry.note}` : ''}`)
+          );
+          latest.append(item);
+        });
+      } else {
+        latest.append(create('div', 'helper-text', t('No cleanup history yet.')));
+      }
+      historyPanel.append(latest);
+    } else {
+      const empty = create('div', 'sidebar-panel-empty');
+      empty.append(
+        create('div', 'review-card-title', t('Nothing has happened yet')),
+        create('div', 'helper-text', t('This panel will wake up after you inspect links, repair redirects, import, or delete bookmarks.'))
+      );
+      historyPanel.append(empty);
+    }
+
+    scroll.append(historyPanel);
+  }
+}
+
+function createSidebarFlyout() {
+  if (!isSidebarOverlayMode() || !state.sidebarOverlayOpen) return null;
+
+  const flyout = create('div', 'sidebar-flyout-panel');
+  flyout.addEventListener('mouseenter', clearSidebarOverlayHideTimer);
+  flyout.addEventListener('mouseleave', () => scheduleSidebarOverlayClose(220));
+
+  const head = create('div', 'sidebar-flyout-head');
+  const meta = create('div', 'about-meta');
+  meta.append(
+    create('div', 'about-title', t(tabsMeta[state.sidebarTab]?.title || 'Details')),
+    create('div', 'about-copy-muted', t(tabsMeta[state.sidebarTab]?.hint || 'Quick panel'))
+  );
+  const close = createIconButton('close', t('Close sidebar panel'), 'icon-button mono-icon-button sidebar-flyout-close');
+  close.addEventListener('click', closeSidebarOverlay);
+  head.append(meta, close);
+  flyout.append(head);
+
+  const scroll = create('div', 'sidebar-scroll sidebar-flyout-scroll');
+  appendSidebarPanelContent(scroll);
+  flyout.append(scroll);
+  return flyout;
+}
+
+const tabsMeta = {
+  overview: { title: 'Overview', hint: 'Library snapshot and review highlights.' },
+  cleanup: { title: 'Cleanup', hint: 'Quick filters for stale, duplicate, and collision cleanup.' },
+  health: { title: 'Health', hint: 'Inspect link health and review timing.' },
+  history: { title: 'Activity', hint: 'Recent actions, sessions, and cleanup history.' }
+};
+
 function renderSidebar(root) {
   root.classList.toggle('collapsed', state.sidebarCollapsed);
+  root.classList.toggle('overlay-mode', isSidebarOverlayMode());
+  root.classList.toggle('overlay-open', isSidebarOverlayMode() && state.sidebarOverlayOpen);
 
-  const shell = create('div', 'dashboard-sidebar-shell');
+  const shell = create('div', `dashboard-sidebar-shell${isSidebarOverlayMode() ? ' has-flyout-mode' : ''}`);
+  if (isSidebarOverlayMode()) {
+    shell.addEventListener('mouseenter', clearSidebarOverlayHideTimer);
+    shell.addEventListener('mouseleave', () => scheduleSidebarOverlayClose(220));
+  }
   const rail = create('div', 'dashboard-side-nav dashboard-side-rail');
-  const collapseButton = createIconButton(state.sidebarCollapsed ? 'chevronRight' : 'chevronLeft', state.sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar', 'icon-button mono-icon-button sidebar-rail-toggle');
-  collapseButton.addEventListener('click', toggleSidebarCollapsed);
+  const collapseButton = createIconButton(state.sidebarCollapsed ? (isRtlDocument() ? 'chevronLeft' : 'chevronRight') : (isRtlDocument() ? 'chevronRight' : 'chevronLeft'), state.sidebarCollapsed ? t('Expand sidebar') : t('Collapse sidebar'), 'icon-button mono-icon-button sidebar-rail-toggle');
+  collapseButton.addEventListener('click', () => { commands.run('toggleSidebarCollapsed').catch(console.error); });
   rail.append(collapseButton);
 
   const tabs = [
-    ['overview', 'Overview', 'overview', 'Stats'],
-    ['cleanup', 'Cleanup', 'cleanup', 'Clean'],
-    ['health', 'Health', 'health', 'Health'],
-    ['history', 'Activity', 'history', 'Activity']
+    ['overview', t('Overview'), 'overview', t('Stats')],
+    ['cleanup', t('Cleanup'), 'cleanup', t('Clean')],
+    ['health', t('Health'), 'health', t('Health')],
+    ['history', t('Activity'), 'history', t('Activity')]
   ];
   tabs.forEach(([value, label, icon, shortLabel]) => {
     const button = create('button', `sidebar-tab sidebar-rail-tab${state.sidebarTab === value ? ' active' : ''}`);
@@ -2125,137 +2152,217 @@ function renderSidebar(root) {
     button.setAttribute('aria-label', label);
     button.innerHTML = `<span class="sidebar-tab-icon">${iconSvg(icon)}</span><span class="sidebar-tab-label">${shortLabel}</span>`;
     button.addEventListener('click', () => {
-      state.sidebarTab = value;
+      if (isSidebarOverlayMode()) {
+        const isSameTab = state.sidebarTab === value;
+        state.sidebarTab = value;
+        state.sidebarOverlayOpen = !(isSameTab && state.sidebarOverlayOpen);
+      } else {
+        state.sidebarTab = value;
+        state.sidebarOverlayOpen = false;
+      }
       render();
     });
     rail.append(button);
   });
   shell.append(rail);
 
-  if (!state.sidebarCollapsed) {
+  if (!state.sidebarCollapsed && !isSidebarOverlayMode()) {
     const panelWrap = create('div', 'dashboard-sidebar-panel-wrap');
     const scroll = create('div', 'sidebar-scroll');
-    const scopedBookmarks = getScopedBookmarks();
-    const scopeCleanup = getScopeSummary();
-    const health = state.healthSummary || summarizeHealth(state.visibleBookmarks);
-    const scopeHealth = getScopeHealthSummary();
-    const reminder = buildReminderState();
-    const score = computeHealthScore();
-
-    if (state.sidebarTab === 'overview') {
-      const panel = buildSidebarPanel('Overview', `${scopedBookmarks.length} bookmarks in the library · health ${score.score}${score.isMetadataOnly ? ' metadata-only' : ''}.`);
-      const stats = create('div', 'compact-summary-list');
-      [
-        createSummaryRow('Total', `${scopedBookmarks.length}`),
-        createSummaryRow('Health', `${score.score}${score.isMetadataOnly ? ' · metadata-only' : ` · grade ${score.grade}`}`),
-        createSummaryRow('Checked', `${scopeHealth.checked}`),
-        createSummaryRow('Unhealthy', `${scopeHealth.broken + scopeHealth.serverError + scopeHealth.unreachable}`)
-      ].forEach((row) => stats.append(row));
-      panel.append(stats);
-      const recommendations = getReviewQueue().slice(0, 2);
-      if (recommendations.length) {
-        const queue = create('div', 'review-queue compact-review-queue');
-        recommendations.forEach((entry) => {
-          const card = create('div', `review-card sidebar-review-card ${entry.tone || ''}`.trim());
-          card.append(create('div', 'review-card-title', entry.title), create('div', 'helper-text', entry.body));
-          queue.append(card);
-        });
-        panel.append(queue);
-      }
-      scroll.append(panel);
-    }
-
-    if (state.sidebarTab === 'cleanup') {
-      const cleanupPanel = buildSidebarPanel('Cleanup', `${scopeCleanup.duplicateCount} duplicate URLs · ${scopeCleanup.oldCount} old · ${scopeCleanup.untitledCount} untitled.`);
-      const presets = create('div', 'footer-actions wrap');
-      [
-        [CLEANUP_FILTERS.DUPLICATES, 'Duplicates'],
-        [CLEANUP_FILTERS.OLD, 'Old'],
-        [CLEANUP_FILTERS.UNTITLED, 'Untitled'],
-        [CLEANUP_FILTERS.TITLE_COLLISIONS, 'Collisions']
-      ].forEach(([filter, label]) => {
-        const button = create('button', 'ghost-button', label);
-        button.type = 'button';
-        button.addEventListener('click', () => setCleanupFilter(filter));
-        presets.append(button);
-      });
-      cleanupPanel.append(presets);
-      scroll.append(cleanupPanel);
-    }
-
-    if (state.sidebarTab === 'health') {
-      const totalUniqueVisible = new Set(state.visibleBookmarks.map((bookmark) => getHealthKey(bookmark))).size;
-      const healthPanel = buildSidebarPanel('Health', `${health.checked}/${totalUniqueVisible} checked · ${health.redirected} redirected · ${health.broken + health.serverError + health.unreachable} unhealthy.`);
-      const actions = create('div', 'footer-actions wrap');
-      const inspectButton = buildInspectButton('Inspect visible', totalUniqueVisible, 'ghost-button');
-      inspectButton.addEventListener('click', () => inspectBookmarksHealth(state.visibleBookmarks));
-      const markReviewed = create('button', 'ghost-button', 'Mark reviewed now');
-      markReviewed.type = 'button';
-      markReviewed.addEventListener('click', handleMarkReviewedNow);
-      actions.append(inspectButton, markReviewed);
-      healthPanel.append(actions);
-      const stats = create('div', 'compact-summary-list');
-      [
-        createSummaryRow('Healthy', String(health.healthy)),
-        createSummaryRow('Redirected', String(health.redirected)),
-        createSummaryRow('Unhealthy', String(health.broken + health.serverError + health.unreachable), 'warning'),
-        createSummaryRow('Next review', reminder.enabled ? reminder.statusLabel : 'Manual')
-      ].forEach((row) => stats.append(row));
-      healthPanel.append(stats);
-      scroll.append(healthPanel);
-    }
-
-    if (state.sidebarTab === 'history') {
-      const trends = getHistoryTrends();
-      const hasActivity = trends.totalActions > 0 || state.reviewSessions.length > 0;
-      const historyPanel = buildSidebarPanel(
-        'Activity',
-        hasActivity
-          ? `${state.cleanupHistory.length} logged actions · ${state.reviewSessions.length} saved sessions.`
-          : 'No cleanup history yet. Run inspect, delete, import, or repair actions to build activity history.'
-      );
-
-      if (hasActivity) {
-        const stats = create('div', 'compact-summary-list');
-        [
-          createSummaryRow('Actions', String(trends.totalActions)),
-          createSummaryRow('Redirects fixed', String(trends.redirectsFixed)),
-          createSummaryRow('Imports', String(trends.imports)),
-          createSummaryRow('Deletes', String(trends.deletes))
-        ].forEach((row) => stats.append(row));
-        historyPanel.append(stats);
-
-        const latest = create('div', 'history-list slim-history-list');
-        if (state.cleanupHistory.length) {
-          state.cleanupHistory.slice(0, 5).forEach((entry) => {
-            const item = create('div', 'history-item compact-history-item');
-            item.append(
-              create('div', 'review-card-title', `${entry.type || 'action'} · ${entry.count || 0}`),
-              create('div', 'helper-text', `${new Date(entry.at).toLocaleString()}${entry.note ? ` · ${entry.note}` : ''}`)
-            );
-            latest.append(item);
-          });
-        } else {
-          latest.append(create('div', 'helper-text', 'No cleanup history yet.'));
-        }
-        historyPanel.append(latest);
-      } else {
-        const empty = create('div', 'sidebar-panel-empty');
-        empty.append(
-          create('div', 'review-card-title', 'Nothing has happened yet'),
-          create('div', 'helper-text', 'This panel will wake up after you inspect links, repair redirects, import, or delete bookmarks.')
-        );
-        historyPanel.append(empty);
-      }
-
-      scroll.append(historyPanel);
-    }
-
+    appendSidebarPanelContent(scroll);
     panelWrap.append(scroll);
     shell.append(panelWrap);
   }
 
+  if (isSidebarOverlayMode() && state.sidebarOverlayOpen) {
+    const flyout = createSidebarFlyout();
+    if (flyout) shell.append(flyout);
+  }
+
   root.append(shell);
+}
+
+function renderListPane(listPane) {
+  if (state.mode !== DASHBOARD_MODE && !state.target?.valid) {
+    const empty = create('div', 'empty-state');
+    empty.append(
+      create('h2', 'empty-title', t('This page is not supported')),
+      create('div', 'empty-copy', t('Open a normal http or https page. Chrome internal pages are weird little goblins.'))
+    );
+    listPane.append(empty);
+    return;
+  }
+
+  const mainHead = create('div', 'dashboard-main-head dashboard-list-head');
+  const scopedBookmarks = getScopedBookmarks();
+  const scopeCleanup = getScopeSummary();
+  const visibleCleanup = state.visibleSummary || getCleanupSummary(state.visibleBookmarks);
+  const headCopy = create('div', 'dashboard-list-head-copy');
+  const summary = create('div', 'summary-line', t('{{shown}} shown · {{total}} total', { shown: formatNumber(state.visibleBookmarks.length), total: formatNumber(scopedBookmarks.length) }));
+  const helper = create('div', 'helper-text', t('{{duplicates}} duplicate groups · {{old}} old · {{untitled}} untitled · {{collisions}} title collisions{{grouping}}.', { duplicates: formatNumber(scopeCleanup.duplicateGroupCount), old: formatNumber(scopeCleanup.oldCount), untitled: formatNumber(visibleCleanup.untitledCount), collisions: formatNumber(visibleCleanup.titleCollisionCount), grouping: state.groupBy !== GROUP_BY_OPTIONS.FLAT ? t(' · {{grouping}}', { grouping: groupByLabel(state.groupBy).toLowerCase() }) : '' }));
+  headCopy.append(summary, helper);
+
+  const headActions = create('div', 'dashboard-list-head-actions');
+  const primaryActions = create('div', 'dashboard-head-action-group dashboard-list-primary-actions');
+  const selectAll = create('button', 'ghost-button compact-list-button', state.visibleBookmarks.length && getSelectedCount() === state.visibleBookmarks.length ? t('Clear all') : t('Select all'));
+  selectAll.type = 'button';
+  selectAll.disabled = state.visibleBookmarks.length === 0;
+  selectAll.addEventListener('click', () => {
+    if (getSelectedCount() === state.visibleBookmarks.length) {
+      clearSelection({ renderAfter: true });
+    } else {
+      selectAllVisible({ renderAfter: true });
+    }
+  });
+
+  const inspectVisibleHead = buildInspectButton(getInspectButtonLabel(), getInspectTargetBookmarks().length, 'ghost-button compact-list-button dashboard-list-inspect-button');
+  inspectVisibleHead.addEventListener('click', () => inspectBookmarksHealth(getInspectTargetBookmarks()));
+
+  const selected = getSelectedBookmarks();
+  if (hasSelection()) {
+    const selBar = create('div', 'gm-selection-bar');
+
+    const selLeft = create('div', 'gm-sel-left');
+    const selCb = create('button', 'gm-sel-checkbox');
+    selCb.type = 'button';
+    selCb.title = t('Clear all');
+    selCb.setAttribute('aria-label', t('Clear all'));
+    selCb.addEventListener('click', () => clearSelection({ renderAfter: true }));
+    const selCount = create('span', 'gm-sel-count', t('{{count}} selected', { count: formatNumber(getSelectedCount()) }));
+    selLeft.append(selCb, selCount);
+
+    const selActions = create('div', 'gm-sel-actions');
+
+    const makeIconBtn = (icon, label, danger = false) => {
+      const btn = create('button', `gm-icon-btn${danger ? ' danger' : ''}`);
+      btn.type = 'button';
+      btn.title = label;
+      btn.setAttribute('aria-label', label);
+      btn.innerHTML = icon;
+      return btn;
+    };
+
+    const openBtn = makeIconBtn(iconSvg('open'), t('Open selected'));
+    openBtn.addEventListener('click', async () => { for (const b of getSelectedBookmarks()) await handleOpen(b.url); });
+
+    const inspectBtn = makeIconBtn(iconSvg('inspect'), getInspectButtonLabel());
+    inspectBtn.addEventListener('click', () => inspectBookmarksHealth(getInspectTargetBookmarks()));
+
+    const copyBtn = makeIconBtn(iconSvg('copy'), t('Copy URLs'));
+    copyBtn.addEventListener('click', handleCopySelectedUrls);
+
+    const redirectedSelected = selected.filter((bookmark) => {
+      const record = getHealthRecord(bookmark, state.healthByKey);
+      return record && record.status === HEALTH_STATUSES.REDIRECTED && record.finalUrl && record.finalUrl !== bookmark.url;
+    });
+    const repairBtn = makeIconBtn(iconSvg('repair'), t('Repair redirected'));
+    repairBtn.disabled = redirectedSelected.length === 0;
+    repairBtn.addEventListener('click', () => handleRepairRedirects(redirectedSelected));
+
+    const selDivider = create('div', 'gm-sel-divider');
+
+    const deleteBtn = makeIconBtn(iconSvg('trash'), t('Delete'), true);
+    deleteBtn.addEventListener('click', () => handleDeleteMany(selected));
+
+    selActions.append(openBtn, inspectBtn, copyBtn, repairBtn, selDivider, deleteBtn);
+    selBar.append(selLeft, selActions);
+
+    mainHead.append(selBar, headActions);
+  } else {
+    primaryActions.append(selectAll, inspectVisibleHead);
+    if (state.groupBy !== GROUP_BY_OPTIONS.FLAT) {
+      const groupDisplay = renderGroupDisplayControl();
+      if (groupDisplay) primaryActions.prepend(groupDisplay);
+    }
+    headActions.append(primaryActions, createListHeadActionsMenu({
+      items: [
+        { icon: 'save', label: t('Export visible'), handler: async () => handleExport('json', 'visible'), disabled: state.visibleBookmarks.length === 0 },
+        { icon: 'save', label: featureText('Export visible as CSV'), handler: async () => handleExport('csv', 'visible'), disabled: state.visibleBookmarks.length === 0 },
+        {
+          icon: 'import',
+          label: t('Import bookmarks…'),
+          handler: async () => triggerImportPicker()
+        },
+        ...(state.groupBy !== GROUP_BY_OPTIONS.FLAT ? [
+          'divider',
+          { icon: 'folderOpen', label: t('Expand all groups'), handler: async () => setAllGroupsCollapsed(false) },
+          { icon: 'folder', label: t('Collapse all groups'), handler: async () => setAllGroupsCollapsed(true) }
+        ] : []),
+        'divider',
+        {
+          icon: 'health',
+          label: t('Clear cached health data'),
+          handler: async () => handleClearHealthData(),
+          disabled: Object.keys(state.healthByKey || {}).length === 0,
+          danger: true
+        }
+      ]
+    }));
+    mainHead.append(headCopy, headActions);
+  }
+
+  const libraryToolsButton=create('button','ghost-button compact-list-button',featureText('Library tools'));
+  libraryToolsButton.type='button';libraryToolsButton.dataset.libraryTools='true';
+  libraryToolsButton.addEventListener('click',()=>featureTools.showLibraryTools());
+  headActions.append(libraryToolsButton);
+  featureTools.appendScanSummary(headActions).catch(error=>logger.warn('scan_progress_failed',{error:error.message}));
+  listPane.append(mainHead);
+
+  // Tag filter strip: shows the top tags as clickable chips. Chips for
+  // currently-active filter tags are highlighted; clicking toggles.
+  // Rendered only when at least one tag exists in the library so empty
+  // installations don't get an empty bar of dead space.
+  const tagStrip = renderTagFilterStrip();
+  if (tagStrip) listPane.append(tagStrip);
+
+  const listScroll = create('div', 'list-scroll');
+  listScroll.scrollTop = state.listScrollTop || 0;
+  listScroll.addEventListener('scroll', () => { state.listScrollTop = listScroll.scrollTop; state.lastListScrollAt = performance.now(); }, { passive: true });
+  if (!state.visibleBookmarks.length) {
+    const empty = create('div', 'empty-state');
+    const emptyTitle = state.cleanupFilter !== CLEANUP_FILTERS.ALL
+      ? t('No {{filter}} bookmarks', { filter: cleanupFilterLabel(state.cleanupFilter).toLowerCase() })
+      : (state.mode === DASHBOARD_MODE ? t('No bookmarks in this library view') : t('No bookmarks for {{mode}}', { mode: modeLabel(state.mode).toLowerCase() }));
+    const emptyCopy = state.cleanupFilter !== CLEANUP_FILTERS.ALL
+      ? t('This filter came up empty. Try switching back to All or running a different cleanup pass.')
+      : t('That is either clean organization or neglected chaos. Hard to tell from here.');
+    empty.append(
+      create('h2', 'empty-title', emptyTitle),
+      create('div', 'empty-copy', emptyCopy)
+    );
+    listScroll.append(empty);
+  } else {
+    if (state.groupBy === GROUP_BY_OPTIONS.FLAT) {
+      const list = create('div', 'list');
+      // Always append list first so it is in the DOM before scroller mounts
+      listScroll.append(list);
+
+      if (state.visibleBookmarks.length > VIRTUAL_SCROLL_THRESHOLD) {
+        // Destroy previous scroller if it exists
+        if (_virtualScroller) { _virtualScroller.destroy(); _virtualScroller = null; }
+        // Virtual scroller manages children of .list (spacers + rendered items)
+        _virtualScroller = createVirtualScroller({
+          container: list,
+          viewport: listScroll,
+          rowHeights: virtualRowHeights,
+          items: state.visibleBookmarks,
+          renderItem,
+        });
+        _virtualScroller.mount();
+      } else {
+        // Small list: destroy any lingering scroller and render directly
+        if (_virtualScroller) { _virtualScroller.destroy(); _virtualScroller = null; }
+        state.visibleBookmarks.forEach((bookmark) => list.append(renderItem(bookmark)));
+      }
+    } else {
+      // Grouped view: destroy virtual scroller (groups handle their own rendering)
+      if (_virtualScroller) { _virtualScroller.destroy(); _virtualScroller = null; }
+      const grouped = create('div', 'grouped-list');
+      getGroupedVisibleBookmarks().forEach((group) => grouped.append(renderBookmarkGroup(group)));
+      listScroll.append(grouped);
+    }
+  }
+  listPane.append(listScroll);
 }
 
 function renderList(root) {
@@ -2268,8 +2375,8 @@ function renderList(root) {
     renderSidebar(sidebar);
     const empty = create('div', 'empty-state');
     empty.append(
-      create('h2', 'empty-title', 'This page is not supported'),
-      create('div', 'empty-copy', 'Open a normal http or https page. Chrome internal pages are weird little goblins.')
+      create('h2', 'empty-title', t('This page is not supported')),
+      create('div', 'empty-copy', t('Open a normal http or https page. Chrome internal pages are weird little goblins.'))
     );
     content.append(empty);
     workspace.append(sidebar, content);
@@ -2278,87 +2385,7 @@ function renderList(root) {
   }
 
   renderSidebar(sidebar);
-
-  const mainHead = create('div', 'dashboard-main-head dashboard-list-head');
-  const scopedBookmarks = getScopedBookmarks();
-  const scopeCleanup = getScopeSummary();
-  const visibleCleanup = state.visibleSummary || getCleanupSummary(state.visibleBookmarks);
-  const headCopy = create('div', 'dashboard-list-head-copy');
-  const summary = create('div', 'summary-line', `${state.visibleBookmarks.length} shown · ${scopedBookmarks.length} total`);
-  const helper = create('div', 'helper-text', `${scopeCleanup.duplicateGroupCount} duplicate groups · ${scopeCleanup.oldCount} old · ${visibleCleanup.untitledCount} untitled · ${visibleCleanup.titleCollisionCount} title collisions.`);
-  headCopy.append(summary, helper);
-
-  const headActions = create('div', 'dashboard-list-head-actions');
-  const generalActions = create('div', 'dashboard-head-action-group');
-  const selectAll = create('button', 'ghost-button compact-list-button', state.visibleBookmarks.length && state.selectedIds.size === state.visibleBookmarks.length ? 'Clear all' : 'Select all');
-  selectAll.type = 'button';
-  selectAll.disabled = state.visibleBookmarks.length === 0;
-  selectAll.addEventListener('click', () => {
-    if (state.selectedIds.size === state.visibleBookmarks.length) {
-      state.selectedIds.clear();
-    } else {
-      state.visibleBookmarks.forEach((bookmark) => state.selectedIds.add(bookmark.id));
-    }
-    render();
-  });
-  const inspectVisibleHead = buildInspectButton('Inspect visible', state.visibleBookmarks.length, 'ghost-button compact-list-button');
-  inspectVisibleHead.addEventListener('click', () => inspectBookmarksHealth(state.visibleBookmarks));
-  const exportVisible = create('button', 'ghost-button compact-list-button', 'Export');
-  exportVisible.type = 'button';
-  exportVisible.disabled = state.visibleBookmarks.length === 0;
-  exportVisible.addEventListener('click', () => handleExport('json', 'visible'));
-  generalActions.append(selectAll, inspectVisibleHead, exportVisible);
-  headActions.append(generalActions);
-
-  if (state.selectedIds.size) {
-    const selectionActions = create('div', 'dashboard-head-action-group selection-actions');
-    const selectedMeta = create('div', 'mini-pill dashboard-selection-pill', `${state.selectedIds.size} selected`);
-    const copySelected = create('button', 'ghost-button compact-list-button', 'Copy URLs');
-    copySelected.type = 'button';
-    copySelected.addEventListener('click', handleCopySelectedUrls);
-    const openSelected = create('button', 'ghost-button compact-list-button', 'Open');
-    openSelected.type = 'button';
-    openSelected.addEventListener('click', async () => { for (const bookmark of selectedBookmarks()) await handleOpen(bookmark.url); });
-    const repairSelected = create('button', 'ghost-button compact-list-button', 'Repair');
-    repairSelected.type = 'button';
-    const redirectedSelected = selectedBookmarks().filter((bookmark) => {
-      const record = getHealthRecord(bookmark);
-      return record && record.status === HEALTH_STATUSES.REDIRECTED && record.finalUrl && record.finalUrl !== bookmark.url;
-    });
-    repairSelected.disabled = redirectedSelected.length === 0;
-    repairSelected.addEventListener('click', () => handleRepairRedirects(redirectedSelected));
-    const deleteSelected = create('button', 'ghost-button compact-list-button danger-button', 'Delete');
-    deleteSelected.type = 'button';
-    deleteSelected.addEventListener('click', () => handleDeleteMany(selectedBookmarks()));
-    selectionActions.append(selectedMeta, copySelected, openSelected, repairSelected, deleteSelected);
-    headActions.append(selectionActions);
-  }
-
-  mainHead.append(headCopy, headActions);
-  listPane.append(mainHead);
-
-  const listScroll = create('div', 'list-scroll');
-  listScroll.scrollTop = state.listScrollTop || 0;
-  listScroll.addEventListener('scroll', () => { state.listScrollTop = listScroll.scrollTop; }, { passive: true });
-  if (!state.visibleBookmarks.length) {
-    const empty = create('div', 'empty-state');
-    const emptyTitle = state.cleanupFilter !== CLEANUP_FILTERS.ALL
-      ? `No ${cleanupFilterLabel(state.cleanupFilter).toLowerCase()} bookmarks`
-      : (state.mode === DASHBOARD_MODE ? 'No bookmarks in this library view' : `No bookmarks for ${modeLabel(state.mode).toLowerCase()}`);
-    const emptyCopy = state.cleanupFilter !== CLEANUP_FILTERS.ALL
-      ? 'This filter came up empty. Try switching back to All or running a different cleanup pass.'
-      : 'That is either clean organization or neglected chaos. Hard to tell from here.';
-    empty.append(
-      create('h2', 'empty-title', emptyTitle),
-      create('div', 'empty-copy', emptyCopy)
-    );
-    listScroll.append(empty);
-  } else {
-    const list = create('div', 'list');
-    state.visibleBookmarks.forEach((bookmark) => list.append(renderItem(bookmark)));
-    listScroll.append(list);
-  }
-  listPane.append(listScroll);
+  renderListPane(listPane);
   content.append(listPane);
   renderDetailsDrawer(content);
 
@@ -2375,28 +2402,27 @@ function renderRowMenuOverlay(root) {
   const canRepair = !!(redirectRecord && redirectRecord.status === HEALTH_STATUSES.REDIRECTED && redirectRecord.finalUrl && redirectRecord.finalUrl !== bookmark.url);
 
   const menu = create('div', 'item-more-menu item-more-menu-portal');
-  menu.style.position = 'fixed';
-  menu.style.top = `${state.rowMenuPosition.top}px`;
-  menu.style.right = `${state.rowMenuPosition.right}px`;
+  applyFixedMenuPosition(menu, state.rowMenuPosition);
 
-  const editAction = create('button', 'row-menu-item', 'Edit');
+  const editAction = create('button', 'row-menu-item', t('Edit'));
   editAction.type = 'button';
   editAction.addEventListener('click', () => {
     state.rowMenuBookmarkId = null;
     state.rowMenuPosition = null;
     state.editingBookmarkId = bookmark.id;
+    // Edit mode requires list re-render to show inline editor; use full render
     render();
   });
   const repairAction = create('button', 'row-menu-item');
   repairAction.type = 'button';
-  repairAction.textContent = 'Repair redirect';
+  repairAction.textContent = t('Repair redirect');
   repairAction.disabled = !canRepair;
   repairAction.addEventListener('click', () => {
     state.rowMenuBookmarkId = null;
     state.rowMenuPosition = null;
     handleRepairRedirects([bookmark]);
   });
-  const deleteAction = create('button', 'row-menu-item danger', 'Delete');
+  const deleteAction = create('button', 'row-menu-item danger', t('Delete'));
   deleteAction.type = 'button';
   deleteAction.addEventListener('click', () => {
     state.rowMenuBookmarkId = null;
@@ -2405,6 +2431,7 @@ function renderRowMenuOverlay(root) {
   });
   menu.append(editAction, repairAction, deleteAction);
   root.append(menu);
+  clampFixedMenuToViewport(menu);
 }
 
 function renderFooter(root) {
@@ -2412,16 +2439,33 @@ function renderFooter(root) {
   const reminder = getReminderState();
   const score = computeHealthScore();
   const left = create('div', 'summary-line', reminder.enabled
-    ? `Library · Health ${score.score}${score.isMetadataOnly ? ' metadata-only' : ''} · ${reminder.statusLabel}`
-    : `Library · Health ${score.score}${score.isMetadataOnly ? ' metadata-only' : ''} · reminders off`);
-  const right = create('div', 'dashboard-footer-copy', 'Copyright (c) 2026 Ehsan Enaloo');
-  footer.append(left, right);
+    ? t('Library · Health {{score}}{{metadata}} · {{status}}', { score: formatNumber(score.score), metadata: score.isMetadataOnly ? t(' metadata-only') : '', status: reminder.statusLabel })
+    : t('Library · Health {{score}}{{metadata}} · reminders off', { score: formatNumber(score.score), metadata: score.isMetadataOnly ? t(' metadata-only') : '' }));
+
+  const shortcuts = create('div', 'dashboard-kbd-hints');
+  [
+    ['/', t('Search')],
+    ['1', t('Page')],
+    ['2', t('Host')],
+    ['3', t('Domain')],
+    ['↑↓', t('Navigate')],
+    ['⌫', t('Delete')]
+  ].forEach(([key, label]) => {
+    const hint = create('span', 'dashboard-kbd-hint');
+    hint.append(create('kbd', 'dashboard-kbd', key), create('span', 'dashboard-kbd-label', label));
+    shortcuts.append(hint);
+  });
+
+  const right = create('div', 'dashboard-footer-copy', t('Copyright (c) 2026 Ehsan Enaloo'));
+  footer.append(left, shortcuts, right);
   root.append(footer);
 }
 
 function renderToast(root) {
   if (!state.toast) return;
   const toast = create('div', `toast${state.toast.error ? ' error-copy' : ''}`);
+  toast.setAttribute('role', 'alert');
+  toast.setAttribute('aria-live', 'assertive');
   const message = create('div', 'toast-message', state.toast.message);
   toast.append(message);
 
@@ -2440,60 +2484,192 @@ function renderToast(root) {
   root.append(toast);
 }
 
+const DASHBOARD_LIST_PANE_SELECTOR = '.dashboard-list-pane';
+const DASHBOARD_LIST_HEAD_SELECTOR = '.dashboard-main-head';
+const SIDEBAR_SELECTOR = '.dashboard-sidebar';
+
+/**
+ * Incremental render: replaces only the list pane and sidebar contents
+ * without wiping the entire panel DOM. Used by search debounce to avoid
+ * a full layout/paint cycle on every keystroke.
+ * Falls back to full render() if the expected containers are not found.
+ */
+function renderListOnly() {
+  try {
+    rememberListScroll();
+    const listPane = app.querySelector(DASHBOARD_LIST_PANE_SELECTOR);
+    const sidebar = app.querySelector(SIDEBAR_SELECTOR);
+    if (!listPane || !sidebar) { render(); return; }
+
+    sidebar.textContent = '';
+    renderSidebar(sidebar);
+
+    listPane.textContent = '';
+    renderListPane(listPane);
+
+    translateTree(app);
+    _restoreScrollAndFocus();
+  } catch {
+    render();
+  }
+}
+
+// ─── Targeted overlay-only update ────────────────────────────────────────────
+// Re-renders only the floating portal elements (menus, toast, modals) that sit
+// outside the main panel. Called when only overlay state changes so the entire
+// panel (header, toolbar, list) is not rebuilt unnecessarily.
+const PORTAL_SELECTORS = [
+  '.dashboard-header-menu-portal',
+  '.dashboard-list-head-menu-portal',
+  '.item-more-menu-portal',
+  '.modal-overlay',
+  '.toast'
+];
+
+function renderOverlaysOnly() {
+  try {
+    if (!app.childElementCount) { render(); return; }
+    // Remove all existing portal/overlay nodes
+    PORTAL_SELECTORS.forEach((sel) => {
+      app.querySelectorAll(sel).forEach((el) => el.remove());
+    });
+    const panel = app.querySelector('.panel');
+    const listHeadMenuItems = panel?.querySelector('.dashboard-list-actions-menu-wrap')?._menuItems || [];
+    renderHeaderMenuOverlay(app);
+    renderListHeadMenuOverlay(app, listHeadMenuItems);
+    renderRowMenuOverlay(app);
+    renderAboutModal(app);
+    renderConfirmDialog(app);
+    renderToast(app);
+  } catch {
+    render();
+  }
+}
+
+function renderToastOnly() {
+  try {
+    if (!app.childElementCount) { render(); return; }
+    app.querySelectorAll('.toast').forEach((el) => el.remove());
+    renderToast(app);
+  } catch {
+    render();
+  }
+}
+
+function _restoreScrollAndFocus() {
+  if (state.focusSearchAfterRender && searchInputRef) {
+    searchInputRef.focus({ preventScroll: true });
+    const start = Number.isInteger(state.searchSelectionStart) ? state.searchSelectionStart : state.query.length;
+    const end = Number.isInteger(state.searchSelectionEnd) ? state.searchSelectionEnd : state.query.length;
+    try { searchInputRef.setSelectionRange(start, end); } catch {}
+    state.focusSearchAfterRender = false;
+    state.searchSelectionStart = null;
+    state.searchSelectionEnd = null;
+  }
+
+  const listScroll = app.querySelector('.list-scroll');
+  if (listScroll && Number.isFinite(state.listScrollTop)) {
+    listScroll.scrollTop = state.listScrollTop;
+  }
+
+  if (state.shouldScrollActiveIntoView) {
+    if (_virtualScroller && state.activeBookmarkId && state.scrollActiveBookmark) {
+      _virtualScroller.scrollToItem(state.activeBookmarkId);
+      state.scrollActiveBookmark = false;
+    } else {
+      const activeItem = state.activeBookmarkId
+        ? app.querySelector(`[data-bookmark-id="${CSS.escape(state.activeBookmarkId)}"]`)
+        : null;
+      if (activeItem) activeItem.scrollIntoView({ block: 'nearest' });
+    }
+    state.shouldScrollActiveIntoView = false;
+  }
+}
+
 function render() {
+  document.title = t('Bookmark Scope — Library Dashboard');
   try {
     app.textContent = '';
     searchInputRef = null;
 
+    if (!isSidebarOverlayMode()) state.sidebarOverlayOpen = false;
+
     const panel = create('div', 'panel');
     renderHeader(panel);
+    renderPinOnboarding(panel);
     renderToolbar(panel);
     renderList(panel);
     renderFooter(panel);
     app.append(panel);
-    panel.addEventListener('mousedown', (event) => {
-      if (state.rowMenuBookmarkId && !event.target.closest('.item-more-wrap, .item-more-menu-portal')) {
-        state.rowMenuBookmarkId = null;
-        state.rowMenuPosition = null;
-        render();
-      }
-    });
+    renderHeaderMenuOverlay(app);
+    const listHeadMenuItems = panel.querySelector('.dashboard-list-actions-menu-wrap')?._menuItems || [];
+    renderListHeadMenuOverlay(app, listHeadMenuItems);
     renderRowMenuOverlay(app);
     renderAboutModal(app);
+    renderConfirmDialog(app);
     renderToast(app);
 
     updateThemeControls();
-  if (state.focusSearchAfterRender && searchInputRef) {
-      searchInputRef.focus();
-      const start = Number.isInteger(state.searchSelectionStart) ? state.searchSelectionStart : state.query.length;
-      const end = Number.isInteger(state.searchSelectionEnd) ? state.searchSelectionEnd : state.query.length;
-      try {
-        searchInputRef.setSelectionRange(start, end);
-      } catch {
-        // Ignore browsers that get weird about selection ranges on search inputs.
-      }
-      state.focusSearchAfterRender = false;
-      state.searchSelectionStart = null;
-      state.searchSelectionEnd = null;
-    }
-
-    const listScroll = app.querySelector('.list-scroll');
-    if (listScroll && Number.isFinite(state.listScrollTop)) {
-      listScroll.scrollTop = state.listScrollTop;
-    }
-
-    if (state.shouldScrollActiveIntoView) {
-      const activeItem = state.activeBookmarkId ? app.querySelector(`[data-bookmark-id="${CSS.escape(state.activeBookmarkId)}"]`) : null;
-      if (activeItem) {
-        activeItem.scrollIntoView({ block: 'nearest' });
-      }
-      state.shouldScrollActiveIntoView = false;
-    }
+    translateTree(app);
+    _restoreScrollAndFocus();
   } catch (error) {
+    logger.error('render_failed', { message: error?.message || String(error) });
     console.error(error);
-    renderFatal('The dashboard rendered itself into a ditch.', error);
+    renderFatal(t('The dashboard rendered itself into a ditch.'), error);
   }
 }
+
+
+addStorageChangedListener(async (changes, areaName) => {
+  if (areaName !== 'local') return;
+  if (changes[STORAGE_KEYS.TAGS_BY_BOOKMARK] || changes[STORAGE_KEYS.HEALTH_CACHE] || changes[STORAGE_KEYS.HEALTH_CACHE_GENERATION]) {
+    state.tagsByBookmark = await loadTagsMap();
+    state.healthByKey = await loadHealthCache();
+    recalculateVisibleBookmarks();
+    renderListOnly();
+  }
+  if (changes[STORAGE_KEYS.LOCALE_PREFERENCE]) {
+    await initI18n();
+    render();
+  }
+  if (changes[STORAGE_KEYS.COLOR_PALETTE]) {
+    const newPalette = changes[STORAGE_KEYS.COLOR_PALETTE].newValue;
+    if (newPalette && newPalette !== state.colorPalette) {
+      state.colorPalette = newPalette;
+      applyPalette(newPalette);
+      updatePaletteControls();
+    }
+  }
+});
+
+// React to bookmark changes made outside the dashboard (Chrome native UI,
+// the popup, another window, or Chrome sync). bookmark-utils.js invalidates
+// its own cache automatically; this handler runs the dashboard's data
+// pipeline and re-renders.
+//
+// Debounced for two reasons:
+//   1. Bulk imports / Chrome sync can fire hundreds of events per second.
+//   2. The dashboard's own write actions (delete, repair, merge) already
+//      call refreshData() explicitly, then trigger the same events
+//      asynchronously a moment later — debouncing folds those duplicates.
+//
+// 250ms is long enough to coalesce a bulk-import burst yet still feels
+// instant for single-bookmark changes.
+const refreshDashboardOnBookmarkChange = debounce(async () => {
+  try {
+    await refreshData();
+    render();
+  } catch (error) {
+    await logger.warn('bookmark_event_refresh_failed', { message: error?.message || String(error) });
+  }
+}, 250);
+addBookmarkEventListeners({
+  created: refreshDashboardOnBookmarkChange,
+  removed: refreshDashboardOnBookmarkChange,
+  changed: refreshDashboardOnBookmarkChange,
+  moved: refreshDashboardOnBookmarkChange,
+  importEnded: refreshDashboardOnBookmarkChange
+});
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init, { once: true });

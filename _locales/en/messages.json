@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Inspect, organize, and clean bookmarks by page, domain, duplicates, age, and link health."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – Domain & Page Manager"
+   },
+   "collapse_groups": {
+      "message": "Collapse groups"
+   },
+   "expand_groups": {
+      "message": "Expand groups"
+   }
+}

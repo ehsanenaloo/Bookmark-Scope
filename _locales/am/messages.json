@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope – ዶሜን እና ገጽ አስተዳዳሪ"
+   },
+   "app_description": {
+      "message": "ዕልባቶችን በገጽ፣ በዶሜን፣ በተደጋጋሚ እና በዕድሜ መሠረት ይመርምሩ፣ ያደራጁ እና ያጽዱ፤ ለምርመራ፣ ለጤና ስካን፣ ለማስታወሻዎች እና ለማጽዳት ሙሉ ዳሽቦርድ ጋር።"
+   },
+   "app_name": {
+      "message": "Bookmark Scope"
+   },
+   "collapse_groups": {
+      "message": "ቡድኖችን ሰብስብ"
+   },
+   "expand_groups": {
+      "message": "ቡድኖችን ዘርጋ"
+   }
+}

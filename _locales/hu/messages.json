@@ -1,0 +1,17 @@
+{
+   "action_title": {
+      "message": "Bookmark Scope"
+   },
+   "app_description": {
+      "message": "Vizsgálja meg, rendezze és tisztítsa meg a könyvjelzőket oldal, domain, duplikátumok és kor szerint — teljes irányítópulttal triázshoz, állapotellenőrzéshez, emlékeztetőkhöz és takarításhoz."
+   },
+   "app_name": {
+      "message": "Bookmark Scope – domain- és oldalkezelő"
+   },
+   "collapse_groups": {
+      "message": "Csoportok összecsukása"
+   },
+   "expand_groups": {
+      "message": "Csoportok kibontása"
+   }
+}
