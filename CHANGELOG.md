@@ -6,6 +6,10 @@ The format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+## [5.2.0] - 2026-10-08
+
+This release only reorganizes the project folders to make them easier to navigate. The extension behaves the same as 5.1.0.
+
 ### Changed
 
 - The project folders are easier to navigate. The extension root now holds only `manifest.json`, `background.js` and a few folders. Pages live in `pages/`, icons in `icons/`, shared code in `src/core/` and `src/ui/`, and unit tests in `tests/unit/`. Behavior does not change.
