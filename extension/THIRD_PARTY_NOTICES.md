@@ -1,6 +1,6 @@
 # Third-party notices
 
-Project-owned code is released under the [MIT License](../LICENSE) (the `LICENSE` file at the repository root; the release zip carries the same file next to this one), as explicitly selected by the owner on 2026-10-06.
+Project-owned code is released under the [MIT License](https://github.com/ehsanenaloo/Bookmark-Scope/blob/main/LICENSE) (the `LICENSE` file at the repository root; the release zip carries the same file next to this one), as explicitly selected by the owner on 2026-10-06.
 
 The packaged Public Suffix List and the generated rule table retain **Mozilla Public License 2.0** terms. The MIT project license does not replace that license.
 
