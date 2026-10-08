@@ -1,4 +1,4 @@
-import { queryTabs, createTab, createBookmark, removeBookmark, getRuntimeUrl, getBookmarkTree } from '../platform/browser-api.js';
+import { queryTabs, createTab, createBookmark, removeBookmark, getRuntimeUrl, getBookmarkTree, getBookmarksManagerUrl } from '../platform/browser-api.js';
 import { loadPopupPreferences, savePopupPreferences, setPinOnboardingVisible } from '../services/preferences-service.js';
 import { loadTagsMap, updateTagsMap, setTagsForBookmark } from '../services/tag-service.js';
 import { MATCH_MODES, SORT_OPTIONS, STORAGE_KEYS, COLOR_PALETTES, POPUP_WIDTHS, TAG_MAX_PER_BOOKMARK } from '../constants.js';
@@ -138,8 +138,8 @@ export function createPopupActions(deps) {
   }
 
   async function openFolder(parentId) {
-    if (!parentId) return;
-    await createTab({ url: `chrome://bookmarks/?id=${encodeURIComponent(parentId)}`, active: true });
+    const url = parentId ? getBookmarksManagerUrl(parentId) : null;
+    if (url) await createTab({ url, active: true });
   }
 
   async function deleteBookmark(bookmark) {

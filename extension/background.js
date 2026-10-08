@@ -12,7 +12,7 @@ import { REVIEW_REMINDER_ALARM,  getReviewReminderSettings, buildReviewReminderL
 import { registerContextMenus, attachContextMenuListener } from './src/services/context-menu-service.js';
 import { BG_HEALTH_SCAN_ALARM, scheduleBgHealthScan, runScheduledHealthScan } from './src/services/scheduled-health-scan-service.js';
 import { updateTagsMap, removeTagsForBookmark } from './src/services/tag-service.js';
-import { addAlarmListener, addBookmarkEventListeners, addRuntimeInstalledListener, addRuntimeMessageListener, addRuntimeStartupListener, addStorageChangedListener, addTabActivatedListener, addTabUpdatedListener, createNotification, clearNotification, addNotificationClickedListener, addNotificationClosedListener, createTab, getTab, queryTabs, setBadgeBackgroundColor, setBadgeText } from './src/platform/browser-api.js';
+import { addAlarmListener, addBookmarkEventListeners, addRuntimeInstalledListener, addRuntimeMessageListener, addRuntimeStartupListener, addStorageChangedListener, addTabActivatedListener, addTabUpdatedListener, createNotification, clearNotification, addNotificationClickedListener, addNotificationClosedListener, createTab, getBookmarksManagerUrl, getExtensionsManagerUrl, getTab, queryTabs, setBadgeBackgroundColor, setBadgeText } from './src/platform/browser-api.js';
 import { createLogger } from './src/services/diagnostics-service.js';
 import { initializeStorageLayer, getLocalStorage } from './src/services/storage-service.js';
 import { now } from './src/platform/time.js';
@@ -131,6 +131,9 @@ addBookmarkEventListeners({
       const ids = collectBookmarkIds(removeInfo?.node);
       if (!ids.length && bookmarkId) ids.push(bookmarkId);
       if (!ids.length) return;
+      // Chromium reports a removed folder with its whole subtree; Firefox reports only the folder
+      // (no `children`) and no events for descendants. updateTagsMap also drops every entry whose
+      // bookmark is absent from the live tree, which covers Firefox's unreported descendants.
       await updateTagsMap(map => {
         for (const id of ids) map = removeTagsForBookmark(map, id).map;
         return map;
@@ -166,7 +169,9 @@ addNotificationClickedListener(async (notificationId) => {
   if (notificationId !== 'bookmark-scope-pin-hint') return;
   await clearNotification('bookmark-scope-pin-hint');
   await setPinOnboardingVisible(false);
-  await createTab({ url: 'chrome://extensions/', active: true });
+  // Firefox cannot open its add-ons manager from an extension; the hint is simply dismissed there.
+  const extensionsUrl = getExtensionsManagerUrl();
+  if (extensionsUrl) await createTab({ url: extensionsUrl, active: true });
 });
 
 addNotificationClosedListener((notificationId) => {
@@ -384,7 +389,9 @@ const messageHandlers = {
     return { tab: tab || null, target: tab?.url ? getMatchTarget(tab.url) : null };
   },
   async [MESSAGE_TYPES.OPEN_BOOKMARK_FOLDER](request) {
-    if (request.parentId) await createTab({ url: `chrome://bookmarks/?id=${encodeURIComponent(request.parentId)}`, active: true });
+    const url = request.parentId ? getBookmarksManagerUrl(request.parentId) : null;
+    if (request.parentId && !url) return { success: false, error: 'This browser has no bookmarks manager page that extensions can open.' };
+    if (url) await createTab({ url, active: true });
     return { success: true };
   },
   async [MESSAGE_TYPES.OPEN_URL](request) {

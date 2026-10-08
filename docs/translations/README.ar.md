@@ -10,18 +10,20 @@
 
 **اعثر على الإشارات المرجعية الخاصة بالموقع الذي تتصفحه. ونظّف بقية مكتبتك.**
 
-إضافة مجانية لمتصفح Chrome لمن حفظ روابط أكثر من اللازم.<br>
+إضافة مجانية ومفتوحة المصدر لمن حفظ روابط أكثر من اللازم.<br>
 تعمل على جهازك فقط. بلا حساب وبلا تتبع.
 
-[![Add to Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
-[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
+[![إضافة إلى Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
+[![دليل المستخدم](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://ehsanenaloo.github.io/Bookmark-Scope/)
+[![اشترِ لي فنجان قهوة](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
+[![الرخصة: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue)
-![52 languages](https://img.shields.io/badge/languages-52-orange)
-![No analytics](https://img.shields.io/badge/analytics-none-lightgrey)
+![52 لغة](https://img.shields.io/badge/languages-52-orange)
+![بلا تحليلات](https://img.shields.io/badge/analytics-none-lightgrey)
+[![نجوم GitHub](https://img.shields.io/github/stars/ehsanenaloo/Bookmark-Scope?style=social)](https://github.com/ehsanenaloo/Bookmark-Scope/stargazers)
 
-[![GitHub stars](https://img.shields.io/github/stars/ehsanenaloo/Bookmark-Scope?style=social)](https://github.com/ehsanenaloo/Bookmark-Scope/stargazers)
+[الميزات](#features) · [التثبيت](#install) · [الخصوصية](#privacy) · [التوثيق](#documentation) · [الأسئلة الشائعة](#faq) · [المساهمة](#contributing)
 
 </div>
 
@@ -30,173 +32,139 @@
   <img src="../assets/screenshots/dashboard-desktop-light.png" alt="لوحة تحكم Bookmark Scope تعرض قائمة الإشارات المرجعية والمرشحات والوسوم ولوحة التفاصيل">
 </picture>
 
-## لماذا هذه الإضافة؟
+## ما هي Bookmark Scope؟
 
-يعرض Chrome إشاراتك المرجعية على شكل شجرة مجلدات. هذا مناسب لعشرين رابطًا، لكنه لا يناسب ألفين.
+يعرض Chrome إشاراتك المرجعية على شكل شجرة مجلدات. هذا مناسب لعشرين رابطًا، لا لألفين. تحفظ المقال نفسه ثلاث مرات، ونصف مجلد قديم صار روابط ميتة، ولا تعرف ماذا حفظت من قبل للموقع الذي تقرأه الآن.
 
-تحفظ المقال نفسه ثلاث مرات. ومجلد من عام 2019 نصف روابطه ميتة. ولديك إحدى عشرة إشارة مرجعية عن موقع واحد ولا تجد التي تريدها. تساعدك Bookmark Scope في حل هذه المشكلات.
+تحل Bookmark Scope هذه المشكلة بأداتين. **النافذة المنبثقة** تعرض الإشارات المرجعية التي لديك أصلًا للصفحة أو الموقع أو النطاق الذي تتصفحه. و**لوحة التحكم** تعرض مكتبتك كاملة، فتجد المكررات والروابط الميتة وتنظفها ببضع نقرات. وترى معاينة قبل أي تغيير.
 
-- افتح النافذة المنبثقة في أي صفحة. سترى إشاراتك المرجعية المحفوظة لهذه الصفحة أو لهذا الموقع أو لهذا النطاق.
-- افتح لوحة التحكم. سترى مكتبتك كاملة، وتجد المكررات والروابط الميتة، وتصلحها ببضع نقرات.
+<a id="features"></a>
 
-## ماذا يمكنك أن تفعل
+## الميزات
 
-### شاهد ما حفظته مسبقًا لهذا الموقع
-
-انقر على الأيقونة في شريط الأدوات. تعرض النافذة المنبثقة إشاراتك المرجعية للصفحة التي تتصفحها. يمكنك التبديل بين هذه الصفحة بالتحديد، أو هذا المضيف، أو النطاق كاملًا. وتعرض الشارة على الأيقونة عدد الإشارات المرجعية المطابقة.
+| | |
+| --- | --- |
+| **نافذة منبثقة للموقع الحالي** <br> شاهد الإشارات المرجعية المحفوظة لهذه الصفحة أو هذا المضيف أو هذا النطاق. وتعرض الشارة على شريط الأدوات عدد الإشارات المطابقة. | **لوحة تحكم لمكتبتك كاملة** <br> ابحث في آلاف الإشارات المرجعية وصفِّها وجمّعها ورتّبها ووسمها وعدّلها. وتبقى سريعة. |
+| **تنظيف آمن** <br> عاين دمج المكررات وتغييرات الوسوم الجماعية أولًا. وتراجع عما حذفته مع وسومه. | **فحص الروابط الميتة** <br> اعثر على الروابط المعطلة وروابط إعادة التوجيه. الفحص اختياري، ويمكن إيقاف الفحوص الطويلة مؤقتًا ومتابعتها. |
+| **نسخ احتياطي واستيراد** <br> احفظ لقطات من مكتبتك. استورد من `bookmarks.html` وPocket وPinboard وRaindrop.io وCSV وJSON. وصدّر إلى JSON أو CSV. | **العروض المحفوظة ولوحة الأوامر** <br> افتح بحثًا محفوظًا بنقرة واحدة. واضغط `Ctrl+Shift+P` (أو `Cmd+Shift+P` على Mac) لرؤية كل الإجراءات. |
+| **خصوصية من الأساس** <br> بلا خادم وبلا حساب وبلا تحليلات. تبقى بياناتك في متصفحك. | **بلغتك وبالمظهر الذي تريده** <br> 52 لغة، وسمتان فاتحة وداكنة، وأربع لوحات ألوان، وتخطيط من اليمين إلى اليسار. |
 
 <p align="center">
-  <img src="../assets/screenshots/popup-light.png" alt="النافذة المنبثقة تعرض إشارات مرجعية للموقع الحالي" width="300">
+  <img src="../assets/screenshots/popup-light.png" alt="النافذة المنبثقة تعرض إشارات مرجعية للموقع الحالي" width="230">
   &nbsp;&nbsp;
-  <img src="../assets/screenshots/popup-dark.png" alt="النافذة المنبثقة في السمة الداكنة" width="300">
+  <img src="../assets/screenshots/duplicate-preview.png" alt="نافذة معاينة المكررات حيث تختار أي إشارة مرجعية تُبقي" width="520">
 </p>
-
-### شاهد مكتبتك كاملة
-
-لوحة التحكم صفحة كاملة لإشاراتك المرجعية. ابحث بالعنوان أو بالرابط أو باسم المجلد. جمّع حسب النطاق أو المجلد. رتّب حسب العنوان أو الرابط أو التاريخ. صفِّ لتجد المكررات والإشارات بلا عنوان والإشارات القديمة والعناوين المتطابقة. وتبقى سريعة حتى مع آلاف الإشارات المرجعية.
-
-انقر على إشارة مرجعية لترى تفاصيلها. حدّد عدة إشارات لتعمل عليها معًا. اسحب الإشارات المرجعية لتغيير ترتيبها.
-
-### نظّف بلا خوف
-
-لا يحدث شيء كبير بدون معاينة.
-
 <p align="center">
-  <img src="../assets/screenshots/duplicate-preview.png" alt="نافذة معاينة المكررات حيث تختار أي إشارة مرجعية تُبقي" width="780">
-</p>
-
-- **المكررات.** اختر أي نسخة تُبقي. تُضاف إليها وسوم النسخ الأخرى. وترى النتيجة قبل أن يُحذف أي شيء.
-- **الوسوم.** أضف الوسوم أو احذفها أو غيّر أسماءها أو ادمجها لعدة إشارات مرجعية دفعة واحدة. راجع الحالة قبل التغيير وبعده، ثم طبّق. ويمكنك التراجع.
-- **الحذف والتراجع.** يمكن استعادة الإشارات المحذوفة مع وسومها. لا يسمح Chrome لأي إضافة باستعادة المعرّف الأصلي أو تاريخ الإضافة، لذلك تكون الإشارة المستعادة جديدة. وتخبرك الإضافة بذلك.
-
-<p align="center">
-  <img src="../assets/screenshots/bulk-tags.png" alt="نافذة الوسوم الجماعية تعرض الوسوم قبل التغيير وبعده" width="780">
-</p>
-
-### ابحث عن الروابط الميتة
-
-افحص مجموعة من الإشارات المرجعية لترى أي الروابط يعمل، وأيها يُعيد التوجيه، وأيها معطل. يعمل الفحص داخل متصفحك ويتصل فقط بالمواقع التي حفظتها.
-
-- تطلب الإضافة إذنك أولًا. وإذا رفضت، تبقى بقية الميزات تعمل.
-- يمكنك إيقاف فحص طويل مؤقتًا ومتابعته لاحقًا.
-- يمكنك تشغيل فحص مجدول. وهو متوقف افتراضيًا.
-- خيار "Repair redirected" يحدّث الإشارات المرجعية التي انتقلت إلى عنوان جديد. لا يوجد تراجع عنه، فانظر إلى العنوان الجديد أولًا.
-
-### النسخ الاحتياطي والنقل
-
-- **اللقطة (Snapshot).** احفظ مكتبتك كاملة، مع المجلدات والوسوم، في ملف واحد. واستعدها لاحقًا في مجلد جديد.
-- **الاستيراد.** استورد إشارات مرجعية من Chrome أو Edge أو Firefox أو Safari أو Brave (ملف `bookmarks.html`)، أو من Pocket أو Pinboard أو Raindrop.io، أو من ملف CSV أو JSON أو قائمة روابط نصية. سترى معاينة، وتختار ما تفعله بالمكررات: إبقاء أو تخطٍّ أو دمج.
-- **التصدير.** احفظ الإشارات المرجعية التي تعرضها حاليًا بصيغة JSON أو CSV.
-
-<p align="center">
-  <img src="../assets/screenshots/library-tools.png" alt="أدوات المكتبة: العروض المحفوظة والوسوم الجماعية والمكررات وعمليات الفحص والنسخ الاحتياطي والاستيراد" width="780">
-</p>
-
-### اعمل بسرعة أكبر
-
-- **لوحة الأوامر.** اضغط `Ctrl+Shift+P` (أو `Cmd+Shift+P` على Mac) واكتب ما تريد فعله.
-- **العروض المحفوظة.** احفظ بحثًا مع مرشحاته ووسومه وترتيبه وتجميعه. وافتحه مرة أخرى بنقرة واحدة.
-- **قائمة النقر الأيمن.** في أي صفحة أو رابط، اعرض إشاراتك المرجعية لهذا النطاق، أو ابحث عن مكررات هذا الرابط.
-- **تذكيرات المراجعة.** شغّلها من الإعدادات إذا أردت تنبيهًا كل بضعة أسابيع لترتيب مكتبتك.
-
-<p align="center">
-  <img src="../assets/screenshots/command-palette.png" alt="لوحة الأوامر مع قائمة بالإجراءات" width="780">
-</p>
-
-### خصّصها لنفسك
-
-سمة فاتحة أو داكنة أو حسب النظام. أربع لوحات ألوان. وتخطيط من اليمين إلى اليسار. تضم الإضافة 52 لغة (انظر [معلومات مهمة](#good-to-know)).
-
-<p align="center">
-  <img src="../assets/screenshots/options-light.png" alt="صفحة الإعدادات" width="300">
+  <img src="../assets/screenshots/library-tools.png" alt="أدوات المكتبة: العروض المحفوظة والوسوم الجماعية والمكررات والفحوص والنسخ الاحتياطي والاستيراد" width="390">
   &nbsp;&nbsp;
-  <img src="../assets/screenshots/dashboard-rtl-dark.png" alt="لوحة التحكم بالفارسية بتخطيط من اليمين إلى اليسار في السمة الداكنة" width="300">
+  <img src="../assets/screenshots/command-palette.png" alt="لوحة الأوامر مع قائمة بالإجراءات" width="390">
 </p>
+
+<a id="install"></a>
 
 ## التثبيت
 
-**من متجر Chrome الإلكتروني (Chrome Web Store) (الأسهل)**
+| المتصفح | الحالة | الطريقة |
+| --- | --- | --- |
+| **Chrome** | مُختبر | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
+| **Edge وBrave** | يعمل | ثبّتها من صفحة Chrome Web Store نفسها. غير موجودة بعد في Edge Add-ons. |
+| **Firefox 140 أو أحدث** (سطح المكتب) | تجريبي | [تثبيت مؤقت من صفحة الإصدارات](#firefox-experimental) |
+| **Safari** | غير مدعوم | |
 
-1. افتح [صفحة Bookmark Scope](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo).
-2. انقر على **Add to Chrome**.
-3. انقر على أيقونة قطعة الأحجية في شريط الأدوات وثبّت Bookmark Scope.
+**Chrome وEdge وBrave:** افتح صفحة المتجر، وانقر على **Add to Chrome**، ثم انقر على أيقونة قطعة الأحجية في شريط الأدوات وثبّت Bookmark Scope.
 
-يمكن عادةً تثبيتها في متصفحات Chromium الأخرى مثل Edge وBrave من الصفحة نفسها. أنا أختبرها في Chrome فقط. ولا يوجد دعم لـ Firefox ولا Safari.
+<a id="firefox-experimental"></a>
 
-**من هذا المستودع**
+**Firefox (تجريبي):** غير متوفرة بعد في Firefox Add-ons.
 
-لا توجد خطوة بناء. المجلد `extension` هو الإضافة نفسها.
+1. نزّل الملف `bookmark-scope-<version>-firefox.zip` من [صفحة الإصدارات](https://github.com/ehsanenaloo/Bookmark-Scope/releases).
+2. في Firefox، افتح `about:debugging#/runtime/this-firefox`.
+3. انقر على **Load Temporary Add-on** واختر ملف zip.
 
-1. نزّل هذا المستودع أو انسخه (clone).
-2. افتح `chrome://extensions` وفعّل **Developer mode**.
-3. انقر على **Load unpacked** واختر المجلد `extension` داخل المستودع (الذي يحتوي على `manifest.json`)، وليس المجلد الرئيسي.
+يزيل Firefox الإضافات المؤقتة عند إغلاقه. تجد مزيدًا من التفاصيل في [دليل التثبيت](https://ehsanenaloo.github.io/Bookmark-Scope/guides/installation.html#firefox-experimental).
 
-للنسخة غير المضغوطة معرّف إضافة خاص بها. يمكنك إبقاؤها بجانب نسخة المتجر، لكنهما لا تتشاركان البيانات، والنسخة غير المضغوطة لا تتحدث تلقائيًا.
+**من المصدر:** لا توجد خطوة بناء. المجلد `extension/` هو الإضافة نفسها. افتح `chrome://extensions` وفعّل **Developer mode** وانقر على **Load unpacked** واختر المجلد `extension`.
 
-## بياناتك تبقى عندك
+<a id="privacy"></a>
 
-لا يوجد خادم. ولا حساب ولا تحليلات ولا إعلانات. تبقى إشاراتك المرجعية ووسومك وإعداداتك داخل متصفحك. تجد التفاصيل في [سياسة الخصوصية](../PRIVACY.md).
+## الخصوصية
 
-لا تقرأ الإضافة الصفحات التي تزورها. هي تقرأ فقط عنوان التبويب النشط، لتعرض الإشارات المرجعية المطابقة.
+- لا يوجد خادم ولا حساب ولا تحليلات ولا إعلانات.
+- تبقى إشاراتك المرجعية ووسومك وإعداداتك في متصفحك.
+- طلبات الشبكة الوحيدة هي فحص الروابط إلى المواقع التي حفظتها، وذلك فقط بعد أن تسمح به. وكل شيء آخر يعمل بدون هذا الإذن.
+- لا تقرأ الإضافة الصفحات التي تزورها. هي تقرأ فقط عنوان التبويب النشط لتعرض الإشارات المطابقة.
 
-| الإذن | الغرض منه |
+اقرأ [سياسة الخصوصية](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) لمعرفة التفاصيل وقائمة الأذونات.
+
+<a id="documentation"></a>
+
+## التوثيق
+
+| | |
 | --- | --- |
-| `bookmarks` | قراءة إشاراتك المرجعية، وتغييرها عندما تطلب ذلك |
-| `tabs` | قراءة عنوان التبويب النشط للنافذة المنبثقة والشارة |
-| `storage` | حفظ إعداداتك ووسومك ونتائج الفحص في المتصفح |
-| `alarms` | تشغيل التذكيرات الاختيارية وعمليات الفحص المجدولة الاختيارية |
-| `notifications` | عرض التذكيرات ونتائج الفحص |
-| `contextMenus` | إضافة عناصر قائمة النقر الأيمن |
-| `clipboardWrite` | نسخ العناوين عند النقر على زر النسخ |
-| `favicon` | عرض أيقونات المواقع من ذاكرة المتصفح المؤقتة نفسها |
-| المواقع (اختياري) | يُطلب فقط عندما تبدأ فحص الروابط، ليتمكن من الاتصال بالمواقع التي حفظتها |
+| [دليل المستخدم](https://ehsanenaloo.github.io/Bookmark-Scope/) | كل الميزات، مع لقطات شاشة |
+| [القيود المعروفة](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html) | ما لم يكتمل أو لم يُختبر |
+| [سياسة الخصوصية](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) | ما الذي تحفظه الإضافة وما الذي ترسله |
+| [سجل التغييرات](../../CHANGELOG.md) | ما الذي تغيّر في كل إصدار |
+| [المساهمة](../../.github/CONTRIBUTING.md) | كيف تبلّغ عن الأخطاء وترسل التغييرات |
+| [الأمان](../../.github/SECURITY.md) | كيف تبلّغ عن مشكلة أمنية بشكل خاص |
 
-<a id="good-to-know"></a>
-## معلومات مهمة
+<a id="faq"></a>
 
-- **الترجمات.** الترجمات آلية، فقد تحتوي على أخطاء أو تترك بعض الكلمات بالإنجليزية. إذا كانت إحدى هذه اللغات لغتك الأم وتستطيع كتابة ترجمة صحيحة وطبيعية، فساعدنا: [افتح issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) أو أرسل pull request. التفاصيل في [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
-- **الاستيراد مسطّح.** عند استيراد ملف `bookmarks.html`، يظهر اسم المجلد على شكل مسار، لكن المجلدات لا تُنشأ والتواريخ الأصلية لا تُحفظ. استخدم اللقطة إذا أردت إعادة بناء شجرة المجلدات.
-- **فحص الروابط مجرد مؤشر.** أي استجابة 4xx تُعدّ رابطًا معطلًا. أما الصفحة التي تُحمَّل لكنها تعرض خطأ أو شاشة تسجيل دخول فتُعدّ سليمة.
-- **CSV.** اختبرت تصدير CSV مع أداة الاستيراد ومع تنزيل حقيقي من Chrome. لم أفتحه بعد في Excel أو Numbers أو Google Sheets.
-- **الاختبار.** تُختبر الإضافة في Chromium. انظر [القائمة الكاملة للقيود](../guides/limits.html).
+## الأسئلة الشائعة
 
-## اختصارات لوحة المفاتيح
+<details>
+<summary><b>هل ترسل إشاراتي المرجعية إلى أي مكان؟</b></summary>
 
-| المفاتيح | ماذا تفعل |
-| --- | --- |
-| `Ctrl+Shift+P` / `Cmd+Shift+P` | فتح لوحة الأوامر |
-| `/` | الانتقال إلى مربع البحث |
-| `Ctrl+A` / `Cmd+A` | تحديد كل الإشارات المرجعية في القائمة الحالية |
-| `Esc` | الرجوع خطوة واحدة: إلغاء التعديل أو مسح البحث أو مسح التحديد أو إغلاق نافذة حوار |
+لا. لا يوجد خادم. تبقى إشاراتك المرجعية في متصفحك. تتصل الإضافة فقط بالمواقع التي حفظتها، عندما تبدأ فحص الروابط وتكون قد سمحت به.
+</details>
 
-## دليل المستخدم
+<details>
+<summary><b>هل ستغيّر الإشارات المرجعية أو تحذفها من تلقاء نفسها؟</b></summary>
 
-يشرح الدليل كل جزء من الإضافة، مع لقطات شاشة. ابدأ بـ [docs/README.md](../README.md) أو افتح [مجلد الأدلة](../guides/). لقراءته كصفحة ويب، افتح `docs/index.html` في متصفحك.
+لا. هي لا تغيّر الإشارات المرجعية إلا عندما تطلب ذلك. عمليات الدمج وتغييرات الوسوم الجماعية تعرض معاينة أولًا، وعمليات الحذف تطلب منك التأكيد.
+</details>
 
-## ساهم في المشروع
+<details>
+<summary><b>هل أستطيع استعادة إشارة مرجعية محذوفة؟</b></summary>
 
-نرحّب بتقارير الأخطاء وتصحيحات الترجمة وطلبات الدمج الصغيرة. اقرأ [CONTRIBUTING.md](../../.github/CONTRIBUTING.md) أولًا. قبل إرسال طلب دمج، شغّل هذا الفحص. يحتاج إلى Node.js 24 أو أحدث، ولا يحتاج إلى تثبيت أي حزم.
+نعم، استخدم التراجع (Undo). تعود الإشارة المرجعية إلى مجلدها مع وسومها. لا تسمح المتصفحات لأي إضافة باستعادة المعرّف الأصلي أو تاريخ الإضافة، لذلك تكون الإشارة المستعادة إشارة جديدة.
+</details>
 
-```bash
-node scripts/validate.mjs
-node scripts/test.mjs
-```
+<details>
+<summary><b>هل تعمل مع مديري الإشارات المرجعية الآخرين؟</b></summary>
 
-يرجى الإبلاغ عن المشكلات الأمنية بشكل خاص. انظر [SECURITY.md](../../.github/SECURITY.md).
+يمكنك الاستيراد من Chrome وEdge وFirefox وSafari وBrave (ملف `bookmarks.html`) ومن Pocket وPinboard وRaindrop.io وملفات CSV وJSON. الاستيراد مسطّح: تظهر المجلدات على شكل مسار لكنها لا تُنشأ.
+</details>
+
+<details>
+<summary><b>كيف أبلّغ عن مشكلة أو أطلب ميزة؟</b></summary>
+
+[افتح issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues). من فضلك لا تضع قائمة إشاراتك المرجعية الحقيقية. وللمشكلات الأمنية انظر [SECURITY.md](../../.github/SECURITY.md).
+</details>
+
+## الترجمات
+
+الترجمات آلية، فقد تحتوي على أخطاء أو تترك بعض الكلمات بالإنجليزية. إذا كانت إحدى هذه اللغات لغتك الأم وتستطيع كتابة ترجمة صحيحة وطبيعية، فساعدنا: [افتح issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) أو أرسل pull request. انظر [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
+
+<a id="contributing"></a>
+
+## المساهمة
+
+نرحب ببلاغات الأخطاء وتصحيحات الترجمة وطلبات الدمج الصغيرة. اقرأ [CONTRIBUTING.md](../../.github/CONTRIBUTING.md) أولًا.
 
 إذا وفّرت لك Bookmark Scope وقتًا، يمكنك أن [تشتري لي فنجان قهوة](https://buymeacoffee.com/enaloo). كما أن تقييمك في [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) يساعد الآخرين على العثور عليها.
 
-## المساهمون
+### المساهمون
 
-شكرًا لكل من ساعد في المشروع. يظهر اسمك هنا بعد قبول أول مساهمة لك. اقرأ [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#recognition).
+شكرًا لكل من ساعد. يظهر اسمك هنا بعد قبول أول مساهمة لك.
 
-<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors"></a>
-
+<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="المساهمون"></a>
 
 ## الرخصة
 
 [MIT](../../LICENSE). حقوق النشر 2026 Ehsan Enaloo.
 
-شيفرة Bookmark Scope مرخّصة بموجب MIT. وهناك جزءان من مشاريع أخرى ويحتفظان برخصهما الخاصة: قائمة اللواحق العامة Public Suffix List (قائمة بنهايات النطاقات مثل `.co.uk`، برخصة MPL-2.0) وأيقونات [Lucide](https://lucide.dev) (برخصة ISC). النصوص الكاملة للرخص موجودة في [extension/THIRD_PARTY_NOTICES.md](../../extension/THIRD_PARTY_NOTICES.md).
+شيفرة الإضافة مرخّصة بموجب MIT. وهناك جزءان من مشاريع أخرى ويحتفظان برخصهما الخاصة: قائمة اللواحق العامة Public Suffix List (قائمة بنهايات النطاقات مثل `.co.uk`، برخصة MPL-2.0) وأيقونات [Lucide](https://lucide.dev) (برخصة ISC). النصوص الكاملة للرخص موجودة في [extension/THIRD_PARTY_NOTICES.md](../../extension/THIRD_PARTY_NOTICES.md).
 
 </div>

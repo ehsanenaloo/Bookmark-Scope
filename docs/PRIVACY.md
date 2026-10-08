@@ -1,7 +1,9 @@
 # Privacy Policy
 
+The same text is on the guide site: https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html
+
 **Bookmark Scope** (the "extension")
-Last updated: 2026-10-07
+Last updated: 2026-10-08
 
 Bookmark Scope is a Chrome extension that helps you inspect, organize and clean up your browser bookmarks. This policy explains what the extension accesses, what it stores, and what leaves your device. The short version: **the extension has no server, collects nothing about you, and sends no data to its author or to any third party.**
 
@@ -26,7 +28,7 @@ Bookmark Scope is a Chrome extension that helps you inspect, organize and clean 
 
 1. **Link-health checks (optional).** When you start a scan, or enable scheduled background scans, your browser requests the bookmarked URLs directly (a `HEAD` request, with a `GET` request as fallback) to learn whether each page responds, redirects or fails. These requests go **only** to the sites you bookmarked and are made from your device, so those sites can see the request as they would from any visit. Results are stored locally. Nothing is sent to the extension's author. Chrome Web Store hosts and non-web URLs are skipped.
 2. **Permission to contact websites is optional.** The extension requests access to `http://*/*` and `https://*/*` as an *optional* permission, only at the moment you start a scan or enable scheduled scans. If you decline, scans do not run and every other feature keeps working. You can revoke the permission at any time in Chrome's extension settings.
-3. **Links you choose to open.** The footer and settings contain links to this project's GitHub page, a donation page and the Chrome Web Store review page. They open in a new tab only when you click them.
+3. **Links you choose to open.** The footer and settings contain links to this project's user guide and GitHub page, a donation page and the Chrome Web Store review page. They open in a new tab only when you click them.
 4. **Chrome's update service.** Like all Web Store extensions, Chrome itself checks for new versions. That is Chrome's feature, not the extension's.
 
 The extension loads its translations from files packaged inside it. It does not download code, translations or configuration from the internet and does not use remote code.
@@ -34,6 +36,10 @@ The extension loads its translations from files packaged inside it. It does not 
 ## Notifications
 
 If you allow them, the extension shows local notifications for the pin hint, review-due reminders and scan findings. These are generated on your device.
+
+## Other browsers
+
+Bookmark Scope is made for Chrome. Edge and Brave can add it from the Chrome Web Store page, and this policy applies there too. An experimental Firefox build is available from the GitHub Releases page. It works the same way and keeps its data in Firefox's local extension storage, and it sends nothing to the author or to any third party. In every browser, the browser's own update and permission settings apply.
 
 ## Diagnostics
 

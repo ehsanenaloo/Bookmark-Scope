@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Installation, updates and removal | Bookmark Scope user guide</title>
-<meta name="description" content="Install Bookmark Scope from the Chrome Web Store or load it unpacked, pin it, update it, and remove it without losing your bookmarks.">
+<meta name="description" content="Install Bookmark Scope from the Chrome Web Store, load it unpacked, or try the experimental Firefox build. Pin it, update it, and remove it without losing your bookmarks.">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
 <link rel="stylesheet" href="../styles.css">
@@ -16,12 +16,12 @@
 <main id="main">
 <div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Get started</p><h1>Installation, updates and removal</h1><p class="lead">Two ways to install, how updates behave, what survives an update, and exactly what happens to your data when you uninstall.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
 <div class="shell doc-layout has-toc">
-<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html" aria-current="page">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
+<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html" aria-current="page">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="../privacy.html">Privacy policy</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
 <article class="prose">
 
 <h2 id="requirements">Requirements<a class="anchor" href="#requirements" aria-label="Link to this section">#</a></h2>
 <ul>
-  <li><strong>Chrome</strong> with Manifest V3 extension support. Edge and Brave are Chromium browsers, so they can add Bookmark Scope from its Chrome Web Store page. It is not listed on Edge Add-ons yet, and I only test with Chrome. Firefox is not supported.</li>
+  <li><strong>Chrome</strong> with Manifest V3 extension support. Edge and Brave are Chromium browsers, so they can add Bookmark Scope from its Chrome Web Store page. It is not listed on Edge Add-ons yet, and I only test with Chrome. An experimental Firefox build also exists; see <a href="#firefox-experimental">Firefox (experimental)</a>. Safari is not supported.</li>
   <li>No account and no sign-in. Bookmark Scope has no server component.</li>
 </ul>
 
@@ -44,11 +44,22 @@
 <div class="expect"><p><strong>You should see:</strong> a card named <em>Bookmark Scope &ndash; Domain &amp; Page Manager</em> with the version number and no error badge. If Chrome shows <em>Manifest file is missing or unreadable</em>, you most likely selected the top folder of the repository (or a folder inside <code>extension</code>) instead of the <code>extension</code> folder itself.</p></div>
 <aside class="callout note"><span class="callout-title">Note</span><p>An unpacked copy gets its own extension ID, so it can be installed next to the Web Store version. The two do not share data: tags, saved views and settings are separate. An unpacked extension also depends on the folder staying where it is. If you move or delete the folder, Chrome disables the extension. Your bookmarks are never affected, but see <a href="#uninstalling-and-your-data">Uninstalling and your data</a> for what happens to Bookmark Scope&rsquo;s own data.</p></aside>
 
+<h2 id="firefox-experimental">Firefox (experimental)<a class="anchor" href="#firefox-experimental" aria-label="Link to this section">#</a></h2>
+<p>There is an experimental Firefox build. It is not on Firefox Add-ons yet, so you load it by hand from the GitHub Releases page. It was tested on Firefox 157 on Windows. Other systems are not tested.</p>
+<ol class="steps">
+  <li><h3>Check your Firefox</h3><p>You need desktop Firefox 140 or newer. Firefox for Android is not supported.</p></li>
+  <li><h3>Download the zip</h3><p>Open the <a href="https://github.com/ehsanenaloo/Bookmark-Scope/releases" rel="noopener">GitHub Releases page</a> and download <code>bookmark-scope-&lt;version&gt;-firefox.zip</code> from the newest release. Do not use the zip without &ldquo;firefox&rdquo; in its name. That one is for Chrome.</p></li>
+  <li><h3>Open the debugging page</h3><p>Type <code>about:debugging#/runtime/this-firefox</code> in the address bar and press Enter.</p></li>
+  <li><h3>Load the add-on</h3><p>Click <strong>Load Temporary Add-on</strong> and choose the zip file. You can also unzip it and choose the <code>manifest.json</code> inside.</p></li>
+</ol>
+<aside class="callout warn"><span class="callout-title">Temporary add-ons</span><p>Firefox removes a temporary add-on when it closes, so you need to load it again each time you start Firefox. Your bookmarks are never affected. To be safe, export a snapshot first (<strong>Library tools &rarr; Export snapshot</strong>), because the extension&rsquo;s own data, such as tags and saved views, may not be kept. A permanent install needs a signed add-on, which does not exist yet.</p></aside>
+<p>The Firefox build uses the same code as the Chrome build, with a few differences: there are no site icons in the lists, and the buttons that open Chrome&rsquo;s bookmark manager are hidden. See <a href="troubleshooting-faq.html#faq">Does it work in Firefox, Edge or Brave?</a> for the full list.</p>
+
 <h2 id="pinning-and-quick-access">Pinning and quick access<a class="anchor" href="#pinning-and-quick-access" aria-label="Link to this section">#</a></h2>
 <p>Pin the extension from the Extensions menu. Chrome also lets you assign a keyboard shortcut to an extension&rsquo;s toolbar button at <code>chrome://extensions/shortcuts</code>. That is a Chrome feature rather than something Bookmark Scope adds, and Bookmark Scope does not ship a default shortcut.</p>
 
 <h2 id="updating">Updating<a class="anchor" href="#updating" aria-label="Link to this section">#</a></h2>
-<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">How you installed</th><th scope="col">How it updates</th></tr></thead><tbody><tr><td>Chrome Web Store</td><td>Chrome updates it automatically in the background. To check now, open <code>chrome://extensions</code>, turn on Developer mode and use <strong>Update</strong>.</td></tr><tr><td>Load unpacked</td><td>Replace the folder contents (or run <code>git pull</code>), then press the reload icon on the extension&rsquo;s card.</td></tr></tbody></table></div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">How you installed</th><th scope="col">How it updates</th></tr></thead><tbody><tr><td>Chrome Web Store</td><td>Chrome updates it automatically in the background. To check now, open <code>chrome://extensions</code>, turn on Developer mode and use <strong>Update</strong>.</td></tr><tr><td>Load unpacked</td><td>Replace the folder contents (or run <code>git pull</code>), then press the reload icon on the extension&rsquo;s card.</td></tr><tr><td>Firefox (experimental)</td><td>There is no automatic update. Download the newer zip from the GitHub Releases page and load it again on <code>about:debugging</code>.</td></tr></tbody></table></div>
 <p><strong>Your data survives updates.</strong> On startup Bookmark Scope checks its stored data format (currently schema version 7), fills in defaults for anything new and keeps your tags, saved views, history and preferences. One deliberate exception: cached link-health results from before a format change may be discarded and are rebuilt the next time you run a scan. They are only a cache.</p>
 
 <h2 id="uninstalling-and-your-data">Uninstalling and your data</h2>
@@ -65,9 +76,9 @@
 
 <div class="reading-footer"><a href="quick-start.html"><small>Previous</small>Quick start &amp; first run</a><a class="next" href="popup.html"><small>Next</small>Popup</a></div>
 </article>
-<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#requirements">Requirements</a></li><li><a href="#option-a-chrome-web-store">Option A: Chrome Web Store</a></li><li><a href="#option-b-load-unpacked-from-source">Option B: Load unpacked (from source)</a></li><li><a href="#pinning-and-quick-access">Pinning and quick access</a></li><li><a href="#updating">Updating</a></li></ol></nav>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#requirements">Requirements</a></li><li><a href="#option-a-chrome-web-store">Option A: Chrome Web Store</a></li><li><a href="#option-b-load-unpacked-from-source">Option B: Load unpacked (from source)</a></li><li><a href="#firefox-experimental">Firefox (experimental)</a></li><li><a href="#pinning-and-quick-access">Pinning and quick access</a></li><li><a href="#updating">Updating</a></li></ol></nav>
 </div>
 </main>
-<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="../privacy.html">Privacy</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
 </body>
 </html>

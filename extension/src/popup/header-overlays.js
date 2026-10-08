@@ -1,5 +1,6 @@
-import { createTab, getManifest, getRuntimeUrl } from '../platform/browser-api.js';
+import { createTab, getBookmarksManagerUrl, getManifest, getRuntimeUrl } from '../platform/browser-api.js';
 import { featureText } from '../locales/feature-messages.js';
+import { USER_GUIDE_URL } from '../config/footer-config.js';
 import { MATCH_MODES, OLD_BOOKMARK_DAYS, SORT_OPTIONS, THEME_MODES, COLOR_PALETTES } from '../constants.js';
 
 export function createPopupHeaderOverlays(deps) {
@@ -246,13 +247,16 @@ export function createPopupHeaderOverlays(deps) {
       create('div', 'about-copy', t('If Bookmark Scope saved you time or spared you a cleanup headache, you can buy me a coffee.'))
     );
     const actionsRow = create('div', 'about-actions');
+    const guide = create('button', 'button secondary about-action-button', featureText('User guide'));
+    guide.type = 'button';
+    guide.addEventListener('click', () => createTab({ url: USER_GUIDE_URL, active: true }));
     const github = create('button', 'button secondary about-action-button', t('GitHub'));
     github.type = 'button';
     github.addEventListener('click', () => createTab({ url: 'https://github.com/ehsanenaloo/Bookmark-Scope', active: true }));
     const coffee = create('button', 'button primary about-action-button', t('Buy me a coffee'));
     coffee.type = 'button';
     coffee.addEventListener('click', openPopupSupportLink);
-    actionsRow.append(github, coffee);
+    actionsRow.append(guide, github, coffee);
     support.append(actionsRow);
 
     const credit = create('div', 'about-footer-note popup-about-credit');
@@ -287,13 +291,18 @@ export function createPopupHeaderOverlays(deps) {
       createTab({ url: getRuntimeUrl('options.html'), active: true });
     });
 
-    const chromeAction = create('button', 'overflow-item', t('Open Chrome bookmarks'));
-    chromeAction.type = 'button';
-    chromeAction.addEventListener('click', (event) => {
-      event.stopPropagation();
-      closeOverflowMenu();
-      createTab({ url: 'chrome://bookmarks/', active: true });
-    });
+    // Firefox has no bookmarks-manager page an extension may open (getBookmarksManagerUrl() is null there).
+    const managerUrl = getBookmarksManagerUrl();
+    let chromeAction = null;
+    if (managerUrl) {
+      chromeAction = create('button', 'overflow-item', t('Open Chrome bookmarks'));
+      chromeAction.type = 'button';
+      chromeAction.addEventListener('click', (event) => {
+        event.stopPropagation();
+        closeOverflowMenu();
+        createTab({ url: managerUrl, active: true });
+      });
+    }
 
     const aboutAction = create('button', 'overflow-item', t('About'));
     aboutAction.type = 'button';
@@ -355,7 +364,7 @@ export function createPopupHeaderOverlays(deps) {
     });
     paletteBlock.append(paletteButtons);
 
-    menu.append(settingsAction, chromeAction, aboutAction, sortBlock, paletteBlock, themeBlock);
+    menu.append(...[settingsAction, chromeAction, aboutAction, sortBlock, paletteBlock, themeBlock].filter(Boolean));
     return menu;
   }
 

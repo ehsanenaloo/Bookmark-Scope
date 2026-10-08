@@ -11,6 +11,8 @@
     "validate": "node scripts/validate.mjs",
     "check": "npm run validate && npm test",
     "test:browser": "node tests/browser/run.mjs",
+    "test:firefox": "node tests/firefox/run.mjs",
+    "build:firefox": "node scripts/build-firefox.mjs",
     "runtime-files": "node scripts/list-runtime-files.mjs"
   }
 }

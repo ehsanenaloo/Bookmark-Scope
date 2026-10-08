@@ -31,7 +31,7 @@ By taking part, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 - **Report a bug.** Use the [bug report form](https://github.com/ehsanenaloo/Bookmark-Scope/issues/new?template=bug_report.yml). Search [existing issues](https://github.com/ehsanenaloo/Bookmark-Scope/issues) first.
 - **Suggest a feature.** Use the [feature request form](https://github.com/ehsanenaloo/Bookmark-Scope/issues/new?template=feature_request.yml). Describe the problem you have before the solution you want.
 - **Improve a translation.** Fix a wrong or awkward string, or add a language. See [Translations](#translations). If you do not want to edit files, use the [translation fix form](https://github.com/ehsanenaloo/Bookmark-Scope/issues/new?template=translation_fix.yml).
-- **Improve the docs or screenshots.** The user guide is in [docs/](../docs/README.md). Fix errors, unclear steps, or outdated screenshots. Screenshots must use synthetic bookmarks.
+- **Improve the docs or screenshots.** The user guide is in [docs/](../docs/README.md) and is published at <https://ehsanenaloo.github.io/Bookmark-Scope/>. Fix errors, unclear steps, or outdated screenshots. Screenshots must use synthetic bookmarks.
 - **Review pull requests.** Try a change in your own test profile and say what you saw. This helps a lot, and anyone can do it.
 - **Fix an issue.** Pick one from the list below, say that you are on it, and open a pull request.
 
@@ -138,8 +138,8 @@ The repository root is kept small on purpose. The extension itself lives in `ext
 | `extension/styles/` | Shared CSS (`base.css`, `colors.css`) and styles for the dashboard and popup. |
 | `extension/vendor/`, `extension/THIRD_PARTY_NOTICES.md` | The bundled Public Suffix List and the third-party license notices. |
 | `docs/` | The user guide (a static HTML site), `PRIVACY.md`, and the translated READMEs in `docs/translations/`. |
-| `tests/` | Unit tests (`*.test.mjs`), the fake browser and DOM helpers in `tests/helpers/`, and the optional browser checks in `tests/browser/`. |
-| `scripts/` | `validate.mjs`, `test.mjs` and the helper files they use. |
+| `tests/` | Unit tests (`*.test.mjs`), the fake browser and DOM helpers in `tests/helpers/`, and the optional browser checks in `tests/browser/` (Chromium) and `tests/firefox/` (Firefox). |
+| `scripts/` | `validate.mjs`, `test.mjs` and the helper files they use. `build-firefox.mjs` turns the files in `extension/` into the experimental Firefox build in `dist-firefox/`; it never changes `extension/manifest.json`. |
 | `.github/` | Issue forms, the pull request template, labels, workflows, and the community files (this guide, Code of Conduct, Security, Support). |
 
 ## Run it locally
@@ -161,6 +161,14 @@ You need Chrome or another Chromium browser. Node.js 24 or newer is needed to ru
 
 If a page shows a blank screen, the console usually names the file and line.
 
+### Try the Firefox build
+
+The Firefox build is experimental. It is made from the same files in `extension/`.
+
+1. Run `npm run build:firefox` (or `node scripts/build-firefox.mjs`). It writes the package to `dist-firefox/<fingerprint>/` and prints the folder name. The `dist-firefox/` folder is not committed.
+2. In Firefox 140 or newer, open `about:debugging#/runtime/this-firefox` and click **Load Temporary Add-on**. Choose the `manifest.json` inside that folder.
+3. Use a separate Firefox profile with synthetic bookmarks, as for Chrome. A temporary add-on is removed when Firefox closes.
+
 ## Checks
 
 Run both of these before you push:
@@ -174,9 +182,10 @@ node scripts/test.mjs
 
 - **`node scripts/validate.mjs`** checks the manifest, the files it references (they must all exist inside `extension/`), that only shipping files sit in `extension/`, that the repository root stays small, JavaScript syntax, JSON and locale files, imports between modules, and that no keys or forbidden files are present.
 - **`node scripts/test.mjs`** runs every `tests/*.test.mjs` file with the built-in Node test runner and prints a short summary. Pass a word to run only the files whose name contains it, for example `node scripts/test.mjs popup`. It needs Node.js 24 or newer, because the tests use `navigator.locks`, and it tells you if your version is too old.
+- **Firefox checks (optional).** `npm run test:firefox` starts a headless desktop Firefox with a throwaway profile, loads the Firefox build as a temporary add-on and runs about 30 checks on synthetic bookmarks. It needs Firefox 140 or newer and nothing else. Without Firefox the runner prints "skipped". The steps are in [tests/firefox/README.md](../tests/firefox/README.md).
 - **Browser checks (optional).** `npm run test:browser` loads the extension into a real Chromium with a throwaway profile and synthetic bookmarks. You install Playwright yourself, and the runner prints "skipped" if it is missing. The steps are in [tests/browser/README.md](../tests/browser/README.md).
 
-CI runs `validate` and the unit tests on every pull request. It also runs the browser checks on pushes to `main`. The maintainer looks for a green CI run before merging a pull request.
+CI runs `validate` and the unit tests on every pull request. It also runs the browser checks on pushes to `main`, and the Firefox checks too (the Firefox job is informative for now and does not block a merge). The maintainer looks for a green CI run before merging a pull request.
 
 Tests do not replace trying the change by hand. In the pull request, describe your manual steps: the browser and version, what you clicked, and what you saw. Include a failure case, such as a cancelled dialog or a bookmark that no longer exists.
 
@@ -351,9 +360,10 @@ Releases are made by the maintainer. The maintainer updates the version in `exte
 1. runs `node scripts/validate.mjs`,
 2. checks that the tag matches the version in `extension/manifest.json`,
 3. builds the extension zip from the runtime file list (the contents of `extension/`, with `manifest.json` at the zip root, plus the `LICENSE`) and a SHA-256 checksum,
-4. creates a GitHub Release with the zip and checksum attached, and uses the matching section of `CHANGELOG.md` as the notes.
+4. builds the experimental Firefox zip the same way with `scripts/build-firefox.mjs` (`bookmark-scope-X.Y.Z-firefox.zip`) and its checksum,
+5. creates a GitHub Release with both zips and both checksums attached, and uses the matching section of `CHANGELOG.md` as the notes.
 
-Publishing to the Chrome Web Store is a separate manual step.
+Publishing to the Chrome Web Store is a separate manual step. The Firefox build is not on Firefox Add-ons yet.
 
 ## License and sign-off
 

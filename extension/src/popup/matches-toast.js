@@ -1,4 +1,5 @@
 import { MATCH_MODES, POPUP_MAX_ROWS } from '../constants.js';
+import { getBookmarksManagerUrl } from '../platform/browser-api.js';
 
 export function createPopupMatchesToast(deps) {
   const {
@@ -78,7 +79,7 @@ export function createPopupMatchesToast(deps) {
     folder.addEventListener('click', () => actions.openFolder(bookmark.parentId));
     const remove = createIconButton('trash', t('Delete'), 'icon-button');
     remove.addEventListener('click', () => actions.deleteBookmark(bookmark));
-    actionsWrap.append(open, folder, remove);
+    actionsWrap.append(...(getBookmarksManagerUrl(bookmark.parentId) ? [open, folder, remove] : [open, remove]));
 
     main.append(favicon, body);
     top.append(main, actionsWrap);

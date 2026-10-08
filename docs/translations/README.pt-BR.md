@@ -8,18 +8,20 @@
 
 **Encontre os favoritos do site em que você está. Organize o resto da sua biblioteca.**
 
-Uma extensão gratuita do Chrome para quem salvou links demais.<br>
+Uma extensão de navegador gratuita e de código aberto para quem salvou links demais.<br>
 Ela funciona só no seu computador. Sem conta, sem rastreamento.
 
-[![Add to Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
-[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
+[![Adicionar ao Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
+[![Guia do usuário](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://ehsanenaloo.github.io/Bookmark-Scope/)
+[![Me pague um café](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
+[![Licença: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue)
-![52 idiomas](https://img.shields.io/badge/idiomas-52-orange)
-![Sem analytics](https://img.shields.io/badge/analytics-nenhum-lightgrey)
+![52 idiomas](https://img.shields.io/badge/languages-52-orange)
+![Sem analytics](https://img.shields.io/badge/analytics-none-lightgrey)
+[![Estrelas no GitHub](https://img.shields.io/github/stars/ehsanenaloo/Bookmark-Scope?style=social)](https://github.com/ehsanenaloo/Bookmark-Scope/stargazers)
 
-[![GitHub stars](https://img.shields.io/github/stars/ehsanenaloo/Bookmark-Scope?style=social)](https://github.com/ehsanenaloo/Bookmark-Scope/stargazers)
+[Recursos](#features) · [Instalação](#install) · [Privacidade](#privacy) · [Documentação](#documentation) · [Perguntas frequentes](#faq) · [Como contribuir](#contributing)
 
 </div>
 
@@ -28,171 +30,137 @@ Ela funciona só no seu computador. Sem conta, sem rastreamento.
   <img src="../assets/screenshots/dashboard-desktop-light.png" alt="O painel do Bookmark Scope com uma lista de favoritos, filtros, tags e um painel de detalhes">
 </picture>
 
-## Por que isto existe
+## O que é o Bookmark Scope?
 
-O Chrome mostra seus favoritos como uma árvore de pastas. Isso funciona bem para vinte links. Não funciona para dois mil.
+O Chrome mostra seus favoritos como uma árvore de pastas. Isso funciona para vinte links, não para dois mil. Você salva o mesmo artigo três vezes, metade de uma pasta antiga são links mortos e você não sabe o que já salvou do site que está lendo.
 
-Você salva o mesmo artigo três vezes. Uma pasta de 2019 está cheia de links mortos. Você tem onze favoritos sobre um site e não acha o que quer. O Bookmark Scope ajuda com esses problemas.
+O Bookmark Scope resolve isso com duas ferramentas. O **popup** mostra os favoritos que você já tem para a página, o site ou o domínio em que está. O **painel** mostra toda a sua biblioteca, para você achar duplicados e links mortos e organizar tudo em poucos cliques, com uma prévia antes de qualquer mudança.
 
-- Abra o popup em qualquer página. Veja os favoritos que você já tem para aquela página, aquele site ou aquele domínio.
-- Abra o painel. Veja toda a sua biblioteca, encontre duplicados e links quebrados e resolva tudo com poucos cliques.
+<a id="features"></a>
 
-## O que você pode fazer
+## Recursos
 
-### Veja o que você já salvou para este site
-
-Clique no ícone da barra de ferramentas. O popup lista seus favoritos para a página em que você está. Alterne entre esta página exata, este host ou o domínio inteiro. O selo no ícone mostra quantos favoritos correspondem.
+| | |
+| --- | --- |
+| **Popup para o site atual** <br> Veja os favoritos salvos para esta página, host ou domínio. O selo na barra de ferramentas mostra quantos correspondem. | **Painel para toda a sua biblioteca** <br> Busque, filtre, agrupe, ordene, adicione tags e edite milhares de favoritos. Continua rápido. |
+| **Limpeza segura** <br> Veja antes uma prévia da mesclagem de duplicados e das mudanças de tags em lote. Desfaça o que você apagar, com as tags. | **Verificação de links mortos** <br> Encontre links quebrados e redirecionados. É opcional, e verificações longas podem ser pausadas e retomadas. |
+| **Backup e importação** <br> Salve snapshots da sua biblioteca. Importe de `bookmarks.html`, Pocket, Pinboard, Raindrop.io, CSV e JSON. Exporte para JSON ou CSV. | **Visualizações salvas e paleta de comandos** <br> Abra uma busca salva com um clique. Pressione `Ctrl+Shift+P` (`Cmd+Shift+P` no Mac) para ver todas as ações. |
+| **Privado por princípio** <br> Sem servidor, sem conta, sem analytics. Seus dados ficam no seu navegador. | **Seu idioma e seu visual** <br> 52 idiomas, temas claro e escuro, quatro paletas de cores e layouts da direita para a esquerda. |
 
 <p align="center">
-  <img src="../assets/screenshots/popup-light.png" alt="O popup mostrando os favoritos do site atual" width="300">
+  <img src="../assets/screenshots/popup-light.png" alt="O popup mostrando os favoritos do site atual" width="230">
   &nbsp;&nbsp;
-  <img src="../assets/screenshots/popup-dark.png" alt="O popup no tema escuro" width="300">
+  <img src="../assets/screenshots/duplicate-preview.png" alt="A janela de prévia de duplicados, onde você escolhe qual favorito manter" width="520">
 </p>
-
-### Veja toda a sua biblioteca
-
-O painel é uma página inteira para os seus favoritos. Busque por título, endereço ou pasta. Agrupe por domínio ou por pasta. Ordene por título, endereço ou data. Filtre por duplicados, favoritos sem título, favoritos antigos e títulos repetidos. Ele continua rápido com milhares de favoritos.
-
-Clique em um favorito para ver os detalhes. Marque vários para trabalhar neles juntos. Arraste os favoritos para mudar a ordem.
-
-### Organize sem medo
-
-Nada grande acontece sem uma prévia.
-
 <p align="center">
-  <img src="../assets/screenshots/duplicate-preview.png" alt="A janela de prévia de duplicados, onde você escolhe qual favorito manter" width="780">
-</p>
-
-- **Duplicados.** Escolha qual cópia manter. As tags das outras cópias são adicionadas a ela. Você vê o resultado antes de apagar qualquer coisa.
-- **Tags.** Adicione, remova, renomeie ou una tags de vários favoritos de uma vez. Confira o antes e o depois e aplique. Você pode desfazer.
-- **Apagar e desfazer.** Os favoritos apagados podem ser restaurados com as tags. O Chrome não deixa nenhuma extensão recuperar o ID original nem a data de adição, então o favorito restaurado é novo. A extensão avisa você sobre isso.
-
-<p align="center">
-  <img src="../assets/screenshots/bulk-tags.png" alt="A janela de tags em lote mostrando as tags antes e depois da mudança" width="780">
-</p>
-
-### Encontre links quebrados
-
-Verifique um grupo de favoritos para ver quais links funcionam, quais redirecionam e quais estão quebrados. A verificação roda no seu navegador e fala só com os sites que você salvou.
-
-- Ela pede permissão antes. Se você disser não, todo o resto continua funcionando.
-- Você pode pausar uma verificação longa e continuar depois.
-- Você pode ativar uma verificação agendada. Ela vem desativada por padrão.
-- "Reparar redirecionados" atualiza os favoritos que mudaram para um novo endereço. Não dá para desfazer, então confira o novo endereço antes.
-
-### Backup e migração
-
-- **Snapshot.** Salve toda a sua biblioteca, com pastas e tags, em um único arquivo. Restaure depois em uma pasta nova.
-- **Importar.** Traga favoritos do Chrome, Edge, Firefox, Safari ou Brave (o arquivo `bookmarks.html`), do Pocket, Pinboard, Raindrop.io, ou de uma lista de links em CSV, JSON ou texto simples. Você vê uma prévia e escolhe o que fazer com os duplicados: manter, ignorar ou mesclar.
-- **Exportar.** Salve em JSON ou CSV os favoritos que você está vendo.
-
-<p align="center">
-  <img src="../assets/screenshots/library-tools.png" alt="Ferramentas da biblioteca: visualizações salvas, tags em lote, duplicados, verificações, backup e importação" width="780">
-</p>
-
-### Trabalhe mais rápido
-
-- **Paleta de comandos.** Pressione `Ctrl+Shift+P` (`Cmd+Shift+P` no Mac) e digite o que você quer fazer.
-- **Visualizações salvas.** Salve uma busca com seus filtros, tags, ordenação e agrupamento. Abra de novo com um clique.
-- **Menu de clique direito.** Em qualquer página ou link, mostre seus favoritos daquele domínio ou encontre duplicados daquele link.
-- **Lembretes de revisão.** Ative nas Configurações se quiser um aviso a cada poucas semanas para arrumar a biblioteca.
-
-<p align="center">
-  <img src="../assets/screenshots/command-palette.png" alt="A paleta de comandos com uma lista de ações" width="780">
-</p>
-
-### Deixe do seu jeito
-
-Tema claro, escuro ou do sistema. Quatro paletas de cores. Layouts da direita para a esquerda. A extensão inclui 52 idiomas (veja [Bom saber](#good-to-know)).
-
-<p align="center">
-  <img src="../assets/screenshots/options-light.png" alt="A página de configurações" width="300">
+  <img src="../assets/screenshots/library-tools.png" alt="Ferramentas da biblioteca: visualizações salvas, tags em lote, duplicados, verificações, backup e importação" width="390">
   &nbsp;&nbsp;
-  <img src="../assets/screenshots/dashboard-rtl-dark.png" alt="O painel em persa com layout da direita para a esquerda no tema escuro" width="300">
+  <img src="../assets/screenshots/command-palette.png" alt="A paleta de comandos com uma lista de ações" width="390">
 </p>
+
+<a id="install"></a>
 
 ## Instalação
 
-**Pela Chrome Web Store (mais fácil)**
+| Navegador | Status | Como |
+| --- | --- | --- |
+| **Chrome** | Testado | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
+| **Edge, Brave** | Funciona | Instale pela mesma página da Chrome Web Store. Ainda não está no Edge Add-ons. |
+| **Firefox 140+** (computador) | Experimental | [Instalação temporária pela página de Releases](#firefox-experimental) |
+| **Safari** | Não compatível | |
 
-1. Abra a [página do Bookmark Scope](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo).
-2. Clique em **Add to Chrome**.
-3. Clique no ícone de quebra-cabeça na barra de ferramentas e fixe o Bookmark Scope.
+**Chrome, Edge e Brave:** abra a página da loja, clique em **Add to Chrome**, depois clique no ícone de quebra-cabeça na barra de ferramentas e fixe o Bookmark Scope.
 
-Outros navegadores Chromium, como Edge e Brave, normalmente conseguem instalar pela mesma página. Eu só testo com o Chrome. Firefox e Safari não são compatíveis.
+<a id="firefox-experimental"></a>
 
-**Por este repositório**
+**Firefox (experimental):** ele ainda não está no Firefox Add-ons.
 
-Não há etapa de build. A pasta `extension` é a extensão.
+1. Baixe `bookmark-scope-<version>-firefox.zip` na [página de Releases](https://github.com/ehsanenaloo/Bookmark-Scope/releases).
+2. No Firefox, abra `about:debugging#/runtime/this-firefox`.
+3. Clique em **Load Temporary Add-on** e escolha o arquivo zip.
 
-1. Baixe ou clone este repositório.
-2. Abra `chrome://extensions` e ative o **Developer mode**.
-3. Clique em **Load unpacked** e escolha a pasta `extension` dentro do repositório (a que contém o `manifest.json`), não a pasta principal.
+O Firefox remove os complementos temporários quando fecha. Há mais detalhes no [guia de instalação](https://ehsanenaloo.github.io/Bookmark-Scope/guides/installation.html#firefox-experimental).
 
-Uma cópia sem empacotar tem o próprio ID de extensão. Você pode mantê-la ao lado da versão da Store, mas elas não compartilham dados, e a cópia sem empacotar não se atualiza sozinha.
+**A partir do código-fonte:** não há etapa de build. A pasta `extension/` é a extensão. Abra `chrome://extensions`, ative o **Modo do desenvolvedor**, clique em **Carregar sem compactação** e escolha a pasta `extension`.
 
-## Seus dados ficam com você
+<a id="privacy"></a>
 
-Não há servidor. Não há conta, analytics nem anúncios. Seus favoritos, tags e configurações ficam no seu navegador. A [política de privacidade](../PRIVACY.md) tem os detalhes.
+## Privacidade
 
-A extensão não lê as páginas que você visita. Ela só lê o endereço da aba ativa, para poder mostrar os favoritos correspondentes.
+- Não há servidor, nem conta, nem analytics, nem anúncios.
+- Seus favoritos, tags e configurações ficam no seu navegador.
+- As únicas requisições de rede são as verificações de links dos sites que você salvou, e só depois que você permitir. Todo o resto funciona sem essa permissão.
+- A extensão não lê as páginas que você visita. Ela só lê o endereço da aba ativa, para mostrar os favoritos correspondentes.
 
-| Permissão | Para que serve |
+Leia a [política de privacidade](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) para ver os detalhes e a lista de permissões.
+
+<a id="documentation"></a>
+
+## Documentação
+
+| | |
 | --- | --- |
-| `bookmarks` | Ler seus favoritos e alterá-los quando você pedir |
-| `tabs` | Ler o endereço da aba ativa para o popup e o selo |
-| `storage` | Guardar no navegador suas configurações, tags e resultados de verificações |
-| `alarms` | Executar lembretes opcionais e verificações agendadas opcionais |
-| `notifications` | Mostrar lembretes e resultados de verificações |
-| `contextMenus` | Adicionar os itens do menu de clique direito |
-| `clipboardWrite` | Copiar endereços quando você clica em um botão de copiar |
-| `favicon` | Mostrar os ícones dos sites a partir do cache do próprio navegador |
-| Sites (opcional) | Pedida só quando você inicia uma verificação de links, para a extensão poder acessar os sites que você salvou |
+| [Guia do usuário](https://ehsanenaloo.github.io/Bookmark-Scope/) | Todos os recursos, com capturas de tela |
+| [Limites conhecidos](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html) | O que está incompleto ou sem teste |
+| [Política de privacidade](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) | O que a extensão guarda e envia |
+| [Changelog](../../CHANGELOG.md) | O que mudou em cada versão |
+| [Como contribuir](../../.github/CONTRIBUTING.md) | Como relatar bugs e enviar mudanças |
+| [Segurança](../../.github/SECURITY.md) | Como relatar um problema de segurança em particular |
 
-<a id="good-to-know"></a>
-## Bom saber
+<a id="faq"></a>
 
-- **Traduções.** As traduções são automáticas, então podem ter erros ou deixar algumas palavras em inglês. Se o seu idioma nativo é um deles e você sabe escrever uma tradução correta e natural, ajude a gente: [abra uma issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) ou envie um pull request. Veja o [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
-- **A importação é plana.** Ao importar um arquivo `bookmarks.html`, o nome da pasta aparece como um caminho, mas as pastas não são criadas e as datas originais não são mantidas. Use um snapshot se precisar recriar uma árvore de pastas.
-- **As verificações de links são apenas indicações.** Qualquer resposta 4xx conta como quebrada. Uma página que carrega, mas mostra um erro ou uma tela de login, conta como saudável.
-- **CSV.** Testei a exportação em CSV com o importador e com um download real no Chrome. Ainda não abri o arquivo no Excel, no Numbers nem no Google Sheets.
-- **Testes.** A extensão é testada no Chromium. Veja a [lista completa de limites](../guides/limits.html).
+## Perguntas frequentes
 
-## Atalhos de teclado
+<details>
+<summary><b>Ele envia meus favoritos para algum lugar?</b></summary>
 
-| Teclas | O que fazem |
-| --- | --- |
-| `Ctrl+Shift+P` / `Cmd+Shift+P` | Abrir a paleta de comandos |
-| `/` | Ir para a caixa de busca |
-| `Ctrl+A` / `Cmd+A` | Selecionar todos os favoritos da lista atual |
-| `Esc` | Voltar um passo: cancelar uma edição, limpar a busca, limpar a seleção, fechar uma janela |
+Não. Não há servidor. Seus favoritos ficam no seu navegador. A extensão só entra em contato com os sites que você salvou, quando você inicia uma verificação de links e já a permitiu.
+</details>
 
-## Guia do usuário
+<details>
+<summary><b>Ele vai alterar ou apagar favoritos por conta própria?</b></summary>
 
-O guia explica cada parte da extensão, com capturas de tela. Comece por [docs/README.md](../README.md) ou abra a [pasta de guias](../guides/). Para ler como página web, abra `docs/index.html` no seu navegador.
+Não. Ele só altera favoritos quando você pede. Mesclagens e mudanças de tags em lote mostram uma prévia antes, e apagar pede a sua confirmação.
+</details>
 
-## Ajude o projeto
+<details>
+<summary><b>Posso recuperar um favorito apagado?</b></summary>
 
-Relatos de bugs, correções de tradução e pequenos pull requests são bem-vindos. Leia o [CONTRIBUTING.md](../../.github/CONTRIBUTING.md) primeiro. Antes de enviar um pull request, rode esta verificação. Ela precisa do Node.js 24 ou mais novo e não exige instalação.
+Sim, use Desfazer. O favorito volta para a pasta dele com as tags. Os navegadores não deixam nenhuma extensão restaurar o ID original nem a data em que foi adicionado, então o favorito restaurado é novo.
+</details>
 
-```bash
-node scripts/validate.mjs
-node scripts/test.mjs
-```
+<details>
+<summary><b>Funciona com outros gerenciadores de favoritos?</b></summary>
 
-Por favor, relate problemas de segurança em particular. Veja [SECURITY.md](../../.github/SECURITY.md).
+Você pode importar do Chrome, Edge, Firefox, Safari e Brave (o arquivo `bookmarks.html`), do Pocket, Pinboard, Raindrop.io, e de arquivos CSV e JSON. As importações são planas: as pastas aparecem como um caminho, mas não são criadas.
+</details>
 
-Se o Bookmark Scope economiza seu tempo, você pode [me pagar um café](https://buymeacoffee.com/enaloo). Uma avaliação na [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) também ajuda outras pessoas a encontrá-lo.
+<details>
+<summary><b>Como relato um problema ou peço um recurso?</b></summary>
 
-## Contribuidores
+[Abra uma issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues). Por favor, não inclua a sua lista real de favoritos. Para problemas de segurança, veja o [SECURITY.md](../../.github/SECURITY.md).
+</details>
 
-Obrigado a todo mundo que ajudou. Seu nome aparece aqui depois da sua primeira contribuição aceita. Veja o [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#recognition).
+## Traduções
 
-<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors"></a>
+As traduções são automáticas, então podem ter erros ou deixar algumas palavras em inglês. Se o seu idioma nativo é um deles e você sabe escrever uma tradução correta e natural, ajude a gente: [abra uma issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) ou envie um pull request. Veja o [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
 
+<a id="contributing"></a>
+
+## Como contribuir
+
+Relatos de bugs, correções de tradução e pull requests pequenos são bem-vindos. Leia primeiro o [CONTRIBUTING.md](../../.github/CONTRIBUTING.md).
+
+Se o Bookmark Scope economiza o seu tempo, você pode [me pagar um café](https://buymeacoffee.com/enaloo). Uma avaliação na [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) também ajuda outras pessoas a encontrá-lo.
+
+### Contribuidores
+
+Obrigado a todo mundo que ajudou. Seu nome aparece aqui depois da sua primeira contribuição aceita.
+
+<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contribuidores"></a>
 
 ## Licença
 
 [MIT](../../LICENSE). Copyright 2026 Ehsan Enaloo.
 
-O código do Bookmark Scope usa a licença MIT. Duas partes vêm de outros projetos e mantêm suas próprias licenças: a Public Suffix List (uma lista de terminações de domínio, como `.co.uk`, MPL-2.0) e os ícones do [Lucide](https://lucide.dev) (ISC). Os textos completos estão em [extension/THIRD_PARTY_NOTICES.md](../../extension/THIRD_PARTY_NOTICES.md).
+O código da extensão usa a licença MIT. Duas partes vêm de outros projetos e mantêm suas próprias licenças: a Public Suffix List (uma lista de terminações de domínio, como `.co.uk`, MPL-2.0) e os ícones do [Lucide](https://lucide.dev) (ISC). Os textos completos estão em [extension/THIRD_PARTY_NOTICES.md](../../extension/THIRD_PARTY_NOTICES.md).

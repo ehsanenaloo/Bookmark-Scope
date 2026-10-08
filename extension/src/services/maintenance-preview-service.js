@@ -6,10 +6,13 @@ import { loadTagsMap, normaliseTag, normaliseTagList, updateTagsMap } from './ta
 
 export function flattenLiveTree(tree) {
   const result=[];
-  const visit=(nodes,path='',managed=false)=>{for(const node of nodes || []){
+  // The tree's top-level node is the invisible bookmark root (id '0' in Chromium, 'root________' in Firefox);
+  // neither browser allows creating bookmarks directly under it. `unmodifiable` is only set by Chromium
+  // (managed bookmarks); Firefox never sets it and its fixed roots (menu, toolbar, unfiled, mobile) are writable.
+  const visit=(nodes,path='',managed=false,isRoot=true)=>{for(const node of nodes || []){
     const blocked=managed || Boolean(node.unmodifiable);
-    result.push({...node,path,managed:blocked});
-    visit(node.children,[path,node.title].filter(Boolean).join(' / '),blocked);
+    result.push({...node,path,managed:blocked,isRoot});
+    visit(node.children,[path,node.title].filter(Boolean).join(' / '),blocked,false);
   }};visit(tree);return result;
 }
 export function urlIdentity(url, options={}) { const parsed=parseUrlSafe(url,options); return parsed.valid ? parsed.normalizedPageKey : String(url); }
@@ -67,5 +70,5 @@ export async function applyTagPreview(preview,{undo=false}={}) {
 }
 
 export async function writableFolders() {
-  return flattenLiveTree(await getBookmarkTree()).filter(node=>!node.url && node.id!=='0' && !node.managed).map(node=>({id:node.id,title:[node.path,node.title].filter(Boolean).join(' / ') || node.id}));
+  return flattenLiveTree(await getBookmarkTree()).filter(node=>!node.url && node.type!=='separator' && !node.isRoot && !node.managed).map(node=>({id:node.id,title:[node.path,node.title].filter(Boolean).join(' / ') || node.id}));
 }

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" data-root="./">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy policy | Bookmark Scope user guide</title>
+<meta name="description" content="The Bookmark Scope privacy policy: what the extension accesses, what it stores on your device, and what leaves your browser. There is no server and no tracking.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="./assets/logo.svg">
+<link rel="stylesheet" href="./styles.css">
+<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script defer src="./app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="index.html"><img src="assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="index.html">Overview</a><a href="guides/quick-start.html">Quick start</a><a href="guides/index.html">All guides</a><a href="guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
+<main id="main">
+<div class="shell page-intro"><p class="breadcrumbs"><a href="index.html">Home</a> / Privacy policy</p><h1>Privacy policy</h1><p class="lead">Bookmark Scope has no server, collects nothing about you, and sends no data to its author or to any third party.</p><p class="meta-line">Last updated: 2026-10-08. This page has the same text as <a href="https://github.com/ehsanenaloo/Bookmark-Scope/blob/main/docs/PRIVACY.md" rel="noopener">PRIVACY.md</a> in the source repository, which is the original.</p></div>
+<div class="shell doc-layout has-toc">
+<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="guides/index.html">All guides</a><p>Get started</p><a href="guides/quick-start.html">Quick start &amp; first run</a><a href="guides/installation.html">Installation</a><p>Everyday use</p><a href="guides/popup.html">Popup</a><a href="guides/dashboard-tour.html">Dashboard tour</a><a href="guides/finding-and-searching.html">Finding &amp; searching</a><a href="guides/organizing.html">Organizing</a><a href="guides/cleaning-up.html">Cleaning up</a><p>Link health</p><a href="guides/link-health.html">Link health</a><a href="guides/review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="guides/smart-views.html">Smart views</a><a href="guides/backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="guides/command-palette.html">Command palette &amp; shortcuts</a><a href="guides/settings-reference.html">Settings reference</a><a href="guides/appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="guides/privacy-and-data.html">Privacy, permissions &amp; data</a><a href="privacy.html" aria-current="page">Privacy policy</a><a href="guides/diagnostics.html">Diagnostics</a><a href="guides/troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="guides/limits.html">Limits &amp; known limitations</a></nav></details></aside>
+<article class="prose">
+
+<p>Bookmark Scope is a Chrome extension that helps you inspect, organize and clean up your browser bookmarks. This policy explains what the extension accesses, what it stores, and what leaves your device. The short version: <strong>the extension has no server, collects nothing about you, and sends no data to its author or to any third party.</strong></p>
+
+<h2 id="summary">Summary<a class="anchor" href="#summary" aria-label="Link to this section">#</a></h2>
+<ul>
+  <li>Bookmark Scope does not collect, transmit, sell or share personal data.</li>
+  <li>There is no account, sign-in, analytics, telemetry, advertising or crash reporting.</li>
+  <li>Your bookmarks, tags and settings stay in your browser&rsquo;s local extension storage.</li>
+  <li>The only network requests the extension makes on its own are link-health checks to the websites <strong>you</strong> bookmarked, and only after you grant permission and start a scan (or enable scheduled scans).</li>
+  <li>The extension does not run on, read or modify the web pages you visit. It has no content scripts.</li>
+</ul>
+
+<h2 id="what-the-extension-can-access">What the extension can access<a class="anchor" href="#what-the-extension-can-access" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Data</th><th scope="col">Why</th><th scope="col">Where it goes</th></tr></thead><tbody>
+<tr><td>Your bookmarks (titles, URLs, folders, dates)</td><td>To display, search, group, edit, move, delete, import and export them</td><td>Stays in the browser. Bookmarks remain stored by the browser itself.</td></tr>
+<tr><td>The URL and title of your active tab</td><td>To show which bookmarks match the page you are on and to count them in the toolbar badge</td><td>Used on your device to compute matches. Not transmitted.</td></tr>
+<tr><td>Preferences, tags, saved views, review and cleanup history, link-health results, scan progress, recovery journals</td><td>To remember your settings and let you review and undo work</td><td>Browser extension storage (<code>chrome.storage.local</code>) on your device. Not synced by the extension.</td></tr>
+<tr><td>Clipboard (write only)</td><td>To copy URLs when you click a copy button</td><td>Written to your clipboard on your action. The extension never reads your clipboard.</td></tr>
+</tbody></table></div>
+
+<h2 id="what-the-extension-sends-over-the-network">What the extension sends over the network<a class="anchor" href="#what-the-extension-sends-over-the-network" aria-label="Link to this section">#</a></h2>
+<ol>
+  <li><strong>Link-health checks (optional).</strong> When you start a scan, or enable scheduled background scans, your browser requests the bookmarked URLs directly (a <code>HEAD</code> request, with a <code>GET</code> request as fallback) to learn whether each page responds, redirects or fails. These requests go <strong>only</strong> to the sites you bookmarked and are made from your device, so those sites can see the request as they would from any visit. Results are stored locally. Nothing is sent to the extension&rsquo;s author. Chrome Web Store hosts and non-web URLs are skipped.</li>
+  <li><strong>Permission to contact websites is optional.</strong> The extension requests access to <code>http://*/*</code> and <code>https://*/*</code> as an <em>optional</em> permission, only at the moment you start a scan or enable scheduled scans. If you decline, scans do not run and every other feature keeps working. You can revoke the permission at any time in Chrome&rsquo;s extension settings.</li>
+  <li><strong>Links you choose to open.</strong> The footer and settings contain links to this project&rsquo;s user guide and GitHub page, a donation page and the Chrome Web Store review page. They open in a new tab only when you click them.</li>
+  <li><strong>Chrome&rsquo;s update service.</strong> Like all Web Store extensions, Chrome itself checks for new versions. That is Chrome&rsquo;s feature, not the extension&rsquo;s.</li>
+</ol>
+<p>The extension loads its translations from files packaged inside it. It does not download code, translations or configuration from the internet and does not use remote code.</p>
+
+<h2 id="notifications">Notifications<a class="anchor" href="#notifications" aria-label="Link to this section">#</a></h2>
+<p>If you allow them, the extension shows local notifications for the pin hint, review-due reminders and scan findings. These are generated on your device.</p>
+
+<h2 id="other-browsers">Other browsers<a class="anchor" href="#other-browsers" aria-label="Link to this section">#</a></h2>
+<p>Bookmark Scope is made for Chrome. Edge and Brave can add it from the Chrome Web Store page, and this policy applies there too. An experimental Firefox build is available from the GitHub Releases page. It works the same way and keeps its data in Firefox&rsquo;s local extension storage, and it sends nothing to the author or to any third party. In every browser, the browser&rsquo;s own update and permission settings apply.</p>
+
+<h2 id="diagnostics">Diagnostics<a class="anchor" href="#diagnostics" aria-label="Link to this section">#</a></h2>
+<p>The extension keeps a small, local diagnostic log in extension storage. It is never uploaded. Some entries in that local log can include bookmark URLs, so treat it as private data on your device. You can optionally download diagnostics from the dashboard. The download is generated only when you ask for it, you are shown the exact JSON before saving it, and it is limited to up to 200 recent events with names from a fixed list and numeric or boolean counters. It does not include bookmark URLs, titles, IDs, tag names or free-form error messages. Note that the other files you can download (Export visible JSON or CSV, library snapshots and recovery journals) <strong>do</strong> contain your bookmark data. Review them before sharing them with anyone.</p>
+
+<h2 id="data-sharing-and-chrome-web-store-limited-use">Data sharing and Chrome Web Store Limited Use<a class="anchor" href="#data-sharing-and-chrome-web-store-limited-use" aria-label="Link to this section">#</a></h2>
+<p>Bookmark Scope does not transfer user data to anyone. The use of information received through browser APIs adheres to the Chrome Web Store <a href="https://developer.chrome.com/docs/webstore/program-policies/user-data-faq" rel="noopener">User Data Policy</a>, including the Limited Use requirements: data is used only to provide the user-facing features described above, is not sold, is not used for advertising or creditworthiness, and is not read by humans.</p>
+
+<h2 id="retention-and-deletion">Retention and deletion<a class="anchor" href="#retention-and-deletion" aria-label="Link to this section">#</a></h2>
+<ul>
+  <li>Data lives in your browser until you remove it. History and recovery records are capped in size, and the dashboard offers a command to clear cached link-health data.</li>
+  <li>Uninstalling the extension removes its storage from your browser.</li>
+  <li>Your bookmarks themselves belong to your browser. Removing the extension does not delete them, and changes the extension made to bookmarks (such as deletions you confirmed) are not reverted.</li>
+  <li>Because the author holds no copy of your data, there is nothing to request from or delete at the author&rsquo;s end.</li>
+</ul>
+
+<h2 id="children">Children<a class="anchor" href="#children" aria-label="Link to this section">#</a></h2>
+<p>The extension is not directed at children and collects no personal information from anyone.</p>
+
+<h2 id="open-source">Open source<a class="anchor" href="#open-source" aria-label="Link to this section">#</a></h2>
+<p>The full source code is public at <a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">https://github.com/ehsanenaloo/Bookmark-Scope</a> so that every statement above can be verified. Third-party material is listed in <a href="https://github.com/ehsanenaloo/Bookmark-Scope/blob/main/extension/THIRD_PARTY_NOTICES.md" rel="noopener">THIRD_PARTY_NOTICES.md</a>.</p>
+
+<h2 id="changes-to-this-policy">Changes to this policy<a class="anchor" href="#changes-to-this-policy" aria-label="Link to this section">#</a></h2>
+<p>If the extension&rsquo;s data practices change, this file will be updated in the same release and the change recorded in <a href="https://github.com/ehsanenaloo/Bookmark-Scope/blob/main/CHANGELOG.md" rel="noopener">CHANGELOG.md</a>. The &ldquo;Last updated&rdquo; date above will change.</p>
+
+<h2 id="contact">Contact<a class="anchor" href="#contact" aria-label="Link to this section">#</a></h2>
+<p>Questions or concerns about privacy: open an issue at <a href="https://github.com/ehsanenaloo/Bookmark-Scope/issues" rel="noopener">https://github.com/ehsanenaloo/Bookmark-Scope/issues</a>. For anything sensitive, use the private reporting process in <a href="https://github.com/ehsanenaloo/Bookmark-Scope/blob/main/.github/SECURITY.md" rel="noopener">SECURITY.md</a>.</p>
+
+<div class="reading-footer"><a href="index.html"><small>Back to</small>User guide home</a></div>
+</article>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#summary">Summary</a></li><li><a href="#what-the-extension-can-access">What the extension can access</a></li><li><a href="#what-the-extension-sends-over-the-network">What the extension sends over the network</a></li><li><a href="#notifications">Notifications</a></li><li><a href="#other-browsers">Other browsers</a></li><li><a href="#diagnostics">Diagnostics</a></li><li><a href="#data-sharing-and-chrome-web-store-limited-use">Data sharing and Chrome Web Store Limited Use</a></li><li><a href="#retention-and-deletion">Retention and deletion</a></li><li><a href="#children">Children</a></li><li><a href="#open-source">Open source</a></li><li><a href="#changes-to-this-policy">Changes to this policy</a></li><li><a href="#contact">Contact</a></li></ol></nav>
+</div>
+</main>
+<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="guides/troubleshooting-faq.html">Troubleshooting</a><a href="guides/limits.html">Limits</a><a href="privacy.html">Privacy</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+</body>
+</html>

@@ -128,7 +128,9 @@ export function addBookmarkEventListeners(listeners) {
   if (listeners.removed) api.onRemoved.addListener(listeners.removed);
   if (listeners.changed) api.onChanged.addListener(listeners.changed);
   if (listeners.moved) api.onMoved.addListener(listeners.moved);
-  if (listeners.importEnded) api.onImportEnded.addListener(listeners.importEnded);
+  // Firefox does not implement bookmarks.onImportBegan/onImportEnded (its
+  // imports fire onCreated for each node), so the event may be absent.
+  if (listeners.importEnded && api.onImportEnded) api.onImportEnded.addListener(listeners.importEnded);
 }
 
 export async function createBookmark(details) {
@@ -143,8 +145,28 @@ export async function removeBookmark(id) {
   return getChromeApi().bookmarks.remove(id);
 }
 
+/**
+ * Moves a bookmark or folder. `destination.index` is always the FINAL index:
+ * the position the node occupies in the destination folder after the move.
+ *
+ * The engines disagree for a forward move inside the same folder. Firefox
+ * already uses the final index. Chromium (Chrome, Edge, Brave) treats the
+ * index as a position in the folder while the node is still in it, so moving
+ * forward to final index N needs N + 1 (verified with Chromium 141: moving a1
+ * of [a1,a2,a3,a4] to index 2 yields [a2,a1,a3,a4]). The correction applies
+ * only to a same-parent move to a higher index with a defined index; other
+ * moves, and an undefined index (append), are passed through unchanged.
+ */
 export async function moveBookmark(id, destination) {
-  return getChromeApi().bookmarks.move(id, destination);
+  const api = getChromeApi();
+  if (detectBrowser() !== 'firefox' && destination && Number.isInteger(destination.index)) {
+    const [current] = await api.bookmarks.get(id);
+    const targetParent = destination.parentId ?? current.parentId;
+    if (current.parentId === targetParent && current.index < destination.index) {
+      return api.bookmarks.move(id, { ...destination, index: destination.index + 1 });
+    }
+  }
+  return api.bookmarks.move(id, destination);
 }
 
 export async function getBookmarkTree() {
@@ -254,4 +276,23 @@ export function detectBrowser() {
 /** Resets the cached detection. Tests only. */
 export function _resetBrowserDetectionForTesting() {
   _detectedBrowser = null;
+}
+
+// ─── Browser-internal pages ──────────────────────────────────────────────────
+
+/**
+ * URL of the browser's own bookmarks manager (optionally focused on a folder),
+ * or null when the browser offers none that an extension may open. Chromium
+ * exposes chrome://bookmarks/?id=<folderId>. Firefox rejects every privileged
+ * page (about:library, place:, chrome://...) in tabs.create with "Illegal URL",
+ * so callers must hide the control instead of calling createTab.
+ */
+export function getBookmarksManagerUrl(folderId) {
+  if (detectBrowser() === 'firefox') return null;
+  return folderId ? `chrome://bookmarks/?id=${encodeURIComponent(folderId)}` : 'chrome://bookmarks/';
+}
+
+/** URL of the browser's extension manager, or null where tabs.create cannot open it (Firefox rejects about:addons). */
+export function getExtensionsManagerUrl() {
+  return detectBrowser() === 'firefox' ? null : 'chrome://extensions/';
 }

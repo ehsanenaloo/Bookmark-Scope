@@ -63,6 +63,48 @@ try {
   assert.equal(realMutation.restoredParent,realMutation.expectedParent);
   assert.deepEqual(realMutation.restoredTags,['work']); assert.equal(realMutation.newIdentity,true);
   results.checks.push({name:'real Chrome bookmark mixed-folder move, Undo, delete/tag recovery',passed:true,...realMutation});
+  // Same-folder forward moves: index must mean the FINAL index on real Chromium
+  // (the raw API reads it as a pre-removal index; moveBookmark normalises it).
+  const sameFolder = await page.evaluate(async () => {
+    const api = await import(chrome.runtime.getURL('src/platform/browser-api.js'));
+    const { createActionTools } = await import(chrome.runtime.getURL('src/dashboard/action-tools.js'));
+    const base = (await chrome.bookmarks.getTree())[0].children.find(node=>!node.unmodifiable);
+    const parent = await api.createBookmark({parentId:base.id,title:'SameFolderAcceptance'});
+    const names = ['a1','a2','a3','a4','a5'];
+    const nodes = {};
+    const order = async () => (await chrome.bookmarks.getChildren(parent.id)).map(node=>node.title);
+    const reset = async () => { for (const child of await chrome.bookmarks.getChildren(parent.id)) await chrome.bookmarks.remove(child.id); for (const n of names) nodes[n] = await api.createBookmark({parentId:parent.id,title:n,url:'https://'+n+'.test/'}); };
+    const out = { raw: {}, steps: [] };
+    // Documents the raw engine behaviour the wrapper compensates for.
+    await reset(); await chrome.bookmarks.move(nodes.a1.id,{parentId:parent.id,index:2}); out.raw.a1ToIndex2 = await order();
+    // Direct wrapper calls: forward, last position, backward, same index.
+    for (const [name,index] of [['a1',2],['a1',4],['a5',0],['a3',2]]) {
+      await reset(); await api.moveBookmark(nodes[name].id,{parentId:parent.id,index});
+      const result = await order(); const expected = names.filter(n=>n!==name); expected.splice(index,0,name);
+      out.steps.push({kind:'moveBookmark',name,index,result,expected});
+    }
+    // Dashboard logic: drop + Undo through the real action tools.
+    let toast;
+    const state = { allBookmarks:[],tagsByBookmark:{},visibleBookmarks:[] };
+    const tools = createActionTools({state,t:(text,vars={})=>text.replace(/\{\{(.*?)\}\}/g,(_,key)=>vars[key] ?? key),formatNumber:String,sendMessage:async()=>{},showConfirmDialog:async()=>true,setToast:(_text,options)=>{toast=options;},refreshData:async()=>{},renderListOnly(){},pushCleanupHistory:async()=>{},invalidateBookmarkCache(){},...api,deselectBookmarks(){}});
+    const drops = [[['a1'],'a3','after',['a2','a3','a1','a4','a5']],[['a1'],'a4','before',['a2','a3','a1','a4','a5']],[['a1'],'a5','after',['a2','a3','a4','a5','a1']],[['a1','a2'],'a5','after',['a3','a4','a5','a1','a2']],[['a2','a4'],'a1','before',['a2','a4','a1','a3','a5']]];
+    for (const [sources,target,position,expected] of drops) {
+      await reset(); toast = null;
+      const fresh = async id => (await chrome.bookmarks.get(nodes[id].id))[0];
+      await tools.handleDragDropMove(await Promise.all(sources.map(fresh)),await fresh(target),position);
+      const afterDrop = await order(); await toast.action(); const afterUndo = await order();
+      out.steps.push({kind:'drop+undo',sources,target,position,afterDrop,expected,afterUndo});
+    }
+    await chrome.bookmarks.removeTree(parent.id);
+    return out;
+  });
+  assert.deepEqual(sameFolder.raw.a1ToIndex2,['a2','a1','a3','a4','a5'],'raw Chromium bookmarks.move still uses pre-removal indexes; the wrapper normalisation is required');
+  for (const step of sameFolder.steps) {
+    if (step.kind === 'moveBookmark') assert.deepEqual(step.result,step.expected,'moveBookmark '+step.name+' -> '+step.index);
+    else { assert.deepEqual(step.afterDrop,step.expected,'drop '+step.sources+' '+step.position+' '+step.target); assert.deepEqual(step.afterUndo,['a1','a2','a3','a4','a5'],'undo '+step.sources+' '+step.position+' '+step.target); }
+  }
+  results.checks.push({name:'real Chrome same-folder forward move uses final index (5 bookmarks, last position, Undo)',passed:true,rawPreRemovalBehaviour:sameFolder.raw.a1ToIndex2,steps:sameFolder.steps.length});
+
 
   // Exercise the actual scroller module in a real layout with variable heights,
   // gaps, scrolling, keyboard intent, updates, and density changes.

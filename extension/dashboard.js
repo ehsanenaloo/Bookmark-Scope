@@ -41,6 +41,7 @@ import {
   addBookmarkEventListeners,
   addStorageChangedListener,
   createBookmark,
+  getBookmarksManagerUrl,
   getManifest,
   getRuntimeUrl,
   moveBookmark,
@@ -1846,7 +1847,8 @@ function renderItem(bookmark) {
   });
   moreWrap.append(more);
 
-  actions.append(open, folder, moreWrap);
+  // Firefox offers no bookmarks-manager page to show the folder in.
+  actions.append(...(getBookmarksManagerUrl(bookmark.parentId) ? [open, folder, moreWrap] : [open, moreWrap]));
   top.append(leading, body, actions);
   item.append(top);
   return item;
@@ -1904,7 +1906,7 @@ function renderDetailsDrawer(root) {
   const remove = create('button', 'ghost-button danger-button', t('Delete'));
   remove.type = 'button';
   remove.addEventListener('click', () => handleDeleteMany([active]));
-  actions.append(open, edit, folder, remove);
+  actions.append(...(getBookmarksManagerUrl(active.parentId) ? [open, edit, folder, remove] : [open, edit, remove]));
   head.append(actions);
 
   const badgeRow = create('div', 'badge-row drawer-badges');

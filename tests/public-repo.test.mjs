@@ -43,7 +43,7 @@ test('the license is MIT and the manifest declares no mandatory host access', ()
 });
 
 test('the repository root stays small and the extension folder holds no project files', () => {
-  const allowedRoot = new Set(['.editorconfig', '.git', '.gitattributes', '.github', '.gitignore', 'CHANGELOG.md', 'LICENSE', 'README.md', 'docs', 'extension', 'node_modules', 'package.json', 'scripts', 'tests']);
+  const allowedRoot = new Set(['.editorconfig', '.git', '.gitattributes', '.github', '.gitignore', 'CHANGELOG.md', 'LICENSE', 'README.md', 'dist-firefox', 'docs', 'extension', 'node_modules', 'package.json', 'scripts', 'tests']);
   for (const name of fs.readdirSync(file('.'))) assert.ok(allowedRoot.has(name), `unexpected entry at the repository root: ${name}`);
   for (const name of fs.readdirSync(ext('.'))) {
     assert.ok(!/^(?:tests|scripts|docs|\.github|\.git|node_modules|README.*|CHANGELOG.*|package\.json)$/.test(name), `${name} must not live inside extension/`);

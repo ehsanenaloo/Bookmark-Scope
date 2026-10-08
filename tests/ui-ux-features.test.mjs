@@ -8,12 +8,12 @@ import { buildScanTargets,createScanJob } from '../extension/src/services/scan-j
 import { loadSmartViews } from '../extension/src/services/smart-view-service.js';
 import { createCommandRegistry } from '../extension/src/dashboard/command-registry.js';
 
-function setup(t,{rows=[leaf('A'),leaf('B')],stored={},selected=[],permission=true,fetchHealth=async()=>({status:'healthy',checkedAt:Date.now()})}={}){
+function setup(t,{rows=[leaf('A'),leaf('B')],stored={},selected=[],permission=true,permissionCalls=[],fetchHealth=async()=>({status:'healthy',checkedAt:Date.now()})}={}){
   const dom=domFixture();t.after(()=>{tools.closeDialog();dom.restore();});
   const browser=fakeBrowser([folder('P',rows)],stored);browser.api.permissionGranted=permission;
   const state={visibleBookmarks:rows,ignoreHashFragment:true,selectedIds:new Set(),query:'',sort:'title-asc',cleanupFilter:'all',groupBy:'flat',groupSort:'default',activeTagFilter:[],inspectControllers:new Set()};
   const downloads=[],toasts=[];const commands=createCommandRegistry(Object.fromEntries(['savedViews','bulkTags','duplicatePreview','deleteSelected','resumableScan','inspectVisible','repairRedirects','snapshotExport','snapshotRestore','importPreview','diagnosticExport','clearHealth'].map(name=>[name,{label:name,run(){}}])));
-  const tools=createFeatureTools({state,create:dom.create,trapFocus,t:s=>s,setToast:(message,opts)=>toasts.push({message,opts}),downloadTextFile:(...args)=>downloads.push(args),refreshData:async()=>{},render(){},savePreferences:async()=>{},recalculateVisibleBookmarks(){},getSelectedBookmarks:()=>selected,handleDeleteMany:async()=>{},ensureHealthPermission:async()=>permission,inspectUrlHealth:fetchHealth,sendMessage:async()=>{},commands:()=>commands});
+  const tools=createFeatureTools({state,create:dom.create,trapFocus,t:s=>s,setToast:(message,opts)=>toasts.push({message,opts}),downloadTextFile:(...args)=>downloads.push(args),refreshData:async()=>{},render(){},savePreferences:async()=>{},recalculateVisibleBookmarks(){},getSelectedBookmarks:()=>selected,handleDeleteMany:async()=>{},ensureHealthPermission:async()=>{permissionCalls.push(true);return permission;},inspectUrlHealth:fetchHealth,sendMessage:async()=>{},commands:()=>commands});
   const action=name=>dom.doc.body.querySelector(`[data-feature-action="${name}"]`);
   const labeled=name=>dom.doc.body.querySelectorAll('input').concat(dom.doc.body.querySelectorAll('select')).find(node=>node.getAttribute('aria-label')===name);
   return {...dom,...browser,state,tools,action,labeled,downloads,toasts};
@@ -84,4 +84,10 @@ test('diagnostic primary JSON preview equals the downloaded data and excludes pr
 
 test('focus trap includes visible disclosure summary but skips descendants of closed folders',t=>{
   const f=setup(t),modal=f.create('section'),close=f.create('button'),outer=f.create('details'),outerSummary=f.create('summary'),inner=f.create('details'),innerSummary=f.create('summary');inner.append(innerSummary);outer.append(outerSummary,inner);modal.append(close,outer);f.doc.body.append(modal);const release=trapFocus(modal);try{f.dispatch('keydown',{key:'Tab',shiftKey:true,preventDefault(){}});assert.equal(f.doc.activeElement,outerSummary);outer.open=true;close.focus();f.dispatch('keydown',{key:'Tab',shiftKey:true,preventDefault(){}});assert.equal(f.doc.activeElement,innerSummary);}finally{release();}
+});
+
+test('Start new scan requests the optional permission once per click (Firefox rejects a second request after the handler awaited)',async t=>{
+  const permissionCalls=[];const f=setup(t,{permissionCalls});await f.tools.showScan();await f.action('Start new scan').click();
+  assert.equal(permissionCalls.length,1);assert.equal(f.stored.healthScanJob.status,'completed');
+  await f.action('Start new scan').click();assert.equal(permissionCalls.length,2,'one request per click');
 });

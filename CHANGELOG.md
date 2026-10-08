@@ -4,6 +4,27 @@ All notable changes to Bookmark Scope are listed here.
 
 The format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/), and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [5.1.0] - 2026-10-08
+
+This release adds an experimental Firefox build, links to the online user guide from inside the extension, and fixes a bug where bookmarks could land one place off when moved down in the same folder in Chrome.
+
+### Added
+
+- Experimental Firefox build (Firefox 140 or newer, desktop), published as a separate zip on each release.
+- A "User guide" button in the About dialog of the popup and the dashboard. It opens the online guide in a new tab.
+
+### Fixed
+
+- In Chrome, moving a bookmark down inside the same folder (and undoing that move) could place it one position too early. Chrome and Firefox count the target position differently, and the extension now handles both.
+- Firefox: the permission prompt for link scans now appears reliably when you click "Start new scan".
+- Dashboard: the Undo button on the "Deleted" and "Restored" messages could miss a click if you pressed it within a fraction of a second after the message appeared, because the list was redrawn under the pointer. The list now refreshes before the message is shown.
+
+### Changed
+
+- The privacy policy lists the user guide among the links you can choose to open.
+
 ## [5.0.0] - 2026-10-07
 
 Bookmark Scope 5.0.0 has a new look in the popup, dashboard and settings. It adds eight library tools for backing up, cleaning and organizing your bookmarks, and it fixes several bugs, including a Stop button that did not stop link scans. The Chrome Web Store listing was at 4.44.0 before this release.

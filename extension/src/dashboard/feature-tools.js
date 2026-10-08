@@ -214,9 +214,11 @@ export function createFeatureTools({state,create,trapFocus,t,setToast,downloadTe
       const unavailable=()=>state.isInspectingHealth || state.inspectLaunchPending || state.resumableScanRunning;
       const unfinished=()=>job && !['completed','canceled'].includes(job.status);
       const update=current=>{job=current;const values=scanCoverage(current);progress.textContent=resultText('Completed / total / remaining',[values.completed,values.total,values.remaining])+' · '+l(labels[values.status]);for(const control of controls)control.updateAvailability();};update(job);
-      const execute=async()=>{
+      // permissionHeld: the caller already obtained the grant in this click. Firefox rejects a second
+      // permissions.request() once the click handler has awaited anything else, so it is not asked again.
+      const execute=async({permissionHeld=false}={})=>{
         if(state.isInspectingHealth || state.inspectLaunchPending || state.resumableScanRunning)throw new Error('An inspection is already running.');
-        if(!await ensureHealthPermission())throw new Error('Health scan permission denied.');
+        if(!permissionHeld && !await ensureHealthPermission())throw new Error('Health scan permission denied.');
         if(!open){await controlScanJob(job.id,'paused');return;}
         stopScan=false;runningJob=job;state.resumableScanRunning=true;
         update(job);
@@ -224,8 +226,8 @@ export function createFeatureTools({state,create,trapFocus,t,setToast,downloadTe
         finally{runningJob=null;state.resumableScanRunning=false;job=await loadScanJob();update(job);}
       };
       const acknowledge=create('input');acknowledge.type='checkbox';const label=create('label','feature-field');label.append(acknowledge,create('span','',l('Starting a new scan replaces the previous progress.')));body.append(label);
-      const start=button('Start new scan',async()=>{if(!await ensureHealthPermission())throw new Error('Health scan permission denied.');if(!open)return;job=await createScanJob(targets,options());update(job);await execute();},body,{primary:true,enabled:()=>!unavailable() && eligible.length>0 && eligible.length<=50000 && (!unfinished() || acknowledge.checked)});
-      const resume=button('Resume scan',execute,body,{enabled:()=>!unavailable() && Boolean(job && ['ready','paused'].includes(job.status))});
+      const start=button('Start new scan',async()=>{if(!await ensureHealthPermission())throw new Error('Health scan permission denied.');if(!open)return;job=await createScanJob(targets,options());update(job);await execute({permissionHeld:true});},body,{primary:true,enabled:()=>!unavailable() && eligible.length>0 && eligible.length<=50000 && (!unfinished() || acknowledge.checked)});
+      const resume=button('Resume scan',()=>execute(),body,{enabled:()=>!unavailable() && Boolean(job && ['ready','paused'].includes(job.status))});
       const pause=button('Pause scan',async()=>{await pauseScan();update(await loadScanJob());},body,{enabled:()=>job?.status==='running' || Boolean(runningJob)});
       const cancel=button('Cancel scan',async()=>{await pauseScan('canceled');update(await loadScanJob());},body,{enabled:()=>Boolean(unfinished())});
       controls=[start,resume,pause,cancel];acknowledge.addEventListener('change',()=>update(job));update(job);
