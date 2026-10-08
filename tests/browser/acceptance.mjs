@@ -1,4 +1,4 @@
-// Main browser checks: loads the extension from the repository root into a disposable Chromium profile.
+// Main browser checks: loads the extension from the repository's extension/ folder into a disposable Chromium profile.
 // Only synthetic bookmarks are used; nothing is written into the repository.
 import fs from 'node:fs';
 import os from 'node:os';

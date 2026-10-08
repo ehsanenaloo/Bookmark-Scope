@@ -38,6 +38,6 @@ Use a test profile with synthetic bookmarks. Say what you ran, such as `node scr
 - [ ] Interface text uses `t()`, and user content is shown as text, not HTML
 - [ ] The change works with the keyboard and in a right-to-left language
 - [ ] User-visible changes are recorded in `CHANGELOG.md`
-- [ ] `PRIVACY.md` and docs are updated if behavior or data handling changed
+- [ ] `docs/PRIVACY.md` and the docs are updated if behavior or data handling changed
 - [ ] Screenshots, logs and test files contain no personal bookmark data
 - [ ] I wrote this change or I have the right to submit it under the MIT License

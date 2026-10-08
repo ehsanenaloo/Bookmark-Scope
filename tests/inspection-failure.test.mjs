@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { runWithConcurrency } from '../src/dashboard/health.js';
-import { createInspectTools } from '../src/dashboard/inspect-tools.js';
-import { _resetHealthCacheServiceForTesting } from '../src/services/health-cache-service.js';
+import { runWithConcurrency } from '../extension/src/dashboard/health.js';
+import { createInspectTools } from '../extension/src/dashboard/inspect-tools.js';
+import { _resetHealthCacheServiceForTesting } from '../extension/src/services/health-cache-service.js';
 import { fakeBrowser,deferred } from './helpers/browser.mjs';
 test('worker failure drains active peers and stops queued work before returning',async()=>{
   const released=deferred();let settled=false;const seen=[];

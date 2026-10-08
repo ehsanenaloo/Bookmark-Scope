@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DASHBOARD_STORAGE_KEYS, GROUP_BY_OPTIONS, GROUP_SORT_OPTIONS, MATCH_MODES, SORT_OPTIONS, STORAGE_KEYS, THEME_MODES } from '../src/constants.js';
-import { STORAGE_SCHEMA_VERSION, sanitizeStorageSnapshot } from '../src/services/storage-schema.js';
+import { DASHBOARD_STORAGE_KEYS, GROUP_BY_OPTIONS, GROUP_SORT_OPTIONS, MATCH_MODES, SORT_OPTIONS, STORAGE_KEYS, THEME_MODES } from '../extension/src/constants.js';
+import { STORAGE_SCHEMA_VERSION, sanitizeStorageSnapshot } from '../extension/src/services/storage-schema.js';
 
 test('sanitizeStorageSnapshot normalizes invalid enum values and booleans', () => {
   const sanitized = sanitizeStorageSnapshot({

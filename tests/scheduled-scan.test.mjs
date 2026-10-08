@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { fakeBrowser,folder,leaf } from './helpers/browser.mjs';
-import { runScheduledHealthScan,selectScanCandidatesAfterCursor,selectScanCandidates,saveBgHealthScanSettings,countBrokenInCache } from '../src/services/scheduled-health-scan-service.js';
-import { _resetHealthCacheServiceForTesting } from '../src/services/health-cache-service.js';
+import { runScheduledHealthScan,selectScanCandidatesAfterCursor,selectScanCandidates,saveBgHealthScanSettings,countBrokenInCache } from '../extension/src/services/scheduled-health-scan-service.js';
+import { _resetHealthCacheServiceForTesting } from '../extension/src/services/health-cache-service.js';
 
 for(const scenario of ['empty','skipped','denied','throw','success','disabled'])test(`schedule preserves the intended alarm after ${scenario}`,async()=>{
   const children=scenario==='empty'?[]:[leaf('A',scenario==='skipped'?'chrome://bookmarks':'https://a.test/')];
@@ -19,7 +19,7 @@ test('251 URLs eventually scan despite an expired cache and worker module restar
   const x=fakeBrowser([folder('P',Array.from({length:251},(_,i)=>leaf(String(i),'https://example.test/'+String(i).padStart(3,'0'))))],{bgHealthScanEnabled:true,bgHealthScanIntervalDays:14,healthCacheKeyVersion:2});_resetHealthCacheServiceForTesting();
   const seen=new Set();const fetch=async url=>{seen.add(url);return {status:'healthy',checkedAt:1};};
   await runScheduledHealthScan({runHealthFetch:fetch});assert.equal(seen.size,250);
-  const restarted=await import('../src/services/scheduled-health-scan-service.js?restart');await restarted.runScheduledHealthScan({runHealthFetch:fetch});assert.equal(seen.size,251);
+  const restarted=await import('../extension/src/services/scheduled-health-scan-service.js?restart');await restarted.runScheduledHealthScan({runHealthFetch:fetch});assert.equal(seen.size,251);
 });
 test('failed fetch advances cursor without starving later URLs',async()=>{
   const x=fakeBrowser([folder('P',[leaf('A'),leaf('B')])],{bgHealthScanEnabled:true,healthCacheKeyVersion:2});_resetHealthCacheServiceForTesting();

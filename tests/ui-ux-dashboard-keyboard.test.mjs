@@ -2,10 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-import { KEYBOARD_SHORTCUTS,MATCH_MODES } from '../src/constants.js';
+import { KEYBOARD_SHORTCUTS,MATCH_MODES } from '../extension/src/constants.js';
 
 function fixture(){
-  const source=fs.readFileSync(new URL('../dashboard.js',import.meta.url),'utf8');
+  const source=fs.readFileSync(new URL('../extension/dashboard.js',import.meta.url),'utf8');
   const editable=source.slice(source.indexOf('function isEditableTarget('),source.indexOf('function getExportItems('));
   const shortcuts=source.slice(source.indexOf('function attachKeyboardShortcuts('),source.indexOf('const commands ='));
   let handler;const calls=[];const state={visibleBookmarks:[{id:'A',url:'https://A.test/'}],selectedIds:new Set()};

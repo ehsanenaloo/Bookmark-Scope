@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { MESSAGE_TYPES, runtimeMessages, getMessageType } from '../src/runtime/messages.js';
+import { MESSAGE_TYPES, runtimeMessages, getMessageType } from '../extension/src/runtime/messages.js';
 
 test('runtime message builders use canonical types', () => {
   assert.equal(runtimeMessages.getActiveTabContext().type, MESSAGE_TYPES.GET_ACTIVE_TAB_CONTEXT);

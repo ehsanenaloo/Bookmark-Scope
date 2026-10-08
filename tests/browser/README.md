@@ -18,5 +18,5 @@ They only use a disposable browser profile in your temp folder and synthetic boo
 - Without Playwright the runner prints "skipped" and exits 0. Add `--require` to make that a failure.
 - Already have Playwright somewhere else? Set `BOOKMARK_SCOPE_PLAYWRIGHT_MODULE` to the path of its `index.mjs`.
 - Want to use your own Chromium? Set `BOOKMARK_SCOPE_CHROMIUM_EXECUTABLE` to its path.
-- The extension is loaded straight from the repository root, so there is no build step.
+- The extension is loaded straight from the `extension/` folder of the repository, so there is no build step.
 - On Linux without a display, the checks still work because Chromium runs headless.

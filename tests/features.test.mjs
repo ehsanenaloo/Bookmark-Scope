@@ -1,16 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { fakeBrowser,folder } from './helpers/browser.mjs';
-import { createSnapshot,validateSnapshot,restoreSnapshot,loadRestoreJournal } from '../src/services/snapshot-service.js';
-import { applySmartView,loadSmartViews,saveSmartView,deleteSmartView,validateSmartView } from '../src/services/smart-view-service.js';
-import { buildTagPreview,applyTagPreview,buildDuplicatePreview,prepareDuplicateMerge,writableFolders } from '../src/services/maintenance-preview-service.js';
-import { buildImportPreview,importBookmarks } from '../src/services/import-service.js';
-import { createScanJob,loadScanJob,runScanJob,controlScanJob,scanCoverage } from '../src/services/scan-job-service.js';
-import { redactDiagnosticEvents } from '../src/services/diagnostic-export-service.js';
-import { createCommandRegistry } from '../src/dashboard/command-registry.js';
-import { FEATURE_MESSAGES } from '../src/locales/feature-messages.js';
-import { ensureStorageSchema } from '../src/services/storage-schema.js';
-import { parseImportedFilePreview } from '../src/dashboard/import-export-tools.js';
+import { createSnapshot,validateSnapshot,restoreSnapshot,loadRestoreJournal } from '../extension/src/services/snapshot-service.js';
+import { applySmartView,loadSmartViews,saveSmartView,deleteSmartView,validateSmartView } from '../extension/src/services/smart-view-service.js';
+import { buildTagPreview,applyTagPreview,buildDuplicatePreview,prepareDuplicateMerge,writableFolders } from '../extension/src/services/maintenance-preview-service.js';
+import { buildImportPreview,importBookmarks } from '../extension/src/services/import-service.js';
+import { createScanJob,loadScanJob,runScanJob,controlScanJob,scanCoverage } from '../extension/src/services/scan-job-service.js';
+import { redactDiagnosticEvents } from '../extension/src/services/diagnostic-export-service.js';
+import { createCommandRegistry } from '../extension/src/dashboard/command-registry.js';
+import { FEATURE_MESSAGES } from '../extension/src/locales/feature-messages.js';
+import { ensureStorageSchema } from '../extension/src/services/storage-schema.js';
+import { parseImportedFilePreview } from '../extension/src/dashboard/import-export-tools.js';
 
 const bookmark=(id,url='https://example.test/',extra={})=>({id,title:id,url,dateAdded:42,...extra});
 const view={name:'Work',query:'title:a',sort:'newest',cleanupFilter:'duplicates',groupBy:'folder',groupSort:'alpha-asc',activeTagFilter:[' Work ']};

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildLocaleMap } from '../src/locales/build-locale-map.js';
+import { buildLocaleMap } from '../extension/src/locales/build-locale-map.js';
 
 test('buildLocaleMap freezes a unique key map', () => {
   const map = buildLocaleMap([['A', 'A'], ['B', 'Bee']], 'x');

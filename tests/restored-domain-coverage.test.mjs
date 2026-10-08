@@ -1,13 +1,13 @@
 // Rebuilt from current contracts and changelog areas; not the lost original suite.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { normaliseTag,normaliseTagList,setTagsForBookmark,addTagToBookmark,removeTagFromBookmark,summariseTags,filterBookmarksByTags,pruneOrphanedTags } from '../src/services/tag-service.js';
-import { fuzzyScore,fuzzySearchBookmarks } from '../src/fuzzy-match.js';
-import { searchScopedBookmarks } from '../src/bookmark-utils.js';
-import { buildDashboardContextUrl,parseDashboardContextParams,CONTEXT_MENU_ACTIONS } from '../src/services/context-menu-service.js';
-import { computeNextReviewTimestamp,scheduleReviewReminderAlarm } from '../src/services/review-reminder-service.js';
-import { createSelectionTools } from '../src/dashboard/selection-tools.js';
-import { createLogger,awaitPendingDiagnosticWrites } from '../src/services/diagnostics-service.js';
+import { normaliseTag,normaliseTagList,setTagsForBookmark,addTagToBookmark,removeTagFromBookmark,summariseTags,filterBookmarksByTags,pruneOrphanedTags } from '../extension/src/services/tag-service.js';
+import { fuzzyScore,fuzzySearchBookmarks } from '../extension/src/fuzzy-match.js';
+import { searchScopedBookmarks } from '../extension/src/bookmark-utils.js';
+import { buildDashboardContextUrl,parseDashboardContextParams,CONTEXT_MENU_ACTIONS } from '../extension/src/services/context-menu-service.js';
+import { computeNextReviewTimestamp,scheduleReviewReminderAlarm } from '../extension/src/services/review-reminder-service.js';
+import { createSelectionTools } from '../extension/src/dashboard/selection-tools.js';
+import { createLogger,awaitPendingDiagnosticWrites } from '../extension/src/services/diagnostics-service.js';
 import { fakeBrowser,folder,leaf } from './helpers/browser.mjs';
 for(const [raw,expected] of [[null,null],[42,null],['',null],['   ',null],[' Work ','work'],['a\n b','a b'],['a\u0000b','ab'],['x'.repeat(33),null],['x'.repeat(32),'x'.repeat(32)],['ab\u200bcd','abcd']])test(`tag normalization ${JSON.stringify(raw)}`,()=>assert.equal(normaliseTag(raw),expected));
 test('tag lists dedupe, normalize and cap at 20',()=>{
@@ -47,6 +47,6 @@ test('selection cleanup and range toggles keep only known IDs',()=>{
   const state={selectedIds:new Set(['missing']),visibleBookmarks:[{id:'A'},{id:'B'}]};const selection=createSelectionTools({state,render(){}});selection.cleanupSelection();assert.equal(state.selectedIds.size,0);selection.selectAllVisible();assert.equal(selection.getSelectedCount(),2);selection.toggleBookmarkSelection('A');assert.deepEqual(selection.getSelectedBookmarks().map(item=>item.id),['B']);
 });
 test('independent diagnostics contexts retain both event batches',async()=>{
-  const x=fakeBrowser();const other=await import('../src/services/diagnostics-service.js?other-page');
+  const x=fakeBrowser();const other=await import('../extension/src/services/diagnostics-service.js?other-page');
   createLogger('one').info('first');other.createLogger('two').warn('second');await Promise.all([awaitPendingDiagnosticWrites(),other.awaitPendingDiagnosticWrites()]);assert.equal(x.stored.diagnosticEvents.length,2);assert.deepEqual(new Set(x.stored.diagnosticEvents.map(item=>item.event)),new Set(['first','second']));
 });

@@ -10,8 +10,8 @@ contact_links:
     url: https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo
     about: Install the extension, leave a rating, or read other users' feedback.
   - name: Support and where to ask
-    url: https://github.com/ehsanenaloo/Bookmark-Scope/blob/main/SUPPORT.md
+    url: https://github.com/ehsanenaloo/Bookmark-Scope/blob/main/.github/SUPPORT.md
     about: Find out where to ask a question, report a problem or request a change, and what help to expect.
   - name: Contributing guide
-    url: https://github.com/ehsanenaloo/Bookmark-Scope/blob/main/CONTRIBUTING.md
+    url: https://github.com/ehsanenaloo/Bookmark-Scope/blob/main/.github/CONTRIBUTING.md
     about: Learn how to send a pull request, fix a translation or add a language.

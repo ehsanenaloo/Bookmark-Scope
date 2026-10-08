@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parsePocketHtml,parsePinboardJson,parseRaindropCsv,detectImportFormat } from '../src/services/third-party-import.js';
-import { createCsv,parseImportedText,_internals } from '../src/dashboard/import-export-tools.js';
-import { importBookmarks,loadImportJournal } from '../src/services/import-service.js';
+import { parsePocketHtml,parsePinboardJson,parseRaindropCsv,detectImportFormat } from '../extension/src/services/third-party-import.js';
+import { createCsv,parseImportedText,_internals } from '../extension/src/dashboard/import-export-tools.js';
+import { importBookmarks,loadImportJournal } from '../extension/src/services/import-service.js';
 import { fakeBrowser,folder } from './helpers/browser.mjs';
 
 for(const [encoded,decoded] of [

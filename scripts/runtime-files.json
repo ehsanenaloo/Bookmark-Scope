@@ -1,5 +1,5 @@
 {
-  "description": "The files that make up the installable extension. Used by validate.mjs, list-runtime-files.mjs and the release workflow. Everything else in the repository is documentation or project tooling and is never shipped to users.",
+  "description": "The files that make up the installable extension. All paths are relative to the extension/ folder. Used by validate.mjs, list-runtime-files.mjs and the release workflow, which also adds the repository LICENSE to the zip root. Everything else in the repository is documentation or project tooling and is never shipped to users.",
   "files": [
     "manifest.json",
     "background.js",
@@ -20,7 +20,6 @@
     "icon-48.png",
     "icon-64.png",
     "icon-128.png",
-    "LICENSE",
     "THIRD_PARTY_NOTICES.md",
     "vendor/public_suffix_list.dat",
     "vendor/MPL-2.0.txt"

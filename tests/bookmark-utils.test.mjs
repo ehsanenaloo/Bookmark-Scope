@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { detectDuplicates, filterScopedBookmarks } from '../src/bookmark-utils.js';
-import { CLEANUP_FILTERS, HEALTH_STATUSES } from '../src/constants.js';
+import { detectDuplicates, filterScopedBookmarks } from '../extension/src/bookmark-utils.js';
+import { CLEANUP_FILTERS, HEALTH_STATUSES } from '../extension/src/constants.js';
 
 const now = Date.now();
 const bookmarks = detectDuplicates([

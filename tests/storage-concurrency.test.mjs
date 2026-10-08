@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { fakeBrowser, folder, leaf, deferred } from './helpers/browser.mjs';
-import { getNormalizedBookmarks, invalidateBookmarkCache } from '../src/bookmark-utils.js';
-import { ensureStorageSchema } from '../src/services/storage-schema.js';
-import { updateTagsMap, addTagToBookmark, removeTagsForBookmark } from '../src/services/tag-service.js';
-import { writeHealthRecord, loadHealthCache, clearHealthCache, getHealthCacheGeneration, awaitPendingHealthWrites, _resetHealthCacheServiceForTesting, _internals } from '../src/services/health-cache-service.js';
+import { getNormalizedBookmarks, invalidateBookmarkCache } from '../extension/src/bookmark-utils.js';
+import { ensureStorageSchema } from '../extension/src/services/storage-schema.js';
+import { updateTagsMap, addTagToBookmark, removeTagsForBookmark } from '../extension/src/services/tag-service.js';
+import { writeHealthRecord, loadHealthCache, clearHealthCache, getHealthCacheGeneration, awaitPendingHealthWrites, _resetHealthCacheServiceForTesting, _internals } from '../extension/src/services/health-cache-service.js';
 
 test('invalidating an outstanding tree read prevents stale publication and return',async()=>{
   const x=fakeBrowser([folder('P',[leaf('old')])]);const pending=deferred();let reads=0;
@@ -19,7 +19,7 @@ test('schema migration invalidates ambiguous health keys but preserves bookmarks
 });
 test('independent tag service instances preserve simultaneous updates',async()=>{
   const x=fakeBrowser([folder('P',[leaf('A'),leaf('B')])]);
-  const other=await import('../src/services/tag-service.js?second-page');
+  const other=await import('../extension/src/services/tag-service.js?second-page');
   await Promise.all([updateTagsMap(map=>addTagToBookmark(map,'A','work').map),other.updateTagsMap(map=>other.addTagToBookmark(map,'B','urgent').map)]);
   assert.deepEqual(x.stored.tagsByBookmark,{A:['work'],B:['urgent']});
 });
@@ -42,13 +42,13 @@ test('clear orders behind an in-flight write and rejects late results from the o
 });
 test('another context reset also rejects an old worker result',async()=>{
   const x=fakeBrowser([],{healthCacheKeyVersion:2});_resetHealthCacheServiceForTesting();
-  const worker=await import('../src/services/health-cache-service.js?worker');const generation=await getHealthCacheGeneration();
+  const worker=await import('../extension/src/services/health-cache-service.js?worker');const generation=await getHealthCacheGeneration();
   await worker.writeHealthRecord('a',{checkedAt:Date.now()},generation);await clearHealthCache();
   assert.equal(await worker.writeHealthRecord('b',{checkedAt:Date.now()},generation),false);assert.deepEqual(x.stored.healthCache,{});
 });
 test('independent health writers preserve disjoint results',async()=>{
   const x=fakeBrowser([],{healthCacheKeyVersion:2});_resetHealthCacheServiceForTesting();
-  const other=await import('../src/services/health-cache-service.js?other-worker');
+  const other=await import('../extension/src/services/health-cache-service.js?other-worker');
   await Promise.all([writeHealthRecord('A',{checkedAt:Date.now()}),other.writeHealthRecord('B',{checkedAt:Date.now()})]);
   assert.deepEqual(Object.keys(x.stored.healthCache).sort(),['A','B']);
 });

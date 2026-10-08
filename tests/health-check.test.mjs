@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { classifyHealthResponse, shouldSkipHealthCheck } from '../src/background/health-check.js';
-import { HEALTH_STATUSES } from '../src/constants.js';
+import { classifyHealthResponse, shouldSkipHealthCheck } from '../extension/src/background/health-check.js';
+import { HEALTH_STATUSES } from '../extension/src/constants.js';
 
 test('classifyHealthResponse maps healthy/redirected/broken/server responses', () => {
   assert.equal(classifyHealthResponse({ status: 200, url: 'https://a.test', redirected: false }, 'https://a.test', 'HEAD').status, HEALTH_STATUSES.HEALTHY);

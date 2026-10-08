@@ -1,10 +1,10 @@
-[English](README.md) · **فارسی** · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português (Brasil)](README.pt-BR.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [العربية](README.ar.md) · [हिन्दी](README.hi.md)
+[English](../../README.md) · **فارسی** · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português (Brasil)](README.pt-BR.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [العربية](README.ar.md) · [हिन्दी](README.hi.md)
 
 <div dir="rtl" align="right">
 
 <div align="center">
 
-<img src="icon-128.png" alt="لوگوی Bookmark Scope" width="88" height="88">
+<img src="../../extension/icon-128.png" alt="لوگوی Bookmark Scope" width="88" height="88">
 
 # Bookmark Scope
 
@@ -15,7 +15,7 @@
 
 [![افزودن به Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
 
-[![مجوز: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![مجوز: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue)
 ![52 زبان](https://img.shields.io/badge/languages-52-orange)
 ![بدون آنالیتیکس](https://img.shields.io/badge/analytics-none-lightgrey)
@@ -25,8 +25,8 @@
 </div>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/screenshots/dashboard-desktop-dark.png">
-  <img src="docs/assets/screenshots/dashboard-desktop-light.png" alt="داشبورد Bookmark Scope با فهرست بوکمارک‌ها، فیلترها، برچسب‌ها و پنل جزئیات">
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/screenshots/dashboard-desktop-dark.png">
+  <img src="../assets/screenshots/dashboard-desktop-light.png" alt="داشبورد Bookmark Scope با فهرست بوکمارک‌ها، فیلترها، برچسب‌ها و پنل جزئیات">
 </picture>
 
 ## چرا این افزونه ساخته شد
@@ -45,9 +45,9 @@ Chrome بوکمارک‌های شما را به شکل درخت پوشه نشا�
 روی آیکون نوار ابزار کلیک کنید. پنجره‌ی کوچک افزونه بوکمارک‌های صفحه‌ای را که در آن هستید فهرست می‌کند. می‌توانید بین همین صفحه، همین میزبان یا کل دامنه جابه‌جا شوید. نشان (badge) روی آیکون نشان می‌دهد چند بوکمارک مطابقت دارد.
 
 <p align="center">
-  <img src="docs/assets/screenshots/popup-light.png" alt="پنجره‌ی کوچک افزونه با بوکمارک‌های سایت فعلی" width="300">
+  <img src="../assets/screenshots/popup-light.png" alt="پنجره‌ی کوچک افزونه با بوکمارک‌های سایت فعلی" width="300">
   &nbsp;&nbsp;
-  <img src="docs/assets/screenshots/popup-dark.png" alt="پنجره‌ی کوچک افزونه در تم تیره" width="300">
+  <img src="../assets/screenshots/popup-dark.png" alt="پنجره‌ی کوچک افزونه در تم تیره" width="300">
 </p>
 
 ### کل کتابخانه‌تان را ببینید
@@ -61,7 +61,7 @@ Chrome بوکمارک‌های شما را به شکل درخت پوشه نشا�
 هیچ کار بزرگی بدون پیش‌نمایش انجام نمی‌شود.
 
 <p align="center">
-  <img src="docs/assets/screenshots/duplicate-preview.png" alt="پنجره‌ی پیش‌نمایش تکراری‌ها که در آن انتخاب می‌کنید کدام بوکمارک بماند" width="780">
+  <img src="../assets/screenshots/duplicate-preview.png" alt="پنجره‌ی پیش‌نمایش تکراری‌ها که در آن انتخاب می‌کنید کدام بوکمارک بماند" width="780">
 </p>
 
 - **تکراری‌ها.** خودتان انتخاب می‌کنید کدام نسخه بماند. برچسب‌های نسخه‌های دیگر به آن اضافه می‌شود. نتیجه را می‌بینید، بعد چیزی پاک می‌شود.
@@ -69,7 +69,7 @@ Chrome بوکمارک‌های شما را به شکل درخت پوشه نشا�
 - **حذف و بازگردانی.** بوکمارک‌های حذف‌شده را می‌شود با برچسب‌هایشان برگرداند. Chrome اجازه نمی‌دهد هیچ افزونه‌ای شناسه‌ی اصلی یا تاریخ افزودن را برگرداند، پس بوکمارک بازگردانده‌شده یک بوکمارک تازه است. افزونه این را به شما می‌گوید.
 
 <p align="center">
-  <img src="docs/assets/screenshots/bulk-tags.png" alt="پنجره‌ی برچسب‌های گروهی که برچسب‌ها را قبل و بعد از تغییر نشان می‌دهد" width="780">
+  <img src="../assets/screenshots/bulk-tags.png" alt="پنجره‌ی برچسب‌های گروهی که برچسب‌ها را قبل و بعد از تغییر نشان می‌دهد" width="780">
 </p>
 
 ### لینک‌های مرده را پیدا کنید
@@ -88,7 +88,7 @@ Chrome بوکمارک‌های شما را به شکل درخت پوشه نشا�
 - **برون‌بری.** بوکمارک‌هایی را که الان جلوی چشمتان است به‌صورت JSON یا CSV ذخیره کنید.
 
 <p align="center">
-  <img src="docs/assets/screenshots/library-tools.png" alt="ابزارهای کتابخانه: نماهای ذخیره‌شده، برچسب‌های گروهی، تکراری‌ها، بررسی‌ها، پشتیبان و درون‌ریزی" width="780">
+  <img src="../assets/screenshots/library-tools.png" alt="ابزارهای کتابخانه: نماهای ذخیره‌شده، برچسب‌های گروهی، تکراری‌ها، بررسی‌ها، پشتیبان و درون‌ریزی" width="780">
 </p>
 
 ### سریع‌تر کار کنید
@@ -99,7 +99,7 @@ Chrome بوکمارک‌های شما را به شکل درخت پوشه نشا�
 - **یادآورهای مرور.** اگر می‌خواهید هر چند هفته یک بار برای مرتب کردن یادآوری بگیرید، در تنظیمات روشنشان کنید.
 
 <p align="center">
-  <img src="docs/assets/screenshots/command-palette.png" alt="پالت فرمان با فهرستی از کارها" width="780">
+  <img src="../assets/screenshots/command-palette.png" alt="پالت فرمان با فهرستی از کارها" width="780">
 </p>
 
 ### مال خودتان کنید
@@ -107,9 +107,9 @@ Chrome بوکمارک‌های شما را به شکل درخت پوشه نشا�
 تم روشن، تیره یا هماهنگ با سیستم. چهار پالت رنگ. چیدمان راست‌به‌چپ. افزونه 52 زبان دارد (بخش [نکته‌های مهم](#good-to-know) را ببینید).
 
 <p align="center">
-  <img src="docs/assets/screenshots/options-light.png" alt="صفحه‌ی تنظیمات" width="300">
+  <img src="../assets/screenshots/options-light.png" alt="صفحه‌ی تنظیمات" width="300">
   &nbsp;&nbsp;
-  <img src="docs/assets/screenshots/dashboard-rtl-dark.png" alt="داشبورد به زبان فارسی با چیدمان راست‌به‌چپ در تم تیره" width="300">
+  <img src="../assets/screenshots/dashboard-rtl-dark.png" alt="داشبورد به زبان فارسی با چیدمان راست‌به‌چپ در تم تیره" width="300">
 </p>
 
 ## نصب
@@ -124,17 +124,17 @@ Chrome بوکمارک‌های شما را به شکل درخت پوشه نشا�
 
 **از همین مخزن**
 
-مرحله‌ی build ندارد. همین پوشه خودِ افزونه است.
+مرحله‌ی build ندارد. پوشه‌ی `extension` خودِ افزونه است.
 
 1. این مخزن را دانلود یا clone کنید.
 2. `chrome://extensions` را باز کنید و **Developer mode** را روشن کنید.
-3. روی **Load unpacked** کلیک کنید و پوشه‌ای را که `manifest.json` در آن است انتخاب کنید.
+3. روی **Load unpacked** کلیک کنید و پوشه‌ی `extension` را داخل مخزن انتخاب کنید (همان که `manifest.json` در آن است)، نه پوشه‌ی اصلی را.
 
 نسخه‌ی unpacked شناسه‌ی افزونه‌ی خودش را دارد. می‌توانید کنار نسخه‌ی Store نگهش دارید، ولی داده‌هایشان مشترک نیست و نسخه‌ی unpacked خودش به‌روز نمی‌شود.
 
 ## داده‌های شما پیش خودتان می‌ماند
 
-سرور وجود ندارد. حساب کاربری، آنالیتیکس و تبلیغ هم وجود ندارد. بوکمارک‌ها، برچسب‌ها و تنظیمات شما در مرورگر خودتان می‌ماند. جزئیات در [سیاست حریم خصوصی](PRIVACY.md) آمده.
+سرور وجود ندارد. حساب کاربری، آنالیتیکس و تبلیغ هم وجود ندارد. بوکمارک‌ها، برچسب‌ها و تنظیمات شما در مرورگر خودتان می‌ماند. جزئیات در [سیاست حریم خصوصی](../PRIVACY.md) آمده.
 
 افزونه صفحه‌هایی را که می‌بینید نمی‌خواند. فقط نشانی تب فعال را می‌خواند تا بوکمارک‌های مطابق را نشان بدهد.
 
@@ -153,11 +153,11 @@ Chrome بوکمارک‌های شما را به شکل درخت پوشه نشا�
 <a id="good-to-know"></a>
 ## نکته‌های مهم
 
-- **ترجمه‌ها.** ترجمه‌ها را با کمک هوش مصنوعی و بررسی‌های خودکار اصلاح کرده‌ام. فقط انگلیسی و فارسی را یک آدم خوانده است. زبان‌های دیگر ممکن است غلط یا چند کلمه‌ی انگلیسی داشته باشند. اگر دیدید، لطفاً [یک issue باز کنید](../../issues) یا pull request بفرستید. بخش [CONTRIBUTING.md](CONTRIBUTING.md#translations) را ببینید.
+- **ترجمه‌ها.** ترجمه‌ها را با کمک هوش مصنوعی و بررسی‌های خودکار اصلاح کرده‌ام. فقط انگلیسی و فارسی را یک آدم خوانده است. زبان‌های دیگر ممکن است غلط یا چند کلمه‌ی انگلیسی داشته باشند. اگر دیدید، لطفاً [یک issue باز کنید](https://github.com/ehsanenaloo/Bookmark-Scope/issues) یا pull request بفرستید. بخش [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations) را ببینید.
 - **درون‌ریزی تخت است.** وقتی فایل `bookmarks.html` را وارد می‌کنید، نام پوشه به‌صورت مسیر نشان داده می‌شود، ولی پوشه‌ای ساخته نمی‌شود و تاریخ‌های اصلی نگه داشته نمی‌شوند. اگر باید درخت پوشه‌ها را دوباره بسازید، از اسنپ‌شات استفاده کنید.
 - **بررسی لینک فقط یک نشانه است.** هر پاسخ 4xx یعنی خراب. صفحه‌ای که باز می‌شود ولی خطا یا صفحه‌ی ورود نشان می‌دهد، سالم حساب می‌شود.
 - **CSV.** خروجی CSV را با درون‌ریز خود افزونه و با یک دانلود واقعی در Chrome تست کرده‌ام. هنوز آن را در Excel، Numbers یا Google Sheets باز نکرده‌ام.
-- **تست.** افزونه در Chromium تست شده. [فهرست کامل محدودیت‌ها](docs/guides/limits.html) را ببینید.
+- **تست.** افزونه در Chromium تست شده. [فهرست کامل محدودیت‌ها](../guides/limits.html) را ببینید.
 - **درباره‌ی این README فارسی.** بسته‌ی زبان فارسیِ خود افزونه را یک آدم خوانده است، اما متن همین README را هوش مصنوعی آماده کرده و هنوز کسی بازبینی‌اش نکرده است. اگر غلط یا جمله‌ی نامفهومی دیدید، لطفاً یک issue باز کنید یا pull request بفرستید.
 
 ## میان‌برهای صفحه‌کلید
@@ -171,32 +171,32 @@ Chrome بوکمارک‌های شما را به شکل درخت پوشه نشا�
 
 ## راهنمای کاربر
 
-راهنما همه‌ی بخش‌های افزونه را با تصویر توضیح می‌دهد. از [docs/README.md](docs/README.md) شروع کنید یا [پوشه‌ی راهنماها](docs/guides/) را باز کنید. برای خواندن آن به‌صورت صفحه‌ی وب، `docs/index.html` را در مرورگر باز کنید.
+راهنما همه‌ی بخش‌های افزونه را با تصویر توضیح می‌دهد. از [docs/README.md](../README.md) شروع کنید یا [پوشه‌ی راهنماها](../guides/) را باز کنید. برای خواندن آن به‌صورت صفحه‌ی وب، `docs/index.html` را در مرورگر باز کنید.
 
 ## به پروژه کمک کنید
 
-گزارش خطا، اصلاح ترجمه و pull request های کوچک خوش‌آمدند. اول [CONTRIBUTING.md](CONTRIBUTING.md) را بخوانید. قبل از فرستادن pull request، این بررسی را اجرا کنید. به Node.js نسخه‌ی 24 یا بالاتر نیاز دارد و نصب چیزی لازم نیست.
+گزارش خطا، اصلاح ترجمه و pull request های کوچک خوش‌آمدند. اول [CONTRIBUTING.md](../../.github/CONTRIBUTING.md) را بخوانید. قبل از فرستادن pull request، این بررسی را اجرا کنید. به Node.js نسخه‌ی 24 یا بالاتر نیاز دارد و نصب چیزی لازم نیست.
 
 ```bash
 node scripts/validate.mjs
 node scripts/test.mjs
 ```
 
-لطفاً مشکل‌های امنیتی را خصوصی گزارش کنید. [SECURITY.md](SECURITY.md) را ببینید.
+لطفاً مشکل‌های امنیتی را خصوصی گزارش کنید. [SECURITY.md](../../.github/SECURITY.md) را ببینید.
 
 اگر Bookmark Scope وقتتان را کم کرده، می‌توانید [برای من یک قهوه بخرید](https://buymeacoffee.com/enaloo). امتیاز دادن در [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) هم به دیده شدن افزونه کمک می‌کند.
 
 ## مشارکت‌کنندگان
 
-از همه‌ی کسانی که به این پروژه کمک کرده‌اند ممنونم. بعد از پذیرفته‌شدن اولین مشارکتتان، نام شما هم اینجا نشان داده می‌شود. جزئیات در [CONTRIBUTING.md](CONTRIBUTING.md#recognition).
+از همه‌ی کسانی که به این پروژه کمک کرده‌اند ممنونم. بعد از پذیرفته‌شدن اولین مشارکتتان، نام شما هم اینجا نشان داده می‌شود. جزئیات در [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#recognition).
 
 <a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors" width="400"></a>
 
 
 ## مجوز
 
-[MIT](LICENSE). Copyright 2026 Ehsan Enaloo.
+[MIT](../../LICENSE). Copyright 2026 Ehsan Enaloo.
 
-دو بخش از پروژه‌های دیگر آمده و مجوز خودشان را حفظ کرده‌اند. در [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) فهرست شده‌اند: Public Suffix List (مجوز MPL-2.0) و آیکون‌های [Lucide](https://lucide.dev) (مجوز ISC).
+کد Bookmark Scope تحت مجوز MIT است. دو بخش از پروژه‌های دیگر آمده و مجوز خودشان را حفظ کرده‌اند: Public Suffix List (فهرستی از پسوندهای دامنه مانند `.co.uk`، با مجوز MPL-2.0) و آیکون‌های [Lucide](https://lucide.dev) (مجوز ISC). متن کامل مجوزها در [extension/THIRD_PARTY_NOTICES.md](../../extension/THIRD_PARTY_NOTICES.md) آمده است.
 
 </div>

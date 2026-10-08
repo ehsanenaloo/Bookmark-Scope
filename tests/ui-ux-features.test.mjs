@@ -2,11 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { domFixture } from './helpers/dom.mjs';
 import { fakeBrowser,folder,leaf,deferred } from './helpers/browser.mjs';
-import { createFeatureTools } from '../src/dashboard/feature-tools.js';
-import { trapFocus } from '../src/ui-utils.js';
-import { buildScanTargets,createScanJob } from '../src/services/scan-job-service.js';
-import { loadSmartViews } from '../src/services/smart-view-service.js';
-import { createCommandRegistry } from '../src/dashboard/command-registry.js';
+import { createFeatureTools } from '../extension/src/dashboard/feature-tools.js';
+import { trapFocus } from '../extension/src/ui-utils.js';
+import { buildScanTargets,createScanJob } from '../extension/src/services/scan-job-service.js';
+import { loadSmartViews } from '../extension/src/services/smart-view-service.js';
+import { createCommandRegistry } from '../extension/src/dashboard/command-registry.js';
 
 function setup(t,{rows=[leaf('A'),leaf('B')],stored={},selected=[],permission=true,fetchHealth=async()=>({status:'healthy',checkedAt:Date.now()})}={}){
   const dom=domFixture();t.after(()=>{tools.closeDialog();dom.restore();});

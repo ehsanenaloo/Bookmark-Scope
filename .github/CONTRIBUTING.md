@@ -31,7 +31,7 @@ By taking part, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 - **Report a bug.** Use the [bug report form](https://github.com/ehsanenaloo/Bookmark-Scope/issues/new?template=bug_report.yml). Search [existing issues](https://github.com/ehsanenaloo/Bookmark-Scope/issues) first.
 - **Suggest a feature.** Use the [feature request form](https://github.com/ehsanenaloo/Bookmark-Scope/issues/new?template=feature_request.yml). Describe the problem you have before the solution you want.
 - **Improve a translation.** Fix a wrong or awkward string, or add a language. See [Translations](#translations). If you do not want to edit files, use the [translation fix form](https://github.com/ehsanenaloo/Bookmark-Scope/issues/new?template=translation_fix.yml).
-- **Improve the docs or screenshots.** The user guide is in [docs/](docs/README.md). Fix errors, unclear steps, or outdated screenshots. Screenshots must use synthetic bookmarks.
+- **Improve the docs or screenshots.** The user guide is in [docs/](../docs/README.md). Fix errors, unclear steps, or outdated screenshots. Screenshots must use synthetic bookmarks.
 - **Review pull requests.** Try a change in your own test profile and say what you saw. This helps a lot, and anyone can do it.
 - **Fix an issue.** Pick one from the list below, say that you are on it, and open a pull request.
 
@@ -39,7 +39,7 @@ Not sure where to start? Open an issue and ask. It is fine to start small.
 
 ## Picking something to work on
 
-These labels help you find work. The full list is in [.github/labels.yml](.github/labels.yml).
+These labels help you find work. The full list is in [labels.yml](labels.yml).
 
 | Label | What it means |
 | --- | --- |
@@ -56,11 +56,11 @@ If you want to change something that has no issue, open one first. For a typo or
 
 These guide every review. They keep the extension small, safe and trusted.
 
-1. **Local only.** No analytics, no remote code, no servers. A new network request needs a strong reason and an update to [PRIVACY.md](PRIVACY.md).
+1. **Local only.** No analytics, no remote code, no servers. A new network request needs a strong reason and an update to [docs/PRIVACY.md](../docs/PRIVACY.md).
 2. **Least privilege.** Do not add permissions. Access to websites stays optional and is requested only when you start a scan.
 3. **Protect user data.** Destructive actions need a confirmation, a preview, or Undo. They must report what worked and what failed, separately. Browser bookmarks are the source of truth.
 4. **Render text as text.** Never build HTML from bookmark titles, URLs, imported files or translated strings. Use text nodes.
-5. **No build step.** The repository root is the extension. Use plain ES modules, HTML and CSS. Do not add a framework, a bundler or a runtime dependency.
+5. **No build step.** The `extension/` folder is the extension, exactly as it ships. Use plain ES modules, HTML and CSS. Do not add a framework, a bundler or a runtime dependency.
 
 A change that breaks one of these needs a discussion in an issue before any code.
 
@@ -118,28 +118,29 @@ Bookmark Scope has one maintainer, who works on it in spare time. Replies are be
 
 ## Project map
 
-The repository root is the extension. The main places are:
+The repository root is kept small on purpose. The extension itself lives in `extension/`, and everything else (guide, tests, scripts, community files) sits beside it. The main places are:
 
 | Path | What it holds |
 | --- | --- |
-| `manifest.json` | Extension manifest (Manifest V3): permissions, entry points, icons. |
-| `background.js` | The service worker. It handles the badge, alarms, context menus, link checks and runtime messages. It has no access to the DOM. |
-| `popup.html`, `popup.js`, `popup.css` | The toolbar popup. |
-| `dashboard.html`, `dashboard.js`, `dashboard.css` | The full-page library dashboard. |
-| `options.html`, `options.js`, `options.css` | The settings page. |
-| `src/services/` | Reusable logic for storage, preferences, tags, snapshots, imports, link-health data, reminders and diagnostics. |
-| `src/dashboard/` | Dashboard modules: selection, rendering, groups, review, import and export tools, the command palette. |
-| `src/popup/` | Popup modules: state, actions, footer, overlays. |
-| `src/platform/` | The browser API wrapper (`browser-api.js`) and time helpers. |
-| `src/runtime/messages.js` | Message types and request builders between pages and the worker. |
-| `src/constants.js` | Shared names: storage keys, limits, enums. |
-| `src/locales/` | Interface translations (see [Adding or changing UI text](#adding-or-changing-ui-text)). |
-| `_locales/` | Browser-level strings for the manifest, one folder per language. |
-| `styles/` | Shared CSS (`base.css`, `colors.css`) and styles for the dashboard and popup. |
-| `docs/` | The user guide, a static HTML site. |
+| `extension/manifest.json` | Extension manifest (Manifest V3): permissions, entry points, icons. |
+| `extension/background.js` | The service worker. It handles the badge, alarms, context menus, link checks and runtime messages. It has no access to the DOM. |
+| `extension/popup.html`, `popup.js`, `popup.css` | The toolbar popup. |
+| `extension/dashboard.html`, `dashboard.js`, `dashboard.css` | The full-page library dashboard. |
+| `extension/options.html`, `options.js`, `options.css` | The settings page. |
+| `extension/src/services/` | Reusable logic for storage, preferences, tags, snapshots, imports, link-health data, reminders and diagnostics. |
+| `extension/src/dashboard/` | Dashboard modules: selection, rendering, groups, review, import and export tools, the command palette. |
+| `extension/src/popup/` | Popup modules: state, actions, footer, overlays. |
+| `extension/src/platform/` | The browser API wrapper (`browser-api.js`) and time helpers. |
+| `extension/src/runtime/messages.js` | Message types and request builders between pages and the worker. |
+| `extension/src/constants.js` | Shared names: storage keys, limits, enums. |
+| `extension/src/locales/` | Interface translations (see [Adding or changing UI text](#adding-or-changing-ui-text)). |
+| `extension/_locales/` | Browser-level strings for the manifest, one folder per language. |
+| `extension/styles/` | Shared CSS (`base.css`, `colors.css`) and styles for the dashboard and popup. |
+| `extension/vendor/`, `extension/THIRD_PARTY_NOTICES.md` | The bundled Public Suffix List and the third-party license notices. |
+| `docs/` | The user guide (a static HTML site), `PRIVACY.md`, and the translated READMEs in `docs/translations/`. |
 | `tests/` | Unit tests (`*.test.mjs`), the fake browser and DOM helpers in `tests/helpers/`, and the optional browser checks in `tests/browser/`. |
 | `scripts/` | `validate.mjs`, `test.mjs` and the helper files they use. |
-| `.github/` | Issue forms, the pull request template, labels, and workflows. |
+| `.github/` | Issue forms, the pull request template, labels, workflows, and the community files (this guide, Code of Conduct, Security, Support). |
 
 ## Run it locally
 
@@ -147,9 +148,9 @@ You need Chrome or another Chromium browser. Node.js 24 or newer is needed to ru
 
 1. Create a **separate Chrome profile** for development. Add a few **synthetic bookmarks** to it: some duplicates, some folders, one dead link. Do not test destructive features on your real library.
 2. In that profile, open `chrome://extensions` and turn on **Developer mode**.
-3. Click **Load unpacked** and choose the folder that contains `manifest.json`. See also [Install](README.md#install).
+3. Click **Load unpacked** and choose the **`extension/`** folder inside your clone (the folder that contains `manifest.json`), not the repository root. See also [Install](../README.md#install).
 4. After you edit a file, click the reload button on the extension card on `chrome://extensions`. Then reopen the popup or refresh the dashboard tab.
-   - Changes to `background.js` or `manifest.json` need the extension reload.
+   - Changes to `extension/background.js` or `extension/manifest.json` need the extension reload.
    - Changes to popup, dashboard or settings files usually need only a reopened popup or a refreshed tab.
 
 ### Where to find console logs
@@ -171,9 +172,9 @@ node scripts/test.mjs
 
 `npm run check` runs the two in a row, and `npm test` is a shortcut for the second one. Neither needs `npm install`.
 
-- **`node scripts/validate.mjs`** checks the manifest, the files it references, JavaScript syntax, JSON and locale files, imports between modules, and that no keys or forbidden files are present.
+- **`node scripts/validate.mjs`** checks the manifest, the files it references (they must all exist inside `extension/`), that only shipping files sit in `extension/`, that the repository root stays small, JavaScript syntax, JSON and locale files, imports between modules, and that no keys or forbidden files are present.
 - **`node scripts/test.mjs`** runs every `tests/*.test.mjs` file with the built-in Node test runner and prints a short summary. Pass a word to run only the files whose name contains it, for example `node scripts/test.mjs popup`. It needs Node.js 24 or newer, because the tests use `navigator.locks`, and it tells you if your version is too old.
-- **Browser checks (optional).** `npm run test:browser` loads the extension into a real Chromium with a throwaway profile and synthetic bookmarks. You install Playwright yourself, and the runner prints "skipped" if it is missing. The steps are in [tests/browser/README.md](tests/browser/README.md).
+- **Browser checks (optional).** `npm run test:browser` loads the extension into a real Chromium with a throwaway profile and synthetic bookmarks. You install Playwright yourself, and the runner prints "skipped" if it is missing. The steps are in [tests/browser/README.md](../tests/browser/README.md).
 
 CI runs `validate` and the unit tests on every pull request. It also runs the browser checks on pushes to `main`. The maintainer looks for a green CI run before merging a pull request.
 
@@ -188,17 +189,17 @@ A fix or a feature should come with a test when the behavior can be tested witho
 - **Fake browser.** `fakeBrowser(tree, storage)` in `tests/helpers/browser.mjs` installs an in-memory bookmarks tree, storage, alarms, notifications and tabs through `setChromeApiForTesting`. Build trees with `folder(id, children)` and `leaf(id)`. It records calls (`calls.creates`, `calls.moves`, `calls.removes`) so you can assert what happened.
 - **DOM helper.** `domFixture()` in `tests/helpers/dom.mjs` gives a small fake document and elements, so UI modules can run without a browser. It is good for keyboard, focus and rendering logic. It is not a layout engine, so leave pixel and scroll behavior to the browser checks.
 - **Injecting failures.** Add an id or URL to `failures.create`, `failures.remove` or `failures.move`, or set `failures.set` to a function, and that browser call throws. Use `deferred()` to hold a call open and release it when the test is ready. Then assert the applied and the failed operations separately, because that is how the extension reports them.
-- **Keep tests deterministic.** No real network, no real timers that depend on the clock, no reliance on test order, and no data shared between tests. Use the time helpers in `src/platform/time.js` and the `.test` or `example.test` host names for URLs. Create the data a test needs inside the test.
+- **Keep tests deterministic.** No real network, no real timers that depend on the clock, no reliance on test order, and no data shared between tests. Use the time helpers in `extension/src/platform/time.js` and the `.test` or `example.test` host names for URLs. Create the data a test needs inside the test.
 - **Browser checks.** Add to `tests/browser/` only when the behavior needs a real browser, such as a layout, the real bookmarks API or a worker restart. Keep them on synthetic bookmarks, and wait for a condition, never for a fixed delay.
 
 ## Code style
 
-- Follow [.editorconfig](.editorconfig): UTF-8, LF line endings, two spaces for indentation.
+- Follow [.editorconfig](../.editorconfig): UTF-8, LF line endings, two spaces for indentation.
 - Use modern JavaScript as ES modules. Do not add a framework, a bundler or a dependency.
 - Keep the service worker free of DOM APIs.
 - Show user content with text nodes (`textContent`, `createTextNode`). Do not use `innerHTML` with bookmark titles, URLs, imported data or translated strings.
-- Reuse names from `src/constants.js` and message builders from `src/runtime/messages.js`. Do not add a second set of keys or message types.
-- Use `src/platform/browser-api.js` for browser API calls that are shared.
+- Reuse names from `extension/src/constants.js` and message builders from `extension/src/runtime/messages.js`. Do not add a second set of keys or message types.
+- Use `extension/src/platform/browser-api.js` for browser API calls that are shared.
 - Keep names meaningful and consistent with nearby code. Keep functions short. Prefer a clear small change over a large rewrite.
 - Comments should explain why, not what.
 
@@ -216,15 +217,15 @@ Every interface change should work for people who use a keyboard, a screen reade
 
 Bookmark Scope has four places where text lives. Which one you change depends on the string. All of this was checked against the files in this repository.
 
-1. **English source: `src/locales/en.js`.** A list of `[key, value]` pairs. The key is the English text itself. This is the base for every language.
-2. **One file per language: `src/locales/<code>.json`.** A flat JSON object. Each key is the same English text as in `en.js`, and the value is the translation. Files are loaded when the language is selected. If a key is missing, the interface shows the English text, so a partial translation still works.
-3. **Feature copy: `src/locales/feature-messages.js`.** Strings for the newer library tools. This file holds the Persian text, and the helper `featureText()` uses it only when the language is Persian. For every other language it falls back to the normal lookup, which means the language file if the key is there, and English if not. Strings in this file can be missing from `en.js`. In that case the English text in the code is the fallback.
-4. **Browser-level strings: `_locales/<code>/messages.json`.** The Chrome format with `message` fields. It holds the strings that the browser reads directly: the extension name, its description, the toolbar tooltip, and a few labels. There are only a handful of keys.
+1. **English source: `extension/src/locales/en.js`.** A list of `[key, value]` pairs. The key is the English text itself. This is the base for every language.
+2. **One file per language: `extension/src/locales/<code>.json`.** A flat JSON object. Each key is the same English text as in `en.js`, and the value is the translation. Files are loaded when the language is selected. If a key is missing, the interface shows the English text, so a partial translation still works.
+3. **Feature copy: `extension/src/locales/feature-messages.js`.** Strings for the newer library tools. This file holds the Persian text, and the helper `featureText()` uses it only when the language is Persian. For every other language it falls back to the normal lookup, which means the language file if the key is there, and English if not. Strings in this file can be missing from `en.js`. In that case the English text in the code is the fallback.
+4. **Browser-level strings: `extension/_locales/<code>/messages.json`.** The Chrome format with `message` fields. It holds the strings that the browser reads directly: the extension name, its description, the toolbar tooltip, and a few labels. There are only a handful of keys.
 
 How to add a string in code:
 
-- Wrap the English text with `t('Your English text')` from `src/i18n.js`. The English text is the key.
-- Add the pair to `src/locales/en.js` when the string belongs to the main interface.
+- Wrap the English text with `t('Your English text')` from `extension/src/i18n.js`. The English text is the key.
+- Add the pair to `extension/src/locales/en.js` when the string belongs to the main interface.
 - Do not build sentences by joining pieces. Translators need whole sentences.
 
 ### Placeholders
@@ -241,7 +242,7 @@ Bookmark Scope ships in 52 languages. Most were produced with AI-assisted editin
 
 ### Fix a wrong string
 
-1. Find the string in `src/locales/<code>.json`. Search for the English text. Note that the key is English and the value is the translation.
+1. Find the string in `extension/src/locales/<code>.json`. Search for the English text. Note that the key is English and the value is the translation.
 2. Change only the value. Keep the key and any `{{placeholders}}` unchanged.
 3. Run `node scripts/validate.mjs` to make sure the JSON is still valid.
 4. Open a pull request. In the description, name the screen where you saw the string and say whether you are a native speaker.
@@ -252,9 +253,9 @@ If you would rather not edit files, open a [translation fix issue](https://githu
 
 Please open an issue first so we can agree on the language code and avoid duplicate work. Then:
 
-1. Create `src/locales/<code>.json`. The easiest way is to copy an existing language file, such as `src/locales/fr.json`, and replace every value with your translation. Keep the keys (the English text) unchanged. Translate what you can. Missing keys fall back to English.
-2. Create `_locales/<code>/messages.json` by copying `_locales/en/messages.json` and translating the `message` values.
-3. Register the language in the `LOCALE_META` list in `src/locales/index.js`. Each entry has `code`, `intl` (a BCP 47 tag such as `pt-BR`), `nativeName`, `englishName`, `rtl` and `aliases`. Set `rtl` to `true` for right-to-left languages.
+1. Create `extension/src/locales/<code>.json`. The easiest way is to copy an existing language file, such as `extension/src/locales/fr.json`, and replace every value with your translation. Keep the keys (the English text) unchanged. Translate what you can. Missing keys fall back to English.
+2. Create `extension/_locales/<code>/messages.json` by copying `extension/_locales/en/messages.json` and translating the `message` values.
+3. Register the language in the `LOCALE_META` list in `extension/src/locales/index.js`. Each entry has `code`, `intl` (a BCP 47 tag such as `pt-BR`), `nativeName`, `englishName`, `rtl` and `aliases`. Set `rtl` to `true` for right-to-left languages.
 4. Run `node scripts/validate.mjs`.
 5. Load the extension, choose your language in Settings, and look at the popup, the dashboard and the settings page. Check for text that is cut off, overlaps, or points the wrong way.
 6. Open a pull request. The maintainer will update language counts in the docs.
@@ -294,7 +295,7 @@ Discuss these in an issue **before** you write code:
 - Anything that reads, copies or exports more bookmark data than today.
 - Anything that adds analytics, remote code or a third-party service.
 
-Each of these affects user trust and Chrome Web Store review. If the change is accepted, the same pull request must update [PRIVACY.md](PRIVACY.md) and the docs.
+Each of these affects user trust and Chrome Web Store review. If the change is accepted, the same pull request must update [docs/PRIVACY.md](../docs/PRIVACY.md) and the docs.
 
 ## Commit and pull request checklist
 
@@ -310,8 +311,8 @@ The pull request template has the same list.
 - [ ] No new permissions, network requests or storage keys, or they were agreed in an issue first.
 - [ ] Interface text is wrapped in `t()`, and user content is shown as text, not HTML.
 - [ ] The change works with the keyboard and in a right-to-left language.
-- [ ] User-visible changes are noted in [CHANGELOG.md](CHANGELOG.md) under the upcoming version.
-- [ ] The docs and [PRIVACY.md](PRIVACY.md) are updated if behavior or data handling changed.
+- [ ] User-visible changes are noted in [CHANGELOG.md](../CHANGELOG.md) under the upcoming version.
+- [ ] The docs and [docs/PRIVACY.md](../docs/PRIVACY.md) are updated if behavior or data handling changed.
 - [ ] Screenshots, logs and test files contain no personal bookmark data.
 - [ ] I wrote this change or I have the right to submit it (see [License and sign-off](#license-and-sign-off)).
 
@@ -333,7 +334,7 @@ Do not open a public issue for a security problem. Follow [SECURITY.md](SECURITY
 
 ## Recognition
 
-Every person whose commits are merged into `main` is listed automatically in the Contributors section of the [README](README.md). That list comes from GitHub, so it needs your commits to be linked to your GitHub account. Check that your Git email address is added to your GitHub profile.
+Every person whose commits are merged into `main` is listed automatically in the Contributors section of the [README](../README.md). That list comes from GitHub, so it needs your commits to be linked to your GitHub account. Check that your Git email address is added to your GitHub profile.
 
 Work that does not always show up as commits is credited in the release notes. This includes translations, documentation, bug reports with good reproduction steps, and reviews. You are named by your name or GitHub username, unless you prefer not to be. Tell the maintainer in the issue or pull request.
 
@@ -345,17 +346,17 @@ If you disagree with a decision, say so in the issue. Give your reasons and your
 
 ## Releases
 
-Releases are made by the maintainer. The maintainer updates the version in `manifest.json` and `CHANGELOG.md`, then pushes a tag named `vX.Y.Z`. The [release workflow](.github/workflows/release.yml) then:
+Releases are made by the maintainer. The maintainer updates the version in `extension/manifest.json` and `CHANGELOG.md`, then pushes a tag named `vX.Y.Z`. The [release workflow](workflows/release.yml) then:
 
 1. runs `node scripts/validate.mjs`,
-2. checks that the tag matches the version in `manifest.json`,
-3. builds the extension zip from the runtime file list and a SHA-256 checksum,
+2. checks that the tag matches the version in `extension/manifest.json`,
+3. builds the extension zip from the runtime file list (the contents of `extension/`, with `manifest.json` at the zip root, plus the `LICENSE`) and a SHA-256 checksum,
 4. creates a GitHub Release with the zip and checksum attached, and uses the matching section of `CHANGELOG.md` as the notes.
 
 Publishing to the Chrome Web Store is a separate manual step.
 
 ## License and sign-off
 
-Bookmark Scope is released under the [MIT License](LICENSE). When you contribute, your contribution is licensed under the same terms.
+Bookmark Scope is released under the [MIT License](../LICENSE). When you contribute, your contribution is licensed under the same terms.
 
 By opening a pull request, you confirm that you wrote the change yourself, or that you have the right to submit it under the MIT License. Do not copy code, text or images from sources that do not allow this. There is no sign-off tool and no `Signed-off-by` line is required.

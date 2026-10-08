@@ -2,11 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-import { HEALTH_STATUSES } from '../src/constants.js';
-import { classifyHealthResponse,createHealthFailure,shouldSkipHealthCheck } from '../src/background/health-check.js';
+import { HEALTH_STATUSES } from '../extension/src/constants.js';
+import { classifyHealthResponse,createHealthFailure,shouldSkipHealthCheck } from '../extension/src/background/health-check.js';
 import { deferred } from './helpers/browser.mjs';
 
-const source=fs.readFileSync(new URL('../background.js',import.meta.url),'utf8');
+const source=fs.readFileSync(new URL('../extension/background.js',import.meta.url),'utf8');
 function harness(head,get) {
   const timers=new Map();let timerId=0;const getStarted=deferred();const methods=[];
   const context=vm.createContext({AbortController,Map,now:Date.now,HEALTH_STATUSES,classifyHealthResponse,createHealthFailure,shouldSkipHealthCheck,

@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createActionTools } from '../src/dashboard/action-tools.js';
-import { createBookmark,removeBookmark,moveBookmark } from '../src/platform/browser-api.js';
+import { createActionTools } from '../extension/src/dashboard/action-tools.js';
+import { createBookmark,removeBookmark,moveBookmark } from '../extension/src/platform/browser-api.js';
 import { fakeBrowser, leaf, folder } from './helpers/browser.mjs';
-import { planBatchMove } from '../src/dashboard/drag-drop-logic.js';
+import { planBatchMove } from '../extension/src/dashboard/drag-drop-logic.js';
 
 function setup(tree,stored={}) {
   const browser=fakeBrowser(tree,stored);const toasts=[],history=[];

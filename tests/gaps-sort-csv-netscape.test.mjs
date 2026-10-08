@@ -1,15 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseNetscapeHtml, looksLikeNetscapeBookmarks, detectImportFormat, parseImportedThirdPartyFile, parsePocketHtml, NETSCAPE_LIMITS } from '../src/services/third-party-import.js';
-import { createCsv, createCsvFile, CSV_BOM, parseImportedText, parseImportedFilePreview, _internals } from '../src/dashboard/import-export-tools.js';
-import { buildImportPreview, importBookmarks, loadImportJournal } from '../src/services/import-service.js';
-import { validateSmartView, applySmartView } from '../src/services/smart-view-service.js';
-import { loadDashboardPreferences } from '../src/services/preferences-service.js';
-import { createGroupTools } from '../src/dashboard/group-tools.js';
-import { createRenderTools } from '../src/dashboard/render-tools.js';
-import { sortBookmarks } from '../src/bookmark-utils.js';
-import { CLEANUP_FILTERS, DASHBOARD_MODE, GROUP_BY_OPTIONS, GROUP_SORT_OPTIONS, SORT_OPTIONS, DASHBOARD_STORAGE_KEYS } from '../src/constants.js';
-import { FEATURE_MESSAGES } from '../src/locales/feature-messages.js';
+import { parseNetscapeHtml, looksLikeNetscapeBookmarks, detectImportFormat, parseImportedThirdPartyFile, parsePocketHtml, NETSCAPE_LIMITS } from '../extension/src/services/third-party-import.js';
+import { createCsv, createCsvFile, CSV_BOM, parseImportedText, parseImportedFilePreview, _internals } from '../extension/src/dashboard/import-export-tools.js';
+import { buildImportPreview, importBookmarks, loadImportJournal } from '../extension/src/services/import-service.js';
+import { validateSmartView, applySmartView } from '../extension/src/services/smart-view-service.js';
+import { loadDashboardPreferences } from '../extension/src/services/preferences-service.js';
+import { createGroupTools } from '../extension/src/dashboard/group-tools.js';
+import { createRenderTools } from '../extension/src/dashboard/render-tools.js';
+import { sortBookmarks } from '../extension/src/bookmark-utils.js';
+import { CLEANUP_FILTERS, DASHBOARD_MODE, GROUP_BY_OPTIONS, GROUP_SORT_OPTIONS, SORT_OPTIONS, DASHBOARD_STORAGE_KEYS } from '../extension/src/constants.js';
+import { FEATURE_MESSAGES } from '../extension/src/locales/feature-messages.js';
 import { fakeBrowser, folder } from './helpers/browser.mjs';
 import { domFixture } from './helpers/dom.mjs';
 
@@ -322,11 +322,11 @@ test('CSV export of an empty set is only the header; BOM-prefixed header is reco
 
 test('CSV export parity: dashboard exposes it as a menu item and a command-palette command with Persian copy', async () => {
   const fs = await import('node:fs');
-  const dashboard = fs.readFileSync(new URL('../dashboard.js', import.meta.url), 'utf8');
+  const dashboard = fs.readFileSync(new URL('../extension/dashboard.js', import.meta.url), 'utf8');
   assert.match(dashboard, /handleExport\('csv', 'visible'\)/);
   assert.match(dashboard, /exportCsv: \{ label:'Export visible as CSV'/);
   assert.match(dashboard, /createCsvFile\(items\)/);
-  const tools = fs.readFileSync(new URL('../src/dashboard/feature-tools.js', import.meta.url), 'utf8');
+  const tools = fs.readFileSync(new URL('../extension/src/dashboard/feature-tools.js', import.meta.url), 'utf8');
   assert.match(tools, /'importPreview','exportCsv'/);
   assert.match(FEATURE_MESSAGES['Export visible as CSV'], /[؀-ۿ]/);
 });

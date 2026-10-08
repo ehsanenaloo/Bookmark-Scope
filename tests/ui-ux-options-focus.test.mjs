@@ -2,9 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-import * as constants from '../src/constants.js';
-import { OPTION_PAGE_DEFAULTS } from '../src/services/storage-schema.js';
-import { trapFocus } from '../src/ui-utils.js';
+import * as constants from '../extension/src/constants.js';
+import { OPTION_PAGE_DEFAULTS } from '../extension/src/services/storage-schema.js';
+import { trapFocus } from '../extension/src/ui-utils.js';
 
 // Explicit DOM bindings exercise the real page functions without a browser.
 function optionsFixture() {
@@ -41,7 +41,7 @@ function optionsFixture() {
     getReviewReminderSettings:async()=>({...reminder}),
     saveReviewReminderPreferences:async values=>{reminderWrites.push({...values});reminder={...reminder,...values};}
   });
-  let source=fs.readFileSync(new URL('../options.js',import.meta.url),'utf8');
+  let source=fs.readFileSync(new URL('../extension/options.js',import.meta.url),'utf8');
   source=source.slice(0,source.indexOf("el.form.addEventListener('submit'"));
   source=source.replace(/import[\s\S]*?from\s+['"][^'"]+['"];?/g,'');
   const actions=vm.runInContext(source+';({load,save});',context);

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createPopupActions } from '../src/popup/actions.js';
+import { createPopupActions } from '../extension/src/popup/actions.js';
 import { fakeBrowser, folder, leaf, deferred } from './helpers/browser.mjs';
 
 function setup(tree, stored = {}) {

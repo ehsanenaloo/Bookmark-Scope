@@ -3,8 +3,8 @@
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-// The repository root IS the unpacked extension, so there is no build step.
-export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
+// The extension/ folder of the repository IS the unpacked extension, so there is no build step.
+export const extensionDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'extension');
 
 // Returns Playwright's chromium launcher, or null when Playwright is not available.
 export async function loadChromium() {
@@ -20,13 +20,13 @@ export async function loadChromium() {
   }
 }
 
-// Launch options for a persistent context that loads the extension from the repository root.
+// Launch options for a persistent context that loads the extension from the repository's extension/ folder.
 export function launchOptions(extra = {}) {
   return {
     channel: 'chromium',
     executablePath: process.env.BOOKMARK_SCOPE_CHROMIUM_EXECUTABLE || undefined,
     headless: true,
-    args: [`--disable-extensions-except=${root}`, `--load-extension=${root}`],
+    args: [`--disable-extensions-except=${extensionDir}`, `--load-extension=${extensionDir}`],
     ...extra
   };
 }

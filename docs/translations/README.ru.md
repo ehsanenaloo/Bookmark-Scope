@@ -1,8 +1,8 @@
-[English](README.md) · [فارسی](README.fa.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português (Brasil)](README.pt-BR.md) · **Русский** · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [العربية](README.ar.md) · [हिन्दी](README.hi.md)
+[English](../../README.md) · [فارسی](README.fa.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português (Brasil)](README.pt-BR.md) · **Русский** · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [العربية](README.ar.md) · [हिन्दी](README.hi.md)
 
 <div align="center">
 
-<img src="icon-128.png" alt="Логотип Bookmark Scope" width="88" height="88">
+<img src="../../extension/icon-128.png" alt="Логотип Bookmark Scope" width="88" height="88">
 
 # Bookmark Scope
 
@@ -13,7 +13,7 @@
 
 [![Добавить в Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
 
-[![Лицензия: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Лицензия: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue)
 ![52 языка](https://img.shields.io/badge/languages-52-orange)
 ![Без аналитики](https://img.shields.io/badge/analytics-none-lightgrey)
@@ -23,8 +23,8 @@
 </div>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/screenshots/dashboard-desktop-dark.png">
-  <img src="docs/assets/screenshots/dashboard-desktop-light.png" alt="Панель Bookmark Scope со списком закладок, фильтрами, тегами и панелью сведений">
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/screenshots/dashboard-desktop-dark.png">
+  <img src="../assets/screenshots/dashboard-desktop-light.png" alt="Панель Bookmark Scope со списком закладок, фильтрами, тегами и панелью сведений">
 </picture>
 
 ## Зачем это нужно
@@ -43,9 +43,9 @@ Chrome показывает закладки как дерево папок. Д�
 Нажмите на значок на панели инструментов. Всплывающее окно покажет закладки для текущей страницы. Переключайтесь между этой точной страницей, этим хостом и всем доменом. Число на значке показывает, сколько закладок подходит.
 
 <p align="center">
-  <img src="docs/assets/screenshots/popup-light.png" alt="Всплывающее окно с закладками для текущего сайта" width="300">
+  <img src="../assets/screenshots/popup-light.png" alt="Всплывающее окно с закладками для текущего сайта" width="300">
   &nbsp;&nbsp;
-  <img src="docs/assets/screenshots/popup-dark.png" alt="Всплывающее окно в тёмной теме" width="300">
+  <img src="../assets/screenshots/popup-dark.png" alt="Всплывающее окно в тёмной теме" width="300">
 </p>
 
 ### Видеть всю библиотеку
@@ -59,7 +59,7 @@ Chrome показывает закладки как дерево папок. Д�
 Ничего серьёзного не происходит без предпросмотра.
 
 <p align="center">
-  <img src="docs/assets/screenshots/duplicate-preview.png" alt="Окно предпросмотра дубликатов, где вы выбираете, какую закладку оставить" width="780">
+  <img src="../assets/screenshots/duplicate-preview.png" alt="Окно предпросмотра дубликатов, где вы выбираете, какую закладку оставить" width="780">
 </p>
 
 - **Дубликаты.** Выберите, какую копию оставить. Теги других копий добавятся к ней. Вы видите результат до того, как что-либо удалится.
@@ -67,7 +67,7 @@ Chrome показывает закладки как дерево папок. Д�
 - **Удаление и отмена.** Удалённые закладки можно вернуть вместе с тегами. Chrome не позволяет ни одному расширению вернуть исходный ID и дату добавления, поэтому восстановленная закладка получается новой. Расширение сообщает вам об этом.
 
 <p align="center">
-  <img src="docs/assets/screenshots/bulk-tags.png" alt="Окно массовой работы с тегами: теги до и после изменения" width="780">
+  <img src="../assets/screenshots/bulk-tags.png" alt="Окно массовой работы с тегами: теги до и после изменения" width="780">
 </p>
 
 ### Находить мёртвые ссылки
@@ -86,7 +86,7 @@ Chrome показывает закладки как дерево папок. Д�
 - **Экспорт.** Сохраните закладки, которые сейчас на экране, в JSON или CSV.
 
 <p align="center">
-  <img src="docs/assets/screenshots/library-tools.png" alt="Инструменты библиотеки: сохранённые виды, массовые теги, дубликаты, проверки, резервная копия и импорт" width="780">
+  <img src="../assets/screenshots/library-tools.png" alt="Инструменты библиотеки: сохранённые виды, массовые теги, дубликаты, проверки, резервная копия и импорт" width="780">
 </p>
 
 ### Работать быстрее
@@ -97,7 +97,7 @@ Chrome показывает закладки как дерево папок. Д�
 - **Напоминания о проверке.** Включите их в настройках, если хотите, чтобы раз в несколько недель вам напоминали навести порядок.
 
 <p align="center">
-  <img src="docs/assets/screenshots/command-palette.png" alt="Палитра команд со списком действий" width="780">
+  <img src="../assets/screenshots/command-palette.png" alt="Палитра команд со списком действий" width="780">
 </p>
 
 ### Настройте под себя
@@ -105,9 +105,9 @@ Chrome показывает закладки как дерево папок. Д�
 Светлая, тёмная или системная тема. Четыре цветовые палитры. Раскладка справа налево. В расширении 52 языка (см. [Что стоит знать](#good-to-know)).
 
 <p align="center">
-  <img src="docs/assets/screenshots/options-light.png" alt="Страница настроек" width="300">
+  <img src="../assets/screenshots/options-light.png" alt="Страница настроек" width="300">
   &nbsp;&nbsp;
-  <img src="docs/assets/screenshots/dashboard-rtl-dark.png" alt="Панель на персидском с раскладкой справа налево в тёмной теме" width="300">
+  <img src="../assets/screenshots/dashboard-rtl-dark.png" alt="Панель на персидском с раскладкой справа налево в тёмной теме" width="300">
 </p>
 
 ## Установка
@@ -122,17 +122,17 @@ Chrome показывает закладки как дерево папок. Д�
 
 **Из этого репозитория**
 
-Сборки нет. Эта папка и есть расширение.
+Сборки нет. Папка `extension` и есть расширение.
 
 1. Скачайте или клонируйте этот репозиторий.
 2. Откройте `chrome://extensions` и включите **Режим разработчика** (**Developer mode**).
-3. Нажмите **Загрузить распакованное расширение** (**Load unpacked**) и выберите папку, в которой лежит `manifest.json`.
+3. Нажмите **Загрузить распакованное расширение** (**Load unpacked**) и выберите папку `extension` внутри репозитория (в ней лежит `manifest.json`), а не верхнюю папку.
 
 У распакованной копии свой ID расширения. Её можно держать рядом с версией из Store, но данные у них общие не будут, а сама распакованная копия не обновляется.
 
 ## Ваши данные остаются у вас
 
-Сервера нет. Нет аккаунта, аналитики и рекламы. Ваши закладки, теги и настройки хранятся в вашем браузере. Подробности в [политике конфиденциальности](PRIVACY.md).
+Сервера нет. Нет аккаунта, аналитики и рекламы. Ваши закладки, теги и настройки хранятся в вашем браузере. Подробности в [политике конфиденциальности](../PRIVACY.md).
 
 Расширение не читает страницы, которые вы посещаете. Оно читает только адрес активной вкладки, чтобы показать подходящие закладки.
 
@@ -151,12 +151,12 @@ Chrome показывает закладки как дерево папок. Д�
 <a id="good-to-know"></a>
 ## Что стоит знать
 
-- **Переводы.** Я исправлял переводы с помощью ИИ и автоматических проверок. Люди читали только английский и персидский. В других языках могут быть ошибки или английские слова. Если заметите ошибку, [создайте issue](../../issues) или пришлите pull request. См. [CONTRIBUTING.md](CONTRIBUTING.md#translations).
+- **Переводы.** Я исправлял переводы с помощью ИИ и автоматических проверок. Люди читали только английский и персидский. В других языках могут быть ошибки или английские слова. Если заметите ошибку, [создайте issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) или пришлите pull request. См. [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
 - **Этот русский перевод.** Он написан с помощью ИИ, и носитель языка его пока не читал. Если нашли неточность, исправьте её через issue или pull request.
 - **Импорт плоский.** При импорте файла `bookmarks.html` название папки показывается как путь, но сами папки не создаются, а исходные даты не сохраняются. Если нужно воссоздать дерево папок, используйте снимок.
 - **Проверка ссылок даёт подсказки.** Любой ответ 4xx считается поломкой. Страница, которая загрузилась, но показывает ошибку или экран входа, считается рабочей.
 - **CSV.** Я проверил экспорт в CSV импортёром и настоящей загрузкой в Chrome. Открыть его в Excel, Numbers или Google Sheets я пока не пробовал.
-- **Тестирование.** Расширение тестируется в Chromium. См. [полный список ограничений](docs/guides/limits.html).
+- **Тестирование.** Расширение тестируется в Chromium. См. [полный список ограничений](../guides/limits.html).
 
 ## Горячие клавиши
 
@@ -169,30 +169,30 @@ Chrome показывает закладки как дерево папок. Д�
 
 ## Руководство пользователя
 
-Руководство объясняет каждую часть расширения и показывает её на скриншотах. Начните с [docs/README.md](docs/README.md) или откройте [папку с руководствами](docs/guides/). Чтобы читать его как веб-страницу, откройте `docs/index.html` в браузере.
+Руководство объясняет каждую часть расширения и показывает её на скриншотах. Начните с [docs/README.md](../README.md) или откройте [папку с руководствами](../guides/). Чтобы читать его как веб-страницу, откройте `docs/index.html` в браузере.
 
 ## Как помочь проекту
 
-Отчёты об ошибках, исправления переводов и небольшие pull request приветствуются. Сначала прочитайте [CONTRIBUTING.md](CONTRIBUTING.md). Перед отправкой pull request запустите эту проверку. Ей нужен Node.js 24 или новее, устанавливать ничего не надо.
+Отчёты об ошибках, исправления переводов и небольшие pull request приветствуются. Сначала прочитайте [CONTRIBUTING.md](../../.github/CONTRIBUTING.md). Перед отправкой pull request запустите эту проверку. Ей нужен Node.js 24 или новее, устанавливать ничего не надо.
 
 ```bash
 node scripts/validate.mjs
 node scripts/test.mjs
 ```
 
-О проблемах с безопасностью сообщайте в личном порядке. См. [SECURITY.md](SECURITY.md).
+О проблемах с безопасностью сообщайте в личном порядке. См. [SECURITY.md](../../.github/SECURITY.md).
 
 Если Bookmark Scope экономит вам время, можете [угостить меня кофе](https://buymeacoffee.com/enaloo). Оценка в [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) тоже помогает другим людям найти расширение.
 
 ## Участники
 
-Спасибо всем, кто помогал проекту. Ваше имя появится здесь после первого принятого вклада. Подробности в [CONTRIBUTING.md](CONTRIBUTING.md#recognition).
+Спасибо всем, кто помогал проекту. Ваше имя появится здесь после первого принятого вклада. Подробности в [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#recognition).
 
 <a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors" width="400"></a>
 
 
 ## Лицензия
 
-[MIT](LICENSE). Copyright 2026 Ehsan Enaloo.
+[MIT](../../LICENSE). Copyright 2026 Ehsan Enaloo.
 
-Две части взяты из других проектов и сохраняют свои лицензии, они перечислены в [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md): Public Suffix List (MPL-2.0) и значки [Lucide](https://lucide.dev) (ISC).
+Код Bookmark Scope распространяется по лицензии MIT. Две части взяты из других проектов и сохраняют свои лицензии: Public Suffix List (список окончаний доменов, например `.co.uk`, MPL-2.0) и значки [Lucide](https://lucide.dev) (ISC). Полные тексты лицензий есть в [extension/THIRD_PARTY_NOTICES.md](../../extension/THIRD_PARTY_NOTICES.md).

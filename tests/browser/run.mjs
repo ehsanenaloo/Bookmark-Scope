@@ -5,7 +5,7 @@
 //   node tests/browser/run.mjs --require  fail instead of skipping when Playwright is missing
 //   node tests/browser/run.mjs gaps       run only checks whose name contains "gaps"
 //
-// The checks load the extension from the repository root, use a disposable
+// The checks load the extension from the repository's extension/ folder, use a disposable
 // Chromium profile and synthetic bookmarks only, and write nothing into the repository.
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';

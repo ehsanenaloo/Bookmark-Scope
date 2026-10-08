@@ -2,9 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-import { getMatchTarget,matchesMode,parseUrlSafe } from '../src/url-utils.js';
-import { STORAGE_KEYS,MATCH_MODES } from '../src/constants.js';
-const source=fs.readFileSync(new URL('../background.js',import.meta.url),'utf8');
+import { getMatchTarget,matchesMode,parseUrlSafe } from '../extension/src/url-utils.js';
+import { STORAGE_KEYS,MATCH_MODES } from '../extension/src/constants.js';
+const source=fs.readFileSync(new URL('../extension/background.js',import.meta.url),'utf8');
 for(const mode of Object.values(MATCH_MODES))for(const ignoreQueryString of [true,false])for(const ignoreHashFragment of [true,false])test(`badge matches popup ${mode} query=${ignoreQueryString} hash=${ignoreHashFragment}`,async()=>{
   let text;const options={ignoreQueryString,ignoreHashFragment};const url='https://example.test/a?x=1#b';
   const urls=['https://example.test/a?x=2#b','https://example.test/a?x=1#c','https://sub.example.test/a','https://other.test/'];

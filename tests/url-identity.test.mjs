@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseUrlSafe, getRegistrableDomain, matchesMode } from '../src/url-utils.js';
-import { detectDuplicates } from '../src/bookmark-utils.js';
+import { parseUrlSafe, getRegistrableDomain, matchesMode } from '../extension/src/url-utils.js';
+import { detectDuplicates } from '../extension/src/bookmark-utils.js';
 
 for (const [a,b,equal] of [
   ['https://example.test:8443/a','https://example.test:9443/a',false],

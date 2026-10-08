@@ -1,8 +1,8 @@
-[English](README.md) · [فارسی](README.fa.md) · [Español](README.es.md) · [Français](README.fr.md) · **Deutsch** · [Português (Brasil)](README.pt-BR.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [العربية](README.ar.md) · [हिन्दी](README.hi.md)
+[English](../../README.md) · [فارسی](README.fa.md) · [Español](README.es.md) · [Français](README.fr.md) · **Deutsch** · [Português (Brasil)](README.pt-BR.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [العربية](README.ar.md) · [हिन्दी](README.hi.md)
 
 <div align="center">
 
-<img src="icon-128.png" alt="Bookmark-Scope-Logo" width="88" height="88">
+<img src="../../extension/icon-128.png" alt="Bookmark-Scope-Logo" width="88" height="88">
 
 # Bookmark Scope
 
@@ -13,7 +13,7 @@ Sie läuft nur auf deinem Computer. Kein Konto, kein Tracking.
 
 [![Zu Chrome hinzufügen](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
 
-[![Lizenz: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Lizenz: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue)
 ![52 Sprachen](https://img.shields.io/badge/languages-52-orange)
 ![Keine Analyse-Tools](https://img.shields.io/badge/analytics-none-lightgrey)
@@ -23,8 +23,8 @@ Sie läuft nur auf deinem Computer. Kein Konto, kein Tracking.
 </div>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/screenshots/dashboard-desktop-dark.png">
-  <img src="docs/assets/screenshots/dashboard-desktop-light.png" alt="Das Bookmark-Scope-Dashboard mit einer Liste von Lesezeichen, Filtern, Tags und einem Detailbereich">
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/screenshots/dashboard-desktop-dark.png">
+  <img src="../assets/screenshots/dashboard-desktop-light.png" alt="Das Bookmark-Scope-Dashboard mit einer Liste von Lesezeichen, Filtern, Tags und einem Detailbereich">
 </picture>
 
 ## Warum es das gibt
@@ -43,9 +43,9 @@ Du speicherst denselben Artikel dreimal. Ein Ordner aus dem Jahr 2019 besteht zu
 Klick auf das Symbol in der Symbolleiste. Das Popup listet deine Lesezeichen für die aktuelle Seite auf. Du kannst zwischen dieser genauen Seite, diesem Host oder der ganzen Domain wechseln. Das Badge am Symbol zeigt, wie viele Lesezeichen passen.
 
 <p align="center">
-  <img src="docs/assets/screenshots/popup-light.png" alt="Das Popup mit den Lesezeichen für die aktuelle Website" width="300">
+  <img src="../assets/screenshots/popup-light.png" alt="Das Popup mit den Lesezeichen für die aktuelle Website" width="300">
   &nbsp;&nbsp;
-  <img src="docs/assets/screenshots/popup-dark.png" alt="Das Popup im dunklen Design" width="300">
+  <img src="../assets/screenshots/popup-dark.png" alt="Das Popup im dunklen Design" width="300">
 </p>
 
 ### Sieh deine ganze Sammlung
@@ -59,7 +59,7 @@ Klick auf ein Lesezeichen, um die Details zu sehen. Hak mehrere an, um sie zusam
 Nichts Großes passiert ohne Vorschau.
 
 <p align="center">
-  <img src="docs/assets/screenshots/duplicate-preview.png" alt="Der Vorschau-Dialog für Duplikate, in dem du wählst, welches Lesezeichen du behältst" width="780">
+  <img src="../assets/screenshots/duplicate-preview.png" alt="Der Vorschau-Dialog für Duplikate, in dem du wählst, welches Lesezeichen du behältst" width="780">
 </p>
 
 - **Duplikate.** Du wählst, welche Kopie bleibt. Die Tags der anderen Kopien werden zu ihr hinzugefügt. Du siehst das Ergebnis, bevor etwas gelöscht wird.
@@ -67,7 +67,7 @@ Nichts Großes passiert ohne Vorschau.
 - **Löschen und Rückgängig.** Gelöschte Lesezeichen lassen sich mit ihren Tags wiederherstellen. Chrome erlaubt es keiner Erweiterung, die ursprüngliche ID oder das Hinzufügedatum zurückzubringen. Das wiederhergestellte Lesezeichen ist also neu. Die Erweiterung sagt dir das.
 
 <p align="center">
-  <img src="docs/assets/screenshots/bulk-tags.png" alt="Der Dialog für Tags bei mehreren Lesezeichen, der die Tags vor und nach der Änderung zeigt" width="780">
+  <img src="../assets/screenshots/bulk-tags.png" alt="Der Dialog für Tags bei mehreren Lesezeichen, der die Tags vor und nach der Änderung zeigt" width="780">
 </p>
 
 ### Tote Links finden
@@ -86,7 +86,7 @@ Prüf eine Gruppe von Lesezeichen und sieh, welche Links funktionieren, welche w
 - **Export.** Speichere die Lesezeichen, die du gerade siehst, als JSON oder CSV.
 
 <p align="center">
-  <img src="docs/assets/screenshots/library-tools.png" alt="Werkzeuge für die Sammlung: gespeicherte Ansichten, Tags für mehrere Lesezeichen, Duplikate, Scans, Backup und Import" width="780">
+  <img src="../assets/screenshots/library-tools.png" alt="Werkzeuge für die Sammlung: gespeicherte Ansichten, Tags für mehrere Lesezeichen, Duplikate, Scans, Backup und Import" width="780">
 </p>
 
 ### Schneller arbeiten
@@ -97,7 +97,7 @@ Prüf eine Gruppe von Lesezeichen und sieh, welche Links funktionieren, welche w
 - **Erinnerungen zum Aufräumen.** Schalte sie in den Einstellungen ein, wenn du alle paar Wochen einen Anstoß zum Aufräumen möchtest.
 
 <p align="center">
-  <img src="docs/assets/screenshots/command-palette.png" alt="Die Befehlspalette mit einer Liste von Aktionen" width="780">
+  <img src="../assets/screenshots/command-palette.png" alt="Die Befehlspalette mit einer Liste von Aktionen" width="780">
 </p>
 
 ### Mach es zu deinem
@@ -105,9 +105,9 @@ Prüf eine Gruppe von Lesezeichen und sieh, welche Links funktionieren, welche w
 Helles, dunkles oder System-Design. Vier Farbpaletten. Layouts von rechts nach links. Die Erweiterung enthält 52 Sprachen (siehe [Gut zu wissen](#good-to-know)).
 
 <p align="center">
-  <img src="docs/assets/screenshots/options-light.png" alt="Die Einstellungsseite" width="300">
+  <img src="../assets/screenshots/options-light.png" alt="Die Einstellungsseite" width="300">
   &nbsp;&nbsp;
-  <img src="docs/assets/screenshots/dashboard-rtl-dark.png" alt="Das Dashboard auf Persisch mit Layout von rechts nach links im dunklen Design" width="300">
+  <img src="../assets/screenshots/dashboard-rtl-dark.png" alt="Das Dashboard auf Persisch mit Layout von rechts nach links im dunklen Design" width="300">
 </p>
 
 ## Installation
@@ -122,17 +122,17 @@ Andere Chromium-Browser wie Edge und Brave können die Erweiterung meist von der
 
 **Aus diesem Repository**
 
-Es gibt keinen Build-Schritt. Dieser Ordner ist die Erweiterung.
+Es gibt keinen Build-Schritt. Der Ordner `extension` ist die Erweiterung.
 
 1. Lade dieses Repository herunter oder klone es.
 2. Öffne `chrome://extensions` und schalte den **Entwicklermodus** ein.
-3. Klick auf **Entpackte Erweiterung laden** und wähle den Ordner, der `manifest.json` enthält.
+3. Klick auf **Entpackte Erweiterung laden** und wähle den Ordner `extension` im Repository (er enthält `manifest.json`), nicht den obersten Ordner.
 
 Eine entpackte Kopie hat ihre eigene Erweiterungs-ID. Du kannst sie neben der Store-Version behalten, aber die beiden teilen keine Daten, und die entpackte Kopie aktualisiert sich nicht von selbst.
 
 ## Deine Daten bleiben bei dir
 
-Es gibt keinen Server. Es gibt kein Konto, keine Analyse-Tools und keine Werbung. Deine Lesezeichen, Tags und Einstellungen bleiben in deinem Browser. Die [Datenschutzerklärung](PRIVACY.md) nennt die Details.
+Es gibt keinen Server. Es gibt kein Konto, keine Analyse-Tools und keine Werbung. Deine Lesezeichen, Tags und Einstellungen bleiben in deinem Browser. Die [Datenschutzerklärung](../PRIVACY.md) nennt die Details.
 
 Die Erweiterung liest nicht die Seiten, die du besuchst. Sie liest nur die Adresse des aktiven Tabs, damit sie passende Lesezeichen zeigen kann.
 
@@ -152,12 +152,12 @@ Die Erweiterung liest nicht die Seiten, die du besuchst. Sie liest nur die Adres
 
 ## Gut zu wissen
 
-- **Übersetzungen.** Ich habe die Übersetzungen mit KI-Hilfe und automatischen Prüfungen korrigiert. Nur Englisch und Persisch hat ein Mensch gelesen. In anderen Sprachen können Fehler oder einzelne englische Wörter vorkommen. Wenn dir einer auffällt, [öffne bitte ein Issue](../../issues) oder schick einen Pull Request. Siehe [CONTRIBUTING.md](CONTRIBUTING.md#translations).
+- **Übersetzungen.** Ich habe die Übersetzungen mit KI-Hilfe und automatischen Prüfungen korrigiert. Nur Englisch und Persisch hat ein Mensch gelesen. In anderen Sprachen können Fehler oder einzelne englische Wörter vorkommen. Wenn dir einer auffällt, [öffne bitte ein Issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) oder schick einen Pull Request. Siehe [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
 - **Diese README.** Die deutsche Version wurde mit KI-Hilfe geschrieben. Ein Muttersprachler hat sie noch nicht gelesen. Korrekturen sind willkommen, per Issue oder Pull Request.
 - **Der Import ist flach.** Wenn du eine Datei `bookmarks.html` importierst, wird der Ordnername als Pfad angezeigt. Ordner werden aber nicht angelegt, und die ursprünglichen Datumsangaben bleiben nicht erhalten. Nimm einen Snapshot, wenn du einen Ordnerbaum wiederherstellen musst.
 - **Linkprüfungen sind Hinweise.** Jede 4xx-Antwort gilt als kaputt. Eine Seite, die lädt, aber einen Fehler oder einen Login-Bildschirm zeigt, gilt als in Ordnung.
 - **CSV.** Ich habe den CSV-Export mit dem Importer und mit einem echten Chrome-Download getestet. In Excel, Numbers oder Google Sheets habe ich ihn noch nicht geöffnet.
-- **Tests.** Die Erweiterung ist in Chromium getestet. Siehe die [vollständige Liste der Grenzen](docs/guides/limits.html).
+- **Tests.** Die Erweiterung ist in Chromium getestet. Siehe die [vollständige Liste der Grenzen](../guides/limits.html).
 
 ## Tastenkürzel
 
@@ -170,30 +170,30 @@ Die Erweiterung liest nicht die Seiten, die du besuchst. Sie liest nur die Adres
 
 ## Benutzerhandbuch
 
-Das Handbuch erklärt jeden Teil der Erweiterung mit Screenshots. Fang mit [docs/README.md](docs/README.md) an oder öffne den [Ordner mit den Anleitungen](docs/guides/). Um es als Webseite zu lesen, öffne `docs/index.html` in deinem Browser.
+Das Handbuch erklärt jeden Teil der Erweiterung mit Screenshots. Fang mit [docs/README.md](../README.md) an oder öffne den [Ordner mit den Anleitungen](../guides/). Um es als Webseite zu lesen, öffne `docs/index.html` in deinem Browser.
 
 ## Hilf dem Projekt
 
-Fehlerberichte, Übersetzungskorrekturen und kleine Pull Requests sind willkommen. Lies zuerst [CONTRIBUTING.md](CONTRIBUTING.md). Bevor du einen Pull Request schickst, führ diese Prüfung aus. Sie braucht Node.js 24 oder neuer und keine Installation.
+Fehlerberichte, Übersetzungskorrekturen und kleine Pull Requests sind willkommen. Lies zuerst [CONTRIBUTING.md](../../.github/CONTRIBUTING.md). Bevor du einen Pull Request schickst, führ diese Prüfung aus. Sie braucht Node.js 24 oder neuer und keine Installation.
 
 ```bash
 node scripts/validate.mjs
 node scripts/test.mjs
 ```
 
-Bitte melde Sicherheitsprobleme privat. Siehe [SECURITY.md](SECURITY.md).
+Bitte melde Sicherheitsprobleme privat. Siehe [SECURITY.md](../../.github/SECURITY.md).
 
 Wenn dir Bookmark Scope Zeit spart, kannst du mir [einen Kaffee spendieren](https://buymeacoffee.com/enaloo). Eine Bewertung im [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) hilft außerdem anderen, die Erweiterung zu finden.
 
 ## Mitwirkende
 
-Danke an alle, die geholfen haben. Dein Name erscheint hier, sobald dein erster Beitrag übernommen wurde. Mehr dazu in [CONTRIBUTING.md](CONTRIBUTING.md#recognition).
+Danke an alle, die geholfen haben. Dein Name erscheint hier, sobald dein erster Beitrag übernommen wurde. Mehr dazu in [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#recognition).
 
 <a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors" width="400"></a>
 
 
 ## Lizenz
 
-[MIT](LICENSE). Copyright 2026 Ehsan Enaloo.
+[MIT](../../LICENSE). Copyright 2026 Ehsan Enaloo.
 
-Zwei Teile stammen aus anderen Projekten und behalten ihre eigenen Lizenzen. Sie sind in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) aufgelistet: die Public Suffix List (MPL-2.0) und die Symbole von [Lucide](https://lucide.dev) (ISC).
+Der Code von Bookmark Scope steht unter der MIT-Lizenz. Zwei Teile stammen aus anderen Projekten und behalten ihre eigenen Lizenzen: die Public Suffix List (eine Liste von Domain-Endungen wie `.co.uk`, MPL-2.0) und die Symbole von [Lucide](https://lucide.dev) (ISC). Die vollständigen Texte stehen in [extension/THIRD_PARTY_NOTICES.md](../../extension/THIRD_PARTY_NOTICES.md).
