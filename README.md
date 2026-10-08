@@ -119,7 +119,7 @@ Light, dark or system theme. Four color palettes. Right-to-left layouts. The ext
 2. Click **Add to Chrome**.
 3. Click the puzzle icon in the toolbar and pin Bookmark Scope.
 
-Other Chromium browsers such as Edge and Brave can usually install it from the same page. I only test with Chrome. Firefox and Safari are not supported.
+Edge and Brave are Chromium browsers, so they can install it from the same page. It is not listed on Edge Add-ons yet. I only test with Chrome. Firefox and Safari are not supported.
 
 **From this repository**
 
