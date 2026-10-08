@@ -124,21 +124,23 @@ The repository root is kept small on purpose. The extension itself lives in `ext
 | --- | --- |
 | `extension/manifest.json` | Extension manifest (Manifest V3): permissions, entry points, icons. |
 | `extension/background.js` | The service worker. It handles the badge, alarms, context menus, link checks and runtime messages. It has no access to the DOM. |
-| `extension/popup.html`, `popup.js`, `popup.css` | The toolbar popup. |
-| `extension/dashboard.html`, `dashboard.js`, `dashboard.css` | The full-page library dashboard. |
-| `extension/options.html`, `options.js`, `options.css` | The settings page. |
+| `extension/pages/popup/` | The toolbar popup: `popup.html`, `popup.js`, `popup.css`, and the footer link settings. |
+| `extension/pages/dashboard/` | The full-page library dashboard: `dashboard.html`, `dashboard.js`, `dashboard.css`. |
+| `extension/pages/options/` | The settings page: `options.html`, `options.js`, `options.css`. |
+| `extension/icons/` | The toolbar and store icons (`icon-16.png` to `icon-128.png`, and `icon.svg`). |
 | `extension/src/services/` | Reusable logic for storage, preferences, tags, snapshots, imports, link-health data, reminders and diagnostics. |
 | `extension/src/dashboard/` | Dashboard modules: selection, rendering, groups, review, import and export tools, the command palette. |
 | `extension/src/popup/` | Popup modules: state, actions, footer, overlays. |
 | `extension/src/platform/` | The browser API wrapper (`browser-api.js`) and time helpers. |
 | `extension/src/runtime/messages.js` | Message types and request builders between pages and the worker. |
-| `extension/src/constants.js` | Shared names: storage keys, limits, enums. |
-| `extension/src/locales/` | Interface translations (see [Adding or changing UI text](#adding-or-changing-ui-text)). |
+| `extension/src/core/` | Shared logic with no browser UI: `constants.js` (storage keys, limits, enums), URL and bookmark helpers, fuzzy matching and the Public Suffix rules. |
+| `extension/src/ui/` | Helpers for the pages: icons, theme and DOM utilities. |
+| `extension/src/locales/` | The translation loader (`i18n.js`) and interface translations (see [Adding or changing UI text](#adding-or-changing-ui-text)). |
 | `extension/_locales/` | Browser-level strings for the manifest, one folder per language. |
 | `extension/styles/` | Shared CSS (`base.css`, `colors.css`) and styles for the dashboard and popup. |
 | `extension/vendor/`, `extension/THIRD_PARTY_NOTICES.md` | The bundled Public Suffix List and the third-party license notices. |
 | `docs/` | The user guide (a static HTML site), `PRIVACY.md`, and the translated READMEs in `docs/translations/`. |
-| `tests/` | Unit tests (`*.test.mjs`), the fake browser and DOM helpers in `tests/helpers/`, and the optional browser checks in `tests/browser/` (Chromium) and `tests/firefox/` (Firefox). |
+| `tests/` | Unit tests in `tests/unit/` (`*.test.mjs`), the fake browser and DOM helpers in `tests/helpers/`, and the optional browser checks in `tests/browser/` (Chromium) and `tests/firefox/` (Firefox). |
 | `scripts/` | `validate.mjs`, `test.mjs` and the helper files they use. `build-firefox.mjs` turns the files in `extension/` into the experimental Firefox build in `dist-firefox/`; it never changes `extension/manifest.json`. |
 | `.github/` | Issue forms, the pull request template, labels, workflows, and the community files (this guide, Code of Conduct, Security, Support). |
 
@@ -181,7 +183,7 @@ node scripts/test.mjs
 `npm run check` runs the two in a row, and `npm test` is a shortcut for the second one. Neither needs `npm install`.
 
 - **`node scripts/validate.mjs`** checks the manifest, the files it references (they must all exist inside `extension/`), that only shipping files sit in `extension/`, that the repository root stays small, JavaScript syntax, JSON and locale files, imports between modules, and that no keys or forbidden files are present.
-- **`node scripts/test.mjs`** runs every `tests/*.test.mjs` file with the built-in Node test runner and prints a short summary. Pass a word to run only the files whose name contains it, for example `node scripts/test.mjs popup`. It needs Node.js 24 or newer, because the tests use `navigator.locks`, and it tells you if your version is too old.
+- **`node scripts/test.mjs`** runs every `tests/unit/*.test.mjs` file with the built-in Node test runner and prints a short summary. Pass a word to run only the files whose name contains it, for example `node scripts/test.mjs popup`. It needs Node.js 24 or newer, because the tests use `navigator.locks`, and it tells you if your version is too old.
 - **Firefox checks (optional).** `npm run test:firefox` starts a headless desktop Firefox with a throwaway profile, loads the Firefox build as a temporary add-on and runs about 30 checks on synthetic bookmarks. It needs Firefox 140 or newer and nothing else. Without Firefox the runner prints "skipped". The steps are in [tests/firefox/README.md](../tests/firefox/README.md).
 - **Browser checks (optional).** `npm run test:browser` loads the extension into a real Chromium with a throwaway profile and synthetic bookmarks. You install Playwright yourself, and the runner prints "skipped" if it is missing. The steps are in [tests/browser/README.md](../tests/browser/README.md).
 
@@ -193,7 +195,7 @@ Tests do not replace trying the change by hand. In the pull request, describe yo
 
 A fix or a feature should come with a test when the behavior can be tested without a browser.
 
-- **Where tests live.** Unit tests are in `tests/`. Name a file after the area it covers and end it with `.test.mjs`, for example `tests/tag-service.test.mjs`. The runner picks up every file with that ending. Use `node:test` and `node:assert/strict`, with no other test library.
+- **Where tests live.** Unit tests are in `tests/unit/`. Name a file after the area it covers and end it with `.test.mjs`, for example `tests/unit/tag-service.test.mjs`. The runner picks up every file with that ending. Use `node:test` and `node:assert/strict`, with no other test library.
 - **Name tests by behavior.** A good name reads like a sentence: "partial page removal exposes Undo only for the deletion that was applied". Put the failure cases next to the happy path.
 - **Fake browser.** `fakeBrowser(tree, storage)` in `tests/helpers/browser.mjs` installs an in-memory bookmarks tree, storage, alarms, notifications and tabs through `setChromeApiForTesting`. Build trees with `folder(id, children)` and `leaf(id)`. It records calls (`calls.creates`, `calls.moves`, `calls.removes`) so you can assert what happened.
 - **DOM helper.** `domFixture()` in `tests/helpers/dom.mjs` gives a small fake document and elements, so UI modules can run without a browser. It is good for keyboard, focus and rendering logic. It is not a layout engine, so leave pixel and scroll behavior to the browser checks.
@@ -207,7 +209,7 @@ A fix or a feature should come with a test when the behavior can be tested witho
 - Use modern JavaScript as ES modules. Do not add a framework, a bundler or a dependency.
 - Keep the service worker free of DOM APIs.
 - Show user content with text nodes (`textContent`, `createTextNode`). Do not use `innerHTML` with bookmark titles, URLs, imported data or translated strings.
-- Reuse names from `extension/src/constants.js` and message builders from `extension/src/runtime/messages.js`. Do not add a second set of keys or message types.
+- Reuse names from `extension/src/core/constants.js` and message builders from `extension/src/runtime/messages.js`. Do not add a second set of keys or message types.
 - Use `extension/src/platform/browser-api.js` for browser API calls that are shared.
 - Keep names meaningful and consistent with nearby code. Keep functions short. Prefer a clear small change over a large rewrite.
 - Comments should explain why, not what.
@@ -233,7 +235,7 @@ Bookmark Scope has four places where text lives. Which one you change depends on
 
 How to add a string in code:
 
-- Wrap the English text with `t('Your English text')` from `extension/src/i18n.js`. The English text is the key.
+- Wrap the English text with `t('Your English text')` from `extension/src/locales/i18n.js`. The English text is the key.
 - Add the pair to `extension/src/locales/en.js` when the string belongs to the main interface.
 - Do not build sentences by joining pieces. Translators need whole sentences.
 

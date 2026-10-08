@@ -162,7 +162,7 @@ export function createOverlayTools(deps) {
     const head = create('div', 'about-head');
     const icon = create('img', 'about-icon');
     icon.alt = '';
-    icon.src = getRuntimeUrl('icon-48.png');
+    icon.src = getRuntimeUrl('icons/icon-48.png');
     const meta = create('div', 'about-meta');
     meta.append(
       create('div', 'about-title', t('Bookmark Scope')),
@@ -343,7 +343,7 @@ export function createOverlayTools(deps) {
     menu.append(
       createDashboardMenuItem('info', t('About'), async () => { state.aboutOpen = true; render(); }, { menu: 'header' }),
       ...(getBookmarksManagerUrl() ? [createDashboardMenuItem('bookmarks', t('Open Chrome bookmarks'), async () => sendMessage(runtimeMessages.openUrl(getBookmarksManagerUrl())), { menu: 'header' })] : []),
-      createDashboardMenuItem('settings', t('Settings'), async () => sendMessage(runtimeMessages.openUrl(getRuntimeUrl('options.html'))), { menu: 'header' })
+      createDashboardMenuItem('settings', t('Settings'), async () => sendMessage(runtimeMessages.openUrl(getRuntimeUrl('pages/options/options.html'))), { menu: 'header' })
     );
 
     menu.append(create('div', 'dashboard-header-menu-divider'));

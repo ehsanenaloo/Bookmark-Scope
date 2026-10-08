@@ -35,7 +35,7 @@ import {
   createTab,
   getRuntimeUrl
 } from '../platform/browser-api.js';
-import { t } from '../i18n.js';
+import { t } from '../locales/i18n.js';
 
 // Stable IDs so the click handler can dispatch reliably. These must not
 // be reused for other menu items in the future.
@@ -68,7 +68,7 @@ export function buildDashboardContextUrl(action, targetUrl) {
   const params = new URLSearchParams();
   params.set(CONTEXT_MENU_PARAMS.ACTION, action);
   if (targetUrl) params.set(CONTEXT_MENU_PARAMS.URL, targetUrl);
-  return `dashboard.html?${params.toString()}`;
+  return `pages/dashboard/dashboard.html?${params.toString()}`;
 }
 
 /**

@@ -30,7 +30,7 @@ import {
   createNotification
 } from '../platform/browser-api.js';
 import { getLocalStorage, setLocalStorage } from './storage-service.js';
-import { getNormalizedBookmarks } from '../bookmark-utils.js';
+import { getNormalizedBookmarks } from '../core/bookmark-utils.js';
 import { shouldSkipHealthCheck } from '../background/health-check.js';
 import { loadHealthCache, writeHealthRecord, awaitPendingHealthWrites, getHealthCacheGeneration } from './health-cache-service.js';
 import {
@@ -40,9 +40,9 @@ import {
   BG_HEALTH_SCAN_CONCURRENCY,
   BG_HEALTH_SCAN_DEFAULT_INTERVAL_DAYS,
   OPTIONAL_HOST_PATTERNS
-} from '../constants.js';
+} from '../core/constants.js';
 import { runWithConcurrency } from '../dashboard/health.js';
-import { t } from '../i18n.js';
+import { t } from '../locales/i18n.js';
 
 export const BG_HEALTH_SCAN_ALARM = 'bookmark-scope-scheduled-health-scan';
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -208,7 +208,7 @@ export async function runScheduledHealthScan({ runHealthFetch, logger = null } =
       await saveBgHealthScanSettings({ lastRunAt: now(), lastBrokenCount: brokenNow });
       if (newBroken > 0) {
         try {
-          await createNotification(NOTIFICATION_ID, { type: 'basic', iconUrl: 'icon-128.png', title: t('Bookmark Scope: new broken links found'), message: t('{{count}} bookmarks now appear broken. Open the dashboard to review and clean up.', { count: newBroken }) });
+          await createNotification(NOTIFICATION_ID, { type: 'basic', iconUrl: 'icons/icon-128.png', title: t('Bookmark Scope: new broken links found'), message: t('{{count}} bookmarks now appear broken. Open the dashboard to review and clean up.', { count: newBroken }) });
         } catch (error) { logger?.warn?.('bg_health_scan_notification_failed', { message: error?.message || String(error) }); }
       }
       return { ran: true, scanned, broken: brokenNow, newBroken };

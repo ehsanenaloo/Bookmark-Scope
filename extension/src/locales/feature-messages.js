@@ -1,5 +1,5 @@
 /* Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License. */
-import { getActiveLocale, getLocaleOverrideMessages, t } from '../i18n.js';
+import { getActiveLocale, getLocaleOverrideMessages, t } from './i18n.js';
 
 // New feature copy has Persian translations; other locales explicitly use
 // English fallback until reviewed translations are supplied.

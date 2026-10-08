@@ -1,5 +1,5 @@
 import { setChromeApiForTesting, _resetBrowserDetectionForTesting } from '../../extension/src/platform/browser-api.js';
-import { invalidateBookmarkCache } from '../../extension/src/bookmark-utils.js';
+import { invalidateBookmarkCache } from '../../extension/src/core/bookmark-utils.js';
 
 export function deferred() { let resolve, reject; const promise = new Promise((a,b) => { resolve=a; reject=b; }); return { promise, resolve, reject }; }
 // `semantics` selects how the fake interprets bookmarks.move for a same-parent

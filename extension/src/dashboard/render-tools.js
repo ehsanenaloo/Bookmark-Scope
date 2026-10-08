@@ -1,4 +1,4 @@
-import { CLEANUP_FILTERS, DASHBOARD_MODE, GROUP_BY_OPTIONS, GROUP_SORT_OPTIONS, HEALTH_STATUSES, SORT_OPTIONS } from '../constants.js';
+import { CLEANUP_FILTERS, DASHBOARD_MODE, GROUP_BY_OPTIONS, GROUP_SORT_OPTIONS, HEALTH_STATUSES, SORT_OPTIONS } from '../core/constants.js';
 
 export function createRenderTools(deps) {
   const {
@@ -172,7 +172,7 @@ export function createRenderTools(deps) {
     const brand = create('div', 'dashboard-brand-row');
     const brandIcon = create('img', 'dashboard-brand-icon');
     brandIcon.alt = '';
-    brandIcon.src = getRuntimeUrl('icon-48.png');
+    brandIcon.src = getRuntimeUrl('icons/icon-48.png');
     const brandText = create('div', 'dashboard-brand-text');
     const eyebrow = create('div', 'dashboard-eyebrow', t('Library dashboard'));
     const title = create('h1', 'title dashboard-title', t('Bookmark Scope'));

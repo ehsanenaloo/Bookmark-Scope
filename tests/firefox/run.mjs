@@ -256,7 +256,7 @@ async function openPopup() {
 }
 async function openExt(name, opts) {
   const page = await newPage(opts);
-  await page.goto(EXT_ORIGIN + name + '.html');
+  await page.goto(EXT_ORIGIN + `pages/${name}/${name}.html`);
   return page;
 }
 async function openDashboard() {
@@ -317,7 +317,7 @@ check('C02', 'Firefox bookmark roots: fixed ids, root excluded from destinations
   const info = await util.ev(async () => {
     const tree = await browser.bookmarks.getTree();
     const service = await import(browser.runtime.getURL('src/services/maintenance-preview-service.js'));
-    const utils = await import(browser.runtime.getURL('src/bookmark-utils.js'));
+    const utils = await import(browser.runtime.getURL('src/core/bookmark-utils.js'));
     return {
       rootId: tree[0].id, rootChildren: tree[0].children.map(node => node.id),
       anyUnmodifiable: JSON.stringify(tree).includes('unmodifiable'),
@@ -374,7 +374,7 @@ check('C06', 'separators are not listed as bookmarks (Firefox gives them url "da
   await dash.fill('.dashboard-search-input', 'data:');
   await sleep(500);
   const rows = await dash.count('.item-title');
-  const total = await dash.ev(async () => { const utils = await import(browser.runtime.getURL('src/bookmark-utils.js')); return (await utils.getNormalizedBookmarks()).filter(b => b.url === 'data:').length; });
+  const total = await dash.ev(async () => { const utils = await import(browser.runtime.getURL('src/core/bookmark-utils.js')); return (await utils.getNormalizedBookmarks()).filter(b => b.url === 'data:').length; });
   await dash.close();
   await util.ev(async id => { await browser.bookmarks.remove(id); return true; }, sep.id);
   assert.equal(rows, 0); assert.equal(total, 0);
@@ -916,7 +916,7 @@ check('C29', 'popup star bookmarks the active tab, a second click removes it, Un
     const popup = await openExt('popup', { background: true });
     await h.marionette.send('WebDriver:SwitchToWindow', { handle: h.httpTab.context, focus: true });
     popup.keepBackground = true;
-    await popup.goto(EXT_ORIGIN + 'popup.html');
+    await popup.goto(EXT_ORIGIN + 'pages/popup/popup.html');
     await popup.waitFor(() => document.querySelector('.bookmark-star-btn'), null, { label: 'popup star' });
     if (await popup.ev(() => [...document.querySelectorAll('button')].some(b => b.textContent.trim() === 'Got it'))) await popup.clickText('button', 'Got it');
     assert.equal((await bm.search({ url })).length, 0);

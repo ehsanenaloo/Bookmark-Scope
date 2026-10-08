@@ -14,7 +14,7 @@ export async function waitForStorage(worker,page,key,predicate) {
 }
 
 export async function runBrowserFeatures({page,worker,origin,profile,results,ids}) {
-  const reload=async()=>{await page.goto(origin+'dashboard.html');await page.waitForSelector('[data-library-tools]');};
+  const reload=async()=>{await page.goto(origin+'pages/dashboard/dashboard.html');await page.waitForSelector('[data-library-tools]');};
   const open=async label=>{await page.locator('[data-library-tools]').click();await page.locator(`[data-feature-action="${label}"]`).click();};
   const close=async()=>{await page.getByRole('dialog').getByRole('button',{name:'Close',exact:true}).click();};
   const waitStatus=async pattern=>{try{await page.waitForFunction(pattern=>new RegExp(pattern).test(document.querySelector('.feature-status')?.textContent||''),pattern);}catch(error){throw new Error(error.message+'; dialog='+await page.locator('.feature-dialog').textContent());}};

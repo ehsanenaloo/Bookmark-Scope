@@ -6,6 +6,10 @@ The format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+### Changed
+
+- The project folders are easier to navigate. The extension root now holds only `manifest.json`, `background.js` and a few folders. Pages live in `pages/`, icons in `icons/`, shared code in `src/core/` and `src/ui/`, and unit tests in `tests/unit/`. Behavior does not change.
+
 ## [5.1.0] - 2026-10-08
 
 This release adds an experimental Firefox build, links to the online user guide from inside the extension, and fixes a bug where bookmarks could land one place off when moved down in the same folder in Chrome.

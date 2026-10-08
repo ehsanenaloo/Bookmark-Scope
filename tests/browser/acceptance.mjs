@@ -25,7 +25,7 @@ try {
   page.setDefaultTimeout(30000);
   page.on('pageerror',error=>results.errors.push(error.message));
   for (const name of ['popup','options','dashboard']) {
-    await page.goto(origin+name+'.html');
+    await page.goto(origin+`pages/${name}/${name}.html`);
     await page.waitForFunction(name=>name==='options'
       ? document.querySelector('select')?.options.length>0
       : document.querySelector('#app')?.children.length>0,name);
@@ -142,7 +142,7 @@ try {
 
   // Two independent extension pages mutate the same shared storage key using
   // the real browser's origin-scoped locks (not a local promise queue).
-  const page2=await context.newPage();await page2.goto(origin+'options.html');
+  const page2=await context.newPage();await page2.goto(origin+'pages/options/options.html');
   const ids=await worker.evaluate(async()=>{
     const tree=await chrome.bookmarks.getTree();const parent=tree[0].children.find(node=>!node.unmodifiable).id;
     return Promise.all(['One','Two'].map(title=>chrome.bookmarks.create({parentId:parent,title,url:'https://example.test/'+title}))).then(nodes=>nodes.map(n=>n.id));
@@ -164,7 +164,7 @@ try {
     for(let i=0;i<1000;i++)last=await chrome.bookmarks.create({parentId:folder.id,title:'Z Row '+String(i).padStart(5,'0'),url:'https://example.test/'+i});
     return last.id;
   });
-  await page.goto(origin+'dashboard.html');await page.waitForSelector('.vs-spacer',{state:'attached'});
+  await page.goto(origin+'pages/dashboard/dashboard.html');await page.waitForSelector('.vs-spacer',{state:'attached'});
   await page.locator('.list-scroll').evaluate(node=>{node.scrollTop=node.scrollHeight;});
   await page.waitForFunction(id=>{
     const node=document.querySelector(`[data-bookmark-id="${id}"]`);

@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="../../extension/icon-128.png" alt="Логотип Bookmark Scope" width="88" height="88">
+<img src="../../extension/icons/icon-128.png" alt="Логотип Bookmark Scope" width="88" height="88">
 
 # Bookmark Scope
 

@@ -29,13 +29,13 @@ try {
   const page = await context.newPage();
   const pageErrors = [];
   page.on('pageerror', error => pageErrors.push(error.message));
-  await page.goto(origin + 'options.html');
+  await page.goto(origin + 'pages/options/options.html');
   await page.waitForTimeout(800);
   await page.evaluate(async serverPort => {
     const bar = (await chrome.bookmarks.getTree())[0].children[0];
     for (let index = 1; index <= 600; index++) await chrome.bookmarks.create({ parentId: bar.id, title: 'Fast ' + index, url: `http://127.0.0.1:${serverPort}/f${index}` });
   }, port);
-  await page.goto(origin + 'dashboard.html');
+  await page.goto(origin + 'pages/dashboard/dashboard.html');
   await page.waitForTimeout(2500);
   await page.evaluate(async () => {
     const platform = await import(chrome.runtime.getURL('src/platform/browser-api.js'));

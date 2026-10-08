@@ -1,5 +1,5 @@
 /* Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License. */
-import { CLEANUP_FILTERS, DASHBOARD_MODE, GROUP_BY_OPTIONS, GROUP_SORT_OPTIONS, SORT_OPTIONS, STORAGE_KEYS } from '../constants.js';
+import { CLEANUP_FILTERS, DASHBOARD_MODE, GROUP_BY_OPTIONS, GROUP_SORT_OPTIONS, SORT_OPTIONS, STORAGE_KEYS } from '../core/constants.js';
 import { normaliseTagList } from './tag-service.js';
 import { getLocalStorage, setLocalStorage, withStorageLock } from './storage-service.js';
 

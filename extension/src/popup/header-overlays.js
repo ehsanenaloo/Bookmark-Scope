@@ -1,7 +1,7 @@
 import { createTab, getBookmarksManagerUrl, getManifest, getRuntimeUrl } from '../platform/browser-api.js';
 import { featureText } from '../locales/feature-messages.js';
 import { USER_GUIDE_URL } from '../config/footer-config.js';
-import { MATCH_MODES, OLD_BOOKMARK_DAYS, SORT_OPTIONS, THEME_MODES, COLOR_PALETTES } from '../constants.js';
+import { MATCH_MODES, OLD_BOOKMARK_DAYS, SORT_OPTIONS, THEME_MODES, COLOR_PALETTES } from '../core/constants.js';
 
 export function createPopupHeaderOverlays(deps) {
   const {
@@ -211,7 +211,7 @@ export function createPopupHeaderOverlays(deps) {
     const modal = create('div', 'modal-card about-modal popup-about-modal');
     const head = create('div', 'about-head');
     const icon = create('img', 'about-icon');
-    icon.src = getRuntimeUrl('icon-48.png');
+    icon.src = getRuntimeUrl('icons/icon-48.png');
     icon.alt = '';
     const meta = create('div', 'about-meta');
     meta.append(
@@ -288,7 +288,7 @@ export function createPopupHeaderOverlays(deps) {
     settingsAction.addEventListener('click', (event) => {
       event.stopPropagation();
       closeOverflowMenu();
-      createTab({ url: getRuntimeUrl('options.html'), active: true });
+      createTab({ url: getRuntimeUrl('pages/options/options.html'), active: true });
     });
 
     // Firefox has no bookmarks-manager page an extension may open (getBookmarksManagerUrl() is null there).
@@ -392,7 +392,7 @@ export function createPopupHeaderOverlays(deps) {
     const brand = create('div', 'brand-row brand-row-minimal');
     const brandBadge = create('div', 'brand-badge brand-badge-logo');
     const brandLogo = create('img', 'brand-logo-img');
-    brandLogo.src = getRuntimeUrl('icon-32.png');
+    brandLogo.src = getRuntimeUrl('icons/icon-32.png');
     brandLogo.alt = '';
     brandBadge.append(brandLogo);
     brand.append(brandBadge);

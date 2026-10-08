@@ -38,7 +38,7 @@ import {
   TAG_MAX_LENGTH,
   TAG_MAX_PER_BOOKMARK,
   TAG_MAX_UNIQUE_TAGS
-} from '../constants.js';
+} from '../core/constants.js';
 
 // ─── Normalisation ───────────────────────────────────────────────────────────
 

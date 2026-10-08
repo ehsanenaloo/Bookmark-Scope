@@ -4,8 +4,8 @@ import {
   HEALTH_CACHE_MAX_ENTRIES,
   HEALTH_CACHE_EVICTION_BATCH,
   DASHBOARD_MODE
-} from '../constants.js';
-import { OPTIONAL_HOST_PATTERNS } from '../constants.js';
+} from '../core/constants.js';
+import { OPTIONAL_HOST_PATTERNS } from '../core/constants.js';
 import { requestPermissions } from '../platform/browser-api.js';
 import { runtimeMessages } from '../runtime/messages.js';
 import { writeHealthRecord, getHealthCacheGeneration, awaitPendingHealthWrites } from '../services/health-cache-service.js';

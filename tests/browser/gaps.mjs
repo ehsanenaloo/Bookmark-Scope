@@ -60,9 +60,9 @@ try {
   page.on('pageerror', error => results.errors.push(error.message));
   // Extension APIs are driven from an extension page (the worker handle is not used for chrome.bookmarks).
   const ext = (fn, arg) => page.evaluate(fn, arg);
-  const reload = async () => { await page.goto(origin + 'dashboard.html'); await page.waitForSelector('[data-library-tools]'); };
+  const reload = async () => { await page.goto(origin + 'pages/dashboard/dashboard.html'); await page.waitForSelector('[data-library-tools]'); };
 
-  await page.goto(origin + 'dashboard.html');
+  await page.goto(origin + 'pages/dashboard/dashboard.html');
   // Synthetic fixture: creation order gives Banana < apple < Cherry by date.
   await ext(async () => {
     const tree = await chrome.bookmarks.getTree();

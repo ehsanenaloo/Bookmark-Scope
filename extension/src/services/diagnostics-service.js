@@ -15,7 +15,7 @@
  */
 
 import { getLocalStorage, setLocalStorage, withStorageLock } from './storage-service.js';
-import { STORAGE_KEYS } from '../constants.js';
+import { STORAGE_KEYS } from '../core/constants.js';
 
 const MAX_DIAGNOSTIC_EVENTS = 200;
 const DEFAULT_LEVEL = 'info';

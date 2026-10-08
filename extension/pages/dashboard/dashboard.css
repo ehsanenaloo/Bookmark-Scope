@@ -1,0 +1,14 @@
+/*
+ * Bookmark Scope - Domain & Page Manager
+ * Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.
+ *
+ * Dashboard stylesheet entry point. Tokens and shared components come from
+ * styles/colors.css and styles/base.css; each file below owns one region.
+ */
+
+@import url("../../styles/base.css");
+@import url("../../styles/dashboard/layout.css");
+@import url("../../styles/dashboard/sidebar.css");
+@import url("../../styles/dashboard/list.css");
+@import url("../../styles/dashboard/drawer.css");
+@import url("../../styles/dashboard/overlay.css");

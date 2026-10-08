@@ -1,4 +1,4 @@
-import { formatDateTime, t } from '../i18n.js';
+import { formatDateTime, t } from '../locales/i18n.js';
 import { now } from '../platform/time.js';
 import { clearAlarm, createAlarm } from '../platform/browser-api.js';
 import { loadReviewReminderPreferences, saveReviewReminderPreferences } from './preferences-service.js';

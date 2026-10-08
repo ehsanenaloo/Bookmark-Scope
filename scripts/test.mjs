@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Runs the unit tests in tests/*.test.mjs with the built-in Node test runner.
+// Runs the unit tests in tests/unit/*.test.mjs with the built-in Node test runner.
 // Run: node scripts/test.mjs [filter]      (Node.js 24 or newer; no npm install needed)
 //   filter  optional text; only test files whose name contains it are run
 import fs from 'node:fs';
@@ -16,13 +16,13 @@ if (major < 24) {
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const filter = process.argv.slice(2).find((arg) => !arg.startsWith('-'));
-const files = fs.readdirSync(path.join(root, 'tests'))
+const files = fs.readdirSync(path.join(root, 'tests', 'unit'))
   .filter((name) => name.endsWith('.test.mjs') && (!filter || name.includes(filter)))
   .sort()
-  .map((name) => `tests/${name}`);
+  .map((name) => `tests/unit/${name}`);
 
 if (!files.length) {
-  console.error(filter ? `No test file name contains "${filter}".` : 'No test files found in tests/.');
+  console.error(filter ? `No test file name contains "${filter}".` : 'No test files found in tests/unit/.');
   process.exit(1);
 }
 

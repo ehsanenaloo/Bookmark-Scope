@@ -1,5 +1,5 @@
 /* Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License. */
-import { STORAGE_KEYS, OPTIONAL_HOST_PATTERNS } from '../constants.js';
+import { STORAGE_KEYS, OPTIONAL_HOST_PATTERNS } from '../core/constants.js';
 import { containsPermissions } from '../platform/browser-api.js';
 import { getLocalStorage, setLocalStorage, withStorageLock } from './storage-service.js';
 import { getHealthCacheGeneration, writeHealthRecord } from './health-cache-service.js';

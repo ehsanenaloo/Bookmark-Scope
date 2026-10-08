@@ -402,7 +402,7 @@ const EN_TRANSLATION_ENTRIES = [
   [  "{{count}} redirected", "{{count}} redirected"],
   [  "(Imported bookmark)", "(Imported bookmark)"],
   [  "Item {{count}}", "Item {{count}}"],
-  [  "{{label}} is ready. Add its real URL in footerConfig.js.", "{{label}} is ready. Add its real URL in footerConfig.js."],
+  [  "{{label}} is ready. Add its real URL in footer-nav-config.js.", "{{label}} is ready. Add its real URL in footer-nav-config.js."],
   [  "Unknown request type.", "Unknown request type."],
   [  "Unexpected error.", "Unexpected error."],
   [  "Default behavior", "Default behavior"],
