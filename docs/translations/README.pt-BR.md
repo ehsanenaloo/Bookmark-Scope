@@ -152,8 +152,7 @@ A extensão não lê as páginas que você visita. Ela só lê o endereço da ab
 <a id="good-to-know"></a>
 ## Bom saber
 
-- **Traduções.** Corrigi as traduções com ajuda de IA e verificações automáticas. Só o inglês e o persa foram lidos por uma pessoa. Os outros idiomas podem ter erros ou algumas palavras em inglês. Se você encontrar algum, [abra uma issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) ou envie um pull request. Veja [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
-- **Esta tradução.** Este README em português do Brasil foi escrito com ajuda de IA e ainda não foi lido por um falante nativo. Se você achar um erro ou uma frase estranha, abra uma issue ou envie um pull request com a correção.
+- **Traduções.** As traduções são automáticas, então podem ter erros ou deixar algumas palavras em inglês. Se o seu idioma nativo é um deles e você sabe escrever uma tradução correta e natural, ajude a gente: [abra uma issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) ou envie um pull request. Veja o [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
 - **A importação é plana.** Ao importar um arquivo `bookmarks.html`, o nome da pasta aparece como um caminho, mas as pastas não são criadas e as datas originais não são mantidas. Use um snapshot se precisar recriar uma árvore de pastas.
 - **As verificações de links são apenas indicações.** Qualquer resposta 4xx conta como quebrada. Uma página que carrega, mas mostra um erro ou uma tela de login, conta como saudável.
 - **CSV.** Testei a exportação em CSV com o importador e com um download real no Chrome. Ainda não abri o arquivo no Excel, no Numbers nem no Google Sheets.

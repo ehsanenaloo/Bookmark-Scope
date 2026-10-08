@@ -151,7 +151,7 @@ The extension does not read the pages you visit. It only reads the address of th
 
 ## Good to know
 
-- **Translations.** I corrected the translations with AI help and automatic checks. Only English and Persian have been read by a person. Other languages may have mistakes or some English words. If you see one, please [open an issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) or send a pull request. See [CONTRIBUTING.md](.github/CONTRIBUTING.md#translations).
+- **Translations.** The translations are machine-made, so they can have mistakes or leave some English words. If you speak one of these languages natively and can write a correct, natural translation, please help us: [open an issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) or send a pull request. See [CONTRIBUTING.md](.github/CONTRIBUTING.md#translations).
 - **Import is flat.** When you import a `bookmarks.html` file, the folder name is shown as a path, but folders are not created and the original dates are not kept. Use a snapshot if you need to rebuild a folder tree.
 - **Link checks are hints.** Any 4xx answer counts as broken. A page that loads but shows an error or a login screen counts as healthy.
 - **CSV.** I tested the CSV export with the importer and with a real Chrome download. I have not opened it in Excel, Numbers or Google Sheets yet.

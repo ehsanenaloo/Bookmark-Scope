@@ -238,7 +238,7 @@ Variables are written as `{{name}}`, with double braces, for example `Showing {{
 
 ## Translations
 
-Bookmark Scope ships in 52 languages. Most were produced with AI-assisted editing and automated checks. **Native-speaker review is still pending for every language except English and Persian.** That makes careful human fixes very valuable.
+Bookmark Scope ships in 52 languages. Most translations have not been reviewed by native speakers, so careful human fixes are very valuable.
 
 ### Fix a wrong string
 

@@ -152,8 +152,7 @@ La extensión no lee las páginas que visitas. Solo lee la dirección de la pest
 <a id="good-to-know"></a>
 ## Conviene saber
 
-- **Traducciones.** Corregí las traducciones con ayuda de IA y revisiones automáticas. Solo el inglés y el persa los ha leído una persona. Otros idiomas pueden tener errores o algunas palabras en inglés. Si ves alguno, por favor [abre un issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) o envía un pull request. Consulta [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
-- **Esta traducción al español.** Se escribió con ayuda de IA y todavía no la ha leído una persona de habla hispana. Si encuentras un error o una frase rara, abre un issue o envía un pull request con la corrección.
+- **Traducciones.** Las traducciones son automáticas, así que pueden tener errores o dejar algunas palabras en inglés. Si tu lengua materna es una de estas y puedes escribir una traducción correcta y natural, ayúdanos: [abre un issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) o envía un pull request. Más información en [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
 - **La importación es plana.** Al importar un archivo `bookmarks.html`, el nombre de la carpeta se muestra como una ruta, pero no se crean carpetas y no se conservan las fechas originales. Usa una instantánea si necesitas reconstruir un árbol de carpetas.
 - **Las revisiones de enlaces son orientativas.** Cualquier respuesta 4xx cuenta como rota. Una página que carga pero muestra un error o una pantalla de inicio de sesión cuenta como sana.
 - **CSV.** Probé la exportación a CSV con el importador y con una descarga real de Chrome. Todavía no la he abierto en Excel, Numbers ni Google Sheets.
