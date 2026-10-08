@@ -2,7 +2,7 @@
 
 > A Chrome bookmark extension (Manifest V3, with an experimental Firefox build) that shows the bookmarks you already have for the current page, host or domain, and provides a dashboard to clean duplicates, tag, check link health, and back up and restore. Local-first: no account, no server, no analytics.
 
-Written against Bookmark Scope 5.2.0. Checked 2026-10-08. Source: https://github.com/ehsanenaloo/Bookmark-Scope
+Written against Bookmark Scope 5.2.1. Checked 2026-10-08. Source: https://github.com/ehsanenaloo/Bookmark-Scope
 
 ## Get started
 

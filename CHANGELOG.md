@@ -6,6 +6,14 @@ The format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+## [5.2.1] - 2026-10-08
+
+This release makes the package acceptable to the Microsoft Edge Add-ons store. The extension behaves the same as 5.2.0.
+
+### Fixed
+
+- The short description was too long in Tamil, Malayalam, Kannada and Finnish. Microsoft Edge Add-ons allows at most 190 characters, so the extra sentence about the dashboard was removed from those four translations. A new test keeps every language within that limit.
+
 ## [5.2.0] - 2026-10-08
 
 This release only reorganizes the project folders to make them easier to navigate. The extension behaves the same as 5.1.0.
