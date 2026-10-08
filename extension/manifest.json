@@ -25,5 +25,5 @@
    "optional_host_permissions": [ "http://*/*", "https://*/*" ],
    "options_page": "pages/options/options.html",
    "permissions": [ "tabs", "bookmarks", "storage", "clipboardWrite", "alarms", "notifications", "favicon", "contextMenus" ],
-   "version": "5.1.0"
+   "version": "5.2.0"
 }
