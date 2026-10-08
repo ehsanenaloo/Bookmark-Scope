@@ -153,11 +153,11 @@ export function createActionTools(deps) {
         } catch (error) { console.error('Delete recovery failed.', error); }
       }
       if (!batch.items.length && state.lastDeletedBatch === batch) state.lastDeletedBatch = null;
+      await refreshAfterMutation();
       setToast(t('Restored: {{count}}. Remaining: {{failed}}.', { count: formatNumber(restored), failed: formatNumber(batch.items.length) }), {
         error: batch.items.length > 0, persist: batch.items.length > 0,
         actionLabel: batch.items.length ? t('Undo') : '', action: batch.items.length ? () => restoreDeletedBatch(batch) : null
       });
-      await refreshAfterMutation();
       await pushCleanupHistory({ type: 'undo-delete', count: restored, note: 'Restored completed deletions; browser IDs and dates are newly assigned.' });
     } finally { batch.restoring = false; }
   }
@@ -192,8 +192,9 @@ export function createActionTools(deps) {
       }
       if (batch.items.length) state.lastDeletedBatch = batch;
       state.editingBookmarkId = null;
-      deletionToast(batch, failures);
+      // Refresh first: a full re-render after the toast appears would rebuild the Undo button under the pointer.
       await refreshAfterMutation();
+      deletionToast(batch, failures);
       await pushCleanupHistory({ type: 'delete', count: batch.items.length, note: 'Completed deletions: ' + batch.items.length + '; failed: ' + failures });
       return { deleted: batch.items.length, failed: failures };
     } finally { deleteBusy = false; }

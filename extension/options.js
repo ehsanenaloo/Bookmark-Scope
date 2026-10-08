@@ -18,7 +18,7 @@ import { getLocalStorage, initializeStorageLayer, setLocalStorage } from './src/
 import { OPTION_PAGE_DEFAULTS } from './src/services/storage-schema.js';
 import { createLogger } from './src/services/diagnostics-service.js';
 import { loadBgHealthScanSettings, saveBgHealthScanSettings } from './src/services/scheduled-health-scan-service.js';
-import { containsPermissions, requestPermissions } from './src/platform/browser-api.js';
+import { requestPermissions } from './src/platform/browser-api.js';
 import { getReviewReminderSettings, DAY_MS } from './src/services/review-reminder-service.js';
 import { saveReviewReminderPreferences } from './src/services/preferences-service.js';
 import { now } from './src/platform/time.js';
@@ -177,6 +177,10 @@ async function updateBgScanStatus(settings) {
 
 async function save(event) {
   event.preventDefault();
+  // permissions.request() must run inside the user-input handler. Firefox rejects it once the handler
+  // has awaited anything else, so the request starts here, before the first await; its result is read below.
+  // Chrome and Firefox both resolve true without a prompt when the permission is already granted.
+  const bgPermissionRequest = el.bgScanEnabled.checked ? requestPermissions({ origins: [...OPTIONAL_HOST_PATTERNS] }) : null;
   await setLocalStorage({
     [STORAGE_KEYS.POPUP_MODE]: el.defaultMode.value,
     [STORAGE_KEYS.POPUP_SORT]: el.defaultSort.value,
@@ -194,16 +198,12 @@ async function save(event) {
   // Enabling the scan also requires the optional host permission; ask
   // for it inline so the user doesn't have to dig around for it.
   let bgEnabled = el.bgScanEnabled.checked;
-  if (bgEnabled) {
-    const perm = { origins: [...OPTIONAL_HOST_PATTERNS] };
-    const already = await containsPermissions(perm);
-    if (!already) {
-      const granted = await requestPermissions(perm);
-      if (!granted) {
-        bgEnabled = false;
-        el.bgScanEnabled.checked = false;
-        setStatus(t('Background scan needs site-access permission. It was not enabled.'));
-      }
+  if (bgPermissionRequest) {
+    const granted = await bgPermissionRequest;
+    if (!granted) {
+      bgEnabled = false;
+      el.bgScanEnabled.checked = false;
+      setStatus(t('Background scan needs site-access permission. It was not enabled.'));
     }
   }
   await saveBgHealthScanSettings({

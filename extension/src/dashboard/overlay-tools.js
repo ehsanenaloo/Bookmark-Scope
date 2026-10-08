@@ -4,7 +4,9 @@
  */
 
 import { runtimeMessages } from '../runtime/messages.js';
+import { getBookmarksManagerUrl } from '../platform/browser-api.js';
 import { getRuntimeConfig } from '../config/runtime-config.js';
+import { USER_GUIDE_URL } from '../config/footer-config.js';
 import { featureText as l } from '../locales/feature-messages.js';
 
 export function createOverlayTools(deps) {
@@ -190,6 +192,7 @@ export function createOverlayTools(deps) {
 
     const actions = create('div', 'about-actions dashboard-about-actions');
     actions.append(
+      createAboutLinkButton('help', l('User guide'), USER_GUIDE_URL),
       createAboutLinkButton('github', t('GitHub'), links.github),
       createAboutLinkButton('star', t('Rate on Store'), links.rate),
       createAboutLinkButton('coffee', t('Buy me a coffee'), links.support, 'primary')
@@ -339,7 +342,7 @@ export function createOverlayTools(deps) {
 
     menu.append(
       createDashboardMenuItem('info', t('About'), async () => { state.aboutOpen = true; render(); }, { menu: 'header' }),
-      createDashboardMenuItem('bookmarks', t('Open Chrome bookmarks'), async () => sendMessage(runtimeMessages.openUrl('chrome://bookmarks/')), { menu: 'header' }),
+      ...(getBookmarksManagerUrl() ? [createDashboardMenuItem('bookmarks', t('Open Chrome bookmarks'), async () => sendMessage(runtimeMessages.openUrl(getBookmarksManagerUrl())), { menu: 'header' })] : []),
       createDashboardMenuItem('settings', t('Settings'), async () => sendMessage(runtimeMessages.openUrl(getRuntimeUrl('options.html'))), { menu: 'header' })
     );
 

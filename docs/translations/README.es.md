@@ -8,18 +8,20 @@
 
 **Encuentra los marcadores del sitio en el que estás. Ordena el resto de tu biblioteca.**
 
-Una extensión gratuita de Chrome para quienes han guardado demasiados enlaces.<br>
+Una extensión de navegador gratuita y de código abierto para quienes han guardado demasiados enlaces.<br>
 Funciona solo en tu computadora. Sin cuenta, sin rastreo.
 
-[![Add to Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
-[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
+[![Añadir a Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
+[![Guía de usuario](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://ehsanenaloo.github.io/Bookmark-Scope/)
+[![Invítame un café](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
+[![Licencia: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue)
-![52 languages](https://img.shields.io/badge/languages-52-orange)
-![No analytics](https://img.shields.io/badge/analytics-none-lightgrey)
+![52 idiomas](https://img.shields.io/badge/languages-52-orange)
+![Sin analítica](https://img.shields.io/badge/analytics-none-lightgrey)
+[![Estrellas en GitHub](https://img.shields.io/github/stars/ehsanenaloo/Bookmark-Scope?style=social)](https://github.com/ehsanenaloo/Bookmark-Scope/stargazers)
 
-[![GitHub stars](https://img.shields.io/github/stars/ehsanenaloo/Bookmark-Scope?style=social)](https://github.com/ehsanenaloo/Bookmark-Scope/stargazers)
+[Funciones](#features) · [Instalación](#install) · [Privacidad](#privacy) · [Documentación](#documentation) · [Preguntas frecuentes](#faq) · [Cómo contribuir](#contributing)
 
 </div>
 
@@ -28,171 +30,137 @@ Funciona solo en tu computadora. Sin cuenta, sin rastreo.
   <img src="../assets/screenshots/dashboard-desktop-light.png" alt="El panel de Bookmark Scope con una lista de marcadores, filtros, etiquetas y un panel de detalles">
 </picture>
 
-## Por qué existe
+## ¿Qué es Bookmark Scope?
 
-Chrome muestra tus marcadores como un árbol de carpetas. Eso sirve para veinte enlaces. No sirve para dos mil.
+Chrome muestra tus marcadores como un árbol de carpetas. Eso sirve para veinte enlaces, no para dos mil. Guardas el mismo artículo tres veces, la mitad de una carpeta antigua son enlaces muertos y no sabes qué tienes ya guardado del sitio que estás leyendo.
 
-Guardas el mismo artículo tres veces. Una carpeta de 2019 está medio llena de enlaces muertos. Tienes once marcadores de un sitio y no encuentras el que buscas. Bookmark Scope te ayuda con estos problemas.
+Bookmark Scope lo resuelve con dos herramientas. El **popup** muestra los marcadores que ya tienes para la página, el sitio o el dominio en el que estás. El **panel** muestra toda tu biblioteca, para que encuentres duplicados y enlaces muertos y los ordenes con unos pocos clics, con una vista previa antes de que cambie nada.
 
-- Abre el popup en cualquier página. Verás los marcadores que ya tienes de esa página, de ese sitio o de ese dominio.
-- Abre el panel. Verás toda tu biblioteca, podrás encontrar duplicados y enlaces muertos, y arreglarlos con pocos clics.
+<a id="features"></a>
 
-## Qué puedes hacer
+## Funciones
 
-### Ver lo que ya guardaste de este sitio
-
-Haz clic en el icono de la barra de herramientas. El popup muestra tus marcadores de la página en la que estás. Cambia entre esta página exacta, este host o todo el dominio. La insignia del icono muestra cuántos marcadores coinciden.
+| | |
+| --- | --- |
+| **Popup para el sitio actual** <br> Mira los marcadores guardados para esta página, host o dominio. La insignia de la barra de herramientas muestra cuántos coinciden. | **Panel para toda tu biblioteca** <br> Busca, filtra, agrupa, ordena, etiqueta y edita miles de marcadores. Sigue siendo rápido. |
+| **Limpieza segura** <br> Mira antes una vista previa de la combinación de duplicados y de los cambios de etiquetas en lote. Deshaz lo que eliminas, con sus etiquetas. | **Revisión de enlaces muertos** <br> Encuentra enlaces rotos y redirigidos. Es opcional, y los escaneos largos se pueden pausar y continuar. |
+| **Copia de seguridad e importación** <br> Guarda instantáneas de tu biblioteca. Importa desde `bookmarks.html`, Pocket, Pinboard, Raindrop.io, CSV y JSON. Exporta a JSON o CSV. | **Vistas guardadas y paleta de comandos** <br> Abre una búsqueda guardada con un clic. Pulsa `Ctrl+Shift+P` (`Cmd+Shift+P` en Mac) para ver todas las acciones. |
+| **Privada por diseño** <br> Sin servidor, sin cuenta, sin analítica. Tus datos se quedan en tu navegador. | **Tu idioma y tu estilo** <br> 52 idiomas, temas claro y oscuro, cuatro paletas de color y diseños de derecha a izquierda. |
 
 <p align="center">
-  <img src="../assets/screenshots/popup-light.png" alt="El popup con los marcadores del sitio actual" width="300">
+  <img src="../assets/screenshots/popup-light.png" alt="El popup con los marcadores del sitio actual" width="230">
   &nbsp;&nbsp;
-  <img src="../assets/screenshots/popup-dark.png" alt="El popup en el tema oscuro" width="300">
+  <img src="../assets/screenshots/duplicate-preview.png" alt="El diálogo de vista previa de duplicados, donde eliges qué marcador conservar" width="520">
 </p>
-
-### Ver toda tu biblioteca
-
-El panel es una página completa para tus marcadores. Busca por título, dirección o carpeta. Agrupa por dominio o por carpeta. Ordena por título, dirección o fecha. Filtra duplicados, marcadores sin título, marcadores antiguos y títulos repetidos. Sigue siendo rápido con miles de marcadores.
-
-Haz clic en un marcador para ver sus detalles. Marca varios para trabajar con ellos a la vez. Arrastra los marcadores para cambiar su orden.
-
-### Ordena sin miedo
-
-Nada importante ocurre sin una vista previa.
-
 <p align="center">
-  <img src="../assets/screenshots/duplicate-preview.png" alt="El diálogo de vista previa de duplicados, donde eliges qué marcador conservar" width="780">
-</p>
-
-- **Duplicados.** Elige qué copia conservar. Las etiquetas de las otras copias se añaden a ella. Ves el resultado antes de que se borre nada.
-- **Etiquetas.** Añade, quita, renombra o combina etiquetas de muchos marcadores a la vez. Revisa el antes y el después, y luego aplica. Puedes deshacerlo.
-- **Eliminar y deshacer.** Los marcadores eliminados se pueden restaurar con sus etiquetas. Chrome no permite que ninguna extensión recupere el ID original ni la fecha en que se añadió, así que el marcador restaurado es nuevo. La extensión te lo avisa.
-
-<p align="center">
-  <img src="../assets/screenshots/bulk-tags.png" alt="El diálogo de etiquetas en lote, con las etiquetas antes y después del cambio" width="780">
-</p>
-
-### Encuentra enlaces muertos
-
-Revisa un grupo de marcadores para ver qué enlaces funcionan, cuáles redirigen y cuáles están rotos. La revisión se ejecuta en tu navegador y solo se conecta con los sitios que guardaste.
-
-- Primero pide permiso. Si dices que no, todo lo demás sigue funcionando.
-- Puedes pausar un escaneo largo y continuarlo más tarde.
-- Puedes activar un escaneo programado. Viene desactivado por defecto.
-- "Reparar redirigidos" actualiza los marcadores que cambiaron de dirección. No se puede deshacer, así que mira antes la nueva dirección.
-
-### Copia de seguridad y traslado
-
-- **Instantánea.** Guarda toda tu biblioteca, con carpetas y etiquetas, en un solo archivo. Restáurala más tarde en una carpeta nueva.
-- **Importar.** Trae marcadores de Chrome, Edge, Firefox, Safari o Brave (el archivo `bookmarks.html`), de Pocket, Pinboard, Raindrop.io, o desde un CSV, un JSON o una lista simple de enlaces. Ves una vista previa y eliges qué hacer con los duplicados: conservar, omitir o combinar.
-- **Exportar.** Guarda como JSON o CSV los marcadores que estás viendo.
-
-<p align="center">
-  <img src="../assets/screenshots/library-tools.png" alt="Herramientas de la biblioteca: vistas guardadas, etiquetas en lote, duplicados, escaneos, copia de seguridad e importación" width="780">
-</p>
-
-### Trabaja más rápido
-
-- **Paleta de comandos.** Pulsa `Ctrl+Shift+P` (`Cmd+Shift+P` en Mac) y escribe lo que quieres hacer.
-- **Vistas guardadas.** Guarda una búsqueda con sus filtros, etiquetas, orden y agrupación. Ábrela de nuevo con un clic.
-- **Menú contextual.** En cualquier página o enlace, muestra tus marcadores de ese dominio o busca duplicados de ese enlace.
-- **Recordatorios de revisión.** Actívalos en Ajustes si quieres un aviso cada pocas semanas para ordenar.
-
-<p align="center">
-  <img src="../assets/screenshots/command-palette.png" alt="La paleta de comandos con una lista de acciones" width="780">
-</p>
-
-### Hazlo tuyo
-
-Tema claro, oscuro o del sistema. Cuatro paletas de colores. Diseños de derecha a izquierda. La extensión incluye 52 idiomas (consulta [Conviene saber](#good-to-know)).
-
-<p align="center">
-  <img src="../assets/screenshots/options-light.png" alt="La página de ajustes" width="300">
+  <img src="../assets/screenshots/library-tools.png" alt="Herramientas de la biblioteca: vistas guardadas, etiquetas en lote, duplicados, escaneos, copia de seguridad e importación" width="390">
   &nbsp;&nbsp;
-  <img src="../assets/screenshots/dashboard-rtl-dark.png" alt="El panel en persa con diseño de derecha a izquierda en el tema oscuro" width="300">
+  <img src="../assets/screenshots/command-palette.png" alt="La paleta de comandos con una lista de acciones" width="390">
 </p>
+
+<a id="install"></a>
 
 ## Instalación
 
-**Desde Chrome Web Store (lo más fácil)**
+| Navegador | Estado | Cómo |
+| --- | --- | --- |
+| **Chrome** | Probado | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
+| **Edge, Brave** | Funciona | Instala desde la misma página de Chrome Web Store. Todavía no está en Edge Add-ons. |
+| **Firefox 140+** (escritorio) | Experimental | [Instalación temporal desde la página de Releases](#firefox-experimental) |
+| **Safari** | No compatible | |
 
-1. Abre la [página de Bookmark Scope](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo).
-2. Haz clic en **Add to Chrome**.
-3. Haz clic en el icono del rompecabezas de la barra de herramientas y ancla Bookmark Scope.
+**Chrome, Edge y Brave:** abre la página de la tienda, haz clic en **Add to Chrome**, luego haz clic en el icono del rompecabezas de la barra de herramientas y ancla Bookmark Scope.
 
-Otros navegadores Chromium, como Edge y Brave, normalmente pueden instalarla desde la misma página. Solo la pruebo con Chrome. Firefox y Safari no son compatibles.
+<a id="firefox-experimental"></a>
 
-**Desde este repositorio**
+**Firefox (experimental):** todavía no está en Firefox Add-ons.
 
-No hay paso de compilación. La carpeta `extension` es la extensión.
+1. Descarga `bookmark-scope-<version>-firefox.zip` desde la [página de Releases](https://github.com/ehsanenaloo/Bookmark-Scope/releases).
+2. En Firefox, abre `about:debugging#/runtime/this-firefox`.
+3. Haz clic en **Load Temporary Add-on** y elige el archivo zip.
 
-1. Descarga o clona este repositorio.
-2. Abre `chrome://extensions` y activa el **Modo de desarrollador**.
-3. Haz clic en **Cargar descomprimida** y elige la carpeta `extension` dentro del repositorio (la que contiene `manifest.json`), no la carpeta principal.
+Firefox quita los complementos temporales al cerrarse. Hay más detalles en la [guía de instalación](https://ehsanenaloo.github.io/Bookmark-Scope/guides/installation.html#firefox-experimental).
 
-Una copia descomprimida tiene su propio ID de extensión. Puedes tenerla junto a la versión de la tienda, pero no comparten datos, y la copia descomprimida no se actualiza sola.
+**Desde el código fuente:** no hay paso de compilación. La carpeta `extension/` es la extensión. Abre `chrome://extensions`, activa el **Modo de desarrollador**, haz clic en **Cargar descomprimida** y elige la carpeta `extension`.
 
-## Tus datos se quedan contigo
+<a id="privacy"></a>
 
-No hay servidor. No hay cuenta, ni analítica, ni anuncios. Tus marcadores, etiquetas y ajustes se quedan en tu navegador. La [política de privacidad](../PRIVACY.md) tiene los detalles.
+## Privacidad
 
-La extensión no lee las páginas que visitas. Solo lee la dirección de la pestaña activa, para poder mostrar los marcadores que coinciden.
+- No hay servidor, ni cuenta, ni analítica, ni anuncios.
+- Tus marcadores, etiquetas y ajustes se quedan en tu navegador.
+- Las únicas solicitudes de red son las revisiones de enlaces a los sitios que guardaste, y solo después de que las permitas. Todo lo demás funciona sin ese permiso.
+- La extensión no lee las páginas que visitas. Solo lee la dirección de la pestaña activa, para mostrar los marcadores que coinciden.
 
-| Permiso | Para qué sirve |
+Lee la [política de privacidad](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) para ver los detalles y la lista de permisos.
+
+<a id="documentation"></a>
+
+## Documentación
+
+| | |
 | --- | --- |
-| `bookmarks` | Leer tus marcadores y cambiarlos cuando lo pides |
-| `tabs` | Leer la dirección de la pestaña activa para el popup y la insignia |
-| `storage` | Guardar tus ajustes, etiquetas y resultados de escaneo en el navegador |
-| `alarms` | Ejecutar recordatorios y escaneos programados opcionales |
-| `notifications` | Mostrar recordatorios y resultados de escaneo |
-| `contextMenus` | Añadir las opciones del menú contextual |
-| `clipboardWrite` | Copiar direcciones cuando haces clic en un botón de copiar |
-| `favicon` | Mostrar los iconos de los sitios desde la caché del propio navegador |
-| Sitios web (opcional) | Solo se pide cuando inicias una revisión de enlaces, para que la extensión pueda conectarse con los sitios que guardaste |
+| [Guía de usuario](https://ehsanenaloo.github.io/Bookmark-Scope/) | Todas las funciones, con capturas de pantalla |
+| [Límites conocidos](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html) | Lo que está sin terminar o sin probar |
+| [Política de privacidad](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) | Qué guarda y qué envía la extensión |
+| [Registro de cambios](../../CHANGELOG.md) | Qué cambió en cada versión |
+| [Cómo contribuir](../../.github/CONTRIBUTING.md) | Cómo reportar errores y enviar cambios |
+| [Seguridad](../../.github/SECURITY.md) | Cómo reportar un problema de seguridad en privado |
 
-<a id="good-to-know"></a>
-## Conviene saber
+<a id="faq"></a>
 
-- **Traducciones.** Las traducciones son automáticas, así que pueden tener errores o dejar algunas palabras en inglés. Si tu lengua materna es una de estas y puedes escribir una traducción correcta y natural, ayúdanos: [abre un issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) o envía un pull request. Más información en [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
-- **La importación es plana.** Al importar un archivo `bookmarks.html`, el nombre de la carpeta se muestra como una ruta, pero no se crean carpetas y no se conservan las fechas originales. Usa una instantánea si necesitas reconstruir un árbol de carpetas.
-- **Las revisiones de enlaces son orientativas.** Cualquier respuesta 4xx cuenta como rota. Una página que carga pero muestra un error o una pantalla de inicio de sesión cuenta como sana.
-- **CSV.** Probé la exportación a CSV con el importador y con una descarga real de Chrome. Todavía no la he abierto en Excel, Numbers ni Google Sheets.
-- **Pruebas.** La extensión se prueba en Chromium. Consulta la [lista completa de límites](../guides/limits.html).
+## Preguntas frecuentes
 
-## Atajos de teclado
+<details>
+<summary><b>¿Envía mis marcadores a algún sitio?</b></summary>
 
-| Teclas | Qué hace |
-| --- | --- |
-| `Ctrl+Shift+P` / `Cmd+Shift+P` | Abrir la paleta de comandos |
-| `/` | Ir al cuadro de búsqueda |
-| `Ctrl+A` / `Cmd+A` | Seleccionar todos los marcadores de la lista actual |
-| `Esc` | Retroceder un paso: cancelar una edición, borrar la búsqueda, quitar la selección, cerrar un diálogo |
+No. No hay servidor. Tus marcadores se quedan en tu navegador. La extensión solo se conecta con los sitios que guardaste, cuando inicias una revisión de enlaces y la has permitido.
+</details>
 
-## Guía de usuario
+<details>
+<summary><b>¿Cambiará o borrará marcadores por su cuenta?</b></summary>
 
-La guía explica cada parte de la extensión, con capturas de pantalla. Empieza por [docs/README.md](../README.md) o abre la [carpeta de guías](../guides/). Para leerla como página web, abre `docs/index.html` en tu navegador.
+No. Solo cambia marcadores cuando tú lo pides. Las combinaciones y los cambios de etiquetas en lote muestran antes una vista previa, y al eliminar te pide confirmación.
+</details>
 
-## Ayuda al proyecto
+<details>
+<summary><b>¿Puedo recuperar un marcador eliminado?</b></summary>
 
-Se agradecen los reportes de errores, las correcciones de traducciones y los pull requests pequeños. Lee primero [CONTRIBUTING.md](../../.github/CONTRIBUTING.md). Antes de enviar un pull request, ejecuta esta comprobación. Necesita Node.js 24 o más reciente y no requiere instalación.
+Sí, usa Deshacer. El marcador vuelve a su carpeta con sus etiquetas. Los navegadores no permiten que una extensión restaure el ID original ni la fecha en que se añadió, así que el marcador restaurado es nuevo.
+</details>
 
-```bash
-node scripts/validate.mjs
-node scripts/test.mjs
-```
+<details>
+<summary><b>¿Funciona con otros gestores de marcadores?</b></summary>
 
-Por favor, reporta los problemas de seguridad en privado. Consulta [SECURITY.md](../../.github/SECURITY.md).
+Puedes importar desde Chrome, Edge, Firefox, Safari y Brave (el archivo `bookmarks.html`), Pocket, Pinboard, Raindrop.io, y archivos CSV y JSON. Las importaciones son planas: las carpetas se muestran como una ruta, pero no se crean.
+</details>
+
+<details>
+<summary><b>¿Cómo reporto un problema o pido una función?</b></summary>
+
+[Abre un issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues). Por favor, no incluyas tu lista real de marcadores. Para problemas de seguridad, mira [SECURITY.md](../../.github/SECURITY.md).
+</details>
+
+## Traducciones
+
+Las traducciones son automáticas, así que pueden tener errores o dejar algunas palabras en inglés. Si tu lengua materna es una de estas y puedes escribir una traducción correcta y natural, ayúdanos: [abre un issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) o envía un pull request. Más información en [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
+
+<a id="contributing"></a>
+
+## Cómo contribuir
+
+Los reportes de errores, las correcciones de traducciones y los pull requests pequeños son bienvenidos. Lee primero [CONTRIBUTING.md](../../.github/CONTRIBUTING.md).
 
 Si Bookmark Scope te ahorra tiempo, puedes [invitarme un café](https://buymeacoffee.com/enaloo). Una valoración en [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) también ayuda a que otras personas la encuentren.
 
-## Colaboradores
+### Colaboradores
 
-Gracias a todas las personas que han ayudado. Tu nombre aparece aquí después de tu primera contribución aceptada. Lee [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#recognition).
+Gracias a todas las personas que han ayudado. Tu nombre aparece aquí después de tu primera contribución aceptada.
 
-<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors"></a>
-
+<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Colaboradores"></a>
 
 ## Licencia
 
 [MIT](../../LICENSE). Copyright 2026 Ehsan Enaloo.
 
-El código de Bookmark Scope usa la licencia MIT. Dos piezas vienen de otros proyectos y conservan sus propias licencias: la Public Suffix List (una lista de terminaciones de dominio como `.co.uk`, MPL-2.0) y los iconos de [Lucide](https://lucide.dev) (ISC). Los textos completos están en [extension/THIRD_PARTY_NOTICES.md](../../extension/THIRD_PARTY_NOTICES.md).
+El código de la extensión usa la licencia MIT. Dos piezas vienen de otros proyectos y conservan sus propias licencias: la Public Suffix List (una lista de terminaciones de dominio como `.co.uk`, MPL-2.0) y los iconos de [Lucide](https://lucide.dev) (ISC). Los textos completos están en [extension/THIRD_PARTY_NOTICES.md](../../extension/THIRD_PARTY_NOTICES.md).

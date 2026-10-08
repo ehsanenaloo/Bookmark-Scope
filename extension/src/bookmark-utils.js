@@ -11,6 +11,8 @@ import { filterBookmarksByTags } from './services/tag-service.js';
 
 function flattenNodes(nodes, pathParts = [], out = [], parseOptions = {}) {
   for (const node of nodes || []) {
+    // Firefox separators are nodes of type 'separator' carrying the placeholder url "data:"; they are not bookmarks.
+    if (node.type === 'separator') continue;
     if (node.url) {
       out.push({
         id: node.id,
@@ -96,8 +98,9 @@ export async function getDefaultImportParentId() {
   const tree = await getBookmarkTree();
   const root = tree?.[0];
   const children = root?.children || [];
-  const other = children.find((node) => String(node.id) === '2' || /other bookmarks/i.test(node.title || ''));
-  const bar = children.find((node) => String(node.id) === '1' || /bookmarks bar/i.test(node.title || ''));
+  // Chromium roots are '1' (bar) and '2' (other); Firefox uses fixed GUIDs for its toolbar and unsorted ("Other Bookmarks") roots.
+  const other = children.find((node) => ['2', 'unfiled_____'].includes(String(node.id)) || /other bookmarks/i.test(node.title || ''));
+  const bar = children.find((node) => ['1', 'toolbar_____'].includes(String(node.id)) || /bookmarks bar/i.test(node.title || ''));
   return other?.id || bar?.id || children?.[0]?.id || root?.id || undefined;
 }
 

@@ -8,12 +8,13 @@
  * move. Separated from the DOM event handlers so the math can be unit-
  * tested without browser plumbing.
  *
- * Chrome's bookmarks.move API takes { parentId, index }. When the dragged
- * bookmark is being moved within the same parent and to a position after
- * its current index, Chrome treats the index as if the bookmark were
- * already removed — i.e. an index of "after current" must compensate by
- * one. We bake that off-by-one into computeDropDestination so callers can
- * stay obviously correct.
+ * Destinations are { parentId, index } where index is the FINAL index: the
+ * position the bookmark occupies in the destination folder after the move
+ * (for a same-folder forward move, the position after the bookmark has been
+ * taken out of its old slot). The engines differ in how bookmarks.move reads
+ * an index for a same-folder forward move; that difference is absorbed once,
+ * in moveBookmark (src/platform/browser-api.js), so nothing here or in the
+ * Undo planner needs browser-specific compensation.
  */
 
 /**
@@ -47,7 +48,7 @@ export function positionFromPointer(rect, clientY) {
 
 /**
  * Translates a drop intent (target bookmark + position) into the
- * { parentId, index } pair that Chrome's bookmarks.move() expects.
+ * { parentId, index } pair (final index) that moveBookmark() expects.
  *
  * - sourceBookmark: the bookmark being dragged
  * - targetBookmark: the bookmark being dropped onto (or near)
@@ -67,9 +68,8 @@ export function computeDropDestination(sourceBookmark, targetBookmark, position)
   const sourceIdx = Number.isInteger(sourceBookmark.index) ? sourceBookmark.index : 0;
   const targetIdx = Number.isInteger(targetBookmark.index) ? targetBookmark.index : 0;
 
-  // Same-folder move: Chrome treats the requested index as the position
-  // after removal. So moving forward by one slot is a no-op, and moving
-  // backward needs no adjustment.
+  // Same-folder move: the result is a final index (position after the
+  // bookmark leaves its old slot). Moving forward by one slot is a no-op.
   if (sourceParent === targetParent) {
     let destIdx = position === DROP_POSITION.BEFORE ? targetIdx : targetIdx + 1;
     // If we'd land at the exact slot the bookmark already occupies
@@ -107,7 +107,7 @@ export function isDropTargetValid(sourceIds, targetBookmark) {
  * should be moved so the final relative ordering matches the visual
  * order in the original list.
  *
- * Chrome's bookmarks.move runs operations sequentially; if we move them
+ * Moves run sequentially; if we move them
  * in arbitrary order, the indices we compute become stale partway
  * through. Sorting ascending by current index for cross-folder moves and
  * descending for within-parent forward moves keeps things predictable.
@@ -153,8 +153,9 @@ export function orderForBatchMove(bookmarks) {
  *         current target's id position in the shadow array.
  *      b. Remove the source from its old position in the shadow array,
  *         if it was a same-folder move.
- *      c. Insert the source at the new position. Record the index that
- *         Chrome's API needs (i.e. the post-removal-aware index).
+ *      c. Insert the source at the new position. Record the FINAL
+ *         index (the post-removal index; moveBookmark maps it to the
+ *         engine's own convention).
  *      d. The next iteration sees the updated shadow.
  *
  * Inputs
@@ -171,11 +172,10 @@ export function orderForBatchMove(bookmarks) {
  * An array of move operations [{ id, parentId, index }]. Empty array
  * when the move is a no-op (e.g. every source already in the target slot).
  *
- * The same off-by-one rule Chrome applies (when moving within a parent,
- * the requested index is interpreted as "after removal") is honoured
- * for every same-folder step — meaning callers can pass the returned
- * { parentId, index } pair straight to chrome.bookmarks.move() without
- * any further compensation.
+ * Every returned index is a FINAL index (the position after the source has
+ * been removed from its old slot, for same-folder steps), which is the
+ * contract of moveBookmark(); callers pass the pair straight to it without
+ * further compensation.
  */
 export function planBatchMove(sources, target, position, allBookmarks) {
   if (!Array.isArray(sources) || !sources.length) return [];
@@ -229,7 +229,7 @@ export function planBatchMove(sources, target, position, allBookmarks) {
     let insertAt = effectivePosition === DROP_POSITION.BEFORE ? anchorPos : anchorPos + 1;
 
     // Same-folder: remove the source from its current position first.
-    // This mirrors Chrome's "after removal" index semantics.
+    // The recorded index is therefore a final (post-removal) index.
     if (sameFolder) {
       const sourcePos = shadow.indexOf(source.id);
       if (sourcePos >= 0) {

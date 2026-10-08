@@ -7,8 +7,10 @@ import { writableFolders } from './maintenance-preview-service.js';
 
 export async function createSnapshot() {
   const [tree,tags]=await Promise.all([getBookmarkTree(),loadTagsMap()]);
-  const copy=node=>({sourceId:String(node.id),title:String(node.title||''),dateAdded:Number(node.dateAdded||0),...(node.url ? {type:'bookmark',url:node.url,tags:tags[node.id]||[]} : {type:'folder',children:(node.children||[]).map(copy)})});
-  return {format:'bookmark-scope-snapshot',version:1,createdAt:new Date().toISOString(),extensionVersion:getManifest().version,roots:(tree[0]?.children||[]).map(copy)};
+  // Firefox separators (type 'separator', url "data:") are layout markers, not bookmarks or folders; the snapshot omits them.
+  const keep=nodes=>(nodes||[]).filter(node=>node.type!=='separator');
+  const copy=node=>({sourceId:String(node.id),title:String(node.title||''),dateAdded:Number(node.dateAdded||0),...(node.url ? {type:'bookmark',url:node.url,tags:tags[node.id]||[]} : {type:'folder',children:keep(node.children).map(copy)})});
+  return {format:'bookmark-scope-snapshot',version:1,createdAt:new Date().toISOString(),extensionVersion:getManifest().version,roots:keep(tree[0]?.children).map(copy)};
 }
 export function validateSnapshot(value) {
   if(value?.format!=='bookmark-scope-snapshot' || value.version!==1 || !Array.isArray(value.roots))throw new Error('Unsupported snapshot format/version.');

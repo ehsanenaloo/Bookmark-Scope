@@ -59,3 +59,30 @@ jobs:
 
       - name: Run browser checks
         run: node tests/browser/run.mjs --require
+
+  firefox:
+    name: Firefox checks (experimental)
+    # Informative for now: continue-on-error stops a failure here from failing the run or blocking
+    # a merge. Remove it once this job has proven stable on the runners.
+    # Runs on pushes to main and by hand, not on every pull request. The ubuntu-latest image has Firefox installed.
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Run Firefox checks
+        run: |
+          FIREFOX_BIN="$(which firefox)"
+          export FIREFOX_BIN
+          "${FIREFOX_BIN}" --version
+          node tests/firefox/run.mjs --require

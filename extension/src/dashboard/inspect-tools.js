@@ -6,7 +6,7 @@ import {
   DASHBOARD_MODE
 } from '../constants.js';
 import { OPTIONAL_HOST_PATTERNS } from '../constants.js';
-import { containsPermissions, requestPermissions } from '../platform/browser-api.js';
+import { requestPermissions } from '../platform/browser-api.js';
 import { runtimeMessages } from '../runtime/messages.js';
 import { writeHealthRecord, getHealthCacheGeneration, awaitPendingHealthWrites } from '../services/health-cache-service.js';
 
@@ -60,10 +60,10 @@ export function createInspectTools({
 
   async function ensureHealthPermission() {
     const request = { origins: [...OPTIONAL_HOST_PATTERNS] };
-    const alreadyGranted = await containsPermissions(request);
-    state.healthPermissionState = alreadyGranted ? 'granted' : 'prompt';
-    if (alreadyGranted) return true;
-
+    // permissions.request() has to be the first await after the click: Firefox only accepts it while the
+    // user-input handler is still running and rejects it after any other awaited call. When the grant is
+    // already held, request() resolves true without a prompt in Chrome and Firefox.
+    state.healthPermissionState = 'prompt';
     const granted = await requestPermissions(request);
     state.healthPermissionState = granted ? 'granted' : 'denied';
     return granted;

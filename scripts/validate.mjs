@@ -13,11 +13,13 @@
 //   8. leak guard: no internal working files, and no Markdown/YAML/JSON/HTML that points at them
 //   9. repository layout: extension/ holds only the files listed for shipping (no tests, docs or scripts),
 //      the repository root holds only the approved entries, and the LICENSE that the release adds to the zip exists
+//  10. the Firefox manifest generated in memory by scripts/build-firefox.mjs is valid (event page, gecko id, no Chrome-only permission)
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { listRuntimeFiles } from './list-runtime-files.mjs';
+import { toFirefoxManifest, FIREFOX_EXTENSION_ID, CHROME_ONLY_PERMISSIONS } from './build-firefox.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'); // repository root
 const extRoot = path.join(root, 'extension'); // the loadable extension
@@ -138,6 +140,7 @@ const forbiddenName = [
 // excludes it, because it can never be committed. Without that rule it is still rejected.
 const gitignore = fs.existsSync(repoAbs('.gitignore')) ? fs.readFileSync(repoAbs('.gitignore'), 'utf8').split(/\r?\n/).map((line) => line.trim()) : [];
 const nodeModulesIgnored = gitignore.some((line) => line === 'node_modules' || line === 'node_modules/' || line === '/node_modules/');
+const distFirefoxIgnored = gitignore.some((line) => line === 'dist-firefox' || line === 'dist-firefox/' || line === '/dist-firefox/');
 // Leak guard: Markdown, YAML, JSON and HTML must not point at files that live outside this repository.
 const leakExtensions = new Set(['.md', '.yml', '.yaml', '.json', '.html']);
 const leakPattern = /technical-docs\/|AGENTS\.md/;
@@ -147,6 +150,7 @@ const walkAll = (dir) => { // dir is relative to the repository root
     if (entry.name === '.git') continue;
     const rel = dir ? `${dir}/${entry.name}` : entry.name;
     if (dir === '' && entry.name === 'node_modules' && nodeModulesIgnored) continue;
+    if (dir === '' && entry.name === 'dist-firefox' && distFirefoxIgnored) continue; // local build output from scripts/build-firefox.mjs
     if (forbiddenName.some((re) => re.test(entry.name))) { fail(`Forbidden file or directory present: ${rel}`); continue; }
     if (entry.isDirectory()) walkAll(rel);
     else if (entry.isFile() && textExtensions.has(path.extname(entry.name).toLowerCase())) {
@@ -175,8 +179,29 @@ walkAll('');
     if (/^(?:tests?|scripts|docs|\.github|\.git|node_modules|README.*|CHANGELOG.*|CONTRIBUTING.*|package(?:-lock)?\.json)$/i.test(name)) fail(`extension/${name} is a project file and must not live inside extension/`);
   }
   if (!fs.existsSync(repoAbs('LICENSE'))) fail('LICENSE is missing at the repository root (the release workflow adds it to the extension zip)');
-  const allowedRoot = new Set(['.editorconfig', '.git', '.gitattributes', '.github', '.gitignore', 'CHANGELOG.md', 'LICENSE', 'README.md', 'docs', 'extension', 'node_modules', 'package.json', 'scripts', 'tests']);
+  const allowedRoot = new Set(['.editorconfig', '.git', '.gitattributes', '.github', '.gitignore', 'CHANGELOG.md', 'LICENSE', 'README.md', 'docs', 'extension', 'node_modules', 'dist-firefox', 'package.json', 'scripts', 'tests']);
   for (const name of fs.readdirSync(root)) if (!allowedRoot.has(name)) fail(`Unexpected entry at the repository root: ${name} (keep the root small; see .github/CONTRIBUTING.md)`);
+}
+
+// 10. Firefox manifest ---------------------------------------------------------------
+// The Firefox build is generated from the Chrome manifest. Build it in memory and check the result.
+if (manifest) {
+  try {
+    const firefox = toFirefoxManifest(manifest);
+    if (firefox.manifest_version !== 3) fail('Firefox manifest: manifest_version must be 3');
+    if (!firefox.background || !Array.isArray(firefox.background.scripts) || !firefox.background.scripts.length) fail('Firefox manifest: background.scripts is missing');
+    if (firefox.background && firefox.background.service_worker) fail('Firefox manifest: background.service_worker must not be present');
+    const gecko = firefox.browser_specific_settings && firefox.browser_specific_settings.gecko;
+    if (!gecko || gecko.id !== FIREFOX_EXTENSION_ID) fail('Firefox manifest: browser_specific_settings.gecko.id is missing or wrong');
+    if (!gecko || !gecko.strict_min_version) fail('Firefox manifest: browser_specific_settings.gecko.strict_min_version is missing');
+    if (!gecko || !gecko.data_collection_permissions) fail('Firefox manifest: browser_specific_settings.gecko.data_collection_permissions is missing');
+    for (const permission of CHROME_ONLY_PERMISSIONS) if ((firefox.permissions || []).includes(permission)) fail(`Firefox manifest: the Chrome-only permission "${permission}" must be removed`);
+    if (firefox.options_page) fail('Firefox manifest: options_page must be converted to options_ui');
+    const firefoxReferenced = new Set([...(firefox.background && firefox.background.scripts || []), firefox.action && firefox.action.default_popup, firefox.options_ui && firefox.options_ui.page]);
+    for (const group of [firefox.icons, firefox.action && firefox.action.default_icon]) if (group) Object.values(group).forEach((rel) => firefoxReferenced.add(rel));
+    for (const rel of firefoxReferenced) if (rel && !exists(rel)) fail(`Firefox manifest references missing file: ${rel}`);
+    if (!runtime.includes('manifest.json')) fail('Firefox package: manifest.json is not in the runtime file list');
+  } catch (error) { fail(`Firefox manifest: ${error.message}`); }
 }
 
 // Report ----------------------------------------------------------------------------

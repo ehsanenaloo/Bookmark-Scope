@@ -8,18 +8,20 @@
 
 **जिस साइट पर हैं, उसके बुकमार्क तुरंत पाएं। बाकी लाइब्रेरी को साफ़ करें।**
 
-उन लोगों के लिए एक मुफ़्त Chrome extension, जिन्होंने बहुत ज़्यादा लिंक सेव कर लिए हैं।<br>
+उन लोगों के लिए एक मुफ़्त, ओपन-सोर्स ब्राउज़र extension, जिन्होंने बहुत ज़्यादा लिंक सेव कर लिए हैं।<br>
 यह सिर्फ़ आपके कंप्यूटर पर चलता है। न अकाउंट, न ट्रैकिंग।
 
-[![Add to Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
-[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
+[![Chrome में जोड़ें](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
+[![यूज़र गाइड](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://ehsanenaloo.github.io/Bookmark-Scope/)
+[![एक कॉफ़ी पिलाएं](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
+[![लाइसेंस: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue)
 ![52 भाषाएं](https://img.shields.io/badge/languages-52-orange)
 ![कोई analytics नहीं](https://img.shields.io/badge/analytics-none-lightgrey)
+[![GitHub स्टार](https://img.shields.io/github/stars/ehsanenaloo/Bookmark-Scope?style=social)](https://github.com/ehsanenaloo/Bookmark-Scope/stargazers)
 
-[![GitHub stars](https://img.shields.io/github/stars/ehsanenaloo/Bookmark-Scope?style=social)](https://github.com/ehsanenaloo/Bookmark-Scope/stargazers)
+[खूबियां](#features) · [इंस्टॉल करें](#install) · [प्राइवेसी](#privacy) · [दस्तावेज़](#documentation) · [अक्सर पूछे जाने वाले सवाल](#faq) · [योगदान दें](#contributing)
 
 </div>
 
@@ -28,171 +30,137 @@
   <img src="../assets/screenshots/dashboard-desktop-light.png" alt="Bookmark Scope का dashboard, जिसमें बुकमार्क की सूची, फ़िल्टर, टैग और डिटेल पैनल दिख रहे हैं">
 </picture>
 
-## यह क्यों बना
+## Bookmark Scope क्या है?
 
-Chrome आपके बुकमार्क फ़ोल्डर के पेड़ की तरह दिखाता है। बीस लिंक के लिए यह ठीक है। दो हज़ार के लिए नहीं।
+Chrome आपके बुकमार्क फ़ोल्डर के पेड़ की तरह दिखाता है। बीस लिंक के लिए यह ठीक है, दो हज़ार के लिए नहीं। आप एक ही लेख तीन बार सेव कर देते हैं, किसी पुराने फ़ोल्डर के आधे लिंक बंद हो चुके होते हैं, और आप जिस साइट को पढ़ रहे हैं, उसके लिए आपने पहले से क्या सेव किया है, यह समझ नहीं आता।
 
-आप एक ही लेख तीन बार सेव कर लेते हैं। 2019 के एक फ़ोल्डर में आधे लिंक बंद हो चुके हैं। किसी साइट के ग्यारह बुकमार्क हैं और जो चाहिए, वही नहीं मिल रहा। Bookmark Scope इन समस्याओं में मदद करता है।
+Bookmark Scope इसे दो टूल से ठीक करता है। **Popup** उस पेज, साइट या domain के बुकमार्क दिखाता है जिस पर आप अभी हैं। **Dashboard** आपकी पूरी लाइब्रेरी दिखाता है, ताकि आप duplicate और बंद लिंक ढूंढकर कुछ क्लिक में साफ़ कर सकें। कुछ भी बदलने से पहले आपको preview दिखता है।
 
-- किसी भी पेज पर popup खोलें। उस पेज, उस साइट या उस domain के लिए जो बुकमार्क आपके पास पहले से हैं, वे देखें।
-- Dashboard खोलें। अपनी पूरी लाइब्रेरी देखें, duplicate और बंद लिंक ढूंढें, और कुछ ही क्लिक में उन्हें ठीक करें।
+<a id="features"></a>
 
-## आप क्या कर सकते हैं
+## खूबियां
 
-### देखें कि इस साइट के लिए आपने पहले क्या सेव किया है
-
-Toolbar में आइकन पर क्लिक करें। Popup में उस पेज के आपके बुकमार्क दिखते हैं जिस पर आप हैं। इस सटीक पेज, इस host या पूरे domain के बीच बदल सकते हैं। आइकन का badge बताता है कि कितने बुकमार्क मेल खाते हैं।
+| | |
+| --- | --- |
+| **आप जिस साइट पर हैं, उसके लिए popup** <br> इस पेज, host या domain के लिए सेव किए गए बुकमार्क देखें। Toolbar का badge बताता है कि कितने बुकमार्क मेल खाते हैं। | **पूरी लाइब्रेरी के लिए dashboard** <br> हज़ारों बुकमार्क खोजें, फ़िल्टर करें, ग्रुप करें, क्रम में लगाएं, टैग लगाएं और बदलें। यह तेज़ बना रहता है। |
+| **सुरक्षित सफ़ाई** <br> Duplicate मर्ज और टैग के बड़े बदलावों का पहले preview देखें। जो हटाया है, उसे टैग के साथ undo करें। | **बंद लिंक की जांच** <br> टूटे और redirect होने वाले लिंक ढूंढें। यह अपनी मर्ज़ी से चालू किया जाता है, और लंबे scan को रोककर फिर शुरू किया जा सकता है। |
+| **Backup और import** <br> अपनी लाइब्रेरी के snapshot सेव करें। `bookmarks.html`, Pocket, Pinboard, Raindrop.io, CSV और JSON से import करें। JSON या CSV में export करें। | **सेव किए गए व्यू और command palette** <br> सेव की हुई खोज को एक क्लिक में खोलें। हर काम देखने के लिए `Ctrl+Shift+P` दबाएं (Mac पर `Cmd+Shift+P`)। |
+| **शुरू से निजी** <br> न server, न अकाउंट, न analytics। आपका डेटा आपके ब्राउज़र में ही रहता है। | **आपकी भाषा और आपका रूप** <br> 52 भाषाएं, लाइट और डार्क थीम, चार रंग पैलेट, दाएं से बाएं लिखी जाने वाली भाषाओं का लेआउट। |
 
 <p align="center">
-  <img src="../assets/screenshots/popup-light.png" alt="Popup, जिसमें मौजूदा साइट के बुकमार्क दिख रहे हैं" width="300">
+  <img src="../assets/screenshots/popup-light.png" alt="Popup, जिसमें मौजूदा साइट के बुकमार्क दिख रहे हैं" width="230">
   &nbsp;&nbsp;
-  <img src="../assets/screenshots/popup-dark.png" alt="डार्क थीम में popup" width="300">
+  <img src="../assets/screenshots/duplicate-preview.png" alt="Duplicate preview डायलॉग, जहां आप चुनते हैं कि कौन सा बुकमार्क रखना है" width="520">
 </p>
-
-### अपनी पूरी लाइब्रेरी देखें
-
-Dashboard आपके बुकमार्क के लिए एक पूरा पेज है। शीर्षक, पते या फ़ोल्डर से खोजें। Domain या फ़ोल्डर के हिसाब से ग्रुप करें। शीर्षक, पते या तारीख़ से क्रम में लगाएं। Duplicate, बिना शीर्षक वाले बुकमार्क, पुराने बुकमार्क और एक जैसे शीर्षक वाले बुकमार्क के लिए फ़िल्टर लगाएं। हज़ारों बुकमार्क होने पर भी यह तेज़ रहता है।
-
-किसी बुकमार्क पर क्लिक करके उसकी जानकारी देखें। कई बुकमार्क पर एक साथ काम करने के लिए उन पर टिक करें। क्रम बदलने के लिए बुकमार्क को खींचकर छोड़ें।
-
-### बेफ़िक्र होकर सफ़ाई करें
-
-कोई भी बड़ा काम preview दिखाए बिना नहीं होता।
-
 <p align="center">
-  <img src="../assets/screenshots/duplicate-preview.png" alt="Duplicate preview डायलॉग, जहां आप चुनते हैं कि कौन सा बुकमार्क रखना है" width="780">
-</p>
-
-- **Duplicate.** चुनें कि कौन सी कॉपी रखनी है। बाकी कॉपी के टैग उसमें जुड़ जाते हैं। कुछ भी हटने से पहले आपको नतीजा दिखता है।
-- **टैग.** कई बुकमार्क के टैग एक साथ जोड़ें, हटाएं, नाम बदलें या मर्ज करें। पहले और बाद की स्थिति जांचें, फिर लागू करें। इसे undo किया जा सकता है।
-- **Delete और undo.** हटाए गए बुकमार्क उनके टैग के साथ वापस लाए जा सकते हैं। Chrome किसी भी extension को असली ID या जोड़ने की तारीख़ वापस लाने नहीं देता, इसलिए वापस आया बुकमार्क नया होता है। Extension आपको यह बता देता है।
-
-<p align="center">
-  <img src="../assets/screenshots/bulk-tags.png" alt="Bulk tags डायलॉग, जिसमें बदलाव से पहले और बाद के टैग दिख रहे हैं" width="780">
-</p>
-
-### बंद लिंक ढूंढें
-
-बुकमार्क के एक ग्रुप की जांच करें और देखें कि कौन से लिंक चल रहे हैं, कौन से redirect हो रहे हैं और कौन से टूटे हैं। जांच आपके ब्राउज़र में चलती है और सिर्फ़ उन्हीं साइटों से बात करती है जिन्हें आपने बुकमार्क किया है।
-
-- यह पहले अनुमति मांगता है। मना करने पर भी बाकी सब कुछ चलता रहता है।
-- लंबे scan को रोककर बाद में जारी रख सकते हैं।
-- आप scheduled scan चालू कर सकते हैं। यह डिफ़ॉल्ट रूप से बंद रहता है।
-- "Repair redirected" उन बुकमार्क को अपडेट करता है जो नए पते पर चले गए हैं। इसमें undo नहीं है, इसलिए पहले नया पता देख लें।
-
-### Backup और ट्रांसफ़र
-
-- **Snapshot.** फ़ोल्डर और टैग समेत अपनी पूरी लाइब्रेरी एक फ़ाइल में सेव करें। बाद में उसे एक नए फ़ोल्डर में restore करें।
-- **Import.** Chrome, Edge, Firefox, Safari या Brave (`bookmarks.html` फ़ाइल), Pocket, Pinboard, Raindrop.io, या CSV, JSON या लिंक की सादी सूची से बुकमार्क लाएं। आपको preview दिखता है, और duplicate के लिए आप चुनते हैं कि क्या करना है: रखें, छोड़ें या मर्ज करें।
-- **Export.** जो बुकमार्क आप देख रहे हैं, उन्हें JSON या CSV में सेव करें।
-
-<p align="center">
-  <img src="../assets/screenshots/library-tools.png" alt="लाइब्रेरी टूल: सेव किए गए व्यू, bulk tags, duplicate, scan, backup और import" width="780">
-</p>
-
-### तेज़ी से काम करें
-
-- **Command palette.** `Ctrl+Shift+P` दबाएं (Mac पर `Cmd+Shift+P`) और लिखें कि आप क्या करना चाहते हैं।
-- **सेव किए गए व्यू.** किसी खोज को उसके फ़िल्टर, टैग, क्रम और ग्रुपिंग के साथ सेव करें। एक क्लिक में उसे फिर खोलें।
-- **राइट-क्लिक मेनू.** किसी भी पेज या लिंक पर उस domain के अपने बुकमार्क दिखाएं, या उस लिंक के duplicate ढूंढें।
-- **Review reminder.** अगर आप चाहते हैं कि हर कुछ हफ़्तों में सफ़ाई की याद दिलाई जाए, तो इन्हें Settings में चालू करें।
-
-<p align="center">
-  <img src="../assets/screenshots/command-palette.png" alt="Command palette, जिसमें कामों की सूची दिख रही है" width="780">
-</p>
-
-### इसे अपने हिसाब से बनाएं
-
-लाइट, डार्क या सिस्टम थीम। चार रंग पैलेट। दाएं से बाएं (right-to-left) लेआउट। Extension में 52 भाषाएं हैं ([ध्यान देने की बातें](#good-to-know) देखें)।
-
-<p align="center">
-  <img src="../assets/screenshots/options-light.png" alt="Settings पेज" width="300">
+  <img src="../assets/screenshots/library-tools.png" alt="लाइब्रेरी टूल: सेव किए गए व्यू, बल्क टैग, duplicate, scan, backup और import" width="390">
   &nbsp;&nbsp;
-  <img src="../assets/screenshots/dashboard-rtl-dark.png" alt="डार्क थीम में फ़ारसी भाषा का dashboard, दाएं से बाएं लेआउट के साथ" width="300">
+  <img src="../assets/screenshots/command-palette.png" alt="Command palette, जिसमें कामों की सूची दिख रही है" width="390">
 </p>
+
+<a id="install"></a>
 
 ## इंस्टॉल करें
 
-**Chrome Web Store से (सबसे आसान)**
+| ब्राउज़र | स्थिति | कैसे |
+| --- | --- | --- |
+| **Chrome** | टेस्ट किया हुआ | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
+| **Edge, Brave** | काम करता है | उसी Chrome Web Store पेज से इंस्टॉल करें। यह अभी Edge Add-ons पर नहीं है। |
+| **Firefox 140+** (डेस्कटॉप) | प्रयोगात्मक | [Releases पेज से अस्थायी इंस्टॉल](#firefox-experimental) |
+| **Safari** | सपोर्ट नहीं है | |
 
-1. [Bookmark Scope पेज](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) खोलें।
-2. **Add to Chrome** पर क्लिक करें।
-3. Toolbar में पज़ल आइकन पर क्लिक करें और Bookmark Scope को pin करें।
+**Chrome, Edge और Brave:** स्टोर पेज खोलें, **Add to Chrome** पर क्लिक करें, फिर toolbar में पज़ल आइकन पर क्लिक करें और Bookmark Scope को pin करें।
 
-Edge और Brave जैसे दूसरे Chromium ब्राउज़र में भी आम तौर पर इसी पेज से इंस्टॉल हो जाता है। मैं सिर्फ़ Chrome में टेस्ट करता हूं। Firefox और Safari सपोर्ट नहीं हैं।
+<a id="firefox-experimental"></a>
 
-**इस repository से**
+**Firefox (प्रयोगात्मक):** यह अभी Firefox Add-ons पर नहीं है।
 
-कोई build step नहीं है। `extension` फ़ोल्डर ही extension है।
+1. [Releases पेज](https://github.com/ehsanenaloo/Bookmark-Scope/releases) से `bookmark-scope-<version>-firefox.zip` डाउनलोड करें।
+2. Firefox में `about:debugging#/runtime/this-firefox` खोलें।
+3. **Load Temporary Add-on** पर क्लिक करें और zip फ़ाइल चुनें।
 
-1. इस repository को डाउनलोड या clone करें।
-2. `chrome://extensions` खोलें और **Developer mode** चालू करें।
-3. **Load unpacked** पर क्लिक करें और repository के अंदर का `extension` फ़ोल्डर चुनें (जिसमें `manifest.json` है), सबसे ऊपर वाला फ़ोल्डर नहीं।
+Firefox बंद होने पर temporary add-on हटा देता है। ज़्यादा जानकारी [इंस्टॉल गाइड](https://ehsanenaloo.github.io/Bookmark-Scope/guides/installation.html#firefox-experimental) में है।
 
-Unpacked कॉपी की अपनी अलग extension ID होती है। आप उसे Store वाले वर्शन के साथ रख सकते हैं, लेकिन वे डेटा साझा नहीं करते, और unpacked कॉपी अपने आप अपडेट नहीं होती।
+**Source से:** कोई build step नहीं है। `extension/` फ़ोल्डर ही extension है। `chrome://extensions` खोलें, **Developer mode** चालू करें, **Load unpacked** पर क्लिक करें और `extension` फ़ोल्डर चुनें।
 
-## आपका डेटा आपके पास रहता है
+<a id="privacy"></a>
 
-कोई server नहीं है। कोई अकाउंट, analytics या विज्ञापन नहीं हैं। आपके बुकमार्क, टैग और settings आपके ब्राउज़र में ही रहते हैं। ब्यौरे के लिए [privacy policy](../PRIVACY.md) देखें।
+## प्राइवेसी
 
-Extension आपके खोले हुए पेज नहीं पढ़ता। यह सिर्फ़ active tab का पता पढ़ता है, ताकि मेल खाते बुकमार्क दिखा सके।
+- न server है, न अकाउंट, न analytics और न विज्ञापन।
+- आपके बुकमार्क, टैग और सेटिंग आपके ब्राउज़र में ही रहते हैं।
+- एकमात्र नेटवर्क अनुरोध लिंक जांच के समय आपके बुकमार्क की साइटों पर जाते हैं, और वह भी आपकी अनुमति के बाद ही। बाकी सब कुछ इस अनुमति के बिना चलता है।
+- Extension आपके खोले गए पेज नहीं पढ़ता। यह मेल खाते बुकमार्क दिखाने के लिए सिर्फ़ सक्रिय टैब का पता देखता है।
 
-| Permission | यह किस काम की है |
+विवरण और अनुमतियों की सूची के लिए [प्राइवेसी पॉलिसी](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) पढ़ें।
+
+<a id="documentation"></a>
+
+## दस्तावेज़
+
+| | |
 | --- | --- |
-| `bookmarks` | आपके बुकमार्क पढ़ना, और आपके कहने पर उन्हें बदलना |
-| `tabs` | Popup और badge के लिए active tab का पता पढ़ना |
-| `storage` | आपकी settings, टैग और scan के नतीजे ब्राउज़र में रखना |
-| `alarms` | वैकल्पिक reminder और वैकल्पिक scheduled scan चलाना |
-| `notifications` | Reminder और scan के नतीजे दिखाना |
-| `contextMenus` | राइट-क्लिक मेनू के आइटम जोड़ना |
-| `clipboardWrite` | कॉपी बटन पर क्लिक करने पर पते कॉपी करना |
-| `favicon` | ब्राउज़र की अपनी cache से साइट के आइकन दिखाना |
-| Websites (वैकल्पिक) | सिर्फ़ तब मांगी जाती है जब आप लिंक की जांच शुरू करते हैं, ताकि extension आपके बुकमार्क की गई साइटों से संपर्क कर सके |
+| [यूज़र गाइड](https://ehsanenaloo.github.io/Bookmark-Scope/) | हर फ़ीचर, screenshot के साथ |
+| [ज्ञात सीमाएं](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html) | क्या अधूरा है या टेस्ट नहीं हुआ |
+| [प्राइवेसी पॉलिसी](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) | Extension क्या सेव करता है और क्या भेजता है |
+| [Changelog](../../CHANGELOG.md) | हर रिलीज़ में क्या बदला |
+| [योगदान](../../.github/CONTRIBUTING.md) | Bug कैसे बताएं और बदलाव कैसे भेजें |
+| [सुरक्षा](../../.github/SECURITY.md) | सुरक्षा की समस्या निजी तौर पर कैसे बताएं |
 
-<a id="good-to-know"></a>
-## ध्यान देने की बातें
+<a id="faq"></a>
 
-- **अनुवाद।** अनुवाद मशीन से किए गए हैं, इसलिए उनमें गलतियां हो सकती हैं या कुछ शब्द अंग्रेज़ी में रह सकते हैं। अगर इनमें से कोई भाषा आपकी मातृभाषा है और आप सही और स्वाभाविक अनुवाद लिख सकते हैं, तो हमारी मदद करें: [issue खोलें](https://github.com/ehsanenaloo/Bookmark-Scope/issues) या pull request भेजें। विवरण [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations) में है।
-- **Import सपाट (flat) होता है.** `bookmarks.html` फ़ाइल import करने पर फ़ोल्डर का नाम path की तरह दिखता है, लेकिन फ़ोल्डर बनाए नहीं जाते और असली तारीख़ें नहीं रखी जातीं। फ़ोल्डर का पेड़ दोबारा बनाना हो तो snapshot इस्तेमाल करें।
-- **लिंक की जांच सिर्फ़ संकेत देती है.** कोई भी 4xx जवाब टूटा हुआ माना जाता है। जो पेज खुल जाता है लेकिन error या login स्क्रीन दिखाता है, उसे ठीक माना जाता है।
-- **CSV.** मैंने CSV export को importer और असली Chrome डाउनलोड के साथ टेस्ट किया है। इसे अभी तक Excel, Numbers या Google Sheets में नहीं खोला है।
-- **टेस्टिंग.** Extension Chromium में टेस्ट किया गया है। [सीमाओं की पूरी सूची](../guides/limits.html) देखें।
+## अक्सर पूछे जाने वाले सवाल
 
-## कीबोर्ड शॉर्टकट
+<details>
+<summary><b>क्या यह मेरे बुकमार्क कहीं भेजता है?</b></summary>
 
-| कीज़ | यह क्या करती हैं |
-| --- | --- |
-| `Ctrl+Shift+P` / `Cmd+Shift+P` | Command palette खोलें |
-| `/` | खोज बॉक्स पर जाएं |
-| `Ctrl+A` / `Cmd+A` | मौजूदा सूची के सभी बुकमार्क चुनें |
-| `Esc` | एक कदम पीछे जाएं: edit रद्द करें, खोज साफ़ करें, चयन साफ़ करें, डायलॉग बंद करें |
+नहीं। कोई server नहीं है। आपके बुकमार्क आपके ब्राउज़र में ही रहते हैं। Extension सिर्फ़ तब आपके बुकमार्क की साइटों से संपर्क करता है, जब आप लिंक जांच शुरू करते हैं और आपने उसकी अनुमति दी हो।
+</details>
 
-## यूज़र गाइड
+<details>
+<summary><b>क्या यह अपने आप बुकमार्क बदलेगा या हटाएगा?</b></summary>
 
-गाइड में extension के हर हिस्से को screenshot के साथ समझाया गया है। [docs/README.md](../README.md) से शुरू करें या [guides फ़ोल्डर](../guides/) खोलें। इसे वेब पेज की तरह पढ़ने के लिए अपने ब्राउज़र में `docs/index.html` खोलें।
+नहीं। यह बुकमार्क तभी बदलता है जब आप कहते हैं। मर्ज और टैग के बड़े बदलावों से पहले preview दिखता है, और हटाने से पहले आपसे पुष्टि मांगी जाती है।
+</details>
 
-## प्रोजेक्ट में मदद करें
+<details>
+<summary><b>क्या हटाया हुआ बुकमार्क वापस मिल सकता है?</b></summary>
 
-Bug report, अनुवाद के सुधार और छोटे pull request का स्वागत है। पहले [CONTRIBUTING.md](../../.github/CONTRIBUTING.md) पढ़ें। Pull request भेजने से पहले यह जांच चलाएं। इसके लिए Node.js 24 या नया वर्शन चाहिए, और कुछ इंस्टॉल नहीं करना पड़ता।
+हां, Undo का इस्तेमाल करें। बुकमार्क अपने फ़ोल्डर में टैग के साथ वापस आ जाता है। ब्राउज़र किसी भी extension को पुराना ID या जोड़ने की तारीख़ वापस लगाने नहीं देते, इसलिए वापस आया बुकमार्क नया होता है।
+</details>
 
-```bash
-node scripts/validate.mjs
-node scripts/test.mjs
-```
+<details>
+<summary><b>क्या यह दूसरे बुकमार्क मैनेजर के साथ काम करता है?</b></summary>
 
-सुरक्षा से जुड़ी समस्याएं कृपया निजी तौर पर बताएं। [SECURITY.md](../../.github/SECURITY.md) देखें।
+आप Chrome, Edge, Firefox, Safari और Brave (`bookmarks.html` फ़ाइल), Pocket, Pinboard, Raindrop.io, और CSV तथा JSON फ़ाइलों से import कर सकते हैं। Import सपाट होता है: फ़ोल्डर रास्ते की तरह दिखते हैं, पर बनाए नहीं जाते।
+</details>
+
+<details>
+<summary><b>कोई समस्या कैसे बताऊं या नया फ़ीचर कैसे मांगूं?</b></summary>
+
+[Issue खोलें](https://github.com/ehsanenaloo/Bookmark-Scope/issues)। कृपया अपनी असली बुकमार्क सूची साथ न लगाएं। सुरक्षा की समस्याओं के लिए [SECURITY.md](../../.github/SECURITY.md) देखें।
+</details>
+
+## अनुवाद
+
+अनुवाद मशीन से किए गए हैं, इसलिए उनमें गलतियां हो सकती हैं या कुछ शब्द अंग्रेज़ी में रह सकते हैं। अगर इनमें से कोई भाषा आपकी मातृभाषा है और आप सही और स्वाभाविक अनुवाद लिख सकते हैं, तो हमारी मदद करें: [issue खोलें](https://github.com/ehsanenaloo/Bookmark-Scope/issues) या pull request भेजें। देखें [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations)।
+
+<a id="contributing"></a>
+
+## योगदान दें
+
+Bug रिपोर्ट, अनुवाद के सुधार और छोटे pull request का स्वागत है। पहले [CONTRIBUTING.md](../../.github/CONTRIBUTING.md) पढ़ें।
 
 अगर Bookmark Scope से आपका समय बचता है, तो आप [मुझे एक कॉफ़ी पिला सकते हैं](https://buymeacoffee.com/enaloo)। [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) पर रेटिंग देने से भी दूसरे लोगों को यह मिलने में मदद होती है।
 
-## योगदानकर्ता
+### योगदानकर्ता
 
-प्रोजेक्ट में मदद करने वाले सभी लोगों का धन्यवाद। आपका पहला योगदान स्वीकार होने के बाद आपका नाम यहाँ दिखेगा। देखें [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#recognition)।
+प्रोजेक्ट में मदद करने वाले सभी लोगों का धन्यवाद। आपका पहला योगदान स्वीकार होने के बाद आपका नाम यहाँ दिखेगा।
 
-<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors"></a>
-
+<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="योगदानकर्ता"></a>
 
 ## लाइसेंस
 
 [MIT](../../LICENSE)। Copyright 2026 Ehsan Enaloo।
 
-Bookmark Scope का कोड MIT लाइसेंस के तहत है। दो हिस्से दूसरे प्रोजेक्ट से लिए गए हैं और उनके अपने लाइसेंस हैं: Public Suffix List (`.co.uk` जैसे डोमेन के अंत की सूची, MPL-2.0) और [Lucide](https://lucide.dev) आइकन (ISC)। पूरे लाइसेंस पाठ [extension/THIRD_PARTY_NOTICES.md](../../extension/THIRD_PARTY_NOTICES.md) में हैं।
+Extension का कोड MIT लाइसेंस के तहत है। दो हिस्से दूसरे प्रोजेक्ट से लिए गए हैं और उनके अपने लाइसेंस हैं: Public Suffix List (`.co.uk` जैसे डोमेन के अंत की सूची, MPL-2.0) और [Lucide](https://lucide.dev) आइकन (ISC)। पूरे लाइसेंस पाठ [extension/THIRD_PARTY_NOTICES.md](../../extension/THIRD_PARTY_NOTICES.md) में हैं।

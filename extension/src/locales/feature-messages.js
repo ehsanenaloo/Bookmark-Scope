@@ -70,6 +70,7 @@ export const FEATURE_MESSAGES = {
   'Open the command palette':'باز کردن پالت فرمان',
   'License':'مجوز',
   'MIT License':'مجوز MIT',
+  'User guide':'راهنمای کاربر',
   'MIT License. Third-party: Public Suffix List (MPL-2.0), Lucide icons (ISC).':'مجوز MIT. اجزای شخص ثالث: فهرست پسوند عمومی (MPL-2.0) و آیکون‌های Lucide (ISC).'
 };
 export function featureText(source) {

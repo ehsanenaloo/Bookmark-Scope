@@ -1,4 +1,6 @@
-const DEFAULT_FOOTER_ITEMS = Object.freeze([
+export const USER_GUIDE_URL = 'https://ehsanenaloo.github.io/Bookmark-Scope/';
+
+const DEFAULT_FOOTER_ITEMS =Object.freeze([
   Object.freeze({
     id: 'about',
     labelKey: 'About',

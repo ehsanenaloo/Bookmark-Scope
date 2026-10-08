@@ -1,8 +1,10 @@
 name: Release
 
 # Runs when a version tag such as v5.0.0 is pushed.
-# Builds a zip of the extension (manifest.json at the zip root, plus LICENSE and THIRD_PARTY_NOTICES.md)
-# and attaches it, with a SHA-256 checksum, to a GitHub Release.
+# Builds two zips (manifest.json at the zip root, plus LICENSE and THIRD_PARTY_NOTICES.md in each):
+#   bookmark-scope-<version>.zip          the Chrome extension, straight from extension/
+#   bookmark-scope-<version>-firefox.zip  the experimental Firefox build from scripts/build-firefox.mjs
+# and attaches both, with a SHA-256 checksum each, to a GitHub Release.
 # This workflow does NOT publish to the Chrome Web Store; that remains a manual step.
 
 on:
@@ -65,6 +67,40 @@ jobs:
           unzip -l "${zip_path}" | tail -n 3
           cat "release/${zip_name}.sha256"
 
+      - name: Build Firefox zip
+        # scripts/build-firefox.mjs writes the Firefox package (extension/manifest.json is never changed)
+        # into dist-firefox/<fingerprint>/. The zip is built from inside that folder so manifest.json
+        # sits at the zip root. The repository LICENSE is added at the zip root too.
+        run: |
+          fx_name="bookmark-scope-${VERSION}-firefox.zip"
+          fx_zip="${PWD}/release/${fx_name}"
+          fx_list="${PWD}/release/firefox-files.txt"
+          node scripts/build-firefox.mjs --list > "${fx_list}"
+          fx_dir="$(node scripts/build-firefox.mjs --dir)"
+          (cd "${fx_dir}" && zip -q -X "${fx_zip}" -@ < "${fx_list}")
+          zip -q -X "${fx_zip}" LICENSE
+          entries="$(unzip -Z1 "${fx_zip}")"
+          for required in manifest.json LICENSE THIRD_PARTY_NOTICES.md; do
+            echo "${entries}" | grep -qx "${required}" || { echo "::error::${required} is missing at the root of the Firefox zip"; exit 1; }
+          done
+          if echo "${entries}" | grep -qE '^(extension/|dist-firefox/|tests/|docs/|scripts/|\.github/)'; then
+            echo "::error::The Firefox zip contains a project folder; manifest.json must be at the zip root."
+            exit 1
+          fi
+          unzip -p "${fx_zip}" manifest.json | node -e "
+            const m = JSON.parse(require('fs').readFileSync(0, 'utf8'));
+            const problems = [];
+            if (!m.background || !Array.isArray(m.background.scripts) || !m.background.scripts.length) problems.push('background.scripts is missing');
+            if (m.background && m.background.service_worker) problems.push('background.service_worker must not be present');
+            if (!m.browser_specific_settings || !m.browser_specific_settings.gecko || !m.browser_specific_settings.gecko.id) problems.push('browser_specific_settings.gecko.id is missing');
+            if (m.version !== process.env.VERSION) problems.push('version ' + m.version + ' does not match ' + process.env.VERSION);
+            if (problems.length) { console.error('::error::Firefox manifest: ' + problems.join('; ')); process.exit(1); }
+          "
+          (cd release && sha256sum "${fx_name}" > "${fx_name}.sha256")
+          echo "FIREFOX_ZIP_NAME=${fx_name}" >> "$GITHUB_ENV"
+          unzip -l "${fx_zip}" | tail -n 3
+          cat "release/${fx_name}.sha256"
+
       - name: Extract release notes from CHANGELOG
         run: |
           awk -v v="${VERSION}" '
@@ -84,6 +120,8 @@ jobs:
           gh release create "${TAG}" \
             "release/${ZIP_NAME}" \
             "release/${ZIP_NAME}.sha256" \
+            "release/${FIREFOX_ZIP_NAME}" \
+            "release/${FIREFOX_ZIP_NAME}.sha256" \
             --title "Bookmark Scope ${VERSION}" \
             --notes-file release/notes.md \
             --verify-tag

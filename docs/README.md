@@ -51,6 +51,7 @@ Start with [the field guide](index.html) or [the guide library](guides/index.htm
 - [Diagnostics](guides/diagnostics.html)
 - [Troubleshooting & FAQ](guides/troubleshooting-faq.html)
 - [Limits & known limitations](guides/limits.html)
+- [Privacy policy](privacy.html)
 
 ## Local preview
 
@@ -70,7 +71,8 @@ The pages use the PNG files in `assets/screenshots/`, captured with synthetic bo
 
 - Keep the text in English and keep it aligned with the actual product. When behavior changes, update the guide that describes it and the date and version note in the footer.
 - Guides describe controls by their labels and function, not by position or colour, so visual redesigns do not invalidate them.
-- These guides describe the 5.0.0 release. After each release, re-check the "Limits and known limitations" page and every callout, and keep only what is still true.
-- `search-index.js` and `llms.txt` list every guide. Regenerate or edit them when a guide is added, renamed or removed.
+- These guides describe the 5.1.0 release. After each release, re-check the "Limits and known limitations" page and every callout, and keep only what is still true.
+- `privacy.html` is the web version of the privacy policy. The original text is `PRIVACY.md` in the public repository's `docs` folder. Update `privacy.html`, its search entry and its date whenever `PRIVACY.md` changes, so the two never disagree.
+- `search-index.js` and `llms.txt` list every guide and `privacy.html`. Regenerate or edit them when a guide is added, renamed or removed.
 
 All prose, HTML, CSS and JavaScript in this directory were authored for Bookmark Scope. The logo in `assets/logo.svg` is the extension icon.
