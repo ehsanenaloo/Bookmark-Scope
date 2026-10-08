@@ -5,9 +5,9 @@
 
 import { matchesMode, parseUrlSafe } from './url-utils.js';
 import { CLEANUP_FILTERS, OLD_BOOKMARK_DAYS, SEARCH_CACHE_MAX_SIZE } from './constants.js';
-import { addBookmarkEventListeners, getBookmarkTree } from './platform/browser-api.js';
+import { addBookmarkEventListeners, getBookmarkTree } from '../platform/browser-api.js';
 import { fuzzySearchBookmarks } from './fuzzy-match.js';
-import { filterBookmarksByTags } from './services/tag-service.js';
+import { filterBookmarksByTags } from '../services/tag-service.js';
 
 function flattenNodes(nodes, pathParts = [], out = [], parseOptions = {}) {
   for (const node of nodes || []) {

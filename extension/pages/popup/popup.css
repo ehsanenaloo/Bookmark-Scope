@@ -6,11 +6,11 @@
  * reads as one compact column: header, search and scope, list, slim footer.
  */
 
-@import url("./styles/base.css");
-@import url("./styles/popup/layout.css");
-@import url("./styles/popup/list.css");
-@import url("./styles/popup/footer.css");
-@import url("./styles/popup/overlay.css");
+@import url("../../styles/base.css");
+@import url("../../styles/popup/layout.css");
+@import url("../../styles/popup/list.css");
+@import url("../../styles/popup/footer.css");
+@import url("../../styles/popup/overlay.css");
 
 html, body {
   width: var(--popup-width, 420px);

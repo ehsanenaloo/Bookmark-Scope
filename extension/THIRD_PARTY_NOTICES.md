@@ -6,13 +6,13 @@ The packaged Public Suffix List and the generated rule table retain **Mozilla Pu
 
 - Source: [official Public Suffix List](https://publicsuffix.org/list/public_suffix_list.dat).
 - Pinned source: [vendor/public_suffix_list.dat](vendor/public_suffix_list.dat). Its original header records the upstream version and commit.
-- Generated table: [src/public-suffix-rules.js](src/public-suffix-rules.js), retaining ICANN and PRIVATE rules and normalizing Unicode rules to URL-parser ASCII hostnames.
+- Generated table: [src/core/public-suffix-rules.js](src/core/public-suffix-rules.js), retaining ICANN and PRIVATE rules and normalizing Unicode rules to URL-parser ASCII hostnames.
 - License: [vendor/MPL-2.0.txt](vendor/MPL-2.0.txt).
 - Regeneration: the generated table is built from the packaged source file. It does not download a new list. Updating the list means reviewing the new upstream version first.
 
 ## Lucide icons
 
-The interface icons in [src/icon-system.js](src/icon-system.js) are glyphs from [Lucide](https://lucide.dev), taken from the `lucide-static` package, version 0.468.0 (`https://unpkg.com/lucide-static@0.468.0/icons/<name>.svg`). Their path data is inlined into that module; nothing is loaded from the network at runtime. The extension's own logo files (`icon.svg`, `icon-*.png`) are not Lucide artwork.
+The interface icons in [src/ui/icon-system.js](src/ui/icon-system.js) are glyphs from [Lucide](https://lucide.dev), taken from the `lucide-static` package, version 0.468.0 (`https://unpkg.com/lucide-static@0.468.0/icons/<name>.svg`). Their path data is inlined into that module; nothing is loaded from the network at runtime. The extension's own logo files (`icons/icon.svg`, `icon-*.png`) are not Lucide artwork.
 
 Lucide is licensed under the ISC License; the icons it derives from the Feather project are additionally under the MIT License. The license text below is reproduced from the [Lucide repository](https://github.com/lucide-icons/lucide/blob/main/LICENSE) (fetched 2026-10-07).
 

@@ -1,7 +1,7 @@
 import { queryTabs, createTab, createBookmark, removeBookmark, getRuntimeUrl, getBookmarkTree, getBookmarksManagerUrl } from '../platform/browser-api.js';
 import { loadPopupPreferences, savePopupPreferences, setPinOnboardingVisible } from '../services/preferences-service.js';
 import { loadTagsMap, updateTagsMap, setTagsForBookmark } from '../services/tag-service.js';
-import { MATCH_MODES, SORT_OPTIONS, STORAGE_KEYS, COLOR_PALETTES, POPUP_WIDTHS, TAG_MAX_PER_BOOKMARK } from '../constants.js';
+import { MATCH_MODES, SORT_OPTIONS, STORAGE_KEYS, COLOR_PALETTES, POPUP_WIDTHS, TAG_MAX_PER_BOOKMARK } from '../core/constants.js';
 
 export function createPopupActions(deps) {
   const {
@@ -129,7 +129,7 @@ export function createPopupActions(deps) {
 
   async function openDashboard() {
     state.menuOpen = false;
-    await createTab({ url: getRuntimeUrl('dashboard.html'), active: true });
+    await createTab({ url: getRuntimeUrl('pages/dashboard/dashboard.html'), active: true });
   }
 
   async function openUrl(url) {

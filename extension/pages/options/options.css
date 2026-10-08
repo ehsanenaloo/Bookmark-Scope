@@ -5,7 +5,7 @@
  * Settings page: a centered column of section cards with a sticky save bar.
  */
 
-@import url("./styles/base.css");
+@import url("../../styles/base.css");
 
 body[data-view="options"] {
   min-height: 100vh;

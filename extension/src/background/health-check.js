@@ -1,4 +1,4 @@
-import { HEALTH_STATUSES } from '../constants.js';
+import { HEALTH_STATUSES } from '../core/constants.js';
 import { now } from '../platform/time.js';
 
 export function isStoreUrl(url) {

@@ -20,7 +20,7 @@ import {
   DASHBOARD_STORAGE_KEYS,
   GROUP_BY_OPTIONS,
   GROUP_SORT_OPTIONS
-} from './src/constants.js';
+} from '../../src/core/constants.js';
 import {
   getNormalizedBookmarks,
   detectDuplicates,
@@ -29,14 +29,14 @@ import {
   groupDuplicates,
   getCleanupSummary,
   invalidateBookmarkCache
-} from './src/bookmark-utils.js';
-import { getMatchTarget, matchesMode } from './src/url-utils.js';
-import { applyTheme, applyPalette, loadStoredTheme, loadStoredPalette, saveThemeMode, saveColorPalette, watchSystemTheme } from './src/theme-utils.js';
-import { loadDashboardPreferences, saveDashboardPreferences, saveReviewSessions, saveCleanupHistory, saveReviewReminderPreferences, setPinOnboardingVisible } from './src/services/preferences-service.js';
-import { iconSvg, createIconButton, createIconElement } from './src/icon-system.js';
-import { formatDateTime, formatNumber, initI18n, t, translateTree } from './src/i18n.js';
-import { createFaviconNode, debounce, trapFocus, getHostnameSafe } from './src/ui-utils.js';
-import { isoNow, makeStableId, now } from './src/platform/time.js';
+} from '../../src/core/bookmark-utils.js';
+import { getMatchTarget, matchesMode } from '../../src/core/url-utils.js';
+import { applyTheme, applyPalette, loadStoredTheme, loadStoredPalette, saveThemeMode, saveColorPalette, watchSystemTheme } from '../../src/ui/theme-utils.js';
+import { loadDashboardPreferences, saveDashboardPreferences, saveReviewSessions, saveCleanupHistory, saveReviewReminderPreferences, setPinOnboardingVisible } from '../../src/services/preferences-service.js';
+import { iconSvg, createIconButton, createIconElement } from '../../src/ui/icon-system.js';
+import { formatDateTime, formatNumber, initI18n, t, translateTree } from '../../src/locales/i18n.js';
+import { createFaviconNode, debounce, trapFocus, getHostnameSafe } from '../../src/ui/ui-utils.js';
+import { isoNow, makeStableId, now } from '../../src/platform/time.js';
 import {
   addBookmarkEventListeners,
   addStorageChangedListener,
@@ -49,7 +49,7 @@ import {
   removeBookmark,
   sendRuntimeMessage,
   updateBookmark
-} from './src/platform/browser-api.js';
+} from '../../src/platform/browser-api.js';
 import {
   getHealthKey,
   getHealthRecord as getStoredHealthRecord,
@@ -61,29 +61,29 @@ import {
   bookmarkStatusBadgeClass,
   inspectUrlHealth as inspectUrlHealthRecord,
   runWithConcurrency
-} from './src/dashboard/health.js';
-import { createReviewTools } from './src/dashboard/review-tools.js';
-import { createViewTools } from './src/dashboard/view-tools.js';
-import { createGroupTools } from './src/dashboard/group-tools.js';
-import { createOverlayTools } from './src/dashboard/overlay-tools.js';
-import { createRenderTools } from './src/dashboard/render-tools.js';
-import { createActionTools } from './src/dashboard/action-tools.js';
-import { createSelectionTools } from './src/dashboard/selection-tools.js';
-import { createInspectTools } from './src/dashboard/inspect-tools.js';
-import { downloadTextFile, createCsvFile, parseImportedFilePreview } from './src/dashboard/import-export-tools.js';
-import { loadImportJournal } from './src/services/import-service.js';
-import { parseImportedThirdPartyFile } from './src/services/third-party-import.js';
-import { createDashboardState } from './src/dashboard/state.js';
-import { createFeatureTools } from './src/dashboard/feature-tools.js';
-import { featureText } from './src/locales/feature-messages.js';
-import { createCommandRegistry } from './src/dashboard/command-registry.js';
-import { MESSAGE_TYPES, runtimeMessages } from './src/runtime/messages.js';
-import { createLogger } from './src/services/diagnostics-service.js';
-import { initializeStorageLayer } from './src/services/storage-service.js';
-import { loadHealthCache, clearHealthCache, deleteHealthRecord, awaitPendingHealthWrites } from './src/services/health-cache-service.js';
-import { loadTagsMap, updateTagsMap, summariseTags, pruneOrphanedTags } from './src/services/tag-service.js';
-import { parseDashboardContextParams, CONTEXT_MENU_ACTIONS } from './src/services/context-menu-service.js';
-import { createVirtualScroller } from './src/dashboard/virtual-scroller.js';
+} from '../../src/dashboard/health.js';
+import { createReviewTools } from '../../src/dashboard/review-tools.js';
+import { createViewTools } from '../../src/dashboard/view-tools.js';
+import { createGroupTools } from '../../src/dashboard/group-tools.js';
+import { createOverlayTools } from '../../src/dashboard/overlay-tools.js';
+import { createRenderTools } from '../../src/dashboard/render-tools.js';
+import { createActionTools } from '../../src/dashboard/action-tools.js';
+import { createSelectionTools } from '../../src/dashboard/selection-tools.js';
+import { createInspectTools } from '../../src/dashboard/inspect-tools.js';
+import { downloadTextFile, createCsvFile, parseImportedFilePreview } from '../../src/dashboard/import-export-tools.js';
+import { loadImportJournal } from '../../src/services/import-service.js';
+import { parseImportedThirdPartyFile } from '../../src/services/third-party-import.js';
+import { createDashboardState } from '../../src/dashboard/state.js';
+import { createFeatureTools } from '../../src/dashboard/feature-tools.js';
+import { featureText } from '../../src/locales/feature-messages.js';
+import { createCommandRegistry } from '../../src/dashboard/command-registry.js';
+import { MESSAGE_TYPES, runtimeMessages } from '../../src/runtime/messages.js';
+import { createLogger } from '../../src/services/diagnostics-service.js';
+import { initializeStorageLayer } from '../../src/services/storage-service.js';
+import { loadHealthCache, clearHealthCache, deleteHealthRecord, awaitPendingHealthWrites } from '../../src/services/health-cache-service.js';
+import { loadTagsMap, updateTagsMap, summariseTags, pruneOrphanedTags } from '../../src/services/tag-service.js';
+import { parseDashboardContextParams, CONTEXT_MENU_ACTIONS } from '../../src/services/context-menu-service.js';
+import { createVirtualScroller } from '../../src/dashboard/virtual-scroller.js';
 
 const DASHBOARD_MODE = 'library';
 const state = createDashboardState(DASHBOARD_MODE);

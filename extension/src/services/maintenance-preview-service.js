@@ -1,7 +1,7 @@
 /* Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License. */
 import { getBookmarkTree } from '../platform/browser-api.js';
-import { parseUrlSafe } from '../url-utils.js';
-import { TAG_MAX_PER_BOOKMARK } from '../constants.js';
+import { parseUrlSafe } from '../core/url-utils.js';
+import { TAG_MAX_PER_BOOKMARK } from '../core/constants.js';
 import { loadTagsMap, normaliseTag, normaliseTagList, updateTagsMap } from './tag-service.js';
 
 export function flattenLiveTree(tree) {

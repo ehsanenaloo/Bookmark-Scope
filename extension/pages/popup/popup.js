@@ -3,7 +3,7 @@
  * Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.
  */
 
-import { STORAGE_KEYS, THEME_MODES, COLOR_PALETTES } from './src/constants.js';
+import { STORAGE_KEYS, THEME_MODES, COLOR_PALETTES } from '../../src/core/constants.js';
 import {
   getNormalizedBookmarks,
   detectDuplicates,
@@ -13,20 +13,20 @@ import {
   groupDuplicates,
   getCleanupSummary,
   invalidateBookmarkCache
-} from './src/bookmark-utils.js';
-import { getMatchTarget, matchesMode } from './src/url-utils.js';
-import { applyTheme, applyPalette, loadStoredTheme, loadStoredPalette, saveThemeMode, saveColorPalette, watchSystemTheme } from './src/theme-utils.js';
-import { createIconButton, iconSvg, createIconElement } from './src/icon-system.js';
-import { formatNumber, hasSourceMessage, initI18n, t, translateTree } from './src/i18n.js';
-import { createFaviconNode, debounce, trapFocus } from './src/ui-utils.js';
-import { createPopupActions } from './src/popup/actions.js';
-import { createPopupFooter } from './src/popup/footer.js';
-import { createPopupHeaderOverlays } from './src/popup/header-overlays.js';
-import { createPopupMatchesToast } from './src/popup/matches-toast.js';
-import { createPopupState } from './src/popup/state.js';
-import { addBookmarkEventListeners, addStorageChangedListener } from './src/platform/browser-api.js';
-import { createLogger } from './src/services/diagnostics-service.js';
-import { initializeStorageLayer } from './src/services/storage-service.js';
+} from '../../src/core/bookmark-utils.js';
+import { getMatchTarget, matchesMode } from '../../src/core/url-utils.js';
+import { applyTheme, applyPalette, loadStoredTheme, loadStoredPalette, saveThemeMode, saveColorPalette, watchSystemTheme } from '../../src/ui/theme-utils.js';
+import { createIconButton, iconSvg, createIconElement } from '../../src/ui/icon-system.js';
+import { formatNumber, hasSourceMessage, initI18n, t, translateTree } from '../../src/locales/i18n.js';
+import { createFaviconNode, debounce, trapFocus } from '../../src/ui/ui-utils.js';
+import { createPopupActions } from '../../src/popup/actions.js';
+import { createPopupFooter } from '../../src/popup/footer.js';
+import { createPopupHeaderOverlays } from '../../src/popup/header-overlays.js';
+import { createPopupMatchesToast } from '../../src/popup/matches-toast.js';
+import { createPopupState } from '../../src/popup/state.js';
+import { addBookmarkEventListeners, addStorageChangedListener } from '../../src/platform/browser-api.js';
+import { createLogger } from '../../src/services/diagnostics-service.js';
+import { initializeStorageLayer } from '../../src/services/storage-service.js';
 
 const logger = createLogger('popup');
 

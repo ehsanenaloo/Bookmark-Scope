@@ -1,6 +1,6 @@
 /* Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License. */
 import { getLocalStorage, setLocalStorage, withStorageLock } from './storage-service.js';
-import { STORAGE_KEYS, HEALTH_CACHE_MAX_ENTRIES, HEALTH_CACHE_EVICTION_BATCH, HEALTH_CACHE_TTL_MS } from '../constants.js';
+import { STORAGE_KEYS, HEALTH_CACHE_MAX_ENTRIES, HEALTH_CACHE_EVICTION_BATCH, HEALTH_CACHE_TTL_MS } from '../core/constants.js';
 
 let _writeChain = Promise.resolve();
 function enqueue(operation) {

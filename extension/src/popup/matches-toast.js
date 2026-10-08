@@ -1,4 +1,4 @@
-import { MATCH_MODES, POPUP_MAX_ROWS } from '../constants.js';
+import { MATCH_MODES, POPUP_MAX_ROWS } from '../core/constants.js';
 import { getBookmarksManagerUrl } from '../platform/browser-api.js';
 
 export function createPopupMatchesToast(deps) {

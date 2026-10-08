@@ -10,7 +10,7 @@ import {
   SORT_OPTIONS,
   STORAGE_KEYS,
   THEME_MODES
-} from '../constants.js';
+} from '../core/constants.js';
 import { getLocalStorage, setLocalStorage, withStorageLock } from './storage-service.js';
 
 export const STORAGE_SCHEMA_VERSION = 7;

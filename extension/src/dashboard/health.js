@@ -4,7 +4,7 @@
  */
 
 import { runtimeMessages } from '../runtime/messages.js';
-import { HEALTH_STATUSES } from '../constants.js';
+import { HEALTH_STATUSES } from '../core/constants.js';
 
 export function getHealthKey(bookmark) {
   return bookmark?.parsed?.normalizedPageKey || bookmark?.url || '';

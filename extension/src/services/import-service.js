@@ -2,7 +2,7 @@
 import { createBookmark, removeBookmark } from '../platform/browser-api.js';
 import { getLocalStorage, setLocalStorage, withStorageLock } from './storage-service.js';
 import { updateTagsMap, setTagsForBookmark } from './tag-service.js';
-import { STORAGE_KEYS } from '../constants.js';
+import { STORAGE_KEYS } from '../core/constants.js';
 import { flattenLiveTree, urlIdentity, writableFolders } from './maintenance-preview-service.js';
 import { getBookmarkTree } from '../platform/browser-api.js';
 import { normaliseTagList, normaliseTag } from './tag-service.js';

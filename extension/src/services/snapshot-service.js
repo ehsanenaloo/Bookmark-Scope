@@ -1,6 +1,6 @@
 /* Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License. */
 import { createBookmark, getBookmarkTree, getManifest, removeBookmark } from '../platform/browser-api.js';
-import { STORAGE_KEYS } from '../constants.js';
+import { STORAGE_KEYS } from '../core/constants.js';
 import { loadTagsMap, normaliseTagList, setTagsForBookmark, updateTagsMap } from './tag-service.js';
 import { getLocalStorage, setLocalStorage, withStorageLock } from './storage-service.js';
 import { writableFolders } from './maintenance-preview-service.js';

@@ -3,8 +3,8 @@
  * Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.
  */
 
-import { STORAGE_KEYS, THEME_MODES, COLOR_PALETTES } from './constants.js';
-import { getLocalStorage, setLocalStorage } from './services/storage-service.js';
+import { STORAGE_KEYS, THEME_MODES, COLOR_PALETTES } from '../core/constants.js';
+import { getLocalStorage, setLocalStorage } from '../services/storage-service.js';
 
 export function resolveThemeMode(mode = THEME_MODES.SYSTEM) {
   if (mode === THEME_MODES.LIGHT) return THEME_MODES.LIGHT;

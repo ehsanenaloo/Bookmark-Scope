@@ -3,7 +3,7 @@
  * Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.
  */
 
-import { CLEANUP_FILTERS, HEALTH_STATUSES } from '../constants.js';
+import { CLEANUP_FILTERS, HEALTH_STATUSES } from '../core/constants.js';
 import { runtimeMessages } from '../runtime/messages.js';
 
 function clamp(value, min, max) {

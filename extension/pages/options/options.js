@@ -12,16 +12,16 @@ import {
   THEME_MODES,
   COLOR_PALETTES,
   OPTIONAL_HOST_PATTERNS
-} from './src/constants.js';
-import { applyTheme, applyPalette, loadStoredTheme, loadStoredPalette, saveColorPalette, watchSystemTheme } from './src/theme-utils.js';
-import { getLocalStorage, initializeStorageLayer, setLocalStorage } from './src/services/storage-service.js';
-import { OPTION_PAGE_DEFAULTS } from './src/services/storage-schema.js';
-import { createLogger } from './src/services/diagnostics-service.js';
-import { loadBgHealthScanSettings, saveBgHealthScanSettings } from './src/services/scheduled-health-scan-service.js';
-import { requestPermissions } from './src/platform/browser-api.js';
-import { getReviewReminderSettings, DAY_MS } from './src/services/review-reminder-service.js';
-import { saveReviewReminderPreferences } from './src/services/preferences-service.js';
-import { now } from './src/platform/time.js';
+} from '../../src/core/constants.js';
+import { applyTheme, applyPalette, loadStoredTheme, loadStoredPalette, saveColorPalette, watchSystemTheme } from '../../src/ui/theme-utils.js';
+import { getLocalStorage, initializeStorageLayer, setLocalStorage } from '../../src/services/storage-service.js';
+import { OPTION_PAGE_DEFAULTS } from '../../src/services/storage-schema.js';
+import { createLogger } from '../../src/services/diagnostics-service.js';
+import { loadBgHealthScanSettings, saveBgHealthScanSettings } from '../../src/services/scheduled-health-scan-service.js';
+import { requestPermissions } from '../../src/platform/browser-api.js';
+import { getReviewReminderSettings, DAY_MS } from '../../src/services/review-reminder-service.js';
+import { saveReviewReminderPreferences } from '../../src/services/preferences-service.js';
+import { now } from '../../src/platform/time.js';
 import {
   AUTO_LOCALE,
   getLocaleOptions,
@@ -29,7 +29,7 @@ import {
   setStoredLocalePreference,
   t,
   translateTree
-} from './src/i18n.js';
+} from '../../src/locales/i18n.js';
 
 const logger = createLogger('options');
 

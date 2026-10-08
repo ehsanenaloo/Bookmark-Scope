@@ -1,7 +1,7 @@
-import { STORAGE_KEYS } from './constants.js';
-import { getLocalStorage, setLocalStorage } from './services/storage-service.js';
-import { LOCALE_REGISTRY, loadLocaleMessages } from './locales/index.js';
-import { getUiLanguage } from './platform/browser-api.js';
+import { STORAGE_KEYS } from '../core/constants.js';
+import { getLocalStorage, setLocalStorage } from '../services/storage-service.js';
+import { LOCALE_REGISTRY, loadLocaleMessages } from './index.js';
+import { getUiLanguage } from '../platform/browser-api.js';
 
 export const AUTO_LOCALE = 'auto';
 export const DEFAULT_LOCALE = 'en';

@@ -5,7 +5,7 @@
 
 import { getBookmarkTree } from '../platform/browser-api.js';
 import { runtimeMessages } from '../runtime/messages.js';
-import { HEALTH_STATUSES } from '../constants.js';
+import { HEALTH_STATUSES } from '../core/constants.js';
 import { clearHealthCache, deleteHealthRecord } from '../services/health-cache-service.js';
 import { computeDropDestination, isDropTargetValid, planBatchMove } from './drag-drop-logic.js';
 import {

@@ -1,5 +1,5 @@
-import { MATCH_MODES, SORT_OPTIONS, THEME_MODES } from '../constants.js';
-import { getCleanupSummary } from '../bookmark-utils.js';
+import { MATCH_MODES, SORT_OPTIONS, THEME_MODES } from '../core/constants.js';
+import { getCleanupSummary } from '../core/bookmark-utils.js';
 
 function createPreferencesSlice() {
   return {

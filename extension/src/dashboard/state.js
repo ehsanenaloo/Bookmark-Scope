@@ -7,7 +7,7 @@ import {
   POPUP_WIDTHS,
   SORT_OPTIONS,
   THEME_MODES
-} from '../constants.js';
+} from '../core/constants.js';
 
 function createPreferencesSlice(mode) {
   return {

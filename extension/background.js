@@ -3,10 +3,10 @@
  * Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.
  */
 
-import { getMatchTarget, matchesMode } from './src/url-utils.js';
-import { getNormalizedBookmarks } from './src/bookmark-utils.js';
-import { MATCH_MODES, STORAGE_KEYS, HEALTH_STATUSES } from './src/constants.js';
-import { initI18n, t } from './src/i18n.js';
+import { getMatchTarget, matchesMode } from './src/core/url-utils.js';
+import { getNormalizedBookmarks } from './src/core/bookmark-utils.js';
+import { MATCH_MODES, STORAGE_KEYS, HEALTH_STATUSES } from './src/core/constants.js';
+import { initI18n, t } from './src/locales/i18n.js';
 import { setPinOnboardingVisible } from './src/services/preferences-service.js';
 import { REVIEW_REMINDER_ALARM,  getReviewReminderSettings, buildReviewReminderLabel, scheduleReviewReminderAlarm, deferReviewReminderByInterval } from './src/services/review-reminder-service.js';
 import { registerContextMenus, attachContextMenuListener } from './src/services/context-menu-service.js';
@@ -89,7 +89,7 @@ async function notifyReviewReminder(settings) {
   try {
     await createNotification('bookmark-manager-review-due', {
       type: 'basic',
-      iconUrl: 'icon-128.png',
+      iconUrl: 'icons/icon-128.png',
       title: t('Bookmark Scope review is due'),
       message: `${overdueText} ${t('Open the Library Dashboard and clean the swamp before it becomes archaeology.')}`
     });
@@ -104,7 +104,7 @@ async function notifyPinOnboarding() {
     await clearNotification('bookmark-scope-pin-hint');
     await createNotification('bookmark-scope-pin-hint', {
       type: 'basic',
-      iconUrl: 'icon-128.png',
+      iconUrl: 'icons/icon-128.png',
       title: t('Pin Bookmark Scope for faster access'),
       message: t('Open the Extensions menu, find Bookmark Scope, and click the pin icon for one-click access.')
     });
