@@ -4,10 +4,10 @@ Bookmark Scope is a free project kept by one volunteer. This page tells you wher
 
 ## Read the user guide first
 
-The [user guide](docs/README.md) covers installing, the popup, the dashboard, link checks, backup and restore, and settings. Two pages answer most questions:
+The [user guide](../docs/README.md) covers installing, the popup, the dashboard, link checks, backup and restore, and settings. Two pages answer most questions:
 
-- [Troubleshooting and FAQ](docs/guides/troubleshooting-faq.html)
-- [Limits and known limitations](docs/guides/limits.html)
+- [Troubleshooting and FAQ](../docs/guides/troubleshooting-faq.html)
+- [Limits and known limitations](../docs/guides/limits.html)
 
 ## Ask a question
 
@@ -31,7 +31,7 @@ Do not open a public issue. Use GitHub's [private vulnerability report](https://
 
 ## Privacy questions
 
-Read [PRIVACY.md](PRIVACY.md). For a question it does not answer, open an issue. Do not include personal data.
+Read [PRIVACY.md](../docs/PRIVACY.md). For a question it does not answer, open an issue. Do not include personal data.
 
 ## What to expect
 

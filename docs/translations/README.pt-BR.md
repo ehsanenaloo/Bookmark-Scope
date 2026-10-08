@@ -1,8 +1,8 @@
-[English](README.md) · [فارسی](README.fa.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · **Português (Brasil)** · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [العربية](README.ar.md) · [हिन्दी](README.hi.md)
+[English](../../README.md) · [فارسی](README.fa.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · **Português (Brasil)** · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [العربية](README.ar.md) · [हिन्दी](README.hi.md)
 
 <div align="center">
 
-<img src="icon-128.png" alt="Logo do Bookmark Scope" width="88" height="88">
+<img src="../../extension/icon-128.png" alt="Logo do Bookmark Scope" width="88" height="88">
 
 # Bookmark Scope
 
@@ -13,7 +13,7 @@ Ela funciona só no seu computador. Sem conta, sem rastreamento.
 
 [![Add to Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue)
 ![52 idiomas](https://img.shields.io/badge/idiomas-52-orange)
 ![Sem analytics](https://img.shields.io/badge/analytics-nenhum-lightgrey)
@@ -23,8 +23,8 @@ Ela funciona só no seu computador. Sem conta, sem rastreamento.
 </div>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/screenshots/dashboard-desktop-dark.png">
-  <img src="docs/assets/screenshots/dashboard-desktop-light.png" alt="O painel do Bookmark Scope com uma lista de favoritos, filtros, tags e um painel de detalhes">
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/screenshots/dashboard-desktop-dark.png">
+  <img src="../assets/screenshots/dashboard-desktop-light.png" alt="O painel do Bookmark Scope com uma lista de favoritos, filtros, tags e um painel de detalhes">
 </picture>
 
 ## Por que isto existe
@@ -43,9 +43,9 @@ Você salva o mesmo artigo três vezes. Uma pasta de 2019 está cheia de links m
 Clique no ícone da barra de ferramentas. O popup lista seus favoritos para a página em que você está. Alterne entre esta página exata, este host ou o domínio inteiro. O selo no ícone mostra quantos favoritos correspondem.
 
 <p align="center">
-  <img src="docs/assets/screenshots/popup-light.png" alt="O popup mostrando os favoritos do site atual" width="300">
+  <img src="../assets/screenshots/popup-light.png" alt="O popup mostrando os favoritos do site atual" width="300">
   &nbsp;&nbsp;
-  <img src="docs/assets/screenshots/popup-dark.png" alt="O popup no tema escuro" width="300">
+  <img src="../assets/screenshots/popup-dark.png" alt="O popup no tema escuro" width="300">
 </p>
 
 ### Veja toda a sua biblioteca
@@ -59,7 +59,7 @@ Clique em um favorito para ver os detalhes. Marque vários para trabalhar neles 
 Nada grande acontece sem uma prévia.
 
 <p align="center">
-  <img src="docs/assets/screenshots/duplicate-preview.png" alt="A janela de prévia de duplicados, onde você escolhe qual favorito manter" width="780">
+  <img src="../assets/screenshots/duplicate-preview.png" alt="A janela de prévia de duplicados, onde você escolhe qual favorito manter" width="780">
 </p>
 
 - **Duplicados.** Escolha qual cópia manter. As tags das outras cópias são adicionadas a ela. Você vê o resultado antes de apagar qualquer coisa.
@@ -67,7 +67,7 @@ Nada grande acontece sem uma prévia.
 - **Apagar e desfazer.** Os favoritos apagados podem ser restaurados com as tags. O Chrome não deixa nenhuma extensão recuperar o ID original nem a data de adição, então o favorito restaurado é novo. A extensão avisa você sobre isso.
 
 <p align="center">
-  <img src="docs/assets/screenshots/bulk-tags.png" alt="A janela de tags em lote mostrando as tags antes e depois da mudança" width="780">
+  <img src="../assets/screenshots/bulk-tags.png" alt="A janela de tags em lote mostrando as tags antes e depois da mudança" width="780">
 </p>
 
 ### Encontre links quebrados
@@ -86,7 +86,7 @@ Verifique um grupo de favoritos para ver quais links funcionam, quais redirecion
 - **Exportar.** Salve em JSON ou CSV os favoritos que você está vendo.
 
 <p align="center">
-  <img src="docs/assets/screenshots/library-tools.png" alt="Ferramentas da biblioteca: visualizações salvas, tags em lote, duplicados, verificações, backup e importação" width="780">
+  <img src="../assets/screenshots/library-tools.png" alt="Ferramentas da biblioteca: visualizações salvas, tags em lote, duplicados, verificações, backup e importação" width="780">
 </p>
 
 ### Trabalhe mais rápido
@@ -97,7 +97,7 @@ Verifique um grupo de favoritos para ver quais links funcionam, quais redirecion
 - **Lembretes de revisão.** Ative nas Configurações se quiser um aviso a cada poucas semanas para arrumar a biblioteca.
 
 <p align="center">
-  <img src="docs/assets/screenshots/command-palette.png" alt="A paleta de comandos com uma lista de ações" width="780">
+  <img src="../assets/screenshots/command-palette.png" alt="A paleta de comandos com uma lista de ações" width="780">
 </p>
 
 ### Deixe do seu jeito
@@ -105,9 +105,9 @@ Verifique um grupo de favoritos para ver quais links funcionam, quais redirecion
 Tema claro, escuro ou do sistema. Quatro paletas de cores. Layouts da direita para a esquerda. A extensão inclui 52 idiomas (veja [Bom saber](#good-to-know)).
 
 <p align="center">
-  <img src="docs/assets/screenshots/options-light.png" alt="A página de configurações" width="300">
+  <img src="../assets/screenshots/options-light.png" alt="A página de configurações" width="300">
   &nbsp;&nbsp;
-  <img src="docs/assets/screenshots/dashboard-rtl-dark.png" alt="O painel em persa com layout da direita para a esquerda no tema escuro" width="300">
+  <img src="../assets/screenshots/dashboard-rtl-dark.png" alt="O painel em persa com layout da direita para a esquerda no tema escuro" width="300">
 </p>
 
 ## Instalação
@@ -122,17 +122,17 @@ Outros navegadores Chromium, como Edge e Brave, normalmente conseguem instalar p
 
 **Por este repositório**
 
-Não há etapa de build. Esta pasta é a extensão.
+Não há etapa de build. A pasta `extension` é a extensão.
 
 1. Baixe ou clone este repositório.
 2. Abra `chrome://extensions` e ative o **Developer mode**.
-3. Clique em **Load unpacked** e escolha a pasta que contém o `manifest.json`.
+3. Clique em **Load unpacked** e escolha a pasta `extension` dentro do repositório (a que contém o `manifest.json`), não a pasta principal.
 
 Uma cópia sem empacotar tem o próprio ID de extensão. Você pode mantê-la ao lado da versão da Store, mas elas não compartilham dados, e a cópia sem empacotar não se atualiza sozinha.
 
 ## Seus dados ficam com você
 
-Não há servidor. Não há conta, analytics nem anúncios. Seus favoritos, tags e configurações ficam no seu navegador. A [política de privacidade](PRIVACY.md) tem os detalhes.
+Não há servidor. Não há conta, analytics nem anúncios. Seus favoritos, tags e configurações ficam no seu navegador. A [política de privacidade](../PRIVACY.md) tem os detalhes.
 
 A extensão não lê as páginas que você visita. Ela só lê o endereço da aba ativa, para poder mostrar os favoritos correspondentes.
 
@@ -151,12 +151,12 @@ A extensão não lê as páginas que você visita. Ela só lê o endereço da ab
 <a id="good-to-know"></a>
 ## Bom saber
 
-- **Traduções.** Corrigi as traduções com ajuda de IA e verificações automáticas. Só o inglês e o persa foram lidos por uma pessoa. Os outros idiomas podem ter erros ou algumas palavras em inglês. Se você encontrar algum, [abra uma issue](../../issues) ou envie um pull request. Veja [CONTRIBUTING.md](CONTRIBUTING.md#translations).
+- **Traduções.** Corrigi as traduções com ajuda de IA e verificações automáticas. Só o inglês e o persa foram lidos por uma pessoa. Os outros idiomas podem ter erros ou algumas palavras em inglês. Se você encontrar algum, [abra uma issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) ou envie um pull request. Veja [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
 - **Esta tradução.** Este README em português do Brasil foi escrito com ajuda de IA e ainda não foi lido por um falante nativo. Se você achar um erro ou uma frase estranha, abra uma issue ou envie um pull request com a correção.
 - **A importação é plana.** Ao importar um arquivo `bookmarks.html`, o nome da pasta aparece como um caminho, mas as pastas não são criadas e as datas originais não são mantidas. Use um snapshot se precisar recriar uma árvore de pastas.
 - **As verificações de links são apenas indicações.** Qualquer resposta 4xx conta como quebrada. Uma página que carrega, mas mostra um erro ou uma tela de login, conta como saudável.
 - **CSV.** Testei a exportação em CSV com o importador e com um download real no Chrome. Ainda não abri o arquivo no Excel, no Numbers nem no Google Sheets.
-- **Testes.** A extensão é testada no Chromium. Veja a [lista completa de limites](docs/guides/limits.html).
+- **Testes.** A extensão é testada no Chromium. Veja a [lista completa de limites](../guides/limits.html).
 
 ## Atalhos de teclado
 
@@ -169,30 +169,30 @@ A extensão não lê as páginas que você visita. Ela só lê o endereço da ab
 
 ## Guia do usuário
 
-O guia explica cada parte da extensão, com capturas de tela. Comece por [docs/README.md](docs/README.md) ou abra a [pasta de guias](docs/guides/). Para ler como página web, abra `docs/index.html` no seu navegador.
+O guia explica cada parte da extensão, com capturas de tela. Comece por [docs/README.md](../README.md) ou abra a [pasta de guias](../guides/). Para ler como página web, abra `docs/index.html` no seu navegador.
 
 ## Ajude o projeto
 
-Relatos de bugs, correções de tradução e pequenos pull requests são bem-vindos. Leia o [CONTRIBUTING.md](CONTRIBUTING.md) primeiro. Antes de enviar um pull request, rode esta verificação. Ela precisa do Node.js 24 ou mais novo e não exige instalação.
+Relatos de bugs, correções de tradução e pequenos pull requests são bem-vindos. Leia o [CONTRIBUTING.md](../../.github/CONTRIBUTING.md) primeiro. Antes de enviar um pull request, rode esta verificação. Ela precisa do Node.js 24 ou mais novo e não exige instalação.
 
 ```bash
 node scripts/validate.mjs
 node scripts/test.mjs
 ```
 
-Por favor, relate problemas de segurança em particular. Veja [SECURITY.md](SECURITY.md).
+Por favor, relate problemas de segurança em particular. Veja [SECURITY.md](../../.github/SECURITY.md).
 
 Se o Bookmark Scope economiza seu tempo, você pode [me pagar um café](https://buymeacoffee.com/enaloo). Uma avaliação na [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) também ajuda outras pessoas a encontrá-lo.
 
 ## Contribuidores
 
-Obrigado a todo mundo que ajudou. Seu nome aparece aqui depois da sua primeira contribuição aceita. Veja o [CONTRIBUTING.md](CONTRIBUTING.md#recognition).
+Obrigado a todo mundo que ajudou. Seu nome aparece aqui depois da sua primeira contribuição aceita. Veja o [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#recognition).
 
 <a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors" width="400"></a>
 
 
 ## Licença
 
-[MIT](LICENSE). Copyright 2026 Ehsan Enaloo.
+[MIT](../../LICENSE). Copyright 2026 Ehsan Enaloo.
 
-Duas partes vêm de outros projetos e mantêm suas próprias licenças, listadas em [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md): a Public Suffix List (MPL-2.0) e os ícones do [Lucide](https://lucide.dev) (ISC).
+O código do Bookmark Scope usa a licença MIT. Duas partes vêm de outros projetos e mantêm suas próprias licenças: a Public Suffix List (uma lista de terminações de domínio, como `.co.uk`, MPL-2.0) e os ícones do [Lucide](https://lucide.dev) (ISC). Os textos completos estão em [extension/THIRD_PARTY_NOTICES.md](../../extension/THIRD_PARTY_NOTICES.md).

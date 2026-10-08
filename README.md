@@ -1,8 +1,8 @@
-**English** · [فارسی](README.fa.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português (Brasil)](README.pt-BR.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [العربية](README.ar.md) · [हिन्दी](README.hi.md)
+**English** · [فارسی](docs/translations/README.fa.md) · [Español](docs/translations/README.es.md) · [Français](docs/translations/README.fr.md) · [Deutsch](docs/translations/README.de.md) · [Português (Brasil)](docs/translations/README.pt-BR.md) · [Русский](docs/translations/README.ru.md) · [简体中文](docs/translations/README.zh-CN.md) · [日本語](docs/translations/README.ja.md) · [العربية](docs/translations/README.ar.md) · [हिन्दी](docs/translations/README.hi.md)
 
 <div align="center">
 
-<img src="icon-128.png" alt="Bookmark Scope logo" width="88" height="88">
+<img src="extension/icon-128.png" alt="Bookmark Scope logo" width="88" height="88">
 
 # Bookmark Scope
 
@@ -122,17 +122,17 @@ Other Chromium browsers such as Edge and Brave can usually install it from the s
 
 **From this repository**
 
-There is no build step. This folder is the extension.
+There is no build step. The `extension/` folder is the extension.
 
 1. Download or clone this repository.
 2. Open `chrome://extensions` and turn on **Developer mode**.
-3. Click **Load unpacked** and choose the folder that contains `manifest.json`.
+3. Click **Load unpacked** and choose the **`extension`** folder inside the repository (the one that contains `manifest.json`), not the top folder.
 
 An unpacked copy has its own extension ID. You can keep it next to the Store version, but they do not share data, and the unpacked copy does not update by itself.
 
 ## Your data stays with you
 
-There is no server. There is no account, no analytics and no ads. Your bookmarks, tags and settings stay in your browser. The [privacy policy](PRIVACY.md) has the details.
+There is no server. There is no account, no analytics and no ads. Your bookmarks, tags and settings stay in your browser. The [privacy policy](docs/PRIVACY.md) has the details.
 
 The extension does not read the pages you visit. It only reads the address of the active tab, so it can show matching bookmarks.
 
@@ -150,7 +150,7 @@ The extension does not read the pages you visit. It only reads the address of th
 
 ## Good to know
 
-- **Translations.** I corrected the translations with AI help and automatic checks. Only English and Persian have been read by a person. Other languages may have mistakes or some English words. If you see one, please [open an issue](../../issues) or send a pull request. See [CONTRIBUTING.md](CONTRIBUTING.md#translations).
+- **Translations.** I corrected the translations with AI help and automatic checks. Only English and Persian have been read by a person. Other languages may have mistakes or some English words. If you see one, please [open an issue](https://github.com/ehsanenaloo/Bookmark-Scope/issues) or send a pull request. See [CONTRIBUTING.md](.github/CONTRIBUTING.md#translations).
 - **Import is flat.** When you import a `bookmarks.html` file, the folder name is shown as a path, but folders are not created and the original dates are not kept. Use a snapshot if you need to rebuild a folder tree.
 - **Link checks are hints.** Any 4xx answer counts as broken. A page that loads but shows an error or a login screen counts as healthy.
 - **CSV.** I tested the CSV export with the importer and with a real Chrome download. I have not opened it in Excel, Numbers or Google Sheets yet.
@@ -171,20 +171,20 @@ The guide explains every part of the extension, with screenshots. Start with [do
 
 ## Help the project
 
-Bug reports, translation fixes and small pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) first. Before you send a pull request, run this check. It needs Node.js 24 or newer and no install step.
+Bug reports, translation fixes and small pull requests are welcome. Read [CONTRIBUTING.md](.github/CONTRIBUTING.md) first. Before you send a pull request, run this check. It needs Node.js 24 or newer and no install step.
 
 ```bash
 node scripts/validate.mjs
 node scripts/test.mjs
 ```
 
-Please report security problems in private. See [SECURITY.md](SECURITY.md).
+Please report security problems in private. See [SECURITY.md](.github/SECURITY.md).
 
 If Bookmark Scope saves you time, you can [buy me a coffee](https://buymeacoffee.com/enaloo). A rating on the [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) also helps other people find it.
 
 ## Contributors
 
-Thanks to everyone who has helped. Your name appears here after your first merged contribution. See [CONTRIBUTING.md](CONTRIBUTING.md#recognition).
+Thanks to everyone who has helped. Your name appears here after your first merged contribution. See [CONTRIBUTING.md](.github/CONTRIBUTING.md#recognition).
 
 <a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors" width="400"></a>
 
@@ -193,4 +193,4 @@ Thanks to everyone who has helped. Your name appears here after your first merge
 
 [MIT](LICENSE). Copyright 2026 Ehsan Enaloo.
 
-Two parts come from other projects and keep their own licenses, listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md): the Public Suffix List (MPL-2.0) and the [Lucide](https://lucide.dev) icons (ISC).
+The Bookmark Scope code is MIT. Two pieces come from other projects and keep their own licenses: the Public Suffix List (a list of domain endings such as `.co.uk`, MPL-2.0) and the [Lucide](https://lucide.dev) icons (ISC). The full texts are in [extension/THIRD_PARTY_NOTICES.md](extension/THIRD_PARTY_NOTICES.md).

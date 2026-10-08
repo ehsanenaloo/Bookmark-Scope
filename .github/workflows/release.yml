@@ -1,7 +1,8 @@
 name: Release
 
 # Runs when a version tag such as v5.0.0 is pushed.
-# Builds a zip of the runtime files and attaches it, with a SHA-256 checksum, to a GitHub Release.
+# Builds a zip of the extension (manifest.json at the zip root, plus LICENSE and THIRD_PARTY_NOTICES.md)
+# and attaches it, with a SHA-256 checksum, to a GitHub Release.
 # This workflow does NOT publish to the Chrome Web Store; that remains a manual step.
 
 on:
@@ -35,21 +36,33 @@ jobs:
 
       - name: Assert tag matches manifest version
         run: |
-          manifest_version="$(node -p "JSON.parse(require('fs').readFileSync('manifest.json','utf8')).version")"
+          manifest_version="$(node -p "JSON.parse(require('fs').readFileSync('extension/manifest.json','utf8')).version")"
           if [ "${TAG}" != "v${manifest_version}" ]; then
-            echo "::error::Tag '${TAG}' does not match manifest.json version '${manifest_version}'. Expected tag 'v${manifest_version}'."
+            echo "::error::Tag '${TAG}' does not match extension/manifest.json version '${manifest_version}'. Expected tag 'v${manifest_version}'."
             exit 1
           fi
           echo "VERSION=${manifest_version}" >> "$GITHUB_ENV"
 
       - name: Build extension zip
+        # The zip is built from inside extension/ so manifest.json sits at the zip root, which is
+        # what the Chrome Web Store expects. The repository LICENSE is added at the zip root too.
         run: |
           mkdir -p release
           zip_name="bookmark-scope-${VERSION}.zip"
-          node scripts/list-runtime-files.mjs | zip -q -X "release/${zip_name}" -@
+          zip_path="${PWD}/release/${zip_name}"
+          (cd extension && node ../scripts/list-runtime-files.mjs | zip -q -X "${zip_path}" -@)
+          zip -q -X "${zip_path}" LICENSE
+          entries="$(unzip -Z1 "${zip_path}")"
+          for required in manifest.json LICENSE THIRD_PARTY_NOTICES.md; do
+            echo "${entries}" | grep -qx "${required}" || { echo "::error::${required} is missing at the root of the zip"; exit 1; }
+          done
+          if echo "${entries}" | grep -qE '^(extension/|tests/|docs/|scripts/|\.github/)'; then
+            echo "::error::The zip contains a project folder; manifest.json must be at the zip root."
+            exit 1
+          fi
           (cd release && sha256sum "${zip_name}" > "${zip_name}.sha256")
           echo "ZIP_NAME=${zip_name}" >> "$GITHUB_ENV"
-          unzip -l "release/${zip_name}" | tail -n 3
+          unzip -l "${zip_path}" | tail -n 3
           cat "release/${zip_name}.sha256"
 
       - name: Extract release notes from CHANGELOG

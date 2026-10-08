@@ -1,12 +1,14 @@
 #!/usr/bin/env node
-// Prints the runtime file list (one repository-relative path per line, sorted).
-// Used by the release workflow to build the extension zip: only these files ship.
+// Prints the runtime file list (one path per line, sorted), relative to the extension/ folder.
+// Used by the release workflow, which runs it from inside extension/ so manifest.json ends up at the zip root.
+// The repository LICENSE is added to the zip separately by the workflow.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const spec = JSON.parse(fs.readFileSync(path.join(root, 'scripts', 'runtime-files.json'), 'utf8'));
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const root = path.join(repoRoot, 'extension');
+const spec = JSON.parse(fs.readFileSync(path.join(repoRoot, 'scripts', 'runtime-files.json'), 'utf8'));
 
 export function listRuntimeFiles() {
   const out = [...spec.files];

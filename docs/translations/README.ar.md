@@ -1,10 +1,10 @@
-[English](README.md) · [فارسی](README.fa.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português (Brasil)](README.pt-BR.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · **العربية** · [हिन्दी](README.hi.md)
+[English](../../README.md) · [فارسی](README.fa.md) · [Español](README.es.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Português (Brasil)](README.pt-BR.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · **العربية** · [हिन्दी](README.hi.md)
 
 <div dir="rtl" align="right">
 
 <div align="center">
 
-<img src="icon-128.png" alt="شعار Bookmark Scope" width="88" height="88">
+<img src="../../extension/icon-128.png" alt="شعار Bookmark Scope" width="88" height="88">
 
 # Bookmark Scope
 
@@ -15,7 +15,7 @@
 
 [![Add to Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue)
 ![52 languages](https://img.shields.io/badge/languages-52-orange)
 ![No analytics](https://img.shields.io/badge/analytics-none-lightgrey)
@@ -25,8 +25,8 @@
 </div>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/screenshots/dashboard-desktop-dark.png">
-  <img src="docs/assets/screenshots/dashboard-desktop-light.png" alt="لوحة تحكم Bookmark Scope تعرض قائمة الإشارات المرجعية والمرشحات والوسوم ولوحة التفاصيل">
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/screenshots/dashboard-desktop-dark.png">
+  <img src="../assets/screenshots/dashboard-desktop-light.png" alt="لوحة تحكم Bookmark Scope تعرض قائمة الإشارات المرجعية والمرشحات والوسوم ولوحة التفاصيل">
 </picture>
 
 ## لماذا هذه الإضافة؟
@@ -45,9 +45,9 @@
 انقر على الأيقونة في شريط الأدوات. تعرض النافذة المنبثقة إشاراتك المرجعية للصفحة التي تتصفحها. يمكنك التبديل بين هذه الصفحة بالتحديد، أو هذا المضيف، أو النطاق كاملًا. وتعرض الشارة على الأيقونة عدد الإشارات المرجعية المطابقة.
 
 <p align="center">
-  <img src="docs/assets/screenshots/popup-light.png" alt="النافذة المنبثقة تعرض إشارات مرجعية للموقع الحالي" width="300">
+  <img src="../assets/screenshots/popup-light.png" alt="النافذة المنبثقة تعرض إشارات مرجعية للموقع الحالي" width="300">
   &nbsp;&nbsp;
-  <img src="docs/assets/screenshots/popup-dark.png" alt="النافذة المنبثقة في السمة الداكنة" width="300">
+  <img src="../assets/screenshots/popup-dark.png" alt="النافذة المنبثقة في السمة الداكنة" width="300">
 </p>
 
 ### شاهد مكتبتك كاملة
@@ -61,7 +61,7 @@
 لا يحدث شيء كبير بدون معاينة.
 
 <p align="center">
-  <img src="docs/assets/screenshots/duplicate-preview.png" alt="نافذة معاينة المكررات حيث تختار أي إشارة مرجعية تُبقي" width="780">
+  <img src="../assets/screenshots/duplicate-preview.png" alt="نافذة معاينة المكررات حيث تختار أي إشارة مرجعية تُبقي" width="780">
 </p>
 
 - **المكررات.** اختر أي نسخة تُبقي. تُضاف إليها وسوم النسخ الأخرى. وترى النتيجة قبل أن يُحذف أي شيء.
@@ -69,7 +69,7 @@
 - **الحذف والتراجع.** يمكن استعادة الإشارات المحذوفة مع وسومها. لا يسمح Chrome لأي إضافة باستعادة المعرّف الأصلي أو تاريخ الإضافة، لذلك تكون الإشارة المستعادة جديدة. وتخبرك الإضافة بذلك.
 
 <p align="center">
-  <img src="docs/assets/screenshots/bulk-tags.png" alt="نافذة الوسوم الجماعية تعرض الوسوم قبل التغيير وبعده" width="780">
+  <img src="../assets/screenshots/bulk-tags.png" alt="نافذة الوسوم الجماعية تعرض الوسوم قبل التغيير وبعده" width="780">
 </p>
 
 ### ابحث عن الروابط الميتة
@@ -88,7 +88,7 @@
 - **التصدير.** احفظ الإشارات المرجعية التي تعرضها حاليًا بصيغة JSON أو CSV.
 
 <p align="center">
-  <img src="docs/assets/screenshots/library-tools.png" alt="أدوات المكتبة: العروض المحفوظة والوسوم الجماعية والمكررات وعمليات الفحص والنسخ الاحتياطي والاستيراد" width="780">
+  <img src="../assets/screenshots/library-tools.png" alt="أدوات المكتبة: العروض المحفوظة والوسوم الجماعية والمكررات وعمليات الفحص والنسخ الاحتياطي والاستيراد" width="780">
 </p>
 
 ### اعمل بسرعة أكبر
@@ -99,7 +99,7 @@
 - **تذكيرات المراجعة.** شغّلها من الإعدادات إذا أردت تنبيهًا كل بضعة أسابيع لترتيب مكتبتك.
 
 <p align="center">
-  <img src="docs/assets/screenshots/command-palette.png" alt="لوحة الأوامر مع قائمة بالإجراءات" width="780">
+  <img src="../assets/screenshots/command-palette.png" alt="لوحة الأوامر مع قائمة بالإجراءات" width="780">
 </p>
 
 ### خصّصها لنفسك
@@ -107,9 +107,9 @@
 سمة فاتحة أو داكنة أو حسب النظام. أربع لوحات ألوان. وتخطيط من اليمين إلى اليسار. تضم الإضافة 52 لغة (انظر [معلومات مهمة](#good-to-know)).
 
 <p align="center">
-  <img src="docs/assets/screenshots/options-light.png" alt="صفحة الإعدادات" width="300">
+  <img src="../assets/screenshots/options-light.png" alt="صفحة الإعدادات" width="300">
   &nbsp;&nbsp;
-  <img src="docs/assets/screenshots/dashboard-rtl-dark.png" alt="لوحة التحكم بالفارسية بتخطيط من اليمين إلى اليسار في السمة الداكنة" width="300">
+  <img src="../assets/screenshots/dashboard-rtl-dark.png" alt="لوحة التحكم بالفارسية بتخطيط من اليمين إلى اليسار في السمة الداكنة" width="300">
 </p>
 
 ## التثبيت
@@ -124,17 +124,17 @@
 
 **من هذا المستودع**
 
-لا توجد خطوة بناء. هذا المجلد هو الإضافة نفسها.
+لا توجد خطوة بناء. المجلد `extension` هو الإضافة نفسها.
 
 1. نزّل هذا المستودع أو انسخه (clone).
 2. افتح `chrome://extensions` وفعّل **Developer mode**.
-3. انقر على **Load unpacked** واختر المجلد الذي يحتوي على `manifest.json`.
+3. انقر على **Load unpacked** واختر المجلد `extension` داخل المستودع (الذي يحتوي على `manifest.json`)، وليس المجلد الرئيسي.
 
 للنسخة غير المضغوطة معرّف إضافة خاص بها. يمكنك إبقاؤها بجانب نسخة المتجر، لكنهما لا تتشاركان البيانات، والنسخة غير المضغوطة لا تتحدث تلقائيًا.
 
 ## بياناتك تبقى عندك
 
-لا يوجد خادم. ولا حساب ولا تحليلات ولا إعلانات. تبقى إشاراتك المرجعية ووسومك وإعداداتك داخل متصفحك. تجد التفاصيل في [سياسة الخصوصية](PRIVACY.md).
+لا يوجد خادم. ولا حساب ولا تحليلات ولا إعلانات. تبقى إشاراتك المرجعية ووسومك وإعداداتك داخل متصفحك. تجد التفاصيل في [سياسة الخصوصية](../PRIVACY.md).
 
 لا تقرأ الإضافة الصفحات التي تزورها. هي تقرأ فقط عنوان التبويب النشط، لتعرض الإشارات المرجعية المطابقة.
 
@@ -153,12 +153,12 @@
 <a id="good-to-know"></a>
 ## معلومات مهمة
 
-- **الترجمات.** صححت الترجمات بمساعدة الذكاء الاصطناعي وبفحوص تلقائية. لم يقرأ شخص حقيقي سوى الإنجليزية والفارسية. قد تحتوي اللغات الأخرى على أخطاء أو على بعض الكلمات الإنجليزية. إذا وجدت خطأ، فيرجى [فتح مشكلة (issue)](../../issues) أو إرسال طلب دمج (pull request). انظر [CONTRIBUTING.md](CONTRIBUTING.md#translations).
+- **الترجمات.** صححت الترجمات بمساعدة الذكاء الاصطناعي وبفحوص تلقائية. لم يقرأ شخص حقيقي سوى الإنجليزية والفارسية. قد تحتوي اللغات الأخرى على أخطاء أو على بعض الكلمات الإنجليزية. إذا وجدت خطأ، فيرجى [فتح مشكلة (issue)](https://github.com/ehsanenaloo/Bookmark-Scope/issues) أو إرسال طلب دمج (pull request). انظر [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#translations).
 - **هذه الترجمة العربية.** كُتبت هذه الصفحة بمساعدة الذكاء الاصطناعي، ولم يراجعها بعد قارئ عربي من أهل اللغة. إذا وجدت جملة غير طبيعية أو خطأ، فيسعدني أن تفتح مشكلة (issue) أو ترسل طلب دمج (pull request).
 - **الاستيراد مسطّح.** عند استيراد ملف `bookmarks.html`، يظهر اسم المجلد على شكل مسار، لكن المجلدات لا تُنشأ والتواريخ الأصلية لا تُحفظ. استخدم اللقطة إذا أردت إعادة بناء شجرة المجلدات.
 - **فحص الروابط مجرد مؤشر.** أي استجابة 4xx تُعدّ رابطًا معطلًا. أما الصفحة التي تُحمَّل لكنها تعرض خطأ أو شاشة تسجيل دخول فتُعدّ سليمة.
 - **CSV.** اختبرت تصدير CSV مع أداة الاستيراد ومع تنزيل حقيقي من Chrome. لم أفتحه بعد في Excel أو Numbers أو Google Sheets.
-- **الاختبار.** تُختبر الإضافة في Chromium. انظر [القائمة الكاملة للقيود](docs/guides/limits.html).
+- **الاختبار.** تُختبر الإضافة في Chromium. انظر [القائمة الكاملة للقيود](../guides/limits.html).
 
 ## اختصارات لوحة المفاتيح
 
@@ -171,32 +171,32 @@
 
 ## دليل المستخدم
 
-يشرح الدليل كل جزء من الإضافة، مع لقطات شاشة. ابدأ بـ [docs/README.md](docs/README.md) أو افتح [مجلد الأدلة](docs/guides/). لقراءته كصفحة ويب، افتح `docs/index.html` في متصفحك.
+يشرح الدليل كل جزء من الإضافة، مع لقطات شاشة. ابدأ بـ [docs/README.md](../README.md) أو افتح [مجلد الأدلة](../guides/). لقراءته كصفحة ويب، افتح `docs/index.html` في متصفحك.
 
 ## ساهم في المشروع
 
-نرحّب بتقارير الأخطاء وتصحيحات الترجمة وطلبات الدمج الصغيرة. اقرأ [CONTRIBUTING.md](CONTRIBUTING.md) أولًا. قبل إرسال طلب دمج، شغّل هذا الفحص. يحتاج إلى Node.js 24 أو أحدث، ولا يحتاج إلى تثبيت أي حزم.
+نرحّب بتقارير الأخطاء وتصحيحات الترجمة وطلبات الدمج الصغيرة. اقرأ [CONTRIBUTING.md](../../.github/CONTRIBUTING.md) أولًا. قبل إرسال طلب دمج، شغّل هذا الفحص. يحتاج إلى Node.js 24 أو أحدث، ولا يحتاج إلى تثبيت أي حزم.
 
 ```bash
 node scripts/validate.mjs
 node scripts/test.mjs
 ```
 
-يرجى الإبلاغ عن المشكلات الأمنية بشكل خاص. انظر [SECURITY.md](SECURITY.md).
+يرجى الإبلاغ عن المشكلات الأمنية بشكل خاص. انظر [SECURITY.md](../../.github/SECURITY.md).
 
 إذا وفّرت لك Bookmark Scope وقتًا، يمكنك أن [تشتري لي فنجان قهوة](https://buymeacoffee.com/enaloo). كما أن تقييمك في [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) يساعد الآخرين على العثور عليها.
 
 ## المساهمون
 
-شكرًا لكل من ساعد في المشروع. يظهر اسمك هنا بعد قبول أول مساهمة لك. اقرأ [CONTRIBUTING.md](CONTRIBUTING.md#recognition).
+شكرًا لكل من ساعد في المشروع. يظهر اسمك هنا بعد قبول أول مساهمة لك. اقرأ [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#recognition).
 
 <a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors" width="400"></a>
 
 
 ## الرخصة
 
-[MIT](LICENSE). حقوق النشر 2026 Ehsan Enaloo.
+[MIT](../../LICENSE). حقوق النشر 2026 Ehsan Enaloo.
 
-يأتي جزءان من مشاريع أخرى ويحتفظان برخصهما الخاصة، المذكورة في [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md): قائمة اللواحق العامة (Public Suffix List) برخصة MPL-2.0، وأيقونات [Lucide](https://lucide.dev) برخصة ISC.
+شيفرة Bookmark Scope مرخّصة بموجب MIT. وهناك جزءان من مشاريع أخرى ويحتفظان برخصهما الخاصة: قائمة اللواحق العامة Public Suffix List (قائمة بنهايات النطاقات مثل `.co.uk`، برخصة MPL-2.0) وأيقونات [Lucide](https://lucide.dev) (برخصة ISC). النصوص الكاملة للرخص موجودة في [extension/THIRD_PARTY_NOTICES.md](../../extension/THIRD_PARTY_NOTICES.md).
 
 </div>

@@ -56,12 +56,12 @@ The extension is not directed at children and collects no personal information f
 
 ## Open source
 
-The full source code is public at <https://github.com/ehsanenaloo/Bookmark-Scope> so that every statement above can be verified. Third-party material is listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+The full source code is public at <https://github.com/ehsanenaloo/Bookmark-Scope> so that every statement above can be verified. Third-party material is listed in [THIRD_PARTY_NOTICES.md](../extension/THIRD_PARTY_NOTICES.md).
 
 ## Changes to this policy
 
-If the extension's data practices change, this file will be updated in the same release and the change recorded in [CHANGELOG.md](CHANGELOG.md). The "Last updated" date above will change.
+If the extension's data practices change, this file will be updated in the same release and the change recorded in [CHANGELOG.md](../CHANGELOG.md). The "Last updated" date above will change.
 
 ## Contact
 
-Questions or concerns about privacy: open an issue at <https://github.com/ehsanenaloo/Bookmark-Scope/issues>. For anything sensitive, use the private reporting process in [SECURITY.md](SECURITY.md).
+Questions or concerns about privacy: open an issue at <https://github.com/ehsanenaloo/Bookmark-Scope/issues>. For anything sensitive, use the private reporting process in [SECURITY.md](../.github/SECURITY.md).

@@ -9,7 +9,7 @@
 /docs/ @ehsanenaloo
 
 # Interface translations and feature copy.
-/src/locales/ @ehsanenaloo
+/extension/src/locales/ @ehsanenaloo
 
 # Browser-level strings (extension name, description, toolbar tooltip).
-/_locales/ @ehsanenaloo
+/extension/_locales/ @ehsanenaloo

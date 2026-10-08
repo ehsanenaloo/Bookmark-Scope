@@ -22,5 +22,5 @@
 *.zip binary
 
 # Keep generated and vendored files out of language statistics and diffs
-vendor/* linguist-vendored
-src/public-suffix-rules.js linguist-generated
+extension/vendor/* linguist-vendored
+extension/src/public-suffix-rules.js linguist-generated
