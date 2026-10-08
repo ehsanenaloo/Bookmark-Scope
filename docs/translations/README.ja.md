@@ -189,7 +189,7 @@ Bookmark Scope が時間の節約になったなら、[コーヒーをおごる]
 
 このプロジェクトを助けてくれたすべての方に感謝します。最初の貢献が取り込まれると、ここにお名前が表示されます。詳しくは [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#recognition) をご覧ください。
 
-<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors" width="400"></a>
+<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors"></a>
 
 
 ## ライセンス

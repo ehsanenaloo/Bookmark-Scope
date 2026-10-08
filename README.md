@@ -187,7 +187,7 @@ If Bookmark Scope saves you time, you can [buy me a coffee](https://buymeacoffee
 
 Thanks to everyone who has helped. Your name appears here after your first merged contribution. See [CONTRIBUTING.md](.github/CONTRIBUTING.md#recognition).
 
-<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors" width="400"></a>
+<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors"></a>
 
 
 ## License

@@ -188,7 +188,7 @@ node scripts/test.mjs
 
 Спасибо всем, кто помогал проекту. Ваше имя появится здесь после первого принятого вклада. Подробности в [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#recognition).
 
-<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors" width="400"></a>
+<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors"></a>
 
 
 ## Лицензия

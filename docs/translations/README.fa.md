@@ -190,7 +190,7 @@ node scripts/test.mjs
 
 از همه‌ی کسانی که به این پروژه کمک کرده‌اند ممنونم. بعد از پذیرفته‌شدن اولین مشارکتتان، نام شما هم اینجا نشان داده می‌شود. جزئیات در [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#recognition).
 
-<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors" width="400"></a>
+<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors"></a>
 
 
 ## مجوز
