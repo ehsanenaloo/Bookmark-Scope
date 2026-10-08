@@ -188,7 +188,7 @@ node scripts/test.mjs
 
 感谢所有帮助过这个项目的人。你的第一个贡献被合并后，你的头像会出现在这里。详情见 [CONTRIBUTING.md](../../.github/CONTRIBUTING.md#recognition)。
 
-<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors" width="400"></a>
+<a href="https://github.com/ehsanenaloo/Bookmark-Scope/graphs/contributors"><img src="https://contrib.rocks/image?repo=ehsanenaloo/Bookmark-Scope" alt="Contributors"></a>
 
 
 ## 许可证
