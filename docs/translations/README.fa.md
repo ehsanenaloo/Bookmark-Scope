@@ -67,11 +67,14 @@ Bookmark Scope این مشکل را با دو ابزار حل می‌کند. **�
 | مرورگر | وضعیت | روش |
 | --- | --- | --- |
 | **Chrome** | تست‌شده | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
-| **Edge، Brave** | کار می‌کند | از همان صفحه‌ی Chrome Web Store نصب کنید. هنوز در Edge Add-ons نیست. |
+| **Edge** | کار می‌کند | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
+| **Brave** | کار می‌کند | از همان صفحه‌ی Chrome Web Store نصب کنید. |
 | **Firefox 140 به بالا** (دسکتاپ) | آزمایشی | [نصب موقت از صفحه‌ی Releases](#firefox-experimental) |
 | **Safari** | پشتیبانی نمی‌شود | |
 
-**Chrome، Edge و Brave:** صفحه‌ی افزونه را باز کنید، روی **Add to Chrome** کلیک کنید، بعد روی آیکون puzzle در نوار ابزار کلیک کنید و Bookmark Scope را پین کنید.
+**Chrome و Brave:** صفحه‌ی افزونه را باز کنید، روی **Add to Chrome** کلیک کنید، بعد روی آیکون puzzle در نوار ابزار کلیک کنید و Bookmark Scope را پین کنید.
+
+**Edge:** [صفحه‌ی Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) را باز کنید و روی **Get** کلیک کنید.
 
 <a id="firefox-experimental"></a>
 

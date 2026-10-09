@@ -61,11 +61,14 @@ Bookmark Scope fixes this with two tools. The **popup** shows the bookmarks you 
 | Browser | Status | How |
 | --- | --- | --- |
 | **Chrome** | Tested | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
-| **Edge, Brave** | Works | Install from the same Chrome Web Store page. Not listed on Edge Add-ons yet. |
+| **Edge** | Works | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
+| **Brave** | Works | Install from the same Chrome Web Store page. |
 | **Firefox 140+** (desktop) | Experimental | [Temporary install from the Releases page](#firefox-experimental) |
 | **Safari** | Not supported | |
 
-**Chrome, Edge and Brave:** open the store page, click **Add to Chrome**, then click the puzzle icon in the toolbar and pin Bookmark Scope.
+**Chrome and Brave:** open the store page, click **Add to Chrome**, then click the puzzle icon in the toolbar and pin Bookmark Scope.
+
+**Edge:** open the [Microsoft Edge Add-ons page](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) and click **Get**.
 
 <a id="firefox-experimental"></a>
 

@@ -65,11 +65,14 @@ Bookmark Scope löst das mit zwei Werkzeugen. Das **Popup** zeigt die Lesezeiche
 | Browser | Status | Wie |
 | --- | --- | --- |
 | **Chrome** | Getestet | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
-| **Edge, Brave** | Funktioniert | Installiere von derselben Seite im Chrome Web Store. Noch nicht bei Edge Add-ons gelistet. |
+| **Edge** | Funktioniert | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
+| **Brave** | Funktioniert | Installiere von derselben Seite im Chrome Web Store. |
 | **Firefox 140+** (Desktop) | Experimentell | [Temporäre Installation von der Releases-Seite](#firefox-experimental) |
 | **Safari** | Nicht unterstützt | |
 
-**Chrome, Edge und Brave:** Öffne die Store-Seite, klick auf **Add to Chrome**, klick dann auf das Puzzle-Symbol in der Symbolleiste und pinne Bookmark Scope an.
+**Chrome und Brave:** Öffne die Store-Seite, klick auf **Add to Chrome**, klick dann auf das Puzzle-Symbol in der Symbolleiste und pinne Bookmark Scope an.
+
+**Edge:** Öffne die [Seite bei Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) und klick auf **Get**.
 
 <a id="firefox-experimental"></a>
 

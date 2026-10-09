@@ -65,11 +65,14 @@ Bookmark Scope 用两个工具来解决这个问题。**弹出窗口**会显示�
 | 浏览器 | 状态 | 方法 |
 | --- | --- | --- |
 | **Chrome** | 已测试 | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
-| **Edge、Brave** | 可用 | 从同一个 Chrome Web Store 页面安装。还没有上架 Edge Add-ons。 |
+| **Edge** | 可用 | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
+| **Brave** | 可用 | 从同一个 Chrome Web Store 页面安装。 |
 | **Firefox 140 及以上**（桌面版） | 实验版 | [从 Releases 页面临时安装](#firefox-experimental) |
 | **Safari** | 不支持 | |
 
-**Chrome、Edge 和 Brave：** 打开商店页面，点击 **添加至 Chrome**，再点击工具栏上的拼图图标，把 Bookmark Scope 固定在工具栏。
+**Chrome 和 Brave：** 打开商店页面，点击 **添加至 Chrome**，再点击工具栏上的拼图图标，把 Bookmark Scope 固定在工具栏。
+
+**Edge：** 打开 [Microsoft Edge Add-ons 页面](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae)，点击 **Get**。
 
 <a id="firefox-experimental"></a>
 

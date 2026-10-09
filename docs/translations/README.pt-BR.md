@@ -65,11 +65,14 @@ O Bookmark Scope resolve isso com duas ferramentas. O **popup** mostra os favori
 | Navegador | Status | Como |
 | --- | --- | --- |
 | **Chrome** | Testado | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
-| **Edge, Brave** | Funciona | Instale pela mesma página da Chrome Web Store. Ainda não está no Edge Add-ons. |
+| **Edge** | Funciona | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
+| **Brave** | Funciona | Instale pela mesma página da Chrome Web Store. |
 | **Firefox 140+** (computador) | Experimental | [Instalação temporária pela página de Releases](#firefox-experimental) |
 | **Safari** | Não compatível | |
 
-**Chrome, Edge e Brave:** abra a página da loja, clique em **Add to Chrome**, depois clique no ícone de quebra-cabeça na barra de ferramentas e fixe o Bookmark Scope.
+**Chrome e Brave:** abra a página da loja, clique em **Add to Chrome**, depois clique no ícone de quebra-cabeça na barra de ferramentas e fixe o Bookmark Scope.
+
+**Edge:** abra a [página no Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) e clique em **Get**.
 
 <a id="firefox-experimental"></a>
 

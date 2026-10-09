@@ -65,11 +65,14 @@ Bookmark Scope решает это двумя инструментами. **Вс
 | Браузер | Статус | Как |
 | --- | --- | --- |
 | **Chrome** | Проверено | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
-| **Edge, Brave** | Работает | Установите с той же страницы Chrome Web Store. В Edge Add-ons пока нет. |
+| **Edge** | Работает | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
+| **Brave** | Работает | Установите с той же страницы Chrome Web Store. |
 | **Firefox 140+** (настольный) | Экспериментально | [Временная установка со страницы Releases](#firefox-experimental) |
 | **Safari** | Не поддерживается | |
 
-**Chrome, Edge и Brave:** откройте страницу в магазине, нажмите **Добавить в Chrome** (**Add to Chrome**), затем нажмите на значок пазла на панели инструментов и закрепите Bookmark Scope.
+**Chrome и Brave:** откройте страницу в магазине, нажмите **Добавить в Chrome** (**Add to Chrome**), затем нажмите на значок пазла на панели инструментов и закрепите Bookmark Scope.
+
+**Edge:** откройте [страницу в Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) и нажмите **Get**.
 
 <a id="firefox-experimental"></a>
 

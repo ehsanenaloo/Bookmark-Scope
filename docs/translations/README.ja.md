@@ -65,11 +65,14 @@ Bookmark Scope は、2 つのツールでこの問題を解決します。**ポ�
 | ブラウザー | 状態 | 方法 |
 | --- | --- | --- |
 | **Chrome** | テスト済み | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
-| **Edge、Brave** | 動作します | 同じ Chrome Web Store のページからインストールします。Edge Add-ons にはまだ公開していません。 |
+| **Edge** | 動作します | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
+| **Brave** | 動作します | 同じ Chrome Web Store のページからインストールします。 |
 | **Firefox 140 以降**(デスクトップ版) | 試験版 | [Releases ページから一時的にインストール](#firefox-experimental) |
 | **Safari** | 非対応 | |
 
-**Chrome、Edge、Brave:** ストアのページを開いて **Add to Chrome** をクリックします。次にツールバーのパズルのアイコンをクリックして、Bookmark Scope をピン留めします。
+**Chrome、Brave:** ストアのページを開いて **Add to Chrome** をクリックします。次にツールバーのパズルのアイコンをクリックして、Bookmark Scope をピン留めします。
+
+**Edge:** [Microsoft Edge Add-ons のページ](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae)を開いて **Get** をクリックします。
 
 <a id="firefox-experimental"></a>
 

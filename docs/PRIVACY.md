@@ -39,7 +39,7 @@ If you allow them, the extension shows local notifications for the pin hint, rev
 
 ## Other browsers
 
-Bookmark Scope is made for Chrome. Edge and Brave can add it from the Chrome Web Store page, and this policy applies there too. An experimental Firefox build is available from the GitHub Releases page. It works the same way and keeps its data in Firefox's local extension storage, and it sends nothing to the author or to any third party. In every browser, the browser's own update and permission settings apply.
+Bookmark Scope is made for Chrome. It is also on Microsoft Edge Add-ons, and Brave can add it from the Chrome Web Store page. This policy applies in all of them. An experimental Firefox build is available from the GitHub Releases page. It works the same way and keeps its data in Firefox's local extension storage, and it sends nothing to the author or to any third party. In every browser, the browser's own update and permission settings apply.
 
 ## Diagnostics
 
