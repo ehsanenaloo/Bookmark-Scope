@@ -65,11 +65,14 @@ Bookmark Scope इसे दो टूल से ठीक करता है�
 | ब्राउज़र | स्थिति | कैसे |
 | --- | --- | --- |
 | **Chrome** | टेस्ट किया हुआ | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
-| **Edge, Brave** | काम करता है | उसी Chrome Web Store पेज से इंस्टॉल करें। यह अभी Edge Add-ons पर नहीं है। |
+| **Edge** | काम करता है | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
+| **Brave** | काम करता है | उसी Chrome Web Store पेज से इंस्टॉल करें। |
 | **Firefox 140+** (डेस्कटॉप) | प्रयोगात्मक | [Releases पेज से अस्थायी इंस्टॉल](#firefox-experimental) |
 | **Safari** | सपोर्ट नहीं है | |
 
-**Chrome, Edge और Brave:** स्टोर पेज खोलें, **Add to Chrome** पर क्लिक करें, फिर toolbar में पज़ल आइकन पर क्लिक करें और Bookmark Scope को pin करें।
+**Chrome और Brave:** स्टोर पेज खोलें, **Add to Chrome** पर क्लिक करें, फिर toolbar में पज़ल आइकन पर क्लिक करें और Bookmark Scope को pin करें।
+
+**Edge:** [Microsoft Edge Add-ons पेज](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) खोलें और **Get** पर क्लिक करें।
 
 <a id="firefox-experimental"></a>
 

@@ -67,11 +67,14 @@
 | المتصفح | الحالة | الطريقة |
 | --- | --- | --- |
 | **Chrome** | مُختبر | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
-| **Edge وBrave** | يعمل | ثبّتها من صفحة Chrome Web Store نفسها. غير موجودة بعد في Edge Add-ons. |
+| **Edge** | يعمل | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
+| **Brave** | يعمل | ثبّتها من صفحة Chrome Web Store نفسها. |
 | **Firefox 140 أو أحدث** (سطح المكتب) | تجريبي | [تثبيت مؤقت من صفحة الإصدارات](#firefox-experimental) |
 | **Safari** | غير مدعوم | |
 
-**Chrome وEdge وBrave:** افتح صفحة المتجر، وانقر على **Add to Chrome**، ثم انقر على أيقونة قطعة الأحجية في شريط الأدوات وثبّت Bookmark Scope.
+**Chrome وBrave:** افتح صفحة المتجر، وانقر على **Add to Chrome**، ثم انقر على أيقونة قطعة الأحجية في شريط الأدوات وثبّت Bookmark Scope.
+
+**Edge:** افتح [صفحة Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) وانقر على **Get**.
 
 <a id="firefox-experimental"></a>
 

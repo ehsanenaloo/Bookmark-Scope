@@ -6,6 +6,10 @@ The format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+### Changed
+
+- The README, its translations, the user guide and the privacy text now link to the Microsoft Edge Add-ons page.
+
 ## [5.2.1] - 2026-10-08
 
 This release makes the package acceptable to the Microsoft Edge Add-ons store. The extension behaves the same as 5.2.0.

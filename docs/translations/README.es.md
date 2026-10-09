@@ -65,11 +65,14 @@ Bookmark Scope lo resuelve con dos herramientas. El **popup** muestra los marcad
 | Navegador | Estado | Cómo |
 | --- | --- | --- |
 | **Chrome** | Probado | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
-| **Edge, Brave** | Funciona | Instala desde la misma página de Chrome Web Store. Todavía no está en Edge Add-ons. |
+| **Edge** | Funciona | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
+| **Brave** | Funciona | Instala desde la misma página de Chrome Web Store. |
 | **Firefox 140+** (escritorio) | Experimental | [Instalación temporal desde la página de Releases](#firefox-experimental) |
 | **Safari** | No compatible | |
 
-**Chrome, Edge y Brave:** abre la página de la tienda, haz clic en **Add to Chrome**, luego haz clic en el icono del rompecabezas de la barra de herramientas y ancla Bookmark Scope.
+**Chrome y Brave:** abre la página de la tienda, haz clic en **Add to Chrome**, luego haz clic en el icono del rompecabezas de la barra de herramientas y ancla Bookmark Scope.
+
+**Edge:** abre la [página en Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) y haz clic en **Get**.
 
 <a id="firefox-experimental"></a>
 

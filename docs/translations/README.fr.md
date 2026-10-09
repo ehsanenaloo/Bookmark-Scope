@@ -65,11 +65,14 @@ Bookmark Scope règle ce problème avec deux outils. La **fenêtre contextuelle*
 | Navigateur | État | Comment |
 | --- | --- | --- |
 | **Chrome** | Testé | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
-| **Edge, Brave** | Fonctionne | Installez depuis la même page du Chrome Web Store. Pas encore sur Edge Add-ons. |
+| **Edge** | Fonctionne | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
+| **Brave** | Fonctionne | Installez depuis la même page du Chrome Web Store. |
 | **Firefox 140+** (ordinateur) | Expérimental | [Installation temporaire depuis la page des Releases](#firefox-experimental) |
 | **Safari** | Non pris en charge | |
 
-**Chrome, Edge et Brave :** ouvrez la page de la boutique, cliquez sur **Add to Chrome**, puis cliquez sur l'icône en forme de pièce de puzzle dans la barre d'outils et épinglez Bookmark Scope.
+**Chrome et Brave :** ouvrez la page de la boutique, cliquez sur **Add to Chrome**, puis cliquez sur l'icône en forme de pièce de puzzle dans la barre d'outils et épinglez Bookmark Scope.
+
+**Edge :** ouvrez la [page sur Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) et cliquez sur **Get**.
 
 <a id="firefox-experimental"></a>
 
