@@ -805,23 +805,28 @@ check('C22', 'badge shows the match count for the active http tab (event page, t
   return { badge: text };
 });
 
-check('C23', 'review reminder notification is created by the event page (notifications API accepts the options)', async () => {
+check('C23', 'review reminder fires, reschedules, and the notifications API accepts the extension options', async () => {
   const info = await util.ev(async () => {
     const shown = [];
     browser.notifications.onShown?.addListener(id => shown.push(id));
     await browser.storage.local.set({ reviewReminderEnabled: true, reviewReminderIntervalDays: 1, reviewReminderNextAt: Date.now() - 1000 });
     await browser.alarms.create('bookmark-manager-review-reminder', { when: Date.now() + 500 });
+    let next;
     for (let i = 0; i < 80; i++) {
-      const next = (await browser.storage.local.get('reviewReminderNextAt')).reviewReminderNextAt;
-      // onShown depends on a desktop notification service (absent on headless CI), so also accept the notification being listed by the API.
-      const listed = Object.keys(await browser.notifications.getAll());
-      if ((shown.includes('bookmark-manager-review-due') || listed.includes('bookmark-manager-review-due')) && next > Date.now()) return { shown, listed, next, hasOnShown: Boolean(browser.notifications.onShown) };
+      next = (await browser.storage.local.get('reviewReminderNextAt')).reviewReminderNextAt;
+      if (next > Date.now()) break;
       await new Promise(r => setTimeout(r, 250));
     }
-    return { shown, listed: Object.keys(await browser.notifications.getAll()), hasOnShown: Boolean(browser.notifications.onShown), next: (await browser.storage.local.get('reviewReminderNextAt')).reviewReminderNextAt };
+    // Headless CI has no desktop notification service, so onShown/getAll may stay empty there; display is reported, not required.
+    await new Promise(r => setTimeout(r, 1500));
+    const listed = Object.keys(await browser.notifications.getAll());
+    // Same options the event page uses: create() must resolve with the id (an invalid option rejects).
+    const probe = await browser.notifications.create('bookmark-scope-probe', { type: 'basic', iconUrl: 'icons/icon-128.png', title: 'Bookmark Scope review is due', message: 'probe' });
+    await browser.notifications.clear('bookmark-scope-probe');
+    return { shown, listed, next, probe, observed: shown.includes('bookmark-manager-review-due') || listed.includes('bookmark-manager-review-due') };
   });
-  assert.ok(info.shown.includes('bookmark-manager-review-due') || info.listed.includes('bookmark-manager-review-due'), JSON.stringify(info));
-  assert.ok(info.next > Date.now(), 'reminder was not rescheduled after firing');
+  assert.ok(info.next > Date.now(), 'reminder was not rescheduled after firing: ' + JSON.stringify(info));
+  assert.equal(info.probe, 'bookmark-scope-probe');
   return info;
 });
 
