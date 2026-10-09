@@ -14,7 +14,7 @@
 تعمل على جهازك فقط. بلا حساب وبلا تتبع.
 
 [![إضافة إلى Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
-[![دليل المستخدم](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://ehsanenaloo.github.io/Bookmark-Scope/)
+[![دليل المستخدم](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://enaloo.com/apps/bookmark-scope/)
 [![اشترِ لي فنجان قهوة](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
 
 [![الرخصة: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
@@ -84,7 +84,7 @@
 2. في Firefox، افتح `about:debugging#/runtime/this-firefox`.
 3. انقر على **Load Temporary Add-on** واختر ملف zip.
 
-يزيل Firefox الإضافات المؤقتة عند إغلاقه. تجد مزيدًا من التفاصيل في [دليل التثبيت](https://ehsanenaloo.github.io/Bookmark-Scope/guides/installation.html#firefox-experimental).
+يزيل Firefox الإضافات المؤقتة عند إغلاقه. تجد مزيدًا من التفاصيل في [دليل التثبيت](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental).
 
 **من المصدر:** لا توجد خطوة بناء. المجلد `extension/` هو الإضافة نفسها. افتح `chrome://extensions` وفعّل **Developer mode** وانقر على **Load unpacked** واختر المجلد `extension`.
 
@@ -97,7 +97,7 @@
 - طلبات الشبكة الوحيدة هي فحص الروابط إلى المواقع التي حفظتها، وذلك فقط بعد أن تسمح به. وكل شيء آخر يعمل بدون هذا الإذن.
 - لا تقرأ الإضافة الصفحات التي تزورها. هي تقرأ فقط عنوان التبويب النشط لتعرض الإشارات المطابقة.
 
-اقرأ [سياسة الخصوصية](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) لمعرفة التفاصيل وقائمة الأذونات.
+اقرأ [سياسة الخصوصية](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) لمعرفة التفاصيل وقائمة الأذونات.
 
 <a id="documentation"></a>
 
@@ -105,9 +105,9 @@
 
 | | |
 | --- | --- |
-| [دليل المستخدم](https://ehsanenaloo.github.io/Bookmark-Scope/) | كل الميزات، مع لقطات شاشة |
-| [القيود المعروفة](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html) | ما لم يكتمل أو لم يُختبر |
-| [سياسة الخصوصية](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) | ما الذي تحفظه الإضافة وما الذي ترسله |
+| [دليل المستخدم](https://enaloo.com/apps/bookmark-scope/) | كل الميزات، مع لقطات شاشة |
+| [القيود المعروفة](https://enaloo.com/apps/bookmark-scope/docs/limits/) | ما لم يكتمل أو لم يُختبر |
+| [سياسة الخصوصية](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) | ما الذي تحفظه الإضافة وما الذي ترسله |
 | [سجل التغييرات](../../CHANGELOG.md) | ما الذي تغيّر في كل إصدار |
 | [المساهمة](../../.github/CONTRIBUTING.md) | كيف تبلّغ عن الأخطاء وترسل التغييرات |
 | [الأمان](../../.github/SECURITY.md) | كيف تبلّغ عن مشكلة أمنية بشكل خاص |

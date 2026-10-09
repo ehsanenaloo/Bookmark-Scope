@@ -12,7 +12,7 @@ Une extension de navigateur gratuite et open source pour les personnes qui ont e
 Elle fonctionne uniquement sur votre ordinateur. Pas de compte, pas de suivi.
 
 [![Ajouter à Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
-[![Guide d'utilisation](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://ehsanenaloo.github.io/Bookmark-Scope/)
+[![Guide d'utilisation](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://enaloo.com/apps/bookmark-scope/)
 [![Offrez-moi un café](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
 
 [![Licence : MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
@@ -82,7 +82,7 @@ Bookmark Scope règle ce problème avec deux outils. La **fenêtre contextuelle*
 2. Dans Firefox, ouvrez `about:debugging#/runtime/this-firefox`.
 3. Cliquez sur **Load Temporary Add-on** et choisissez le fichier zip.
 
-Firefox supprime les modules complémentaires temporaires quand il se ferme. Plus de détails dans le [guide d'installation](https://ehsanenaloo.github.io/Bookmark-Scope/guides/installation.html#firefox-experimental).
+Firefox supprime les modules complémentaires temporaires quand il se ferme. Plus de détails dans le [guide d'installation](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental).
 
 **Depuis les sources :** il n'y a pas d'étape de compilation. Le dossier `extension/` est l'extension. Ouvrez `chrome://extensions`, activez le **Mode développeur**, cliquez sur **Charger l'extension non empaquetée** et choisissez le dossier `extension`.
 
@@ -95,7 +95,7 @@ Firefox supprime les modules complémentaires temporaires quand il se ferme. Plu
 - Les seules requêtes réseau sont les vérifications de liens vers les sites que vous avez enregistrés, et seulement après votre autorisation. Tout le reste fonctionne sans cette autorisation.
 - L'extension ne lit pas les pages que vous visitez. Elle lit seulement l'adresse de l'onglet actif, pour afficher les marque-pages correspondants.
 
-Lisez la [politique de confidentialité](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) pour les détails et la liste des autorisations.
+Lisez la [politique de confidentialité](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) pour les détails et la liste des autorisations.
 
 <a id="documentation"></a>
 
@@ -103,9 +103,9 @@ Lisez la [politique de confidentialité](https://ehsanenaloo.github.io/Bookmark-
 
 | | |
 | --- | --- |
-| [Guide d'utilisation](https://ehsanenaloo.github.io/Bookmark-Scope/) | Toutes les fonctionnalités, avec des captures d'écran |
-| [Limites connues](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html) | Ce qui est inachevé ou non testé |
-| [Politique de confidentialité](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) | Ce que l'extension stocke et envoie |
+| [Guide d'utilisation](https://enaloo.com/apps/bookmark-scope/) | Toutes les fonctionnalités, avec des captures d'écran |
+| [Limites connues](https://enaloo.com/apps/bookmark-scope/docs/limits/) | Ce qui est inachevé ou non testé |
+| [Politique de confidentialité](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) | Ce que l'extension stocke et envoie |
 | [Journal des modifications](../../CHANGELOG.md) | Ce qui a changé à chaque version |
 | [Contribuer](../../.github/CONTRIBUTING.md) | Comment signaler des bugs et proposer des changements |
 | [Sécurité](../../.github/SECURITY.md) | Comment signaler un problème de sécurité en privé |

@@ -12,7 +12,7 @@ Uma extensão de navegador gratuita e de código aberto para quem salvou links d
 Ela funciona só no seu computador. Sem conta, sem rastreamento.
 
 [![Adicionar ao Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
-[![Guia do usuário](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://ehsanenaloo.github.io/Bookmark-Scope/)
+[![Guia do usuário](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://enaloo.com/apps/bookmark-scope/)
 [![Me pague um café](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
 
 [![Licença: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
@@ -82,7 +82,7 @@ O Bookmark Scope resolve isso com duas ferramentas. O **popup** mostra os favori
 2. No Firefox, abra `about:debugging#/runtime/this-firefox`.
 3. Clique em **Load Temporary Add-on** e escolha o arquivo zip.
 
-O Firefox remove os complementos temporários quando fecha. Há mais detalhes no [guia de instalação](https://ehsanenaloo.github.io/Bookmark-Scope/guides/installation.html#firefox-experimental).
+O Firefox remove os complementos temporários quando fecha. Há mais detalhes no [guia de instalação](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental).
 
 **A partir do código-fonte:** não há etapa de build. A pasta `extension/` é a extensão. Abra `chrome://extensions`, ative o **Modo do desenvolvedor**, clique em **Carregar sem compactação** e escolha a pasta `extension`.
 
@@ -95,7 +95,7 @@ O Firefox remove os complementos temporários quando fecha. Há mais detalhes no
 - As únicas requisições de rede são as verificações de links dos sites que você salvou, e só depois que você permitir. Todo o resto funciona sem essa permissão.
 - A extensão não lê as páginas que você visita. Ela só lê o endereço da aba ativa, para mostrar os favoritos correspondentes.
 
-Leia a [política de privacidade](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) para ver os detalhes e a lista de permissões.
+Leia a [política de privacidade](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) para ver os detalhes e a lista de permissões.
 
 <a id="documentation"></a>
 
@@ -103,9 +103,9 @@ Leia a [política de privacidade](https://ehsanenaloo.github.io/Bookmark-Scope/p
 
 | | |
 | --- | --- |
-| [Guia do usuário](https://ehsanenaloo.github.io/Bookmark-Scope/) | Todos os recursos, com capturas de tela |
-| [Limites conhecidos](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html) | O que está incompleto ou sem teste |
-| [Política de privacidade](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) | O que a extensão guarda e envia |
+| [Guia do usuário](https://enaloo.com/apps/bookmark-scope/) | Todos os recursos, com capturas de tela |
+| [Limites conhecidos](https://enaloo.com/apps/bookmark-scope/docs/limits/) | O que está incompleto ou sem teste |
+| [Política de privacidade](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) | O que a extensão guarda e envia |
 | [Changelog](../../CHANGELOG.md) | O que mudou em cada versão |
 | [Como contribuir](../../.github/CONTRIBUTING.md) | Como relatar bugs e enviar mudanças |
 | [Segurança](../../.github/SECURITY.md) | Como relatar um problema de segurança em particular |

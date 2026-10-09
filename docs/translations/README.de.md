@@ -12,7 +12,7 @@ Eine kostenlose Open-Source-Browser-Erweiterung für alle, die zu viele Links ge
 Sie läuft nur auf deinem Computer. Kein Konto, kein Tracking.
 
 [![Zu Chrome hinzufügen](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
-[![Benutzerhandbuch](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://ehsanenaloo.github.io/Bookmark-Scope/)
+[![Benutzerhandbuch](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://enaloo.com/apps/bookmark-scope/)
 [![Spendier mir einen Kaffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
 
 [![Lizenz: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
@@ -82,7 +82,7 @@ Bookmark Scope löst das mit zwei Werkzeugen. Das **Popup** zeigt die Lesezeiche
 2. Öffne in Firefox `about:debugging#/runtime/this-firefox`.
 3. Klick auf **Load Temporary Add-on** und wähle die ZIP-Datei.
 
-Firefox entfernt temporäre Add-ons beim Beenden. Mehr dazu steht in der [Installationsanleitung](https://ehsanenaloo.github.io/Bookmark-Scope/guides/installation.html#firefox-experimental).
+Firefox entfernt temporäre Add-ons beim Beenden. Mehr dazu steht in der [Installationsanleitung](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental).
 
 **Aus dem Quellcode:** Es gibt keinen Build-Schritt. Der Ordner `extension/` ist die Erweiterung. Öffne `chrome://extensions`, schalte den **Entwicklermodus** ein, klick auf **Entpackte Erweiterung laden** und wähle den Ordner `extension`.
 
@@ -95,7 +95,7 @@ Firefox entfernt temporäre Add-ons beim Beenden. Mehr dazu steht in der [Instal
 - Die einzigen Netzwerkanfragen sind Linkprüfungen an die Seiten, die du gespeichert hast, und nur, nachdem du sie erlaubt hast. Alles andere funktioniert ohne diese Berechtigung.
 - Die Erweiterung liest die Seiten, die du besuchst, nicht. Sie liest nur die Adresse des aktiven Tabs, um passende Lesezeichen zu zeigen.
 
-Lies die [Datenschutzerklärung](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) für Details und die Liste der Berechtigungen.
+Lies die [Datenschutzerklärung](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) für Details und die Liste der Berechtigungen.
 
 <a id="documentation"></a>
 
@@ -103,9 +103,9 @@ Lies die [Datenschutzerklärung](https://ehsanenaloo.github.io/Bookmark-Scope/pr
 
 | | |
 | --- | --- |
-| [Benutzerhandbuch](https://ehsanenaloo.github.io/Bookmark-Scope/) | Jede Funktion, mit Screenshots |
-| [Bekannte Grenzen](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html) | Was unfertig oder ungetestet ist |
-| [Datenschutzerklärung](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) | Was die Erweiterung speichert und sendet |
+| [Benutzerhandbuch](https://enaloo.com/apps/bookmark-scope/) | Jede Funktion, mit Screenshots |
+| [Bekannte Grenzen](https://enaloo.com/apps/bookmark-scope/docs/limits/) | Was unfertig oder ungetestet ist |
+| [Datenschutzerklärung](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) | Was die Erweiterung speichert und sendet |
 | [Änderungsprotokoll](../../CHANGELOG.md) | Was sich in jeder Version geändert hat |
 | [Mitmachen](../../.github/CONTRIBUTING.md) | Wie du Fehler meldest und Änderungen einschickst |
 | [Sicherheit](../../.github/SECURITY.md) | Wie du ein Sicherheitsproblem privat meldest |

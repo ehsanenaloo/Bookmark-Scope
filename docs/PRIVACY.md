@@ -1,6 +1,6 @@
 # Privacy Policy
 
-The same text is on the guide site: https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html
+The same text is on the guide site: https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/
 
 **Bookmark Scope** (the "extension")
 Last updated: 2026-10-08

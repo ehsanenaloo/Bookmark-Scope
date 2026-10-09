@@ -12,7 +12,7 @@
 Работает только на вашем компьютере. Без аккаунта и без слежки.
 
 [![Добавить в Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
-[![Руководство пользователя](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://ehsanenaloo.github.io/Bookmark-Scope/)
+[![Руководство пользователя](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://enaloo.com/apps/bookmark-scope/)
 [![Угостить кофе](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
 
 [![Лицензия: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
@@ -82,7 +82,7 @@ Bookmark Scope решает это двумя инструментами. **Вс
 2. В Firefox откройте `about:debugging#/runtime/this-firefox`.
 3. Нажмите **Load Temporary Add-on** и выберите zip-файл.
 
-Firefox удаляет временные дополнения при закрытии. Подробнее в [руководстве по установке](https://ehsanenaloo.github.io/Bookmark-Scope/guides/installation.html#firefox-experimental).
+Firefox удаляет временные дополнения при закрытии. Подробнее в [руководстве по установке](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental).
 
 **Из исходников:** сборки нет. Папка `extension/` и есть расширение. Откройте `chrome://extensions`, включите **Режим разработчика** (**Developer mode**), нажмите **Загрузить распакованное расширение** (**Load unpacked**) и выберите папку `extension`.
 
@@ -95,7 +95,7 @@ Firefox удаляет временные дополнения при закры
 - Единственные сетевые запросы идут к сайтам из ваших закладок при проверке ссылок, и только после вашего разрешения. Всё остальное работает без этого разрешения.
 - Расширение не читает страницы, которые вы открываете. Оно смотрит только адрес активной вкладки, чтобы показать подходящие закладки.
 
-Подробности и список разрешений есть в [политике конфиденциальности](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html).
+Подробности и список разрешений есть в [политике конфиденциальности](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/).
 
 <a id="documentation"></a>
 
@@ -103,9 +103,9 @@ Firefox удаляет временные дополнения при закры
 
 | | |
 | --- | --- |
-| [Руководство пользователя](https://ehsanenaloo.github.io/Bookmark-Scope/) | Все функции со скриншотами |
-| [Известные ограничения](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html) | Что не закончено или не проверено |
-| [Политика конфиденциальности](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) | Что расширение хранит и отправляет |
+| [Руководство пользователя](https://enaloo.com/apps/bookmark-scope/) | Все функции со скриншотами |
+| [Известные ограничения](https://enaloo.com/apps/bookmark-scope/docs/limits/) | Что не закончено или не проверено |
+| [Политика конфиденциальности](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) | Что расширение хранит и отправляет |
 | [Список изменений](../../CHANGELOG.md) | Что изменилось в каждом выпуске |
 | [Как участвовать](../../.github/CONTRIBUTING.md) | Как сообщить об ошибке и предложить изменения |
 | [Безопасность](../../.github/SECURITY.md) | Как сообщить о проблеме безопасности в личном порядке |

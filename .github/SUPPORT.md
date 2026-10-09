@@ -4,10 +4,10 @@ Bookmark Scope is a free project kept by one volunteer. This page tells you wher
 
 ## Read the user guide first
 
-The [user guide](https://ehsanenaloo.github.io/Bookmark-Scope/) covers installing, the popup, the dashboard, link checks, backup and restore, and settings. Two pages answer most questions:
+The [user guide](https://enaloo.com/apps/bookmark-scope/) covers installing, the popup, the dashboard, link checks, backup and restore, and settings. Two pages answer most questions:
 
-- [Troubleshooting and FAQ](https://ehsanenaloo.github.io/Bookmark-Scope/guides/troubleshooting-faq.html)
-- [Limits and known limitations](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html)
+- [Troubleshooting and FAQ](https://enaloo.com/apps/bookmark-scope/docs/troubleshooting-faq/)
+- [Limits and known limitations](https://enaloo.com/apps/bookmark-scope/docs/limits/)
 
 ## Ask a question
 
@@ -31,7 +31,7 @@ Do not open a public issue. Use GitHub's [private vulnerability report](https://
 
 ## Privacy questions
 
-Read the [privacy policy](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) (source: [PRIVACY.md](../docs/PRIVACY.md)). For a question it does not answer, open an issue. Do not include personal data.
+Read the [privacy policy](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) (source: [PRIVACY.md](../docs/PRIVACY.md)). For a question it does not answer, open an issue. Do not include personal data.
 
 ## What to expect
 

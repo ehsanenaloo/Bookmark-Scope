@@ -9,6 +9,7 @@ The format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/
 ### Changed
 
 - The README, its translations, the user guide and the privacy text now link to the Microsoft Edge Add-ons page.
+- The "User guide" button, the README, the privacy policy and the support pages now open the guide at its permanent address, https://enaloo.com/apps/bookmark-scope/. The old github.io address keeps redirecting.
 
 ## [5.2.1] - 2026-10-08
 
