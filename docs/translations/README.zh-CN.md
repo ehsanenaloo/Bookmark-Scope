@@ -12,7 +12,7 @@
 它只在你的电脑上运行。不用账号，没有追踪。
 
 [![添加到 Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
-[![使用指南](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://ehsanenaloo.github.io/Bookmark-Scope/)
+[![使用指南](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://enaloo.com/apps/bookmark-scope/)
 [![请我喝杯咖啡](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
 
 [![许可证：MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
@@ -82,7 +82,7 @@ Bookmark Scope 用两个工具来解决这个问题。**弹出窗口**会显示�
 2. 在 Firefox 中打开 `about:debugging#/runtime/this-firefox`。
 3. 点击 **Load Temporary Add-on**，选择 zip 文件。
 
-Firefox 关闭时会移除临时附加组件。更多说明见[安装指南](https://ehsanenaloo.github.io/Bookmark-Scope/guides/installation.html#firefox-experimental)。
+Firefox 关闭时会移除临时附加组件。更多说明见[安装指南](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental)。
 
 **从源码安装：** 不需要构建。`extension/` 文件夹本身就是扩展。打开 `chrome://extensions`，打开 **开发者模式**，点击 **加载已解压的扩展程序**，然后选择 `extension` 文件夹。
 
@@ -95,7 +95,7 @@ Firefox 关闭时会移除临时附加组件。更多说明见[安装指南](htt
 - 唯一的网络请求是对你收藏的网站做链接检查，而且只有在你允许之后才会发出。其他功能不需要这项权限。
 - 扩展不会读取你访问的页面内容。它只读取当前标签页的地址，用来显示匹配的书签。
 
-详细说明和权限列表见[隐私政策](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html)。
+详细说明和权限列表见[隐私政策](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/)。
 
 <a id="documentation"></a>
 
@@ -103,9 +103,9 @@ Firefox 关闭时会移除临时附加组件。更多说明见[安装指南](htt
 
 | | |
 | --- | --- |
-| [使用指南](https://ehsanenaloo.github.io/Bookmark-Scope/) | 每个功能的说明，附截图 |
-| [已知限制](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html) | 哪些还没做完或没测试过 |
-| [隐私政策](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) | 扩展会保存和发送什么 |
+| [使用指南](https://enaloo.com/apps/bookmark-scope/) | 每个功能的说明，附截图 |
+| [已知限制](https://enaloo.com/apps/bookmark-scope/docs/limits/) | 哪些还没做完或没测试过 |
+| [隐私政策](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) | 扩展会保存和发送什么 |
 | [更新日志](../../CHANGELOG.md) | 每个版本的变化 |
 | [参与贡献](../../.github/CONTRIBUTING.md) | 如何报告 bug 和提交修改 |
 | [安全](../../.github/SECURITY.md) | 如何私下报告安全问题 |

@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Please check the user guide first (https://ehsanenaloo.github.io/Bookmark-Scope/), especially the Troubleshooting and FAQ page.
+        Please check the user guide first (https://enaloo.com/apps/bookmark-scope/), especially the Troubleshooting and FAQ page.
         This is a volunteer project, so replies are best effort. Do not paste private bookmark data or personal URLs.
   - type: textarea
     id: question

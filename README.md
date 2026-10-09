@@ -12,7 +12,7 @@ A free, open-source browser extension for people who have saved too many links.<
 It runs on your computer only. No account, no tracking.
 
 [![Add to Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
-[![User guide](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://ehsanenaloo.github.io/Bookmark-Scope/)
+[![User guide](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://enaloo.com/apps/bookmark-scope/)
 [![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
@@ -78,7 +78,7 @@ Bookmark Scope fixes this with two tools. The **popup** shows the bookmarks you 
 2. In Firefox, open `about:debugging#/runtime/this-firefox`.
 3. Click **Load Temporary Add-on** and choose the zip file.
 
-Firefox removes temporary add-ons when it closes. See the [installation guide](https://ehsanenaloo.github.io/Bookmark-Scope/guides/installation.html#firefox-experimental) for details.
+Firefox removes temporary add-ons when it closes. See the [installation guide](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental) for details.
 
 **From source:** there is no build step. The `extension/` folder is the extension. Open `chrome://extensions`, turn on **Developer mode**, click **Load unpacked** and choose the `extension` folder.
 
@@ -89,15 +89,15 @@ Firefox removes temporary add-ons when it closes. See the [installation guide](h
 - The only network requests are link checks to the sites you bookmarked, and only after you allow them. Everything else works without that permission.
 - The extension does not read the pages you visit. It only reads the address of the active tab, to show matching bookmarks.
 
-Read the [privacy policy](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) for details and the list of permissions.
+Read the [privacy policy](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) for details and the list of permissions.
 
 ## Documentation
 
 | | |
 | --- | --- |
-| [User guide](https://ehsanenaloo.github.io/Bookmark-Scope/) | Every feature, with screenshots |
-| [Known limits](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html) | What is unfinished or untested |
-| [Privacy policy](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) | What the extension stores and sends |
+| [User guide](https://enaloo.com/apps/bookmark-scope/) | Every feature, with screenshots |
+| [Known limits](https://enaloo.com/apps/bookmark-scope/docs/limits/) | What is unfinished or untested |
+| [Privacy policy](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) | What the extension stores and sends |
 | [Changelog](CHANGELOG.md) | What changed in each release |
 | [Contributing](.github/CONTRIBUTING.md) | How to report bugs and send changes |
 | [Security](.github/SECURITY.md) | How to report a security problem in private |

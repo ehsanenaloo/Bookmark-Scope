@@ -12,7 +12,7 @@
 動作はあなたのパソコンの中だけです。アカウントも、トラッキングもありません。
 
 [![Chrome に追加](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
-[![ユーザーガイド](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://ehsanenaloo.github.io/Bookmark-Scope/)
+[![ユーザーガイド](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://enaloo.com/apps/bookmark-scope/)
 [![コーヒーをおごる](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
 
 [![ライセンス: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
@@ -82,7 +82,7 @@ Bookmark Scope は、2 つのツールでこの問題を解決します。**ポ�
 2. Firefox で `about:debugging#/runtime/this-firefox` を開きます。
 3. **Load Temporary Add-on** をクリックして、zip ファイルを選びます。
 
-一時的なアドオンは Firefox を閉じると削除されます。くわしくは[インストールガイド](https://ehsanenaloo.github.io/Bookmark-Scope/guides/installation.html#firefox-experimental)を見てください。
+一時的なアドオンは Firefox を閉じると削除されます。くわしくは[インストールガイド](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental)を見てください。
 
 **ソースから:** ビルドの手順はありません。`extension/` フォルダーがそのまま拡張機能です。`chrome://extensions` を開いて、**デベロッパー モード**をオンにします。**パッケージ化されていない拡張機能を読み込む**をクリックして、`extension` フォルダーを選びます。
 
@@ -95,7 +95,7 @@ Bookmark Scope は、2 つのツールでこの問題を解決します。**ポ�
 - ネットワークへのリクエストは、ブックマークしたサイトに対するリンクチェックだけです。それも、あなたが許可した後にだけ行います。ほかの機能は、この許可がなくても使えます。
 - 拡張機能は、あなたが見たページの内容を読みません。読むのは、一致するブックマークを表示するための、開いているタブのアドレスだけです。
 
-くわしい内容と権限の一覧は、[プライバシーポリシー](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html)をご覧ください。
+くわしい内容と権限の一覧は、[プライバシーポリシー](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/)をご覧ください。
 
 <a id="documentation"></a>
 
@@ -103,9 +103,9 @@ Bookmark Scope は、2 つのツールでこの問題を解決します。**ポ�
 
 | | |
 | --- | --- |
-| [ユーザーガイド](https://ehsanenaloo.github.io/Bookmark-Scope/) | すべての機能を、スクリーンショット付きで説明 |
-| [既知の制限](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html) | 未完成の部分と、未テストの部分 |
-| [プライバシーポリシー](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) | 拡張機能が保存するものと、送信するもの |
+| [ユーザーガイド](https://enaloo.com/apps/bookmark-scope/) | すべての機能を、スクリーンショット付きで説明 |
+| [既知の制限](https://enaloo.com/apps/bookmark-scope/docs/limits/) | 未完成の部分と、未テストの部分 |
+| [プライバシーポリシー](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) | 拡張機能が保存するものと、送信するもの |
 | [変更履歴](../../CHANGELOG.md) | 各リリースでの変更点 |
 | [コントリビュート](../../.github/CONTRIBUTING.md) | バグの報告と変更の送り方 |
 | [セキュリティ](../../.github/SECURITY.md) | セキュリティの問題を非公開で報告する方法 |

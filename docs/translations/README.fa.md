@@ -14,7 +14,7 @@
 فقط روی کامپیوتر خودتان کار می‌کند. بدون حساب کاربری، بدون ردیابی.
 
 [![افزودن به Chrome](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
-[![راهنمای کاربر](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://ehsanenaloo.github.io/Bookmark-Scope/)
+[![راهنمای کاربر](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://enaloo.com/apps/bookmark-scope/)
 [![برای من یک قهوه بخرید](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
 
 [![مجوز: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
@@ -84,7 +84,7 @@ Bookmark Scope این مشکل را با دو ابزار حل می‌کند. **�
 2. در Firefox آدرس `about:debugging#/runtime/this-firefox` را باز کنید.
 3. روی **Load Temporary Add-on** کلیک کنید و فایل zip را انتخاب کنید.
 
-Firefox افزونه‌های موقت را با بسته شدن حذف می‌کند. جزئیات بیشتر در [راهنمای نصب](https://ehsanenaloo.github.io/Bookmark-Scope/guides/installation.html#firefox-experimental) آمده است.
+Firefox افزونه‌های موقت را با بسته شدن حذف می‌کند. جزئیات بیشتر در [راهنمای نصب](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental) آمده است.
 
 **از سورس:** مرحله‌ی build ندارد. پوشه‌ی `extension/` خودِ افزونه است. `chrome://extensions` را باز کنید، **Developer mode** را روشن کنید، روی **Load unpacked** کلیک کنید و پوشه‌ی `extension` را انتخاب کنید.
 
@@ -97,7 +97,7 @@ Firefox افزونه‌های موقت را با بسته شدن حذف می‌�
 - تنها درخواست‌های شبکه، بررسی لینک‌ها به سایت‌هایی است که بوکمارک کرده‌اید، و فقط بعد از اینکه اجازه بدهید. بقیه‌ی امکانات بدون این اجازه کار می‌کنند.
 - افزونه صفحه‌هایی را که می‌بینید نمی‌خواند. فقط آدرس تب فعال را می‌خواند تا بوکمارک‌های مطابق را نشان بدهد.
 
-برای جزئیات و فهرست مجوزها [سیاست حریم خصوصی](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) را بخوانید.
+برای جزئیات و فهرست مجوزها [سیاست حریم خصوصی](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) را بخوانید.
 
 <a id="documentation"></a>
 
@@ -105,9 +105,9 @@ Firefox افزونه‌های موقت را با بسته شدن حذف می‌�
 
 | | |
 | --- | --- |
-| [راهنمای کاربر](https://ehsanenaloo.github.io/Bookmark-Scope/) | همه‌ی امکانات، با تصویر |
-| [محدودیت‌های شناخته‌شده](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html) | چه چیزهایی ناتمام یا تست‌نشده است |
-| [سیاست حریم خصوصی](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) | افزونه چه چیزی ذخیره می‌کند و چه چیزی می‌فرستد |
+| [راهنمای کاربر](https://enaloo.com/apps/bookmark-scope/) | همه‌ی امکانات، با تصویر |
+| [محدودیت‌های شناخته‌شده](https://enaloo.com/apps/bookmark-scope/docs/limits/) | چه چیزهایی ناتمام یا تست‌نشده است |
+| [سیاست حریم خصوصی](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) | افزونه چه چیزی ذخیره می‌کند و چه چیزی می‌فرستد |
 | [تاریخچه‌ی تغییرات](../../CHANGELOG.md) | در هر نسخه چه چیزی تغییر کرده |
 | [مشارکت](../../.github/CONTRIBUTING.md) | چطور خطا گزارش کنید و تغییر بفرستید |
 | [امنیت](../../.github/SECURITY.md) | چطور یک مشکل امنیتی را خصوصی گزارش کنید |

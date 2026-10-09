@@ -12,7 +12,7 @@
 यह सिर्फ़ आपके कंप्यूटर पर चलता है। न अकाउंट, न ट्रैकिंग।
 
 [![Chrome में जोड़ें](https://img.shields.io/badge/Chrome%20Web%20Store-Add%20to%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo)
-[![यूज़र गाइड](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://ehsanenaloo.github.io/Bookmark-Scope/)
+[![यूज़र गाइड](https://img.shields.io/badge/User%20guide-Read%20online-0f766e?logo=readthedocs&logoColor=white&style=for-the-badge)](https://enaloo.com/apps/bookmark-scope/)
 [![एक कॉफ़ी पिलाएं](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/enaloo)
 
 [![लाइसेंस: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
@@ -82,7 +82,7 @@ Bookmark Scope इसे दो टूल से ठीक करता है�
 2. Firefox में `about:debugging#/runtime/this-firefox` खोलें।
 3. **Load Temporary Add-on** पर क्लिक करें और zip फ़ाइल चुनें।
 
-Firefox बंद होने पर temporary add-on हटा देता है। ज़्यादा जानकारी [इंस्टॉल गाइड](https://ehsanenaloo.github.io/Bookmark-Scope/guides/installation.html#firefox-experimental) में है।
+Firefox बंद होने पर temporary add-on हटा देता है। ज़्यादा जानकारी [इंस्टॉल गाइड](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental) में है।
 
 **Source से:** कोई build step नहीं है। `extension/` फ़ोल्डर ही extension है। `chrome://extensions` खोलें, **Developer mode** चालू करें, **Load unpacked** पर क्लिक करें और `extension` फ़ोल्डर चुनें।
 
@@ -95,7 +95,7 @@ Firefox बंद होने पर temporary add-on हटा देता �
 - एकमात्र नेटवर्क अनुरोध लिंक जांच के समय आपके बुकमार्क की साइटों पर जाते हैं, और वह भी आपकी अनुमति के बाद ही। बाकी सब कुछ इस अनुमति के बिना चलता है।
 - Extension आपके खोले गए पेज नहीं पढ़ता। यह मेल खाते बुकमार्क दिखाने के लिए सिर्फ़ सक्रिय टैब का पता देखता है।
 
-विवरण और अनुमतियों की सूची के लिए [प्राइवेसी पॉलिसी](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) पढ़ें।
+विवरण और अनुमतियों की सूची के लिए [प्राइवेसी पॉलिसी](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) पढ़ें।
 
 <a id="documentation"></a>
 
@@ -103,9 +103,9 @@ Firefox बंद होने पर temporary add-on हटा देता �
 
 | | |
 | --- | --- |
-| [यूज़र गाइड](https://ehsanenaloo.github.io/Bookmark-Scope/) | हर फ़ीचर, screenshot के साथ |
-| [ज्ञात सीमाएं](https://ehsanenaloo.github.io/Bookmark-Scope/guides/limits.html) | क्या अधूरा है या टेस्ट नहीं हुआ |
-| [प्राइवेसी पॉलिसी](https://ehsanenaloo.github.io/Bookmark-Scope/privacy.html) | Extension क्या सेव करता है और क्या भेजता है |
+| [यूज़र गाइड](https://enaloo.com/apps/bookmark-scope/) | हर फ़ीचर, screenshot के साथ |
+| [ज्ञात सीमाएं](https://enaloo.com/apps/bookmark-scope/docs/limits/) | क्या अधूरा है या टेस्ट नहीं हुआ |
+| [प्राइवेसी पॉलिसी](https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/) | Extension क्या सेव करता है और क्या भेजता है |
 | [Changelog](../../CHANGELOG.md) | हर रिलीज़ में क्या बदला |
 | [योगदान](../../.github/CONTRIBUTING.md) | Bug कैसे बताएं और बदलाव कैसे भेजें |
 | [सुरक्षा](../../.github/SECURITY.md) | सुरक्षा की समस्या निजी तौर पर कैसे बताएं |

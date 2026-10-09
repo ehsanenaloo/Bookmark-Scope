@@ -31,7 +31,7 @@ By taking part, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 - **Report a bug.** Use the [bug report form](https://github.com/ehsanenaloo/Bookmark-Scope/issues/new?template=bug_report.yml). Search [existing issues](https://github.com/ehsanenaloo/Bookmark-Scope/issues) first.
 - **Suggest a feature.** Use the [feature request form](https://github.com/ehsanenaloo/Bookmark-Scope/issues/new?template=feature_request.yml). Describe the problem you have before the solution you want.
 - **Improve a translation.** Fix a wrong or awkward string, or add a language. See [Translations](#translations). If you do not want to edit files, use the [translation fix form](https://github.com/ehsanenaloo/Bookmark-Scope/issues/new?template=translation_fix.yml).
-- **Improve the docs or screenshots.** The user guide is in [docs/](../docs/README.md) and is published at <https://ehsanenaloo.github.io/Bookmark-Scope/>. Fix errors, unclear steps, or outdated screenshots. Screenshots must use synthetic bookmarks.
+- **Improve the docs or screenshots.** The user guide is in [docs/](../docs/README.md) and is published at <https://enaloo.com/apps/bookmark-scope/>. Fix errors, unclear steps, or outdated screenshots. Screenshots must use synthetic bookmarks.
 - **Review pull requests.** Try a change in your own test profile and say what you saw. This helps a lot, and anyone can do it.
 - **Fix an issue.** Pick one from the list below, say that you are on it, and open a pull request.
 
