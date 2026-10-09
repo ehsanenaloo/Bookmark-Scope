@@ -1,57 +1,14 @@
 <!doctype html>
-<html lang="en" data-root="../">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Smart views | Bookmark Scope user guide</title>
-<meta name="description" content="Save a search, filter, grouping and tag selection as a named view you can reopen with one click. Views store the recipe, never the bookmarks.">
-<meta name="color-scheme" content="light dark">
-<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
-<link rel="stylesheet" href="../styles.css">
-<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<script defer src="../app.js"></script>
+<title>This page moved</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://enaloo.com/apps/bookmark-scope/docs/smart-views/">
+<meta http-equiv="refresh" content="0; url=https://enaloo.com/apps/bookmark-scope/docs/smart-views/">
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
-<main id="main">
-<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Saved work</p><h1>Smart views</h1><p class="lead">A smart view is a saved recipe for looking at your library. Open it later and it is recalculated against the bookmarks you have then.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
-<div class="shell doc-layout has-toc">
-<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html" aria-current="page">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="../privacy.html">Privacy policy</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
-<article class="prose">
-
-<h2 id="what-a-view-stores">What a view stores<a class="anchor" href="#what-a-view-stores" aria-label="Link to this section">#</a></h2>
-<ul>
-  <li>The search text (up to 2,000 characters).</li>
-  <li>The cleanup filter chip (<em>All, Duplicates, Untitled, Old, Collisions</em>).</li>
-  <li>The tag filter (tags you had switched on).</li>
-  <li>The sort order, the grouping and the group order.</li>
-</ul>
-<p>It does <strong>not</strong> store bookmark titles, addresses, IDs or the selection. Views are live: if you add three new bookmarks that match a saved recipe, they appear next time you open it.</p>
-<p>You can keep up to <strong>50</strong> views. Names can be up to 80 characters.</p>
-
-<h2 id="create-a-view">Create a view<a class="anchor" href="#create-a-view" aria-label="Link to this section">#</a></h2>
-<ol class="steps">
-  <li><h3>Set the dashboard up</h3><p>For example search <code>domain:example</code>, choose the <em>Old</em> chip and <em>Group by folder</em>.</p></li>
-  <li><h3>Open the dialog</h3><p><strong>Library tools &rarr; Saved views</strong>.</p></li>
-  <li><h3>Name and save</h3><p>Type a <em>View name</em> and choose <strong>Save view</strong>. The dialog confirms with <em>View saved</em> and keeps that view selected, so saving again updates it rather than creating a duplicate.</p></li>
-</ol>
-
-<h2 id="open-update-or-delete-a-view">Open, update or delete a view<a class="anchor" href="#open-update-or-delete-a-view" aria-label="Link to this section">#</a></h2>
-<ul>
-  <li>Pick it in the <em>Saved views</em> list, then choose <strong>Open view</strong>. The dashboard applies the recipe, returns to the entire library and clears any selection.</li>
-  <li>To change a view, open it, adjust the dashboard, reopen <em>Saved views</em>, select the same view and press <strong>Save view</strong>.</li>
-  <li><strong>Delete view</strong> removes it (the bookmarks are unaffected). <strong>Open view</strong> and <strong>Delete view</strong> stay disabled until a real saved view is selected.</li>
-</ul>
-
-<h2 id="good-recipes">Good recipes<a class="anchor" href="#good-recipes" aria-label="Link to this section">#</a></h2>
-<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Goal</th><th scope="col">Search</th><th scope="col">Chip</th><th scope="col">Grouping</th></tr></thead><tbody><tr><td>Old and dead</td><td><code>health:bad</code></td><td>Old</td><td>Group by domain</td></tr><tr><td>Clean-up queue</td><td></td><td>Duplicates</td><td>Group by domain</td></tr><tr><td>Needs a title</td><td></td><td>Untitled</td><td>Flat view</td></tr><tr><td>One project</td><td><code>path:project-x</code></td><td>All</td><td>Group by folder</td></tr></tbody></table></div>
-<aside class="callout note"><span class="callout-title">Note</span><p>Views live in this browser profile&rsquo;s extension storage. They are not included in a snapshot, and they do not sync between devices.</p></aside>
-
-<div class="reading-footer"><a href="review-reminders.html"><small>Previous</small>Review reminders &amp; notifications</a><a class="next" href="backup-and-restore.html"><small>Next</small>Backup &amp; restore</a></div>
-</article>
-<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#what-a-view-stores">What a view stores</a></li><li><a href="#create-a-view">Create a view</a></li><li><a href="#open-update-or-delete-a-view">Open, update or delete a view</a></li><li><a href="#good-recipes">Good recipes</a></li></ol></nav>
-</div>
-</main>
-<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="../privacy.html">Privacy</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+<p>This page moved to <a href="https://enaloo.com/apps/bookmark-scope/docs/smart-views/">https://enaloo.com/apps/bookmark-scope/docs/smart-views/</a>.</p>
 </body>
 </html>

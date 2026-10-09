@@ -1,85 +1,14 @@
 <!doctype html>
-<html lang="en" data-root="../">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Finding and searching | Bookmark Scope user guide</title>
-<meta name="description" content="Search operators, filters, tag chips, fuzzy fallback, and exactly how Bookmark Scope decides that two URLs are the same page, host or domain.">
-<meta name="color-scheme" content="light dark">
-<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
-<link rel="stylesheet" href="../styles.css">
-<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<script defer src="../app.js"></script>
+<title>This page moved</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://enaloo.com/apps/bookmark-scope/docs/finding-and-searching/">
+<meta http-equiv="refresh" content="0; url=https://enaloo.com/apps/bookmark-scope/docs/finding-and-searching/">
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
-<main id="main">
-<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Everyday use</p><h1>Finding and searching</h1><p class="lead">Search is substring matching with a handful of operators. Filters and tag chips narrow it further. URL identity options decide what counts as a duplicate.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
-<div class="shell doc-layout has-toc">
-<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html" aria-current="page">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="../privacy.html">Privacy policy</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
-<article class="prose">
-
-<h2 id="search-basics">Search basics<a class="anchor" href="#search-basics" aria-label="Link to this section">#</a></h2>
-<p>Type in the dashboard search box (press <kbd>/</kbd> to focus it). Results update as you type.</p>
-<ul>
-  <li>The text is split on spaces. <strong>Every</strong> word must match (AND).</li>
-  <li>A plain word matches if it appears in the bookmark&rsquo;s <strong>title, address or folder path</strong>. Matching ignores case and is a substring match, so <code>git</code> matches <code>github.com</code>.</li>
-  <li>Word order does not matter.</li>
-  <li>Search works on the current view only: the dashboard&rsquo;s whole library, narrowed by the active filter chip and any selected tags.</li>
-</ul>
-
-<h2 id="operators">Operators<a class="anchor" href="#operators" aria-label="Link to this section">#</a></h2>
-<p>Add an operator to a word to look in one place only. There is no space after the colon.</p>
-<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Operator</th><th scope="col">Matches</th><th scope="col">Example</th></tr></thead><tbody><tr><td><code>title:</code></td><td>The title contains the text</td><td><code>title:invoice</code></td></tr><tr><td><code>url:</code></td><td>The full address contains the text</td><td><code>url:/blog/</code></td></tr><tr><td><code>path:</code></td><td>The folder path contains the text</td><td><code>path:reading</code></td></tr><tr><td><code>host:</code></td><td>The host name contains the text</td><td><code>host:docs.</code></td></tr><tr><td><code>domain:</code></td><td>The registrable domain contains the text</td><td><code>domain:example</code></td></tr><tr><td><code>health:</code></td><td>The link-health status equals the value. Values: <code>healthy</code>, <code>redirected</code>, <code>broken</code>, <code>server-error</code>, <code>unreachable</code>, <code>unknown</code>, plus the shortcuts <code>bad</code> (broken, server-error or unreachable) and <code>good</code> or <code>ok</code> (healthy or redirected)</td><td><code>health:bad</code></td></tr><tr><td><code>is:</code></td><td>A cleanup flag: <code>duplicate</code>, <code>untitled</code>, <code>old</code>, <code>collision</code> (or <code>title-collision</code>)</td><td><code>is:duplicate</code></td></tr><tr><td><code>age:</code></td><td><code>age:old</code> or <code>age:stale</code>: older than 730 days</td><td><code>age:old</code></td></tr></tbody></table></div>
-<p>Combine them freely, for example <code>domain:example is:duplicate health:bad</code> or <code>path:reading title:guide</code>.</p>
-
-<h3>What search does not do</h3>
-<ul>
-  <li>There are no quoted phrases. <code>"exact phrase"</code> is treated as separate words, quote marks included.</li>
-  <li>There is no <code>tag:</code> operator. Use the tag chips (below).</li>
-  <li>An operator with no text after it (<code>title:</code>) is ignored, and unknown <code>is:</code> values have no effect.</li>
-  <li><code>health:</code> only matches bookmarks that already have a recorded link-health result. Until you run a scan, nothing is &ldquo;broken&rdquo; or &ldquo;healthy&rdquo; (see <a href="link-health.html">Link health</a>).</li>
-  <li>The dashboard search is exact. Fuzzy matching is a popup feature (see below).</li>
-</ul>
-
-<h2 id="filter-chips">Filter chips<a class="anchor" href="#filter-chips" aria-label="Link to this section">#</a></h2>
-<p>The chips under the search box apply a cleanup filter on top of your search. Only one is active at a time, and the choice is remembered between visits.</p>
-<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Chip</th><th scope="col">Keeps bookmarks that&hellip;</th></tr></thead><tbody><tr><td>All</td><td>No cleanup filter</td></tr><tr><td>Duplicates</td><td>Share a page address with at least one other bookmark</td></tr><tr><td>Untitled</td><td>Have no real title (empty, <em>untitled</em>, <em>new bookmark</em> or <em>(Untitled bookmark)</em>)</td></tr><tr><td>Old</td><td>Were added 730 or more days ago</td></tr><tr><td>Collisions</td><td>Use a title that is also used for a different address</td></tr></tbody></table></div>
-<p>The number on each chip counts the whole library. Press <kbd>Esc</kbd> (with the cursor outside the search box) to clear the search text first, then the active chip. See <a href="command-palette.html#escape-clears-things-one-layer-at-a-time">the Escape ladder</a>.</p>
-
-<h2 id="ordering-results">Ordering results<a class="anchor" href="#ordering-results" aria-label="Link to this section">#</a></h2>
-<p>Search narrows the list; it does not rank it. In the dashboard, the <em>Sort visible bookmarks</em> control beside the grouping selector orders what is left by title, address, newest, oldest or folder path (see <a href="dashboard-tour.html">Dashboard tour</a>).</p>
-
-<h2 id="tag-chips">Tag chips<a class="anchor" href="#tag-chips" aria-label="Link to this section">#</a></h2>
-<p>When at least one bookmark has a tag, a <em>Tags:</em> strip appears above the list. It shows your 12 most-used tags plus any tag you have switched on. Click a chip to require that tag; click again to remove it. With several tags on, a bookmark must have <strong>all</strong> of them. <strong>Clear</strong> removes the tag filter. Clicking a tag on a row does the same as clicking its chip. Tags are described in <a href="organizing.html">Organizing</a>.</p>
-
-<h2 id="fuzzy-search-popup-only">Fuzzy search (popup only)<a class="anchor" href="#fuzzy-search-popup-only" aria-label="Link to this section">#</a></h2>
-<p>If the popup finds no exact match and your text has no operators, it ranks approximate matches: an exact substring scores highest, then letters that appear in order. Title matches are weighted most, then address, then folder. A line reading <em>No exact matches &mdash; showing fuzzy results</em> tells you it happened. The dashboard never switches to fuzzy matching, so an empty dashboard result means no exact match.</p>
-
-<h2 id="how-bookmark-scope-decides-two-urls-are-the-same">How Bookmark Scope decides two URLs are the same</h2>
-<p>Duplicate detection, the popup&rsquo;s page scope, the toolbar badge, link-health result keys and the duplicate preview all use one definition of a &ldquo;page&rdquo;:</p>
-<ol>
-  <li>Only <code>http</code> and <code>https</code> addresses are understood. Other schemes (<code>file:</code>, <code>chrome:</code>, <code>javascript:</code>) are never matched or checked.</li>
-  <li>The host name is lower-cased. The path is kept <em>case-sensitive</em>.</li>
-  <li>A trailing slash is dropped (<code>/docs/</code> equals <code>/docs</code>).</li>
-  <li><code>http</code> and <code>https</code> are different pages.</li>
-  <li>A non-default port is part of the identity (<code>:8443</code>); a default port such as <code>:443</code> on https is not.</li>
-  <li>The <strong>query string</strong> (<code>?a=1</code>) is kept by default. Turn on <em>Ignore query string in page matching</em> to drop it.</li>
-  <li>The <strong>fragment</strong> (<code>#section</code>) is ignored by default. Turn off <em>Ignore hash fragment in page matching</em> to keep it.</li>
-</ol>
-<p>Both options live in <a href="settings-reference.html#url-matching">Settings</a>. Changing them re-evaluates every duplicate count and the popup scope.</p>
-
-<h3>Examples</h3>
-<p>Each row compares two addresses using the default options (query kept, fragment ignored). <em>Same page?</em> is what the Duplicates filter and Page scope use.</p>
-<div class="table-wrap" tabindex="0" role="region" aria-label="Verified by running the extension&amp;rsquo;s URL functions."><table><caption>Verified by running the extension&rsquo;s URL functions.</caption><thead><tr><th scope="col">Address A</th><th scope="col">Address B</th><th scope="col">Same page?</th><th scope="col">Same host?</th><th scope="col">Same domain?</th></tr></thead><tbody><tr><td><code>https://example.com/docs</code></td><td><code>https://example.com/docs/</code></td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td><code>https://example.com/docs</code></td><td><code>https://EXAMPLE.com/docs</code></td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td><code>https://example.com/docs</code></td><td><code>https://example.com:443/docs</code></td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td><code>https://example.com/docs</code></td><td><code>http://example.com/docs</code></td><td>No</td><td>Yes</td><td>Yes</td></tr><tr><td><code>https://example.com/docs</code></td><td><code>https://example.com:8443/docs</code></td><td>No</td><td>Yes</td><td>Yes</td></tr><tr><td><code>https://example.com/docs</code></td><td><code>https://example.com/Docs</code></td><td>No</td><td>Yes</td><td>Yes</td></tr><tr><td><code>https://example.com/docs</code></td><td><code>https://www.example.com/docs</code></td><td>No</td><td>No</td><td>Yes</td></tr><tr><td><code>https://example.com/docs?a=1</code></td><td><code>https://example.com/docs?a=2</code></td><td>No (Yes if query is ignored)</td><td>Yes</td><td>Yes</td></tr><tr><td><code>https://example.com/docs#top</code></td><td><code>https://example.com/docs#end</code></td><td>Yes (No if fragments are kept)</td><td>Yes</td><td>Yes</td></tr><tr><td><code>https://docs.example.co.uk/a</code></td><td><code>https://shop.example.co.uk/b</code></td><td>No</td><td>No</td><td>Yes</td></tr><tr><td><code>https://alice.github.io/a</code></td><td><code>https://bob.github.io/b</code></td><td>No</td><td>No</td><td>No</td></tr></tbody></table></div>
-<p>The last two rows show the Public Suffix List at work: <code>co.uk</code> is a public suffix, so <code>example.co.uk</code> is one site; <code>github.io</code> is also listed as a suffix, so every <code>*.github.io</code> project is its own domain.</p>
-<aside class="callout note"><span class="callout-title">Note</span><p>Titles play no part in duplicate detection. Two bookmarks with different titles but the same page address are duplicates. Two bookmarks with the same title and different addresses are a <em>title collision</em>, which is a separate, softer signal.</p></aside>
-
-<div class="reading-footer"><a href="dashboard-tour.html"><small>Previous</small>Dashboard tour</a><a class="next" href="organizing.html"><small>Next</small>Organizing</a></div>
-</article>
-<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#search-basics">Search basics</a></li><li><a href="#operators">Operators</a></li><li><a href="#filter-chips">Filter chips</a></li><li><a href="#tag-chips">Tag chips</a></li><li><a href="#fuzzy-search-popup-only">Fuzzy search (popup only)</a></li></ol></nav>
-</div>
-</main>
-<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="../privacy.html">Privacy</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+<p>This page moved to <a href="https://enaloo.com/apps/bookmark-scope/docs/finding-and-searching/">https://enaloo.com/apps/bookmark-scope/docs/finding-and-searching/</a>.</p>
 </body>
 </html>

@@ -1,77 +1,14 @@
 <!doctype html>
-<html lang="en" data-root="../">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Limits and known limitations | Bookmark Scope user guide</title>
-<meta name="description" content="An honest list of what Bookmark Scope cannot do, hard limits, and behaviors that were found to be wrong or unfinished when this guide was written.">
-<meta name="color-scheme" content="light dark">
-<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
-<link rel="stylesheet" href="../styles.css">
-<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<script defer src="../app.js"></script>
+<title>This page moved</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://enaloo.com/apps/bookmark-scope/docs/limits/">
+<meta http-equiv="refresh" content="0; url=https://enaloo.com/apps/bookmark-scope/docs/limits/">
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
-<main id="main">
-<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Trust and support</p><h1>Limits and known limitations</h1><p class="lead">Knowing the limits is part of using a tool safely. Hard limits first, then things that are unfinished.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
-<div class="shell doc-layout has-toc">
-<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="../privacy.html">Privacy policy</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html" aria-current="page">Limits &amp; known limitations</a></nav></details></aside>
-<article class="prose">
-
-<h2 id="how-to-read-this-page">How to read this page<a class="anchor" href="#how-to-read-this-page" aria-label="Link to this section">#</a></h2>
-<p>These limits were checked against the source and, where noted, by running the extension in a disposable Chromium profile with synthetic bookmarks. They may change in a later release.</p>
-
-<h2 id="hard-limits-and-design-boundaries">Hard limits and design boundaries<a class="anchor" href="#hard-limits-and-design-boundaries" aria-label="Link to this section">#</a></h2>
-<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Area</th><th scope="col">Limit</th></tr></thead><tbody><tr><td>Browsers</td><td>Tested in Chrome and Chromium. Edge and Brave can add it from the Chrome Web Store page; it is not listed on Edge Add-ons yet. Firefox 140 or newer on desktop has an experimental build (tested on Firefox 157 on Windows, not on Firefox Add-ons yet, see the installation guide). Safari is not supported.</td></tr><tr><td>Pages</td><td>Only <code>http</code> and <code>https</code> addresses are matched, checked or imported.</td></tr><tr><td>Folders</td><td>Bookmark Scope cannot create, rename or delete folders (except the single new folder a snapshot restore creates). Use Chrome&rsquo;s bookmark manager.</td></tr><tr><td>Undo</td><td>Delete and move Undo recreate or reposition bookmarks but cannot restore original IDs or dates added. Undo exists only for the open page. Redirect repair has no Undo.</td></tr><tr><td>Atomicity</td><td>Operations that touch many bookmarks are not all-or-nothing. A partial result is reported and recovered item by item.</td></tr><tr><td>Tags</td><td>32 characters each, 20 per bookmark. Stored only on this browser profile, not synced, not part of Chrome&rsquo;s bookmark data.</td></tr><tr><td>Old threshold</td><td>Fixed at 730 days.</td></tr><tr><td>Link-health timeouts</td><td>8 seconds per request, 5 for the GET fallback.</td></tr><tr><td>Health cache</td><td>7 days; 5,000 results.</td></tr><tr><td>Scheduled scan</td><td>Up to 250 addresses per run, interval 1&ndash;90 days; runs only while the browser is running.</td></tr><tr><td>Resumable scan</td><td>Between 1 and 50,000 addresses; one saved job; runs only while the dashboard is open.</td></tr><tr><td>Import / restore size</td><td>10 MB for import files, 10 MiB for snapshots; snapshots up to 50,000 items and 100 folder levels.</td></tr><tr><td>Saved views</td><td>At most 50; names up to 80 characters.</td></tr><tr><td>Journals and history</td><td>20 recent completed journals, 60 activity entries, 200 diagnostic events.</td></tr><tr><td>Popup list</td><td>Shows 8 rows.</td></tr><tr><td>Search</td><td>Substring matching; no quoted phrases, no tag operator, no regular expressions. Fuzzy matching only in the popup.</td></tr><tr><td>Cross-device</td><td>No sync of Bookmark Scope data.</td></tr></tbody></table></div>
-
-<h2 id="not-verified-in-a-real-browser">Not verified in a real browser<a class="anchor" href="#not-verified-in-a-real-browser" aria-label="Link to this section">#</a></h2>
-<ul>
-  <li>Chrome&rsquo;s actual permission prompt for site access, and live link checks against real websites (the project&rsquo;s automated tests use controlled replacements).</li>
-  <li>Screen-reader output, measured colour contrast and zoom behavior.</li>
-  <li>Drag and drop with a touch screen.</li>
-  <li>Translation quality in languages other than English and Persian.</li>
-  <li>Behavior after the browser is killed mid-operation (a crash between creating a bookmark and writing its journal can leave an unjournaled bookmark).</li>
-</ul>
-
-<h2 id="scope-shortcuts-and-the-right-click-menu">Scope shortcuts and the right-click menu</h2>
-<ul>
-  <li>The right-click entries open a dashboard that is already narrowed to one address&rsquo;s domain or page. There is no on-screen control to change that scope; the keys <kbd>1</kbd>, <kbd>2</kbd> and <kbd>3</kbd> do, and only in a dashboard opened that way.</li>
-  <li>On a dashboard opened normally, those keys show <em>This page is not supported</em> and an empty list. Reload to recover.</li>
-</ul>
-
-<h2 id="link-health-limits">Link health</h2>
-<ul>
-  <li><strong>Any 4xx is &ldquo;Broken&rdquo;</strong>, including 401, 403 and 429. Treat the status as a hint.</li>
-  <li><strong>A true redirect is not always a better address.</strong> A redirect to a sign-in page, a consent page or a homepage still counts as Redirected. <strong>Repair redirected</strong> has no Undo, so read <em>Redirects to</em> first.</li>
-  <li>The check judges the response headers only. A page that loads but shows an error message, a login wall or a consent page is still &ldquo;Healthy&rdquo;.</li>
-  <li>Skipped: Chrome Web Store addresses and non-web schemes.</li>
-  <li>The prompt for site access calls it &ldquo;temporary&rdquo;, but Bookmark Scope does not revoke it afterwards.</li>
-</ul>
-
-<h2 id="import-and-export">Import and export<a class="anchor" href="#import-and-export" aria-label="Link to this section">#</a></h2>
-<ul>
-  <li>Browser <code>bookmarks.html</code> files (Netscape format: Chrome, Edge, Firefox, Safari, Brave and most bookmark managers) are imported as a flat list. Each row shows its folder path, but the folders are not recreated, and the added date and the icon are not imported. Addresses that are not <code>http</code> or <code>https</code> (bookmarklets, <code>place:</code>, <code>about:</code>, <code>file:</code>) are excluded. At most 50,000 bookmarks and 100 folder levels are read from a file of up to 10 MB. The reader is a small tolerant tokenizer, not a full HTML engine, and was checked with synthetic Chrome-style and Firefox-style files rather than real exports from every browser.</li>
-  <li>Imports are flat: folder paths and added dates in the file are descriptive only.</li>
-  <li>Restores are additive and are not deduplicated; repeating one creates a second copy.</li>
-  <li>The HTML reader for Pocket exports is a lightweight parser, not a full HTML engine.</li>
-  <li>The dashboard exports the visible list only, as JSON or as CSV; there is no export of just the selected bookmarks.</li><li>The CSV export has been checked against this project&rsquo;s own importer and in a real Chromium download, but has not been opened in Excel, Numbers or Google Sheets. It starts with a UTF-8 byte-order mark so that spreadsheets read non-Latin text. A cell that could be read as a formula begins with an apostrophe; a spreadsheet may show that apostrophe, and Bookmark Scope removes it again on import.</li>
-</ul>
-
-<h2 id="languages">Languages<a class="anchor" href="#languages" aria-label="Link to this section">#</a></h2>
-<ul>
-  <li>Some newer strings, including parts of the Library tools dialogs and the newest Settings options, appear in English until their translations are reviewed.</li>
-  <li>Translations for other languages have not had native-speaker review.</li>
-</ul>
-
-<h2 id="reporting-problems">Reporting problems<a class="anchor" href="#reporting-problems" aria-label="Link to this section">#</a></h2>
-<p>Open an issue on <a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub</a>. A <a href="diagnostics.html">diagnostic export</a> is safe to attach; snapshots and journals are not.</p>
-
-<div class="reading-footer"><a href="troubleshooting-faq.html"><small>Previous</small>Troubleshooting &amp; FAQ</a></div>
-</article>
-<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#how-to-read-this-page">How to read this page</a></li><li><a href="#hard-limits-and-design-boundaries">Hard limits and design boundaries</a></li><li><a href="#not-verified-in-a-real-browser">Not verified in a real browser</a></li><li><a href="#import-and-export">Import and export</a></li><li><a href="#languages">Languages</a></li><li><a href="#reporting-problems">Reporting problems</a></li></ol></nav>
-</div>
-</main>
-<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="../privacy.html">Privacy</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+<p>This page moved to <a href="https://enaloo.com/apps/bookmark-scope/docs/limits/">https://enaloo.com/apps/bookmark-scope/docs/limits/</a>.</p>
 </body>
 </html>

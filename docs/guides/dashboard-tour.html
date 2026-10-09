@@ -1,129 +1,14 @@
 <!doctype html>
-<html lang="en" data-root="../">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dashboard tour | Bookmark Scope user guide</title>
-<meta name="description" content="A guided tour of the Bookmark Scope dashboard: header, filters, side panels, health score, grouping, selection, the detail panel and the virtual list.">
-<meta name="color-scheme" content="light dark">
-<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
-<link rel="stylesheet" href="../styles.css">
-<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<script defer src="../app.js"></script>
+<title>This page moved</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://enaloo.com/apps/bookmark-scope/docs/dashboard-tour/">
+<meta http-equiv="refresh" content="0; url=https://enaloo.com/apps/bookmark-scope/docs/dashboard-tour/">
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
-<main id="main">
-<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Everyday use</p><h1>Dashboard tour</h1><p class="lead">The dashboard is the full-library workspace: search, filter, group, select, clean up, check links and back up, all in one place.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
-<div class="shell doc-layout has-toc">
-<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html" aria-current="page">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="../privacy.html">Privacy policy</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
-<article class="prose">
-
-<figure class="shot " style="--ratio:1440 / 900"><div class="frame" data-file="dashboard-desktop-light.png / dashboard-desktop-dark.png "><img class="for-light" src="../assets/screenshots/dashboard-desktop-light.png" alt="The dashboard on a wide screen with the header, search and filter chips, the side rail, the bookmark list and the detail panel (light theme)" loading="lazy" decoding="async" width="1440" height="900"><img class="for-dark" src="../assets/screenshots/dashboard-desktop-dark.png" alt="The dashboard on a wide screen with the header, search and filter chips, the side rail, the bookmark list and the detail panel (dark theme)" loading="lazy" decoding="async" width="1440" height="900"></div><figcaption>The dashboard at desktop width. Controls keep their labels as the visual design evolves.</figcaption></figure>
-
-<h2 id="opening-it">Opening it<a class="anchor" href="#opening-it" aria-label="Link to this section">#</a></h2>
-<ul>
-  <li>From the popup, choose <strong>Dashboard</strong>.</li>
-  <li>From the right-click menu entries (see the <a href="popup.html#the-right-click-menu">popup guide</a>), which open it already narrowed to a site.</li>
-</ul>
-<p>Unless it was opened from a right-click entry, the dashboard starts on your <strong>entire library</strong>. It loads your saved filters and grouping, restores cached link-health results (cache entries older than seven days are ignored) and refreshes itself when bookmarks change in Chrome, in the popup, or in another window.</p>
-
-<h2 id="the-header">The header<a class="anchor" href="#the-header" aria-label="Link to this section">#</a></h2>
-<ul>
-  <li>The title and a count: <em>N total bookmarks in the library</em>.</li>
-  <li><strong>Buy me a coffee</strong>, which opens the project&rsquo;s support page.</li>
-  <li>The <strong>More actions</strong> menu: <em>About</em>, <em>Open Chrome bookmarks</em>, <em>Settings</em>, and theme and colour-palette controls.</li>
-</ul>
-<figure class="shot " style="--ratio:1440 / 900"><div class="frame" data-file="dashboard-about.png "><img src="../assets/screenshots/dashboard-about.png" alt="The About dialog over the dashboard: app icon, name and version, GitHub, Rate on Store and Buy me a coffee buttons, a list of what the extension does, and details for author, privacy, keyboard shortcut and license" loading="lazy" decoding="async" width="1440" height="900"></div><figcaption>The About dialog (More actions, then About) shows the version, links, author, privacy statement and licenses.</figcaption></figure>
-<p>On first run a <em>Quick setup</em> card explains how to pin the extension. <strong>Got it</strong> dismisses it permanently.</p>
-
-<h2 id="the-toolbar-search-grouping-filters-density">The toolbar: search, grouping, filters, density<a class="anchor" href="#the-toolbar-search-grouping-filters-density" aria-label="Link to this section">#</a></h2>
-<dl>
-  <dt>Search box</dt>
-  <dd>Placeholder <em>Search title, URL, or folder</em>. Supports operators; see <a href="finding-and-searching.html">Finding and searching</a>. Press <kbd>/</kbd> to jump to it.</dd>
-  <dt>Grouping selector</dt>
-  <dd><em>Flat view</em>, <em>Group by domain</em>, <em>Group by folder</em>, <em>Group by status</em>.</dd>
-  <dt>Sort order</dt>
-  <dd>Next to the grouping selector (accessible name <em>Sort visible bookmarks</em>): <em>Title</em>, <em>URL</em>, <em>Newest</em>, <em>Oldest</em>, <em>Folder path</em>. It orders the flat list, or the bookmarks inside each group. The choice is remembered and saved views include it.</dd>
-  <dt>Group order</dt>
-  <dd>Appears only when grouped and orders the groups themselves: <em>Default order</em>, <em>Largest first</em>, <em>A &rarr; Z</em>.</dd>
-  <dt>Filter chips</dt>
-  <dd><em>All</em>, <em>Duplicates</em>, <em>Untitled</em>, <em>Old</em>, <em>Collisions</em>, each with a count for the whole library. One chip is active at a time.</dd>
-  <dt>Density toggle</dt>
-  <dd><em>Switch to compact density</em> and back. It affects the current session only; it is not saved.</dd>
-</dl>
-
-<h2 id="the-side-rail-and-its-four-panels">The side rail and its four panels<a class="anchor" href="#the-side-rail-and-its-four-panels" aria-label="Link to this section">#</a></h2>
-<p>A narrow rail on the side has four buttons, <strong>Stats</strong>, <strong>Clean</strong>, <strong>Health</strong> and <strong>Activity</strong>, and a collapse button. By default the rail is collapsed to icons and a panel opens as a flyout over the list when you click a button. Your collapse choice is saved. On wide windows you can expand it so the panel sits beside the list.</p>
-<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Panel</th><th scope="col">What it shows</th><th scope="col">What you can do</th></tr></thead><tbody><tr><td>Stats (Overview)</td><td>Library size, health score, number of checked links, a &ldquo;Priority&rdquo; count (broken, server-error, unreachable and redirected links), and up to two recommendations</td><td>Click a recommendation button, for example <em>Review duplicates</em> or <em>Inspect visible links</em></td></tr><tr><td>Clean (Cleanup)</td><td>Counts of duplicate URLs, old and untitled bookmarks</td><td>Quick filters: <em>Duplicates</em>, <em>Old</em>, <em>Untitled</em>, <em>Collisions</em></td></tr><tr><td>Health</td><td>How many links are checked, redirected and unhealthy, and the next review time</td><td><em>Inspect visible</em> (or <em>Inspect selected</em>), <em>Mark reviewed now</em></td></tr><tr><td>Activity</td><td>Recent actions: count of actions, redirects fixed, imports, deletes, and the five latest entries</td><td>Read only</td></tr></tbody></table></div>
-
-<h3>The health score</h3>
-<p>The score is a quick, rough indicator, not a verdict. It starts at 100 and subtracts capped penalties for the share of problems in the current library or scope:</p>
-<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Problem</th><th scope="col">Largest possible deduction</th></tr></thead><tbody><tr><td>Broken, server-error or unreachable links (among links you have checked)</td><td>35</td></tr><tr><td>Redirected links (among links you have checked)</td><td>12</td></tr><tr><td>Duplicate groups</td><td>18</td></tr><tr><td>Old bookmarks</td><td>16</td></tr><tr><td>Untitled bookmarks</td><td>10</td></tr><tr><td>Title collisions</td><td>9</td></tr></tbody></table></div>
-<p>Grades: A is 90 or above, B is 80&ndash;89, C is 70&ndash;79, D is 55&ndash;69 and F is below 55. Until you have checked links, the score is labelled <em>metadata-only</em>, because it can only judge duplicates, age and titles. The footer shows the same score.</p>
-
-<h3>Activity history</h3>
-<p>Bookmark Scope keeps a short log of its own actions (health scans, deletes, undo, redirect repairs, moves, mark-reviewed, clearing the cache and bookmarking the current page). It keeps the latest 60 entries. This is a local log, not a backup of your bookmarks.</p>
-
-<h2 id="the-list-header">The list header<a class="anchor" href="#the-list-header" aria-label="Link to this section">#</a></h2>
-<ul>
-  <li>A summary such as <em>12 shown &middot; 480 total</em> and the cleanup counts for the view.</li>
-  <li><strong>Select all</strong> / <strong>Clear all</strong>.</li>
-  <li><strong>Inspect visible</strong> (<strong>Inspect selected</strong> when something is selected). See <a href="link-health.html">Link health</a>.</li>
-  <li>A <strong>More actions</strong> menu: <em>Export visible</em> (JSON), <em>Export visible as CSV</em>, <em>Import bookmarks&hellip;</em>, group expand/collapse items when grouped, and <em>Clear cached health data</em>.</li>
-  <li><strong>Library tools</strong>, which opens the maintenance dialog (snapshots, duplicate preview, saved views, bulk tags, resumable scan, import, diagnostics). If a scan is paused, a <em>Saved scan progress</em> button appears next to it.</li>
-</ul>
-<figure class="shot " style="--ratio:1440 / 900"><div class="frame" data-file="library-tools.png "><img src="../assets/screenshots/library-tools.png" alt="The Library tools dialog listing commands in four groups: Organize, Check links, Backup and import, and Troubleshoot" loading="lazy" decoding="async" width="1440" height="900"></div><figcaption>Library tools groups the maintenance commands.</figcaption></figure>
-
-<h2 id="the-list">The list<a class="anchor" href="#the-list" aria-label="Link to this section">#</a></h2>
-<p>Each row shows a favicon, the title, the host, the folder path (when it is not just the root), the full address, badges for cleanup issues and link health, any tags, and three buttons: <strong>Open bookmark</strong>, <strong>Show in bookmarks</strong> and <strong>More actions</strong> (<em>Edit</em>, <em>Repair redirect</em>, <em>Delete</em>).</p>
-<p>The list follows the <em>Sort visible bookmarks</em> control in the toolbar, which defaults to title A&ndash;Z and is kept between visits. The popup has its own sort setting (see <a href="popup.html">Popup</a>); the two are independent.</p>
-
-<h3>Grouping</h3>
-<ul>
-  <li><strong>By domain</strong> uses the registrable domain (<code>example.com</code>).</li>
-  <li><strong>By folder</strong> uses the full folder path.</li>
-  <li><strong>By status</strong> puts each bookmark in the first category that applies, in this order: <em>Duplicates</em>, <em>Old bookmarks</em>, <em>Untitled</em>, <em>Title collisions</em>, <em>Clean bookmarks</em>. It groups cleanup status, not link health.</li>
-</ul>
-<p>Each group header has a collapse toggle, a count, small badges (duplicates, unhealthy, redirected, old), and the buttons <strong>Select group</strong>, <strong>Inspect this group</strong> and <strong>Open group</strong>.</p>
-<aside class="callout warn"><span class="callout-title">Be careful</span><p><strong>Open group</strong> opens every bookmark in the group as a new tab, with no confirmation. Check the count first.</p></aside>
-
-<h3>Selection</h3>
-<p>Tick a row&rsquo;s checkbox, press <kbd>Space</kbd> on the active row, use <strong>Select all</strong>, or press <kbd>Ctrl</kbd>+<kbd>A</kbd> (<kbd>Cmd</kbd>+<kbd>A</kbd> on Mac). Select all always means <em>every bookmark in the filtered view</em>, not only the rows currently drawn on screen.</p>
-<figure class="shot " style="--ratio:1440 / 900"><div class="frame" data-file="dashboard-selected.png "><img src="../assets/screenshots/dashboard-selected.png" alt="The dashboard with two rows selected and a selection bar above the list with a count and icon buttons for the batch actions, next to the Library tools button" loading="lazy" decoding="async" width="1440" height="900"></div><figcaption>With rows selected, a bar offers batch actions. Library tools stays available.</figcaption></figure>
-<p>The selection bar shows <em>N selected</em> and icon buttons (hover or listen to their names) <strong>Clear all</strong>, <strong>Open selected</strong>, <strong>Inspect selected</strong>, <strong>Copy URLs</strong>, <strong>Repair redirected</strong> (only enabled when a selected bookmark has a repairable redirect) and <strong>Delete</strong>. Tools that act on &ldquo;selected or visible&rdquo; bookmarks, such as Bulk tags and Resumable scan, use the selection when there is one and otherwise use everything visible, and say which in the dialog.</p>
-
-<h2 id="the-detail-panel">The detail panel<a class="anchor" href="#the-detail-panel" aria-label="Link to this section">#</a></h2>
-<p>Click a row, or move with the arrow keys, to make it active. The detail panel shows the active bookmark.</p>
-<figure class="shot " style="--ratio:1440 / 900"><div class="frame" data-file="dashboard-detail.png "><img src="../assets/screenshots/dashboard-detail.png" alt="The dashboard with the detail panel on the right showing the active bookmark title, folder path, Open, Edit, Show folder and Delete buttons, a health badge, and fields for URL, folder, date added, age and redirect target" loading="lazy" decoding="async" width="1440" height="900"></div><figcaption>The detail panel for the active bookmark, on the right of the list.</figcaption></figure>
-<ul>
-  <li>Title, folder path and badges.</li>
-  <li><strong>Open</strong>, <strong>Edit</strong>, <strong>Show folder</strong>, <strong>Delete</strong>.</li>
-  <li>The full address with a <strong>Copy</strong> button.</li>
-  <li><em>Folder</em>, <em>Added</em>, <em>Age</em>, and, after a link check, <em>Redirects to</em> and <em>Health note</em>.</li>
-</ul>
-<p><strong>Editing</strong> changes the title and address in place, so the bookmark keeps its ID, folder and position. The address must be a valid <code>http</code> or <code>https</code> URL; an empty title becomes <em>(Untitled bookmark)</em>. Save with the Save button or <kbd>Ctrl</kbd>+<kbd>Enter</kbd>; cancel with <kbd>Esc</kbd>.</p>
-
-<h2 id="the-list-is-virtual">The list is virtual<a class="anchor" href="#the-list-is-virtual" aria-label="Link to this section">#</a></h2>
-<p>When a flat list has more than 150 rows, Bookmark Scope draws only the rows near the viewport and keeps the scrollbar sized for the whole list. That is why a library of thousands of bookmarks stays responsive. Practical consequences:</p>
-<ul>
-  <li>Use search, filters or grouping to reach a bookmark; do not rely on the browser&rsquo;s own find-in-page (<kbd>Ctrl</kbd>+<kbd>F</kbd>) to see rows that are scrolled out of view.</li>
-  <li>Select all and the maintenance dialogs work on the full filtered set, not just the drawn rows.</li>
-  <li>Grouped views draw each expanded group in full.</li>
-</ul>
-
-<h2 id="narrow-windows">Narrow windows<a class="anchor" href="#narrow-windows" aria-label="Link to this section">#</a></h2>
-<p>On smaller screens the header wraps, the side panels open as a flyout over the list, and the controls stack. Everything stays available; it is only rearranged.</p>
-<figure class="shot narrow" style="--ratio:375 / 812"><div class="frame" data-file="dashboard-narrow-light.png "><img src="../assets/screenshots/dashboard-narrow-light.png" alt="The dashboard at phone width with the toolbar stacked above a single column list" loading="lazy" decoding="async" width="375" height="812"></div><figcaption>The same dashboard at a narrow width.</figcaption></figure>
-
-<h2 id="footer">Footer<a class="anchor" href="#footer" aria-label="Link to this section">#</a></h2>
-<p>The footer repeats the library health line (and the reminder status) and lists the main keyboard shortcuts. The full list is in <a href="command-palette.html">Command palette and keyboard shortcuts</a>.</p>
-
-<div class="reading-footer"><a href="popup.html"><small>Previous</small>Popup</a><a class="next" href="finding-and-searching.html"><small>Next</small>Finding &amp; searching</a></div>
-</article>
-<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#opening-it">Opening it</a></li><li><a href="#the-header">The header</a></li><li><a href="#the-toolbar-search-grouping-filters-density">The toolbar: search, grouping, filters, density</a></li><li><a href="#the-side-rail-and-its-four-panels">The side rail and its four panels</a></li><li><a href="#the-list-header">The list header</a></li><li><a href="#the-list">The list</a></li><li><a href="#the-detail-panel">The detail panel</a></li><li><a href="#the-list-is-virtual">The list is virtual</a></li><li><a href="#narrow-windows">Narrow windows</a></li><li><a href="#footer">Footer</a></li></ol></nav>
-</div>
-</main>
-<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="../privacy.html">Privacy</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+<p>This page moved to <a href="https://enaloo.com/apps/bookmark-scope/docs/dashboard-tour/">https://enaloo.com/apps/bookmark-scope/docs/dashboard-tour/</a>.</p>
 </body>
 </html>
