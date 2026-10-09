@@ -813,12 +813,14 @@ check('C23', 'review reminder notification is created by the event page (notific
     await browser.alarms.create('bookmark-manager-review-reminder', { when: Date.now() + 500 });
     for (let i = 0; i < 80; i++) {
       const next = (await browser.storage.local.get('reviewReminderNextAt')).reviewReminderNextAt;
-      if (shown.includes('bookmark-manager-review-due') && next > Date.now()) return { shown, next, hasOnShown: Boolean(browser.notifications.onShown) };
+      // onShown depends on a desktop notification service (absent on headless CI), so also accept the notification being listed by the API.
+      const listed = Object.keys(await browser.notifications.getAll());
+      if ((shown.includes('bookmark-manager-review-due') || listed.includes('bookmark-manager-review-due')) && next > Date.now()) return { shown, listed, next, hasOnShown: Boolean(browser.notifications.onShown) };
       await new Promise(r => setTimeout(r, 250));
     }
-    return { shown, hasOnShown: Boolean(browser.notifications.onShown), next: (await browser.storage.local.get('reviewReminderNextAt')).reviewReminderNextAt };
+    return { shown, listed: Object.keys(await browser.notifications.getAll()), hasOnShown: Boolean(browser.notifications.onShown), next: (await browser.storage.local.get('reviewReminderNextAt')).reviewReminderNextAt };
   });
-  assert.ok(info.shown.includes('bookmark-manager-review-due'), JSON.stringify(info));
+  assert.ok(info.shown.includes('bookmark-manager-review-due') || info.listed.includes('bookmark-manager-review-due'), JSON.stringify(info));
   assert.ok(info.next > Date.now(), 'reminder was not rescheduled after firing');
   return info;
 });
