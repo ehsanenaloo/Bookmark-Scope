@@ -6,105 +6,97 @@ The format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+### Added
+
+- Bookmark Scope is available on Microsoft Edge Add-ons.
+
 ### Changed
 
-- The README, its translations, the user guide and the privacy text now link to the Microsoft Edge Add-ons page.
-- The "User guide" button, the README, the privacy policy and the support pages now open the guide at its permanent address, https://enaloo.com/apps/bookmark-scope/. The old github.io address keeps redirecting.
+- The "User guide" button, the README and the support pages open the guide at https://enaloo.com/apps/bookmark-scope/. The old address redirects.
 
 ## [5.2.1] - 2026-10-08
 
-This release makes the package acceptable to the Microsoft Edge Add-ons store. The extension behaves the same as 5.2.0.
-
 ### Fixed
 
-- The short description was too long in Tamil, Malayalam, Kannada and Finnish. Microsoft Edge Add-ons allows at most 190 characters, so the extra sentence about the dashboard was removed from those four translations. A new test keeps every language within that limit.
+- The short description was too long in Tamil, Malayalam, Kannada and Finnish. It is now shorter, so the package meets the 190-character limit of Microsoft Edge Add-ons.
 
 ## [5.2.0] - 2026-10-08
 
-This release only reorganizes the project folders to make them easier to navigate. The extension behaves the same as 5.1.0.
-
 ### Changed
 
-- The project folders are easier to navigate. The extension root now holds only `manifest.json`, `background.js` and a few folders. Pages live in `pages/`, icons in `icons/`, shared code in `src/core/` and `src/ui/`, and unit tests in `tests/unit/`. Behavior does not change.
+- The project folders are easier to navigate. The extension root now holds `manifest.json`, `background.js` and a few folders: pages are in `pages/`, icons in `icons/`, shared code in `src/core/` and `src/ui/`, and unit tests in `tests/unit/`. The extension works the same as in 5.1.0.
 
 ## [5.1.0] - 2026-10-08
 
-This release adds an experimental Firefox build, links to the online user guide from inside the extension, and fixes a bug where bookmarks could land one place off when moved down in the same folder in Chrome.
-
 ### Added
 
-- Experimental Firefox build (Firefox 140 or newer, desktop), published as a separate zip on each release.
+- Experimental Firefox build for desktop Firefox 140 or newer. Each release includes it as a separate zip.
 - A "User guide" button in the About dialog of the popup and the dashboard. It opens the online guide in a new tab.
-
-### Fixed
-
-- In Chrome, moving a bookmark down inside the same folder (and undoing that move) could place it one position too early. Chrome and Firefox count the target position differently, and the extension now handles both.
-- Firefox: the permission prompt for link scans now appears reliably when you click "Start new scan".
-- Dashboard: the Undo button on the "Deleted" and "Restored" messages could miss a click if you pressed it within a fraction of a second after the message appeared, because the list was redrawn under the pointer. The list now refreshes before the message is shown.
 
 ### Changed
 
 - The privacy policy lists the user guide among the links you can choose to open.
 
-## [5.0.0] - 2026-10-07
+### Fixed
 
-Bookmark Scope 5.0.0 has a new look in the popup, dashboard and settings. It adds eight library tools for backing up, cleaning and organizing your bookmarks, and it fixes several bugs, including a Stop button that did not stop link scans. The Chrome Web Store listing was at 4.44.0 before this release.
+- In Chrome, moving a bookmark down inside the same folder, or undoing that move, put it one place too early.
+- In Firefox, the permission prompt for link scans now appears when you click "Start new scan".
+- In the dashboard, the Undo button on the "Deleted" and "Restored" messages could miss a quick click. The list now refreshes before the message appears.
+
+## [5.0.0] - 2026-10-08
+
+A new look, eight library tools and many fixes. The Chrome Web Store listing was at 4.44.0 before this release.
 
 Known limitations:
 
-- Imports are flat. Folders are shown as a path, but bookmarks are created in the folder you choose, and original dates are not applied.
+- Imports are flat. Folders are shown as a path, bookmarks are created in the folder you choose, and original dates are not applied.
 - "Repair redirected" has no Undo.
 - CSV export has not been tested in spreadsheet programs.
-- Translation fixes are waiting for review by native speakers.
+- Translations have not been reviewed by native speakers.
 
 ### Added
 
-- Snapshots let you save your bookmark library and restore it later. A restore shows a preview first and only adds what is missing.
-- Merge duplicates shows a preview and lets you pick which bookmark to keep. Tags from the merged bookmarks are combined.
-- Link scans can be paused, resumed and cancelled. Scan progress is saved, so you can continue later.
-- Saved views store a search, filter and sort so you can open them again in one click.
+- Snapshots save your bookmark library so you can restore it later. A restore shows a preview and adds only what is missing.
+- Merge duplicates shows a preview and lets you choose which bookmark to keep. Tags are combined.
+- Link scans can be paused, resumed and cancelled. Progress is saved.
+- Saved views store a search, filter and sort so you can open them in one click.
 - Bulk tag tools add, remove, rename and merge tags on many bookmarks after a preview. Undo is available.
 - Import shows a preview with the destination folder and any warnings. For duplicates you can keep, skip or merge.
+- Import accepts `bookmarks.html` files from major browsers and bookmark managers, and keeps Firefox tags. Bookmarklets and non-web links are skipped.
+- Export visible bookmarks as CSV. The file can be imported again.
 - Diagnostic export shows what it will include before you download it.
-- A command palette lists all actions and opens with Ctrl+Shift+P (Cmd+Shift+P on Mac).
-- You can import `bookmarks.html` files exported by Chrome, Edge, Firefox, Safari, Brave and most bookmark managers. Firefox tags are kept. Bookmarklets and non-web links are skipped.
-- Export visible bookmarks as CSV from the list menu, Library tools or the command palette. The file opens again in the importer.
-- A sort control in the dashboard orders by title, address, newest, oldest or folder path. Your choice is remembered and saved with views.
+- A command palette lists all actions. Open it with Ctrl+Shift+P (Cmd+Shift+P on Mac).
+- A sort control orders the dashboard by title, address, newest, oldest or folder path. Your choice is remembered and saved with views.
 - Review reminders can be turned on in Settings, with an interval of 1 to 365 days.
-- The dashboard has a new About dialog. The popup About tab now shows the author.
+- The dashboard has an About dialog, and the popup About tab shows the author.
 
 ### Changed
 
-- The popup, dashboard and settings have a new design with clearer text, rows, dialogs and light and dark themes.
-- Icons were replaced with the Lucide set.
-- The popup now lists up to 20 matching bookmarks instead of 8.
-- Settings use section cards with switches and a save bar that stays in view.
-- Settings stay selected after you save them.
+- The popup, dashboard and settings have a new design with light and dark themes, new icons (Lucide) and clearer dialogs.
+- The popup lists up to 20 matching bookmarks instead of 8.
+- Settings use section cards and a save bar that stays in view. The selected section stays selected after you save.
 - Menus, dialogs and controls work better with the keyboard.
 - Library tools stay available while you select bookmarks.
-- Previews for snapshots, imports and tag changes show readable bookmark names and results, not raw data.
-- About 24 settings and About texts that were still in English are now translated in 46 languages.
-- Translations that were in the wrong language or script were corrected for Bulgarian, Ukrainian, Romanian, Traditional Chinese, Slovak, Slovenian, Serbian, Malay, Czech, Catalan, Thai and Malayalam.
-- Stored data moved to a newer format. Your bookmarks, tags and settings are kept, and old link-check results are cleared.
+- Previews for snapshots, imports and tag changes show readable names and results.
+- About 24 settings and About texts that were still in English are now translated in 46 languages. Translations in the wrong language or script were corrected in 12 languages.
+- Stored data moved to a newer format. Your bookmarks, tags and settings are kept. Old link-check results are cleared.
 
 ### Fixed
 
-- The Stop button now stops a running link scan.
+- The Stop button now stops a running link scan. Scans also stop on cancel or timeout, and old results from before a reset are ignored.
 - Adding or removing a tag on a dashboard row no longer fails.
-- Links from the right-click menu and the 1, 2 and 3 scope shortcuts now open the right view.
-- The popup width setting now works. Compact is 380 px and Comfortable is 420 px.
+- Links from the right-click menu and the 1, 2 and 3 scope shortcuts open the right view.
+- The popup width setting works. Compact is 380 px and Comfortable is 420 px.
 - A bookmark is no longer marked as redirected when only the #fragment or the letter case of the host differs.
-- The scheduled scan section in Settings has its text back.
-- The merge confirmation now shows "newest" and "oldest" in your language.
 - Pages with a non-default port are no longer treated as the same page as the default port.
 - The toolbar badge follows your matching preferences.
-- Deleting or moving many bookmarks keeps tags and order if some of the changes fail. Undo can retry what is left.
-- Link scans stop on cancel or timeout, including during the GET retry. Old results from before a reset are ignored.
+- The scheduled scan section in Settings has its text back, and the merge confirmation shows "newest" and "oldest" in your language.
+- Deleting or moving many bookmarks keeps tags and order if some changes fail. Undo can retry what is left.
 - Scheduled scans and reminders stay scheduled after an early exit.
 - Long lists keep their scroll position when storage refreshes.
 - Imports that stop partway are recorded, and the result shows what was done. A new bookmark is rolled back if saving its tags fails.
-- Pocket titles with HTML entities now import correctly.
-- Some translation entries and placeholders were missing and have been added.
+- Pocket titles with HTML entities import correctly.
+- Missing translation entries and placeholders were added.
 
 ### Security
 
@@ -131,7 +123,7 @@ Known limitations:
 
 ### Changed
 
-- The code was prepared for a Firefox build. Firefox is not supported or tested as of 5.0.0.
+- The code was prepared for a Firefox build.
 - Favicons are skipped in browsers that do not provide them, so rows show a letter instead of errors.
 
 ## [4.41.0] - 2026-05-27
@@ -244,3 +236,9 @@ Known limitations:
 ### Fixed
 
 - Several smaller bug fixes.
+
+[Unreleased]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.2.1...main
+[5.2.1]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.2.0...v5.2.1
+[5.2.0]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.1.0...v5.2.0
+[5.1.0]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.0.0...v5.1.0
+[5.0.0]: https://github.com/ehsanenaloo/Bookmark-Scope/releases/tag/v5.0.0
