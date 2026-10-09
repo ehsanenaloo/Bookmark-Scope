@@ -1,51 +1,14 @@
 <!doctype html>
-<html lang="en" data-root="../">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Review reminders and notifications | Bookmark Scope user guide</title>
-<meta name="description" content="Every notification Bookmark Scope can show, what triggers it, and how to set up review reminders.">
-<meta name="color-scheme" content="light dark">
-<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
-<link rel="stylesheet" href="../styles.css">
-<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<script defer src="../app.js"></script>
+<title>This page moved</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://enaloo.com/apps/bookmark-scope/docs/review-reminders/">
+<meta http-equiv="refresh" content="0; url=https://enaloo.com/apps/bookmark-scope/docs/review-reminders/">
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
-<main id="main">
-<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Link health</p><h1>Review reminders and notifications</h1><p class="lead">Bookmark Scope shows at most three kinds of notification. Here is what triggers each one, and how to set up review reminders.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
-<div class="shell doc-layout has-toc">
-<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html" aria-current="page">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="../privacy.html">Privacy policy</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
-<article class="prose">
-
-<h2 id="all-notifications">All notifications<a class="anchor" href="#all-notifications" aria-label="Link to this section">#</a></h2>
-<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">Notification</th><th scope="col">When it appears</th><th scope="col">How to turn it off</th></tr></thead><tbody><tr><td><em>Pin Bookmark Scope for faster access</em></td><td>On a fresh install, and again at browser start while the pin hint has not been dismissed</td><td>Choose <strong>Got it</strong> on the Quick setup card in the dashboard or popup</td></tr><tr><td><em>Bookmark Scope: new broken links found</em></td><td>After a scheduled background scan finds bookmarks that newly look broken</td><td>Turn off the scheduled scan in Settings</td></tr><tr><td><em>Bookmark Scope review is due</em></td><td>When a review reminder is enabled and its next date has passed</td><td>Untick <em>Enable review reminders</em> in Settings</td></tr></tbody></table></div>
-<p>Notifications use Chrome&rsquo;s notification system, so your operating system&rsquo;s focus or do-not-disturb settings can hide them. That is operating-system behavior, not something Bookmark Scope controls.</p>
-
-<h2 id="review-reminders-what-they-are-for">Review reminders: what they are for<a class="anchor" href="#review-reminders-what-they-are-for" aria-label="Link to this section">#</a></h2>
-<p>A review reminder is a gentle nudge to open the dashboard every N days. It only shows a notification, titled <em>Bookmark Scope review is due</em>, that mentions the date the review was scheduled for. It does not scan, change or delete anything, and it needs no site access.</p>
-
-<h2 id="turn-them-on">Turn them on<a class="anchor" href="#turn-them-on" aria-label="Link to this section">#</a></h2>
-<ol class="steps">
-  <li><h3>Open Settings</h3><p>Use the popup&rsquo;s <em>More controls</em> menu or the dashboard&rsquo;s <em>More actions</em> menu and choose <strong>Settings</strong>.</p></li>
-  <li><h3>Find the Review reminders section</h3><p>Tick <strong>Enable review reminders</strong> (off by default) and set <strong>Reminder interval (days)</strong>, from 1 to 365 (default 14).</p></li>
-  <li><h3>Save</h3><p>Choose <strong>Save settings</strong>.</p></li>
-</ol>
-<div class="table-wrap" tabindex="0" role="region" aria-label="Table"><table><thead><tr><th scope="col">What you do</th><th scope="col">What happens to the schedule</th></tr></thead><tbody><tr><td>Enable reminders for the first time</td><td>The first reminder is scheduled <em>interval</em> days after your last recorded review, or after now if you have never recorded one. If that moment has already passed, it is set <em>interval</em> days from now</td></tr><tr><td>Save again without changing the interval</td><td>The schedule does not move</td></tr><tr><td>Change the interval and save</td><td>The schedule is re-anchored: last review date plus the new interval (or from now if that is already past)</td></tr><tr><td>Untick the box and save</td><td>Reminders stop and the pending alarm is cleared</td></tr><tr><td>A reminder fires</td><td>You get the notification, and the next one is scheduled one interval later</td></tr></tbody></table></div>
-<p>A value outside 1&ndash;365 is corrected when you save. The background worker re-arms its timer whenever these settings change, and reminders can only fire while the browser is running.</p>
-
-<h2 id="mark-reviewed-now">Mark reviewed now<a class="anchor" href="#mark-reviewed-now" aria-label="Link to this section">#</a></h2>
-<p>Open the dashboard&rsquo;s <strong>Health</strong> panel and choose <strong>Mark reviewed now</strong> after you have gone through your library. It records the review in the Activity log. If reminders are on, it also moves the next reminder to one interval from now and shows <em>Review marked complete. Next reminder &hellip;</em>. If reminders are off it only logs the review. The dashboard footer and the Health panel show the state: <em>reminders off</em>, <em>Next review in N days</em> or <em>Review due</em>. When a review is due, the Stats panel also offers a <em>Scheduled review is due</em> recommendation.</p>
-
-<h2 id="if-you-also-want-link-checks">If you also want link checks<a class="anchor" href="#if-you-also-want-link-checks" aria-label="Link to this section">#</a></h2>
-<p>Use the <a href="link-health.html#scheduled-background-scans">scheduled background scan</a>. It is separate: it needs site access, runs on its own timer and notifies you only when it finds something new.</p>
-
-<div class="reading-footer"><a href="link-health.html"><small>Previous</small>Link health</a><a class="next" href="smart-views.html"><small>Next</small>Smart views</a></div>
-</article>
-<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#all-notifications">All notifications</a></li><li><a href="#review-reminders-what-they-are-for">Review reminders: what they are for</a></li><li><a href="#turn-them-on">Turn them on</a></li><li><a href="#mark-reviewed-now">Mark reviewed now</a></li><li><a href="#if-you-also-want-link-checks">If you also want link checks</a></li></ol></nav>
-</div>
-</main>
-<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="../privacy.html">Privacy</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+<p>This page moved to <a href="https://enaloo.com/apps/bookmark-scope/docs/review-reminders/">https://enaloo.com/apps/bookmark-scope/docs/review-reminders/</a>.</p>
 </body>
 </html>

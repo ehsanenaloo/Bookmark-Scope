@@ -1,85 +1,14 @@
 <!doctype html>
-<html lang="en" data-root="../">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Organizing: tags, folders and moving | Bookmark Scope user guide</title>
-<meta name="description" content="Tag bookmarks, bulk-change tags with a preview and undo, move bookmarks with drag and drop, and understand what Bookmark Scope can and cannot do with folders.">
-<meta name="color-scheme" content="light dark">
-<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
-<link rel="stylesheet" href="../styles.css">
-<script>try{var t=localStorage.getItem("bs-docs-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<script defer src="../app.js"></script>
+<title>This page moved</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://enaloo.com/apps/bookmark-scope/docs/organizing/">
+<meta http-equiv="refresh" content="0; url=https://enaloo.com/apps/bookmark-scope/docs/organizing/">
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="../index.html"><img src="../assets/logo.svg" width="34" height="34" alt=""><span>Bookmark Scope<small>User guide</small></span></a><nav class="top-nav" aria-label="Primary"><a href="../index.html">Overview</a><a href="../guides/quick-start.html">Quick start</a><a href="../guides/index.html">All guides</a><a href="../guides/troubleshooting-faq.html">Help</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">GitHub &#8599;</a></nav><div class="header-tools"><span data-search-host></span><button type="button" class="icon-button" data-theme-toggle hidden>Theme</button></div></div></header>
-<main id="main">
-<div class="shell page-intro"><p class="breadcrumbs"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Everyday use</p><h1>Organizing: tags, folders and moving</h1><p class="lead">Tags are labels that sit beside your folders. Moving and reordering uses the real bookmark tree. Folders themselves are still managed in Chrome.</p><p class="meta-line">Checked against the source on 2026-10-07.</p></div>
-<div class="shell doc-layout has-toc">
-<aside class="sidebar"><details open><summary>Browse the guides</summary><nav aria-label="Guides"><a href="index.html">All guides</a><p>Get started</p><a href="quick-start.html">Quick start &amp; first run</a><a href="installation.html">Installation</a><p>Everyday use</p><a href="popup.html">Popup</a><a href="dashboard-tour.html">Dashboard tour</a><a href="finding-and-searching.html">Finding &amp; searching</a><a href="organizing.html" aria-current="page">Organizing</a><a href="cleaning-up.html">Cleaning up</a><p>Link health</p><a href="link-health.html">Link health</a><a href="review-reminders.html">Review reminders &amp; notifications</a><p>Saved work</p><a href="smart-views.html">Smart views</a><a href="backup-and-restore.html">Backup &amp; restore</a><p>Reference</p><a href="command-palette.html">Command palette &amp; shortcuts</a><a href="settings-reference.html">Settings reference</a><a href="appearance-and-languages.html">Appearance &amp; languages</a><p>Trust and support</p><a href="privacy-and-data.html">Privacy, permissions &amp; data</a><a href="../privacy.html">Privacy policy</a><a href="diagnostics.html">Diagnostics</a><a href="troubleshooting-faq.html">Troubleshooting &amp; FAQ</a><a href="limits.html">Limits &amp; known limitations</a></nav></details></aside>
-<article class="prose">
-
-<h2 id="tags-in-one-minute">Tags in one minute<a class="anchor" href="#tags-in-one-minute" aria-label="Link to this section">#</a></h2>
-<ul>
-  <li>A tag is a short label such as <code>work</code> or <code>read later</code>. A bookmark can have several.</li>
-  <li>Tags are normalised: lower-cased, trimmed, with runs of spaces collapsed, and unprintable characters removed. <code>Work</code>, <code> work </code> and <code>WORK</code> become the same tag.</li>
-  <li>A tag can be up to <strong>32 characters</strong>, and a bookmark can have up to <strong>20</strong> tags.</li>
-  <li>Tags belong to the bookmark&rsquo;s browser ID. They follow a bookmark when you move or rename it, and are removed when you delete it.</li>
-  <li>Tags are stored by the extension on this browser profile only. Chrome does not store extra fields on a bookmark, and Bookmark Scope does not sync tags between devices. They are included in snapshots and in the JSON export (see <a href="backup-and-restore.html">Backup and restore</a>).</li>
-</ul>
-
-<h2 id="adding-tags">Adding tags<a class="anchor" href="#adding-tags" aria-label="Link to this section">#</a></h2>
-<h3>Bulk tags (works on many bookmarks at once)</h3>
-<figure class="shot " style="--ratio:1440 / 900"><div class="frame" data-file="bulk-tags.png "><img src="../assets/screenshots/bulk-tags.png" alt="The Bulk tags dialog showing the target scope, the operation selector, a tag field and a preview listing the before and after tags for each bookmark" loading="lazy" decoding="async" width="1440" height="900"></div><figcaption>Bulk tags: choose an operation, preview the change, then apply.</figcaption></figure>
-<ol class="steps">
-  <li><h3>Choose the targets</h3><p>Select specific bookmarks, or leave nothing selected to target <strong>everything currently visible</strong> (after your search, chip and tag filters). The dialog names its scope, for example <em>Visible bookmarks (current filters): 42</em>, so check the number before continuing.</p></li>
-  <li><h3>Open the tool</h3><p>Choose <strong>Library tools &rarr; Bulk tags</strong>, or open the <a href="command-palette.html">command palette</a> and type <em>bulk</em>.</p></li>
-  <li><h3>Pick the operation</h3><p><strong>Add tag</strong> (one field), <strong>Remove tag</strong> (one field), <strong>Rename tag</strong> and <strong>Merge tag</strong> (a source and a target field). Rename and Merge both replace the source tag with the target tag on the targeted bookmarks; use Merge when the target tag already exists elsewhere.</p></li>
-  <li><h3>Preview</h3><p>Choose <strong>Preview</strong>. You get <em>Bookmarks to change: N</em> and, for each bookmark, <em>Before</em> and <em>After</em>. Changing any field clears the preview so you cannot apply a stale one. A change that would exceed 20 tags on any bookmark is refused as a whole, with no partial changes.</p></li>
-  <li><h3>Apply</h3><p>Choose <strong>Apply tag changes</strong>. The result reads <em>Changed / missing / conflicting</em> with three numbers. <em>Missing</em> means a bookmark was deleted meanwhile; <em>conflicting</em> means its tags changed after the preview and it was left alone.</p></li>
-</ol>
-<h3>Undo for bulk tags</h3>
-<p><strong>Undo tag changes</strong> sits inside the same dialog and reverses only the bookmarks whose tags still match the result you applied. If you or another window changed them since, they are reported as conflicts and not overwritten. This Undo lives in the open dashboard session and is gone after a reload.</p>
-
-<h3>Tag a whole site in two steps</h3>
-<ol>
-  <li>Search <code>domain:example</code> so only that site is visible.</li>
-  <li>Open Bulk tags, choose <strong>Add tag</strong>, type the tag, preview, apply.</li>
-</ol>
-
-<h3>The inline tag box on a row</h3>
-<p>Click a row to make it active; it then shows a dashed <em>+ add tag</em> box. Type a tag and press <kbd>Enter</kbd> or <kbd>,</kbd> to add it; <kbd>Esc</kbd> clears the box. Each tag on a row has a small &times; to remove it. Clicking a tag&rsquo;s name adds it to the tag filter. The same normalisation and limits apply (lower case, 32 characters, 20 per bookmark), and an invalid or empty tag shows a short error toast.</p>
-
-<h2 id="finding-by-tag">Finding by tag<a class="anchor" href="#finding-by-tag" aria-label="Link to this section">#</a></h2>
-<p>Use the <em>Tags:</em> chips above the list (see <a href="finding-and-searching.html#tag-chips">Tag chips</a>). Selected chips combine with AND. Tag chips and the search box work together.</p>
-
-<h2 id="editing-a-bookmark">Editing a bookmark<a class="anchor" href="#editing-a-bookmark" aria-label="Link to this section">#</a></h2>
-<p>Select the row and press <kbd>E</kbd>, or use <strong>Edit</strong> in the detail panel or the row&rsquo;s <strong>More actions</strong> menu. Change the title or address and save. The bookmark keeps its ID, folder and position.</p>
-
-<h2 id="moving-bookmarks-drag-and-drop">Moving bookmarks (drag and drop)<a class="anchor" href="#moving-bookmarks-drag-and-drop" aria-label="Link to this section">#</a></h2>
-<p>Drag a row and drop it on another row. Drop on the upper half of the target to insert <strong>before</strong> it, or the lower half to insert <strong>after</strong>. If the target is in a different folder, the bookmark moves into that folder at that position.</p>
-<ul>
-  <li>If the dragged row is part of a multi-selection, <strong>all selected bookmarks</strong> move together, keeping their relative order.</li>
-  <li>The toast reads <em>Moved: N. Failed / not attempted: M.</em> with <strong>Undo</strong>.</li>
-  <li>Moves are applied one at a time. If one fails, the rest are not attempted and nothing is rolled back automatically. Undo restores only the moves that succeeded, and tells you if it could not complete.</li>
-  <li>You cannot drop onto a bookmark you are dragging.</li>
-</ul>
-<p>Moving changes folder and position only; the bookmark keeps its ID, date and tags.</p>
-<aside class="callout note"><span class="callout-title">How this was checked</span><p>Drag and drop is described from the source and the project&rsquo;s recorded acceptance notes. It relies on the browser&rsquo;s desktop drag-and-drop; touch devices are not covered.</p></aside>
-
-<h2 id="folders">Folders<a class="anchor" href="#folders" aria-label="Link to this section">#</a></h2>
-<p>Bookmark Scope can show each bookmark&rsquo;s folder, group by folder, filter by folder path and move bookmarks between folders by dropping. It does <strong>not</strong> create, rename, reorder or delete folders. Use Chrome&rsquo;s own bookmark manager for that:</p>
-<ul>
-  <li>Press <strong>Show in bookmarks</strong> (on a row) or <strong>Show folder</strong> (in the detail panel) to open the manager on that folder.</li>
-  <li>Or choose <em>Open Chrome bookmarks</em> from the header menu.</li>
-</ul>
-<p>When you restore a snapshot, Bookmark Scope does create a new folder to hold the restored tree; see <a href="backup-and-restore.html">Backup and restore</a>.</p>
-
-<div class="reading-footer"><a href="finding-and-searching.html"><small>Previous</small>Finding &amp; searching</a><a class="next" href="cleaning-up.html"><small>Next</small>Cleaning up</a></div>
-</article>
-<nav class="toc" aria-label="On this page"><p>On this page</p><ol><li><a href="#tags-in-one-minute">Tags in one minute</a></li><li><a href="#adding-tags">Adding tags</a></li><li><a href="#finding-by-tag">Finding by tag</a></li><li><a href="#editing-a-bookmark">Editing a bookmark</a></li><li><a href="#moving-bookmarks-drag-and-drop">Moving bookmarks (drag and drop)</a></li><li><a href="#folders">Folders</a></li></ol></nav>
-</div>
-</main>
-<footer class="footer"><div class="shell footer-inner"><p>Bookmark Scope user guide &middot; MIT licensed &middot; Maintained by Ehsan Enaloo</p><div><a href="../guides/troubleshooting-faq.html">Troubleshooting</a><a href="../guides/limits.html">Limits</a><a href="../privacy.html">Privacy</a><a href="https://github.com/ehsanenaloo/Bookmark-Scope" rel="noopener">Source repository &#8599;</a></div></div></footer>
+<p>This page moved to <a href="https://enaloo.com/apps/bookmark-scope/docs/organizing/">https://enaloo.com/apps/bookmark-scope/docs/organizing/</a>.</p>
 </body>
 </html>
