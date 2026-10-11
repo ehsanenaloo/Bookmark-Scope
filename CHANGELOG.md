@@ -9,6 +9,7 @@ The format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/
 ### Added
 
 - Bookmark Scope is available on Microsoft Edge Add-ons.
+- Bookmark Scope is available on Firefox Add-ons.
 
 ### Changed
 

@@ -69,7 +69,7 @@ Bookmark Scope این مشکل را با دو ابزار حل می‌کند. **�
 | **Chrome** | تست‌شده | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
 | **Edge** | کار می‌کند | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
 | **Brave** | کار می‌کند | از همان صفحه‌ی Chrome Web Store نصب کنید. |
-| **Firefox 140 به بالا** (دسکتاپ) | آزمایشی | [نصب موقت از صفحه‌ی Releases](#firefox-experimental) |
+| **Firefox 140 به بالا** (دسکتاپ) | کار می‌کند | [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) |
 | **Safari** | پشتیبانی نمی‌شود | |
 
 **Chrome و Brave:** صفحه‌ی افزونه را باز کنید، روی **Add to Chrome** کلیک کنید، بعد روی آیکون puzzle در نوار ابزار کلیک کنید و Bookmark Scope را پین کنید.
@@ -78,13 +78,13 @@ Bookmark Scope این مشکل را با دو ابزار حل می‌کند. **�
 
 <a id="firefox-experimental"></a>
 
-**Firefox (آزمایشی):** هنوز در Firefox Add-ons نیست.
+**Firefox:** [صفحه‌ی Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) را باز کنید و روی **Add to Firefox** کلیک کنید. برای امتحان نسخه‌ای تازه‌تر از فروشگاه، آن را دستی بارگذاری کنید:
 
 1. فایل `bookmark-scope-<version>-firefox.zip` را از [صفحه‌ی Releases](https://github.com/ehsanenaloo/Bookmark-Scope/releases) دانلود کنید.
 2. در Firefox آدرس `about:debugging#/runtime/this-firefox` را باز کنید.
 3. روی **Load Temporary Add-on** کلیک کنید و فایل zip را انتخاب کنید.
 
-Firefox افزونه‌های موقت را با بسته شدن حذف می‌کند. جزئیات بیشتر در [راهنمای نصب](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental) آمده است.
+Firefox افزونه‌های موقت را با بسته شدن حذف می‌کند. جزئیات بیشتر در [راهنمای نصب](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox) آمده است.
 
 **از سورس:** مرحله‌ی build ندارد. پوشه‌ی `extension/` خودِ افزونه است. `chrome://extensions` را باز کنید، **Developer mode** را روشن کنید، روی **Load unpacked** کلیک کنید و پوشه‌ی `extension` را انتخاب کنید.
 

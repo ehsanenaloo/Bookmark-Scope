@@ -67,7 +67,7 @@ Bookmark Scope règle ce problème avec deux outils. La **fenêtre contextuelle*
 | **Chrome** | Testé | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
 | **Edge** | Fonctionne | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
 | **Brave** | Fonctionne | Installez depuis la même page du Chrome Web Store. |
-| **Firefox 140+** (ordinateur) | Expérimental | [Installation temporaire depuis la page des Releases](#firefox-experimental) |
+| **Firefox 140+** (ordinateur) | Fonctionne | [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) |
 | **Safari** | Non pris en charge | |
 
 **Chrome et Brave :** ouvrez la page de la boutique, cliquez sur **Add to Chrome**, puis cliquez sur l'icône en forme de pièce de puzzle dans la barre d'outils et épinglez Bookmark Scope.
@@ -76,13 +76,13 @@ Bookmark Scope règle ce problème avec deux outils. La **fenêtre contextuelle*
 
 <a id="firefox-experimental"></a>
 
-**Firefox (expérimental) :** l'extension n'est pas encore sur Firefox Add-ons.
+**Firefox :** ouvrez la [page Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) et cliquez sur **Add to Firefox**. Pour essayer une version plus récente que celle de la boutique, chargez-la à la main :
 
 1. Téléchargez `bookmark-scope-<version>-firefox.zip` depuis la [page des Releases](https://github.com/ehsanenaloo/Bookmark-Scope/releases).
 2. Dans Firefox, ouvrez `about:debugging#/runtime/this-firefox`.
 3. Cliquez sur **Load Temporary Add-on** et choisissez le fichier zip.
 
-Firefox supprime les modules complémentaires temporaires quand il se ferme. Plus de détails dans le [guide d'installation](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental).
+Firefox supprime les modules complémentaires temporaires quand il se ferme. Plus de détails dans le [guide d'installation](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox).
 
 **Depuis les sources :** il n'y a pas d'étape de compilation. Le dossier `extension/` est l'extension. Ouvrez `chrome://extensions`, activez le **Mode développeur**, cliquez sur **Charger l'extension non empaquetée** et choisissez le dossier `extension`.
 

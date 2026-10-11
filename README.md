@@ -63,7 +63,7 @@ Bookmark Scope fixes this with two tools. The **popup** shows the bookmarks you 
 | **Chrome** | Tested | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
 | **Edge** | Works | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
 | **Brave** | Works | Install from the same Chrome Web Store page. |
-| **Firefox 140+** (desktop) | Experimental | [Temporary install from the Releases page](#firefox-experimental) |
+| **Firefox 140+** (desktop) | Works | [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) |
 | **Safari** | Not supported | |
 
 **Chrome and Brave:** open the store page, click **Add to Chrome**, then click the puzzle icon in the toolbar and pin Bookmark Scope.
@@ -72,13 +72,13 @@ Bookmark Scope fixes this with two tools. The **popup** shows the bookmarks you 
 
 <a id="firefox-experimental"></a>
 
-**Firefox (experimental):** it is not on Firefox Add-ons yet.
+**Firefox:** open the [Firefox Add-ons page](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) and click **Add to Firefox**. To try a build newer than the listing, load it by hand:
 
 1. Download `bookmark-scope-<version>-firefox.zip` from the [Releases page](https://github.com/ehsanenaloo/Bookmark-Scope/releases).
 2. In Firefox, open `about:debugging#/runtime/this-firefox`.
 3. Click **Load Temporary Add-on** and choose the zip file.
 
-Firefox removes temporary add-ons when it closes. See the [installation guide](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental) for details.
+Firefox removes temporary add-ons when it closes. See the [installation guide](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox) for details.
 
 **From source:** there is no build step. The `extension/` folder is the extension. Open `chrome://extensions`, turn on **Developer mode**, click **Load unpacked** and choose the `extension` folder.
 
