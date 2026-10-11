@@ -67,7 +67,7 @@ Bookmark Scope löst das mit zwei Werkzeugen. Das **Popup** zeigt die Lesezeiche
 | **Chrome** | Getestet | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
 | **Edge** | Funktioniert | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
 | **Brave** | Funktioniert | Installiere von derselben Seite im Chrome Web Store. |
-| **Firefox 140+** (Desktop) | Experimentell | [Temporäre Installation von der Releases-Seite](#firefox-experimental) |
+| **Firefox 140+** (Desktop) | Funktioniert | [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) |
 | **Safari** | Nicht unterstützt | |
 
 **Chrome und Brave:** Öffne die Store-Seite, klick auf **Add to Chrome**, klick dann auf das Puzzle-Symbol in der Symbolleiste und pinne Bookmark Scope an.
@@ -76,13 +76,13 @@ Bookmark Scope löst das mit zwei Werkzeugen. Das **Popup** zeigt die Lesezeiche
 
 <a id="firefox-experimental"></a>
 
-**Firefox (experimentell):** Die Erweiterung ist noch nicht bei Firefox Add-ons verfügbar.
+**Firefox:** Öffne die [Seite bei Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) und klick auf **Add to Firefox**. Für eine neuere Version als im Store lädst du sie von Hand:
 
 1. Lade `bookmark-scope-<version>-firefox.zip` von der [Releases-Seite](https://github.com/ehsanenaloo/Bookmark-Scope/releases) herunter.
 2. Öffne in Firefox `about:debugging#/runtime/this-firefox`.
 3. Klick auf **Load Temporary Add-on** und wähle die ZIP-Datei.
 
-Firefox entfernt temporäre Add-ons beim Beenden. Mehr dazu steht in der [Installationsanleitung](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental).
+Firefox entfernt temporäre Add-ons beim Beenden. Mehr dazu steht in der [Installationsanleitung](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox).
 
 **Aus dem Quellcode:** Es gibt keinen Build-Schritt. Der Ordner `extension/` ist die Erweiterung. Öffne `chrome://extensions`, schalte den **Entwicklermodus** ein, klick auf **Entpackte Erweiterung laden** und wähle den Ordner `extension`.
 

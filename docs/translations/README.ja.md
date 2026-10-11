@@ -67,7 +67,7 @@ Bookmark Scope は、2 つのツールでこの問題を解決します。**ポ�
 | **Chrome** | テスト済み | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
 | **Edge** | 動作します | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
 | **Brave** | 動作します | 同じ Chrome Web Store のページからインストールします。 |
-| **Firefox 140 以降**(デスクトップ版) | 試験版 | [Releases ページから一時的にインストール](#firefox-experimental) |
+| **Firefox 140 以降**(デスクトップ版) | 動作します | [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) |
 | **Safari** | 非対応 | |
 
 **Chrome、Brave:** ストアのページを開いて **Add to Chrome** をクリックします。次にツールバーのパズルのアイコンをクリックして、Bookmark Scope をピン留めします。
@@ -76,13 +76,13 @@ Bookmark Scope は、2 つのツールでこの問題を解決します。**ポ�
 
 <a id="firefox-experimental"></a>
 
-**Firefox(試験版):** Firefox Add-ons にはまだ公開していません。
+**Firefox:** [Firefox Add-ons のページ](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/)を開き、**Add to Firefox** をクリックします。ストアより新しいビルドを試すには、手動で読み込みます。
 
 1. [Releases ページ](https://github.com/ehsanenaloo/Bookmark-Scope/releases)から `bookmark-scope-<version>-firefox.zip` をダウンロードします。
 2. Firefox で `about:debugging#/runtime/this-firefox` を開きます。
 3. **Load Temporary Add-on** をクリックして、zip ファイルを選びます。
 
-一時的なアドオンは Firefox を閉じると削除されます。くわしくは[インストールガイド](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental)を見てください。
+一時的なアドオンは Firefox を閉じると削除されます。くわしくは[インストールガイド](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox)を見てください。
 
 **ソースから:** ビルドの手順はありません。`extension/` フォルダーがそのまま拡張機能です。`chrome://extensions` を開いて、**デベロッパー モード**をオンにします。**パッケージ化されていない拡張機能を読み込む**をクリックして、`extension` フォルダーを選びます。
 

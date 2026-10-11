@@ -67,7 +67,7 @@ O Bookmark Scope resolve isso com duas ferramentas. O **popup** mostra os favori
 | **Chrome** | Testado | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
 | **Edge** | Funciona | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
 | **Brave** | Funciona | Instale pela mesma página da Chrome Web Store. |
-| **Firefox 140+** (computador) | Experimental | [Instalação temporária pela página de Releases](#firefox-experimental) |
+| **Firefox 140+** (computador) | Funciona | [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) |
 | **Safari** | Não compatível | |
 
 **Chrome e Brave:** abra a página da loja, clique em **Add to Chrome**, depois clique no ícone de quebra-cabeça na barra de ferramentas e fixe o Bookmark Scope.
@@ -76,13 +76,13 @@ O Bookmark Scope resolve isso com duas ferramentas. O **popup** mostra os favori
 
 <a id="firefox-experimental"></a>
 
-**Firefox (experimental):** ele ainda não está no Firefox Add-ons.
+**Firefox:** abra a [página do Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) e clique em **Add to Firefox**. Para testar uma versão mais nova que a da loja, carregue-a manualmente:
 
 1. Baixe `bookmark-scope-<version>-firefox.zip` na [página de Releases](https://github.com/ehsanenaloo/Bookmark-Scope/releases).
 2. No Firefox, abra `about:debugging#/runtime/this-firefox`.
 3. Clique em **Load Temporary Add-on** e escolha o arquivo zip.
 
-O Firefox remove os complementos temporários quando fecha. Há mais detalhes no [guia de instalação](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental).
+O Firefox remove os complementos temporários quando fecha. Há mais detalhes no [guia de instalação](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox).
 
 **A partir do código-fonte:** não há etapa de build. A pasta `extension/` é a extensão. Abra `chrome://extensions`, ative o **Modo do desenvolvedor**, clique em **Carregar sem compactação** e escolha a pasta `extension`.
 

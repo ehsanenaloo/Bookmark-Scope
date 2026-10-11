@@ -67,7 +67,7 @@ Bookmark Scope इसे दो टूल से ठीक करता है�
 | **Chrome** | टेस्ट किया हुआ | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
 | **Edge** | काम करता है | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
 | **Brave** | काम करता है | उसी Chrome Web Store पेज से इंस्टॉल करें। |
-| **Firefox 140+** (डेस्कटॉप) | प्रयोगात्मक | [Releases पेज से अस्थायी इंस्टॉल](#firefox-experimental) |
+| **Firefox 140+** (डेस्कटॉप) | काम करता है | [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) |
 | **Safari** | सपोर्ट नहीं है | |
 
 **Chrome और Brave:** स्टोर पेज खोलें, **Add to Chrome** पर क्लिक करें, फिर toolbar में पज़ल आइकन पर क्लिक करें और Bookmark Scope को pin करें।
@@ -76,13 +76,13 @@ Bookmark Scope इसे दो टूल से ठीक करता है�
 
 <a id="firefox-experimental"></a>
 
-**Firefox (प्रयोगात्मक):** यह अभी Firefox Add-ons पर नहीं है।
+**Firefox:** [Firefox Add-ons पेज](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) खोलें और **Add to Firefox** पर क्लिक करें। स्टोर से नया बिल्ड आज़माने के लिए उसे हाथ से लोड करें:
 
 1. [Releases पेज](https://github.com/ehsanenaloo/Bookmark-Scope/releases) से `bookmark-scope-<version>-firefox.zip` डाउनलोड करें।
 2. Firefox में `about:debugging#/runtime/this-firefox` खोलें।
 3. **Load Temporary Add-on** पर क्लिक करें और zip फ़ाइल चुनें।
 
-Firefox बंद होने पर temporary add-on हटा देता है। ज़्यादा जानकारी [इंस्टॉल गाइड](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental) में है।
+Firefox बंद होने पर temporary add-on हटा देता है। ज़्यादा जानकारी [इंस्टॉल गाइड](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox) में है।
 
 **Source से:** कोई build step नहीं है। `extension/` फ़ोल्डर ही extension है। `chrome://extensions` खोलें, **Developer mode** चालू करें, **Load unpacked** पर क्लिक करें और `extension` फ़ोल्डर चुनें।
 

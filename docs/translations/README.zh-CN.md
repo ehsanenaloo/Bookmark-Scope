@@ -67,7 +67,7 @@ Bookmark Scope 用两个工具来解决这个问题。**弹出窗口**会显示�
 | **Chrome** | 已测试 | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
 | **Edge** | 可用 | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
 | **Brave** | 可用 | 从同一个 Chrome Web Store 页面安装。 |
-| **Firefox 140 及以上**（桌面版） | 实验版 | [从 Releases 页面临时安装](#firefox-experimental) |
+| **Firefox 140 及以上**（桌面版） | 可用 | [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) |
 | **Safari** | 不支持 | |
 
 **Chrome 和 Brave：** 打开商店页面，点击 **添加至 Chrome**，再点击工具栏上的拼图图标，把 Bookmark Scope 固定在工具栏。
@@ -76,13 +76,13 @@ Bookmark Scope 用两个工具来解决这个问题。**弹出窗口**会显示�
 
 <a id="firefox-experimental"></a>
 
-**Firefox（实验版）：** 它还没有上架 Firefox Add-ons。
+**Firefox：** 打开 [Firefox Add-ons 页面](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/)，点击 **Add to Firefox**。若要试用比商店更新的版本，请手动加载：
 
 1. 从 [Releases 页面](https://github.com/ehsanenaloo/Bookmark-Scope/releases)下载 `bookmark-scope-<version>-firefox.zip`。
 2. 在 Firefox 中打开 `about:debugging#/runtime/this-firefox`。
 3. 点击 **Load Temporary Add-on**，选择 zip 文件。
 
-Firefox 关闭时会移除临时附加组件。更多说明见[安装指南](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental)。
+Firefox 关闭时会移除临时附加组件。更多说明见[安装指南](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox)。
 
 **从源码安装：** 不需要构建。`extension/` 文件夹本身就是扩展。打开 `chrome://extensions`，打开 **开发者模式**，点击 **加载已解压的扩展程序**，然后选择 `extension` 文件夹。
 

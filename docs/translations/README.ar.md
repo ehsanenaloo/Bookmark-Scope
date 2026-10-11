@@ -69,7 +69,7 @@
 | **Chrome** | مُختبر | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
 | **Edge** | يعمل | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
 | **Brave** | يعمل | ثبّتها من صفحة Chrome Web Store نفسها. |
-| **Firefox 140 أو أحدث** (سطح المكتب) | تجريبي | [تثبيت مؤقت من صفحة الإصدارات](#firefox-experimental) |
+| **Firefox 140 أو أحدث** (سطح المكتب) | يعمل | [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) |
 | **Safari** | غير مدعوم | |
 
 **Chrome وBrave:** افتح صفحة المتجر، وانقر على **Add to Chrome**، ثم انقر على أيقونة قطعة الأحجية في شريط الأدوات وثبّت Bookmark Scope.
@@ -78,13 +78,13 @@
 
 <a id="firefox-experimental"></a>
 
-**Firefox (تجريبي):** غير متوفرة بعد في Firefox Add-ons.
+**Firefox:** افتح [صفحة Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) وانقر **Add to Firefox**. لتجربة نسخة أحدث من المتجر، حمّلها يدويًا:
 
 1. نزّل الملف `bookmark-scope-<version>-firefox.zip` من [صفحة الإصدارات](https://github.com/ehsanenaloo/Bookmark-Scope/releases).
 2. في Firefox، افتح `about:debugging#/runtime/this-firefox`.
 3. انقر على **Load Temporary Add-on** واختر ملف zip.
 
-يزيل Firefox الإضافات المؤقتة عند إغلاقه. تجد مزيدًا من التفاصيل في [دليل التثبيت](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental).
+يزيل Firefox الإضافات المؤقتة عند إغلاقه. تجد مزيدًا من التفاصيل في [دليل التثبيت](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox).
 
 **من المصدر:** لا توجد خطوة بناء. المجلد `extension/` هو الإضافة نفسها. افتح `chrome://extensions` وفعّل **Developer mode** وانقر على **Load unpacked** واختر المجلد `extension`.
 

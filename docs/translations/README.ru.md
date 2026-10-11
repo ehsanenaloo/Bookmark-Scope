@@ -67,7 +67,7 @@ Bookmark Scope решает это двумя инструментами. **Вс
 | **Chrome** | Проверено | [Chrome Web Store](https://chromewebstore.google.com/detail/cdonpinfefphkfdcffnangpmjjkoklfo) |
 | **Edge** | Работает | [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ioonncgajlliiajlebblkfkgagcgcnae) |
 | **Brave** | Работает | Установите с той же страницы Chrome Web Store. |
-| **Firefox 140+** (настольный) | Экспериментально | [Временная установка со страницы Releases](#firefox-experimental) |
+| **Firefox 140+** (настольный) | Работает | [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) |
 | **Safari** | Не поддерживается | |
 
 **Chrome и Brave:** откройте страницу в магазине, нажмите **Добавить в Chrome** (**Add to Chrome**), затем нажмите на значок пазла на панели инструментов и закрепите Bookmark Scope.
@@ -76,13 +76,13 @@ Bookmark Scope решает это двумя инструментами. **Вс
 
 <a id="firefox-experimental"></a>
 
-**Firefox (экспериментально):** его ещё нет в Firefox Add-ons.
+**Firefox:** откройте [страницу Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/bookmark-scope/) и нажмите **Add to Firefox**. Чтобы попробовать сборку новее, чем в магазине, загрузите её вручную:
 
 1. Скачайте `bookmark-scope-<version>-firefox.zip` со [страницы Releases](https://github.com/ehsanenaloo/Bookmark-Scope/releases).
 2. В Firefox откройте `about:debugging#/runtime/this-firefox`.
 3. Нажмите **Load Temporary Add-on** и выберите zip-файл.
 
-Firefox удаляет временные дополнения при закрытии. Подробнее в [руководстве по установке](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox-experimental).
+Firefox удаляет временные дополнения при закрытии. Подробнее в [руководстве по установке](https://enaloo.com/apps/bookmark-scope/docs/installation/#firefox).
 
 **Из исходников:** сборки нет. Папка `extension/` и есть расширение. Откройте `chrome://extensions`, включите **Режим разработчика** (**Developer mode**), нажмите **Загрузить распакованное расширение** (**Load unpacked**) и выберите папку `extension`.
 
