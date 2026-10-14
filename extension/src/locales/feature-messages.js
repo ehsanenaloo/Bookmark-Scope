@@ -71,6 +71,9 @@ export const FEATURE_MESSAGES = {
   'License':'مجوز',
   'MIT License':'مجوز MIT',
   'User guide':'راهنمای کاربر',
+  'Maybe later':'شاید بعداً',
+  'Close':'بستن',
+  "Don't show this again":'دیگر نشان نده',
   'MIT License. Third-party: Public Suffix List (MPL-2.0), Lucide icons (ISC).':'مجوز MIT. اجزای شخص ثالث: فهرست پسوند عمومی (MPL-2.0) و آیکون‌های Lucide (ISC).'
 };
 export function featureText(source) {

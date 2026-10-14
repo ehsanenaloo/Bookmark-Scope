@@ -7,6 +7,8 @@ import {
   MATCH_MODES,
   SORT_OPTIONS,
   POPUP_WIDTHS,
+  POPUP_ROW_LIMIT_CHOICES,
+  POPUP_ROW_LIMIT_UNLIMITED,
   MERGE_STRATEGIES,
   STORAGE_KEYS,
   THEME_MODES,
@@ -24,6 +26,7 @@ import { saveReviewReminderPreferences } from '../../src/services/preferences-se
 import { now } from '../../src/platform/time.js';
 import {
   AUTO_LOCALE,
+  formatNumber,
   getLocaleOptions,
   initI18n,
   setStoredLocalePreference,
@@ -42,6 +45,8 @@ const el = {
   defaultMode: document.getElementById('default-mode'),
   defaultSort: document.getElementById('default-sort'),
   popupWidth: document.getElementById('popup-width'),
+  popupRowLimit: document.getElementById('popup-row-limit'),
+  popupLazyLoad: document.getElementById('popup-lazy-load'),
   themeMode: document.getElementById('theme-mode'),
   colorPalette: document.getElementById('color-palette'),
   localePreference: document.getElementById('locale-preference'),
@@ -86,6 +91,10 @@ function populateSelects() {
     [POPUP_WIDTHS.COMPACT, t('Compact')],
     [POPUP_WIDTHS.COMFORTABLE, t('Comfortable')]
   ]);
+  fillSelect(el.popupRowLimit, POPUP_ROW_LIMIT_CHOICES.map((value) => [
+    String(value),
+    value === POPUP_ROW_LIMIT_UNLIMITED ? t('Unlimited') : formatNumber(value)
+  ]));
   fillSelect(el.themeMode, [
     [THEME_MODES.SYSTEM, t('System')],
     [THEME_MODES.LIGHT, t('Light')],
@@ -130,6 +139,8 @@ async function load() {
   el.defaultMode.value = stored[STORAGE_KEYS.POPUP_MODE] || defaults[STORAGE_KEYS.POPUP_MODE];
   el.defaultSort.value = stored[STORAGE_KEYS.POPUP_SORT] || defaults[STORAGE_KEYS.POPUP_SORT];
   el.popupWidth.value = stored[STORAGE_KEYS.POPUP_WIDTH] || defaults[STORAGE_KEYS.POPUP_WIDTH];
+  el.popupRowLimit.value = String(POPUP_ROW_LIMIT_CHOICES.includes(stored[STORAGE_KEYS.POPUP_ROW_LIMIT]) ? stored[STORAGE_KEYS.POPUP_ROW_LIMIT] : defaults[STORAGE_KEYS.POPUP_ROW_LIMIT]);
+  el.popupLazyLoad.checked = stored[STORAGE_KEYS.POPUP_LAZY_LOAD] !== false;
   el.themeMode.value = stored[STORAGE_KEYS.THEME_MODE] || defaults[STORAGE_KEYS.THEME_MODE];
   el.colorPalette.value = stored[STORAGE_KEYS.COLOR_PALETTE] || defaults[STORAGE_KEYS.COLOR_PALETTE];
   el.localePreference.value = stored[STORAGE_KEYS.LOCALE_PREFERENCE] || defaults[STORAGE_KEYS.LOCALE_PREFERENCE];
@@ -185,6 +196,8 @@ async function save(event) {
     [STORAGE_KEYS.POPUP_MODE]: el.defaultMode.value,
     [STORAGE_KEYS.POPUP_SORT]: el.defaultSort.value,
     [STORAGE_KEYS.POPUP_WIDTH]: el.popupWidth.value,
+    [STORAGE_KEYS.POPUP_ROW_LIMIT]: Number(el.popupRowLimit.value),
+    [STORAGE_KEYS.POPUP_LAZY_LOAD]: el.popupLazyLoad.checked,
     [STORAGE_KEYS.THEME_MODE]: el.themeMode.value,
     [STORAGE_KEYS.COLOR_PALETTE]: el.colorPalette.value,
     [STORAGE_KEYS.MERGE_STRATEGY]: el.mergeStrategy.value,

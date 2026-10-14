@@ -1,4 +1,4 @@
-import { MATCH_MODES, SORT_OPTIONS, THEME_MODES } from '../core/constants.js';
+import { MATCH_MODES, POPUP_MAX_ROWS, SORT_OPTIONS, THEME_MODES } from '../core/constants.js';
 import { getCleanupSummary } from '../core/bookmark-utils.js';
 
 function createPreferencesSlice() {
@@ -20,6 +20,8 @@ function createBookmarkDataSlice() {
     scopeBookmarks: [],
     visibleBookmarks: [],
     visibleFromFuzzy: false,
+    rowLimit: POPUP_MAX_ROWS,
+    lazyLoad: true,
     scopeSummary: getCleanupSummary([])
   };
 }
@@ -35,6 +37,7 @@ function createUiSlice() {
     menuOpen: false,
     aboutOpen: false,
     pinOnboardingVisible: false,
+    supportNudgeVisible: false,
     confirmDialog: null
   };
 }

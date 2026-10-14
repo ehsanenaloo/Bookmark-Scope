@@ -1,5 +1,7 @@
-import { MATCH_MODES, POPUP_MAX_ROWS } from '../core/constants.js';
+import { MATCH_MODES, POPUP_MAX_ROWS, POPUP_ROW_LIMIT_UNLIMITED } from '../core/constants.js';
 import { getBookmarksManagerUrl } from '../platform/browser-api.js';
+
+const SCROLL_LOAD_MARGIN_PX = 240;
 
 export function createPopupMatchesToast(deps) {
   const {
@@ -166,10 +168,23 @@ export function createPopupMatchesToast(deps) {
       empty.append(create('div', 'metric-value', formatNumber(0)), create('div', 'empty-copy', t('No bookmarks for {{mode}} after this filter.', { mode: modeLabel(state.mode).toLowerCase() })));
       list.append(empty);
     } else {
-      state.visibleBookmarks.slice(0, POPUP_MAX_ROWS).forEach((bookmark) => list.append(renderItem(bookmark)));
-      if (state.visibleBookmarks.length > POPUP_MAX_ROWS) {
-        const more = create('div', 'helper', t('Showing {{shown}} of {{count}}. Open the dashboard for the full library console.', { shown: formatNumber(POPUP_MAX_ROWS), count: formatNumber(state.visibleBookmarks.length) }));
-        list.append(more);
+      let rendered = 0;
+      const total = state.visibleBookmarks.length;
+      const limit = state.rowLimit === POPUP_ROW_LIMIT_UNLIMITED ? total : (state.rowLimit || POPUP_MAX_ROWS);
+      const lazyLoad = state.lazyLoad !== false;
+      const appendBatch = () => {
+        const next = Math.min(total, rendered + limit);
+        const fragment = document.createDocumentFragment();
+        for (; rendered < next; rendered += 1) fragment.append(renderItem(state.visibleBookmarks[rendered]));
+        list.append(fragment);
+      };
+      appendBatch();
+      if (rendered < total && !lazyLoad) {
+        list.append(create('div', 'helper', t('Showing {{shown}} of {{count}}. Open the dashboard for the full library console.', { shown: formatNumber(rendered), count: formatNumber(total) })));
+      } else if (rendered < total) {
+        list.addEventListener('scroll', () => {
+          if (rendered < total && list.scrollHeight - list.scrollTop - list.clientHeight < SCROLL_LOAD_MARGIN_PX) appendBatch();
+        }, { passive: true });
       }
     }
 

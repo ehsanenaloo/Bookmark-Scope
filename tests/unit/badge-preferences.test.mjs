@@ -9,7 +9,7 @@ for(const mode of Object.values(MATCH_MODES))for(const ignoreQueryString of [tru
   let text;const options={ignoreQueryString,ignoreHashFragment};const url='https://example.test/a?x=1#b';
   const urls=['https://example.test/a?x=2#b','https://example.test/a?x=1#c','https://sub.example.test/a','https://other.test/'];
   const expected=urls.filter(u=>matchesMode({parsed:parseUrlSafe(u,options)},getMatchTarget(url,options),mode)).length;
-  const context=vm.createContext({console,STORAGE_KEYS,MATCH_MODES,getMatchTarget,matchesMode,getTab:async()=>({url}),getLocalStorage:async()=>({popupMode:mode,ignoreQueryString,ignoreHashFragment}),getNormalizedBookmarks:async p=>urls.map(u=>({parsed:parseUrlSafe(u,p)})),setBadgeBackgroundColor:async()=>{},setBadgeText:async value=>{text=value.text;}});
+  const context=vm.createContext({console,STORAGE_KEYS,MATCH_MODES,getMatchTarget,matchesMode,getTab:async()=>({url}),getLocalStorage:async()=>({popupMode:mode,ignoreQueryString,ignoreHashFragment}),getNormalizedBookmarks:async p=>urls.map(u=>({parsed:parseUrlSafe(u,p)})),setBadgeBackgroundColor:async()=>{},setBadgeText:async value=>{text=value.text;},isSupportHeartDue:async()=>false,SUPPORT_NUDGE_BADGE_COLOR:'#c8323a',SUPPORT_NUDGE_BADGE_TEXT:'♥'});
   vm.runInContext(source.slice(source.indexOf('async function setBadgeForActiveTab'),source.indexOf('async function refreshBadgeForCurrentTab')),context);
   await vm.runInContext('setBadgeForActiveTab(1)',context);assert.equal(text,expected?String(expected):'');
 });

@@ -944,6 +944,130 @@ check('C29', 'popup star bookmarks the active tab, a second click removes it, Un
   }
 });
 
+check('C32', 'popup loads more rows on scroll; Popup rows and scroll loading settings are honored', async () => {
+  const base = `http://127.0.0.1:${portOf()}`;
+  const prefix = `${base}/page/scroll-`;
+  await h.httpTab.goto(`${base}/page/one`);
+  const setPrefs = values => util.ev(async values => { await browser.storage.local.set({ pinOnboardingVisible: false, popupMode: 'host', ...values }); return true; }, values);
+  const rows = popup => popup.ev(() => document.querySelectorAll('.list .item').length);
+  const scrollEnd = popup => popup.ev(() => { const l = document.querySelector('.list'); l.scrollTop = l.scrollHeight; return true; });
+  await util.ev(async prefix => { for (let i = 0; i < 60; i += 1) await browser.bookmarks.create({ parentId: 'unfiled_____', title: `Scroll ${String(i).padStart(2, '0')}`, url: `${prefix}${i}` }); return true; }, prefix);
+  const open = async () => {
+    const popup = await openExt('popup', { background: true });
+    await h.marionette.send('WebDriver:SwitchToWindow', { handle: h.httpTab.context, focus: true });
+    popup.keepBackground = true;
+    await popup.goto(EXT_ORIGIN + 'pages/popup/popup.html');
+    await popup.waitFor(() => document.querySelector('.list .item'), null, { label: 'popup rows' });
+    return popup;
+  };
+  try {
+    await setPrefs({ popupRowLimit: 20, popupLazyLoad: true });
+    let popup = await open();
+    const first = await rows(popup);
+    await scrollEnd(popup);
+    await popup.waitFor(() => document.querySelectorAll('.list .item').length > 20, null, { label: 'second batch' });
+    const second = await rows(popup);
+    await popup.close();
+    await setPrefs({ popupRowLimit: 50, popupLazyLoad: false });
+    popup = await open();
+    const capped = await rows(popup);
+    await scrollEnd(popup);
+    const cappedAfter = await rows(popup);
+    const note = await popup.ev(() => document.querySelector('.list .helper')?.textContent || '');
+    await popup.close();
+    await setPrefs({ popupRowLimit: 0, popupLazyLoad: true });
+    popup = await open();
+    const all = await rows(popup);
+    await popup.close();
+    assert.equal(first, 20);
+    assert.equal(second, 40);
+    assert.equal(capped, 50);
+    assert.equal(cappedAfter, 50);
+    assert.match(note, /Showing 50 of /);
+    assert.ok(all >= 60, `unlimited should list every row, got ${all}`);
+    return { first, second, capped, cappedAfter, all };
+  } finally {
+    await util.ev(async prefix => { for (const node of await browser.bookmarks.search({})) if (node.url?.startsWith(prefix)) await browser.bookmarks.remove(node.id); await browser.storage.local.set({ popupRowLimit: 20, popupLazyLoad: true }); return true; }, prefix);
+  }
+});
+
+check('C31', 'support reminder: heart before the count when due, one popup card that is recorded, Maybe later and Don\'t show this again', async () => {
+  const DAY = 86400000;
+  const mark = h.errors.length;
+  const setNudge = value => util.ev(async value => { await browser.storage.local.set({ pinOnboardingVisible: false, supportNudge: value }); return true; }, value);
+  // Runs inside the extension page; mode 'heart' waits for a heart-prefixed badge, 'any' for any non-empty badge.
+  const waitBadge = (mode, label) => util.waitFor(async mode => {
+    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+    const t = tabs.find(x => x.url?.startsWith('http://127.0.0.1'));
+    if (!t) return false;
+    const text = await browser.action.getBadgeText({ tabId: t.id });
+    if (!text) return false;
+    return mode === 'heart' ? (text.startsWith('♥') ? text : false) : text;
+  }, mode, { label });
+  const refreshTab = () => h.httpTab.goto(`http://127.0.0.1:${portOf()}/page/one`);
+  const cardTexts = popup => popup.ev(() => [...document.querySelectorAll('.support-nudge-modal button')].map(b => b.textContent.trim()));
+  const openCard = async () => {
+    // Load the popup exactly once: a first load would already show and record the card.
+    const popup = await newPage({ background: true });
+    await h.marionette.send('WebDriver:SwitchToWindow', { handle: h.httpTab.context, focus: true });
+    popup.keepBackground = true;
+    await popup.goto(EXT_ORIGIN + 'pages/popup/popup.html');
+    await popup.waitFor(() => document.querySelector('#app')?.children.length > 0, null, { label: 'popup ready' });
+    return popup;
+  };
+  const info = {};
+  try {
+    await setNudge({ installedAt: Date.now(), lastShownAt: 0, shownCount: 0, optOut: false });
+    await refreshTab();
+    info.day0 = await waitBadge('any', 'day 0 badge');
+    assert.ok(!info.day0.includes('♥'), 'no heart on day 0: ' + info.day0);
+
+    await setNudge({ installedAt: Date.now() - 20 * DAY, lastShownAt: 0, shownCount: 0, optOut: false });
+    await refreshTab();
+    info.day20 = await waitBadge('heart', 'heart badge');
+    assert.match(info.day20, /^♥\d+$/, 'heart is followed by the match count: ' + info.day20);
+
+    let popup = await openCard();
+    await popup.waitFor(() => document.querySelector('.support-nudge-modal'), null, { label: 'support card' });
+    info.buttons = await cardTexts(popup);
+    assert.deepEqual(info.buttons.filter(text => text && text !== '×'), ['Buy me a coffee', 'Rate on Store', 'Maybe later', "Don't show this again"].map(x => x), JSON.stringify(info.buttons));
+    info.shown = await bm.storage('supportNudge');
+    assert.ok(info.shown.lastShownAt > 0 && info.shown.shownCount === 1 && !info.shown.optOut, JSON.stringify(info.shown));
+    await refreshTab();
+    info.afterShown = await waitBadge('any', 'badge after card');
+    assert.ok(!info.afterShown.includes('♥'), 'heart cleared after the card: ' + info.afterShown);
+
+    await popup.clickText('button', 'Maybe later');
+    await popup.waitFor(() => !document.querySelector('.support-nudge-modal'), null, { label: 'card closed' });
+    assert.equal((await bm.storage('supportNudge')).optOut, false);
+    await popup.goto(EXT_ORIGIN + 'pages/popup/popup.html');
+    await popup.waitFor(() => document.querySelector('#app')?.children.length > 0, null, { label: 'popup reopened' });
+    assert.equal((await cardTexts(popup)).length, 0, 'no second card right away');
+
+    await setNudge({ installedAt: Date.now() - 90 * DAY, lastShownAt: Date.now() - 31 * DAY, shownCount: 1, optOut: false });
+    await popup.goto(EXT_ORIGIN + 'pages/popup/popup.html');
+    await popup.waitFor(() => document.querySelector('.support-nudge-modal'), null, { label: 'card after 31 days' });
+    assert.equal((await bm.storage('supportNudge')).shownCount, 2);
+    await popup.clickText('button', "Don't show this again");
+    await popup.waitFor(() => !document.querySelector('.support-nudge-modal'), null, { label: 'card closed by opt out' });
+    info.optOut = await bm.storage('supportNudge');
+    assert.equal(info.optOut.optOut, true);
+    await setNudge({ ...info.optOut, lastShownAt: Date.now() - 400 * DAY });
+    await popup.goto(EXT_ORIGIN + 'pages/popup/popup.html');
+    await popup.waitFor(() => document.querySelector('#app')?.children.length > 0, null, { label: 'popup after opt out' });
+    assert.equal((await cardTexts(popup)).length, 0, 'opted out: no card');
+    await refreshTab();
+    info.optedOutBadge = await waitBadge('any', 'badge after opt out');
+    assert.ok(!info.optedOutBadge.includes('♥'));
+    await popup.close();
+    assert.deepEqual(pageErrorsSince(mark), []);
+    return info;
+  } finally {
+    await setNudge({ installedAt: Date.now(), lastShownAt: 0, shownCount: 0, optOut: true });
+    await refreshTab();
+  }
+});
+
 check('C25', 'screenshots of popup (light/dark), dashboard (light/dark) and options', async () => {
   const shot = async (name, page, size) => page.shot(name, { size });
   const set = async theme => util.ev(async theme => { await browser.storage.local.set({ themeMode: theme }); return true; }, theme);

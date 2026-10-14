@@ -16,9 +16,9 @@ function optionsFixture() {
     append(option) { this.options.push(option);if(this.options.length===1)this.chosen=option.value; }
   }
   const elements=new Map();
-  const ids=['default-mode','default-sort','popup-width','theme-mode','color-palette','locale-preference','merge-strategy'];
+  const ids=['default-mode','default-sort','popup-width','popup-row-limit','theme-mode','color-palette','locale-preference','merge-strategy'];
   for(const id of ids)elements.set(id,new Select());
-  for(const id of ['settings-form','ignore-query','ignore-hash','bg-scan-enabled','bg-scan-interval','bg-scan-status','review-reminder-enabled','review-reminder-interval','reset-defaults','status'])elements.set(id,{checked:false,value:'',textContent:''});
+  for(const id of ['settings-form','ignore-query','ignore-hash','popup-lazy-load','bg-scan-enabled','bg-scan-interval','bg-scan-status','review-reminder-enabled','review-reminder-interval','reset-defaults','status'])elements.set(id,{checked:false,value:'',textContent:''});
   const stored={...OPTION_PAGE_DEFAULTS};const writes=[];let rejectWrite=false;
   let bgSettings={enabled:false,intervalDays:7};
   let reminder={enabled:false,intervalDays:14,lastReviewAt:0,nextReviewAt:0};const reminderWrites=[];const clock=1_700_000_000_000;
@@ -31,7 +31,7 @@ function optionsFixture() {
     getLocalStorage:async()=>({...stored}),
     setLocalStorage:async values=>{if(rejectWrite)throw new Error('storage write failed');writes.push({...values});Object.assign(stored,values);},
     setStoredLocalePreference:async value=>{stored[constants.STORAGE_KEYS.LOCALE_PREFERENCE]=value;},
-    initI18n:async()=>{},t:text=>text,translateTree(){},
+    initI18n:async()=>{},t:text=>text,formatNumber:String,translateTree(){},
     getLocaleOptions:()=>[{value:'en',label:'English'},{value:'fa',label:'Persian'}],
     applyTheme(){},applyPalette(){},
     loadBgHealthScanSettings:async()=>({...bgSettings}),

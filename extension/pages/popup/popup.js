@@ -171,6 +171,7 @@ function render(options = {}) {
   app.append(shell);
   headerOverlays.createAboutModal(app);
   headerOverlays.createPinOnboardingModal(app);
+  headerOverlays.createSupportNudgeModal(app);
   headerOverlays.createConfirmDialog(app);
   matchesToast.renderToast(app);
   headerOverlays.updateThemeControls();
@@ -255,6 +256,7 @@ async function init() {
       if (state.themeMode === THEME_MODES.SYSTEM) applyTheme(state.themeMode);
     });
     await actions.loadPrefs();
+    await actions.showSupportNudgeIfDue();
     renderSkeleton();
     await actions.refresh();
   } catch (error) {

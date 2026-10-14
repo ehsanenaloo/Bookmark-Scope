@@ -1,6 +1,7 @@
 import { createTab, getBookmarksManagerUrl, getManifest, getRuntimeUrl } from '../platform/browser-api.js';
 import { featureText } from '../locales/feature-messages.js';
 import { USER_GUIDE_URL } from '../config/footer-config.js';
+import { getRuntimeConfig } from '../config/runtime-config.js';
 import { MATCH_MODES, OLD_BOOKMARK_DAYS, SORT_OPTIONS, THEME_MODES, COLOR_PALETTES } from '../core/constants.js';
 
 export function createPopupHeaderOverlays(deps) {
@@ -499,6 +500,49 @@ export function createPopupHeaderOverlays(deps) {
     });
   }
 
+  function createSupportNudgeModal(root) {
+    if (!state.supportNudgeVisible) return;
+    const overlay = create('div', 'modal-overlay pin-onboarding-overlay support-nudge-overlay');
+    overlay.addEventListener('click', (event) => {
+      if (event.target === overlay) actions.dismissSupportNudge();
+    });
+    const modal = create('div', 'modal-card pin-onboarding-modal support-nudge-modal');
+    const head = create('div', 'pin-onboarding-head');
+    const headerCopy = create('div', 'pin-onboarding-head-copy');
+    headerCopy.append(create('div', 'pin-onboarding-title', t('Like the extension?')));
+    const close = create('button', 'button ghost modal-close pin-onboarding-close', '×');
+    close.type = 'button';
+    close.setAttribute('aria-label', featureText('Close'));
+    close.addEventListener('click', actions.dismissSupportNudge);
+    head.append(headerCopy, close);
+    const body = create('div', 'pin-onboarding-body');
+    body.append(create('div', 'pin-onboarding-copy', t('If Bookmark Scope saved you time or spared you a cleanup headache, you can buy me a coffee.')));
+    const actionsWrap = create('div', 'pin-onboarding-actions support-nudge-actions');
+    const coffee = create('button', 'button primary pin-onboarding-button', t('Buy me a coffee'));
+    coffee.type = 'button';
+    coffee.addEventListener('click', () => { openPopupSupportLink(); actions.dismissSupportNudge(); });
+    const rate = create('button', 'button secondary pin-onboarding-button', t('Rate on Store'));
+    rate.type = 'button';
+    rate.addEventListener('click', () => { createTab({ url: getRuntimeConfig().footerRateUrl, active: true }); actions.dismissSupportNudge(); });
+    const later = create('button', 'button ghost pin-onboarding-button', featureText('Maybe later'));
+    later.type = 'button';
+    later.addEventListener('click', actions.dismissSupportNudge);
+    const never = create('button', 'button ghost pin-onboarding-button support-nudge-off', featureText("Don't show this again"));
+    never.type = 'button';
+    never.addEventListener('click', actions.turnOffSupportNudge);
+    actionsWrap.append(coffee, rate, later, never);
+    modal.append(head, body, actionsWrap);
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', t('Like the extension?'));
+    overlay.append(modal);
+    root.append(overlay);
+    const releaseTrap = trapFocus(modal);
+    overlay.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') { releaseTrap(); actions.dismissSupportNudge(); }
+    });
+  }
+
   return {
     detachPopupMenuDismissHandlers,
     hardCloseOverflowMenu,
@@ -509,6 +553,7 @@ export function createPopupHeaderOverlays(deps) {
     createConfirmDialog,
     createAboutModal,
     createPinOnboardingModal,
+    createSupportNudgeModal,
     renderHeader
   };
 }

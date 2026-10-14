@@ -16,6 +16,7 @@ import { addAlarmListener, addBookmarkEventListeners, addRuntimeInstalledListene
 import { createLogger } from './src/services/diagnostics-service.js';
 import { initializeStorageLayer, getLocalStorage } from './src/services/storage-service.js';
 import { now } from './src/platform/time.js';
+import { SUPPORT_NUDGE_BADGE_COLOR, SUPPORT_NUDGE_BADGE_TEXT, isSupportNudgeDue, readSupportNudge, seedSupportNudge } from './src/services/support-nudge-service.js';
 import { MESSAGE_TYPES, getMessageType } from './src/runtime/messages.js';
 import { classifyHealthResponse, createHealthFailure, shouldSkipHealthCheck } from './src/background/health-check.js';
 
@@ -31,6 +32,11 @@ const i18nReady = initI18n({ applyDocument: false });
 const BADGE_REFRESH_DEBOUNCE_MS = 120;
 const badgeRefreshTimers = new Map();
 let currentTabBadgeRefreshTimer = 0;
+
+// The support heart is shown only while the reminder is due; a read failure simply means no heart.
+async function isSupportHeartDue() {
+  try { return isSupportNudgeDue(await readSupportNudge()); } catch { return false; }
+}
 
 async function setBadgeForActiveTab(tabId) {
   try {
@@ -51,8 +57,10 @@ async function setBadgeForActiveTab(tabId) {
       : MATCH_MODES.DOMAIN;
     const bookmarks = await getNormalizedBookmarks(parseOptions);
     const count = bookmarks.filter((bookmark) => matchesMode(bookmark, target, mode)).length;
-    await setBadgeBackgroundColor({ color: '#2563eb', tabId });
-    await setBadgeText({ text: count ? String(Math.min(count, 999)) : '', tabId });
+    const heartDue = await isSupportHeartDue();
+    const countText = count ? String(Math.min(count, 999)) : '';
+    await setBadgeBackgroundColor({ color: heartDue ? SUPPORT_NUDGE_BADGE_COLOR : '#2563eb', tabId });
+    await setBadgeText({ text: heartDue ? `${SUPPORT_NUDGE_BADGE_TEXT}${countText}` : countText, tabId });
   } catch (error) {
     console.warn('Failed to update badge.', error);
   }
@@ -183,6 +191,7 @@ addRuntimeInstalledListener(async (details) => {
   await storageReady;
   await i18nReady;
   await logger.info('runtime_installed', { reason: details?.reason || 'unknown' });
+  await seedSupportNudge().catch((error) => console.warn('Failed to start the support reminder.', error));
   await refreshBadgeForCurrentTab();
   await scheduleReviewReminderAlarm();
   await scheduleBgHealthScan();
@@ -197,6 +206,7 @@ addRuntimeStartupListener(async () => {
   await storageReady;
   await i18nReady;
   await logger.info('runtime_startup');
+  await seedSupportNudge().catch((error) => console.warn('Failed to start the support reminder.', error));
   await refreshBadgeForCurrentTab();
   await scheduleReviewReminderAlarm();
   await scheduleBgHealthScan();
@@ -229,7 +239,7 @@ addStorageChangedListener((changes, areaName) => {
   // The badge reflects the user's selected popup mode; if that preference
   // changes (or the user toggles ignoreQuery / ignoreHash, which can alter
   // PAGE-mode match counts), re-render the badge for the active tab.
-  if (changes[STORAGE_KEYS.POPUP_MODE] || changes[STORAGE_KEYS.IGNORE_QUERY] || changes[STORAGE_KEYS.IGNORE_HASH]) {
+  if (changes[STORAGE_KEYS.POPUP_MODE] || changes[STORAGE_KEYS.IGNORE_QUERY] || changes[STORAGE_KEYS.IGNORE_HASH] || changes[STORAGE_KEYS.SUPPORT_NUDGE]) {
     scheduleRefreshBadgeForCurrentTab();
   }
   // Reschedule (or clear) the background health scan alarm whenever the
