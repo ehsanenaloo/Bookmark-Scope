@@ -22,6 +22,7 @@ Bookmark Scope is a Chrome extension that helps you inspect, organize and clean 
 | Your bookmarks (titles, URLs, folders, dates) | To display, search, group, edit, move, delete, import and export them | Stays in the browser. Bookmarks remain stored by the browser itself. |
 | The URL and title of your active tab | To show which bookmarks match the page you are on and to count them in the toolbar badge | Used on your device to compute matches. Not transmitted. |
 | Preferences, tags, saved views, review and cleanup history, link-health results, scan progress, recovery journals | To remember your settings and let you review and undo work | Browser extension storage (`chrome.storage.local`) on your device. Not synced by the extension. |
+| The date of installation and the dates the support card was shown, plus whether you turned it off | To wait two weeks after installation and then at most one month between support cards, and to show a small heart on the toolbar icon while a card is due | Browser extension storage on your device. Not transmitted. |
 | Clipboard (write only) | To copy URLs when you click a copy button | Written to your clipboard on your action. The extension never reads your clipboard. |
 
 ## What the extension sends over the network

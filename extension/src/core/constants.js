@@ -17,8 +17,11 @@ export const SORT_OPTIONS = {
   PATH_ASC: 'path-asc'
 };
 
-// Rows rendered in the popup list before the "open the dashboard" hint appears.
+// Default number of rows the popup list shows (and loads per scroll step).
 export const POPUP_MAX_ROWS = 20;
+// Choices in Options. 0 means no limit.
+export const POPUP_ROW_LIMIT_UNLIMITED = 0;
+export const POPUP_ROW_LIMIT_CHOICES = [20, 50, 100, 200, POPUP_ROW_LIMIT_UNLIMITED];
 
 export const POPUP_WIDTHS = {
   COMPACT: 'compact',
@@ -62,6 +65,8 @@ export const STORAGE_KEYS = {
   IGNORE_QUERY: 'ignoreQueryString',
   IGNORE_HASH: 'ignoreHashFragment',
   POPUP_WIDTH: 'popupWidth',
+  POPUP_ROW_LIMIT: 'popupRowLimit',
+  POPUP_LAZY_LOAD: 'popupLazyLoad',
   MERGE_STRATEGY: 'mergeStrategy',
   CLEANUP_FILTER: 'cleanupFilter',
   REVIEW_SESSIONS: 'reviewSessions',
@@ -86,6 +91,8 @@ export const STORAGE_KEYS = {
   SMART_VIEWS: 'smartViews',
   HEALTH_SCAN_JOB: 'healthScanJob',
   SNAPSHOT_RESTORE_JOURNAL: 'snapshotRestoreJournal',
+  // Support reminder state. Owned by support-nudge-service.js and deliberately outside the sanitized schema snapshot.
+  SUPPORT_NUDGE: 'supportNudge',
   BG_HEALTH_SCAN_ENABLED: 'bgHealthScanEnabled',
   BG_HEALTH_SCAN_INTERVAL_DAYS: 'bgHealthScanIntervalDays',
   BG_HEALTH_SCAN_LAST_RUN_AT: 'bgHealthScanLastRunAt',

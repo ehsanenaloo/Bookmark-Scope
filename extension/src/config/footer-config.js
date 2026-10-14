@@ -1,4 +1,4 @@
-export const USER_GUIDE_URL = 'https://ehsanenaloo.github.io/Bookmark-Scope/';
+export const USER_GUIDE_URL = 'https://enaloo.com/apps/bookmark-scope/';
 
 const DEFAULT_FOOTER_ITEMS =Object.freeze([
   Object.freeze({

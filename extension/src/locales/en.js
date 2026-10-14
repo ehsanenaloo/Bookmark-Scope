@@ -461,6 +461,10 @@ const EN_TRANSLATION_ENTRIES = [
   [  "Background scan is off.", "Background scan is off."],
   [  "Background scan is on. First scan will run shortly.", "Background scan is on. First scan will run shortly."],
   [  "Background scan needs site-access permission. It was not enabled.", "Background scan needs site-access permission. It was not enabled."],
+  [  "Popup rows", "Popup rows"],
+  [  "Unlimited", "Unlimited"],
+  [  "Load more rows while scrolling", "Load more rows while scrolling"],
+  [  "When off, the popup lists only the first rows and points to the dashboard.", "When off, the popup lists only the first rows and points to the dashboard."],
   [  "Loading bookmarks…", "Loading bookmarks…"]
 ];
 

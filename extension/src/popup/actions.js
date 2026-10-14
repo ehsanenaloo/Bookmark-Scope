@@ -1,5 +1,6 @@
 import { queryTabs, createTab, createBookmark, removeBookmark, getRuntimeUrl, getBookmarkTree, getBookmarksManagerUrl } from '../platform/browser-api.js';
 import { loadPopupPreferences, savePopupPreferences, setPinOnboardingVisible } from '../services/preferences-service.js';
+import { isSupportNudgeDue, markSupportNudgeShown, optOutSupportNudge, readSupportNudge } from '../services/support-nudge-service.js';
 import { loadTagsMap, updateTagsMap, setTagsForBookmark } from '../services/tag-service.js';
 import { MATCH_MODES, SORT_OPTIONS, STORAGE_KEYS, COLOR_PALETTES, POPUP_WIDTHS, TAG_MAX_PER_BOOKMARK } from '../core/constants.js';
 
@@ -44,6 +45,8 @@ export function createPopupActions(deps) {
     state.ignoreHashFragment = prefs.ignoreHashFragment;
     state.themeMode = prefs.themeMode || state.themeMode;
     state.pinOnboardingVisible = prefs.pinOnboardingVisible;
+    state.rowLimit = prefs.rowLimit;
+    state.lazyLoad = prefs.lazyLoad;
     applyTheme(state.themeMode);
     document.documentElement.style.setProperty('--popup-width', prefs.popupWidth === POPUP_WIDTHS.COMPACT ? '380px' : '420px');
   }
@@ -290,6 +293,29 @@ export function createPopupActions(deps) {
     deps.render();
   }
 
+  // The support card is recorded as shown when it is displayed, so the toolbar heart clears and the next card is a month away.
+  // It waits while the first-run pin hint is open so two dialogs never stack.
+  async function showSupportNudgeIfDue() {
+    if (state.pinOnboardingVisible) return;
+    try {
+      if (!isSupportNudgeDue(await readSupportNudge())) return;
+      await markSupportNudgeShown();
+      state.supportNudgeVisible = true;
+    } catch (error) {
+      console.warn('Failed to check the support reminder.', error);
+    }
+  }
+
+  function dismissSupportNudge() {
+    state.supportNudgeVisible = false;
+    deps.render();
+  }
+
+  async function turnOffSupportNudge() {
+    try { await optOutSupportNudge(); } catch (error) { console.warn('Failed to turn off the support reminder.', error); }
+    dismissSupportNudge();
+  }
+
   async function handleLocaleChange(changes, areaName) {
     if (areaName !== 'local' || !changes[STORAGE_KEYS.LOCALE_PREFERENCE]) return;
     await deps.initI18n();
@@ -330,6 +356,9 @@ export function createPopupActions(deps) {
     bookmarkCurrentPage,
     unbookmarkCurrentPage,
     dismissPinOnboarding,
+    showSupportNudgeIfDue,
+    dismissSupportNudge,
+    turnOffSupportNudge,
     handleLocaleChange,
     renderInitError
   };

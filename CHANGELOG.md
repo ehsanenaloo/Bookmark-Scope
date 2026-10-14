@@ -6,13 +6,17 @@ The format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+## [5.2.2] - 2026-10-13
+
 ### Added
 
 - Bookmark Scope is available on Microsoft Edge Add-ons.
 - Bookmark Scope is available on Firefox Add-ons.
+- A gentle support reminder. Two weeks after you install, and then at most once a month, a small heart appears on the toolbar icon and the popup shows one card with links to support the project or rate it. You can choose "Don't show this again". The extension stores only the install date and the dates the card was shown.
 
 ### Changed
 
+- The popup no longer stops at 20 bookmarks. More rows load as you scroll, so a domain with hundreds of bookmarks can be browsed in the popup. Two new settings, "Popup rows" (20, 50, 100, 200 or Unlimited) and "Load more rows while scrolling", control how many rows load at a time.
 - The "User guide" button, the README and the support pages open the guide at https://enaloo.com/apps/bookmark-scope/. The old address redirects.
 
 ## [5.2.1] - 2026-10-08
@@ -238,7 +242,8 @@ Known limitations:
 
 - Several smaller bug fixes.
 
-[Unreleased]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.2.1...main
+[Unreleased]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.2.2...main
+[5.2.2]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.2.1...v5.2.2
 [5.2.1]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.2.0...v5.2.1
 [5.2.0]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.1.0...v5.2.0
 [5.1.0]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.0.0...v5.1.0
