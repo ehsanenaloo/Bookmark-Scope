@@ -179,7 +179,7 @@ walkAll('');
     if (/^(?:tests?|scripts|docs|\.github|\.git|node_modules|README.*|CHANGELOG.*|CONTRIBUTING.*|package(?:-lock)?\.json)$/i.test(name)) fail(`extension/${name} is a project file and must not live inside extension/`);
   }
   if (!fs.existsSync(repoAbs('LICENSE'))) fail('LICENSE is missing at the repository root (the release workflow adds it to the extension zip)');
-  const allowedRoot = new Set(['.editorconfig', '.git', '.gitattributes', '.github', '.gitignore', 'CHANGELOG.md', 'LICENSE', 'README.md', 'docs', 'extension', 'node_modules', 'dist-firefox', 'package.json', 'scripts', 'tests']);
+  const allowedRoot = new Set(['.editorconfig', '.git', '.gitattributes', '.github', '.gitignore', 'CHANGELOG.md', 'LICENSE', 'README.md', 'docs', 'extension', 'node_modules', 'dist-firefox', 'package.json', 'scripts']);
   for (const name of fs.readdirSync(root)) if (!allowedRoot.has(name)) fail(`Unexpected entry at the repository root: ${name} (keep the root small; see .github/CONTRIBUTING.md)`);
 }
 

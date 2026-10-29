@@ -17,7 +17,7 @@
 ## How I tested it
 
 <!-- Browser and version, steps you followed, what you saw, and one failure case you tried.
-Use a test profile with synthetic bookmarks. Say what you ran, such as `node scripts/test.mjs`, and what you tried by hand. -->
+Use a test profile with synthetic bookmarks. Say what you ran, such as `node scripts/validate.mjs`, and what you tried by hand. -->
 
 ## Screenshots (use synthetic bookmarks)
 
@@ -29,8 +29,7 @@ Use a test profile with synthetic bookmarks. Say what you ran, such as `node scr
 
 ## Checklist
 
-- [ ] `node scripts/validate.mjs` and `node scripts/test.mjs` pass
-- [ ] I added or updated a test, or I explained why the change cannot be tested
+- [ ] `node scripts/validate.mjs` passes
 - [ ] The change is focused and does one thing
 - [ ] I tested it in Chrome with synthetic bookmarks, including a failure case
 - [ ] Commit messages follow the Conventional Commits style

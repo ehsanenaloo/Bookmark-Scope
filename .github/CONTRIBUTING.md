@@ -13,7 +13,6 @@ By taking part, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 - [Project map](#project-map)
 - [Run it locally](#run-it-locally)
 - [Checks](#checks)
-- [Writing tests](#writing-tests)
 - [Code style](#code-style)
 - [Adding or changing UI text](#adding-or-changing-ui-text)
 - [Translations](#translations)
@@ -118,7 +117,7 @@ Bookmark Scope has one maintainer, who works on it in spare time. Replies are be
 
 ## Project map
 
-The repository root is kept small on purpose. The extension itself lives in `extension/`, and everything else (guide, tests, scripts, community files) sits beside it. The main places are:
+The repository root is kept small on purpose. The extension itself lives in `extension/`, and everything else (guide, scripts, community files) sits beside it. The main places are:
 
 | Path | What it holds |
 | --- | --- |
@@ -140,13 +139,12 @@ The repository root is kept small on purpose. The extension itself lives in `ext
 | `extension/styles/` | Shared CSS (`base.css`, `colors.css`) and styles for the dashboard and popup. |
 | `extension/vendor/`, `extension/THIRD_PARTY_NOTICES.md` | The bundled Public Suffix List and the third-party license notices. |
 | `docs/` | The user guide (a static HTML site), `PRIVACY.md`, and the translated READMEs in `docs/translations/`. |
-| `tests/` | Unit tests in `tests/unit/` (`*.test.mjs`), the fake browser and DOM helpers in `tests/helpers/`, and the optional browser checks in `tests/browser/` (Chromium) and `tests/firefox/` (Firefox). |
-| `scripts/` | `validate.mjs`, `test.mjs` and the helper files they use. `build-firefox.mjs` turns the files in `extension/` into the experimental Firefox build in `dist-firefox/`; it never changes `extension/manifest.json`. |
+| `scripts/` | `validate.mjs` and `build-firefox.mjs`, which turns the files in `extension/` into the experimental Firefox build in `dist-firefox/`; it never changes `extension/manifest.json`. |
 | `.github/` | Issue forms, the pull request template, labels, workflows, and the community files (this guide, Code of Conduct, Security, Support). |
 
 ## Run it locally
 
-You need Chrome or another Chromium browser. Node.js 24 or newer is needed to run the checks and tests. There is no `npm install` step for the extension or the unit tests.
+You need Chrome or another Chromium browser. Node.js 24 or newer is needed to run the check. There is no `npm install` step.
 
 1. Create a **separate Chrome profile** for development. Add a few **synthetic bookmarks** to it: some duplicates, some folders, one dead link. Do not test destructive features on your real library.
 2. In that profile, open `chrome://extensions` and turn on **Developer mode**.
@@ -173,35 +171,17 @@ The Firefox build is experimental. It is made from the same files in `extension/
 
 ## Checks
 
-Run both of these before you push:
+Run this before you push:
 
 ```bash
 node scripts/validate.mjs
-node scripts/test.mjs
 ```
 
-`npm run check` runs the two in a row, and `npm test` is a shortcut for the second one. Neither needs `npm install`.
+It checks the manifest, the files it references (they must all exist inside `extension/`), that only shipping files sit in `extension/`, the locale files and the repository layout. `npm run validate` does the same. It needs no `npm install`.
 
-- **`node scripts/validate.mjs`** checks the manifest, the files it references (they must all exist inside `extension/`), that only shipping files sit in `extension/`, that the repository root stays small, JavaScript syntax, JSON and locale files, imports between modules, and that no keys or forbidden files are present.
-- **`node scripts/test.mjs`** runs every `tests/unit/*.test.mjs` file with the built-in Node test runner and prints a short summary. Pass a word to run only the files whose name contains it, for example `node scripts/test.mjs popup`. It needs Node.js 24 or newer, because the tests use `navigator.locks`, and it tells you if your version is too old.
-- **Firefox checks (optional).** `npm run test:firefox` starts a headless desktop Firefox with a throwaway profile, loads the Firefox build as a temporary add-on and runs about 30 checks on synthetic bookmarks. It needs Firefox 140 or newer and nothing else. Without Firefox the runner prints "skipped". The steps are in [tests/firefox/README.md](../tests/firefox/README.md).
-- **Browser checks (optional).** `npm run test:browser` loads the extension into a real Chromium with a throwaway profile and synthetic bookmarks. You install Playwright yourself, and the runner prints "skipped" if it is missing. The steps are in [tests/browser/README.md](../tests/browser/README.md).
+CI runs the same check on every pull request. The project's own test suite is kept private by the maintainer and is not part of this repository, so you do not need to write or run tests for a pull request. The maintainer runs it before merging.
 
-CI runs `validate` and the unit tests on every pull request. It also runs the browser checks on pushes to `main`, and the Firefox checks too (the Firefox job is informative for now and does not block a merge). The maintainer looks for a green CI run before merging a pull request.
-
-Tests do not replace trying the change by hand. In the pull request, describe your manual steps: the browser and version, what you clicked, and what you saw. Include a failure case, such as a cancelled dialog or a bookmark that no longer exists.
-
-## Writing tests
-
-A fix or a feature should come with a test when the behavior can be tested without a browser.
-
-- **Where tests live.** Unit tests are in `tests/unit/`. Name a file after the area it covers and end it with `.test.mjs`, for example `tests/unit/tag-service.test.mjs`. The runner picks up every file with that ending. Use `node:test` and `node:assert/strict`, with no other test library.
-- **Name tests by behavior.** A good name reads like a sentence: "partial page removal exposes Undo only for the deletion that was applied". Put the failure cases next to the happy path.
-- **Fake browser.** `fakeBrowser(tree, storage)` in `tests/helpers/browser.mjs` installs an in-memory bookmarks tree, storage, alarms, notifications and tabs through `setChromeApiForTesting`. Build trees with `folder(id, children)` and `leaf(id)`. It records calls (`calls.creates`, `calls.moves`, `calls.removes`) so you can assert what happened.
-- **DOM helper.** `domFixture()` in `tests/helpers/dom.mjs` gives a small fake document and elements, so UI modules can run without a browser. It is good for keyboard, focus and rendering logic. It is not a layout engine, so leave pixel and scroll behavior to the browser checks.
-- **Injecting failures.** Add an id or URL to `failures.create`, `failures.remove` or `failures.move`, or set `failures.set` to a function, and that browser call throws. Use `deferred()` to hold a call open and release it when the test is ready. Then assert the applied and the failed operations separately, because that is how the extension reports them.
-- **Keep tests deterministic.** No real network, no real timers that depend on the clock, no reliance on test order, and no data shared between tests. Use the time helpers in `extension/src/platform/time.js` and the `.test` or `example.test` host names for URLs. Create the data a test needs inside the test.
-- **Browser checks.** Add to `tests/browser/` only when the behavior needs a real browser, such as a layout, the real bookmarks API or a worker restart. Keep them on synthetic bookmarks, and wait for a condition, never for a fixed delay.
+A check does not replace trying the change by hand. In the pull request, describe your manual steps: the browser and version, what you clicked, and what you saw. Include a failure case, not only the happy path.
 
 ## Code style
 
@@ -314,8 +294,7 @@ The pull request template has the same list.
 
 - [ ] The change is focused, and the description says why it is needed.
 - [ ] The pull request links the related issue, for example "Fixes #123".
-- [ ] `node scripts/validate.mjs` and `node scripts/test.mjs` pass.
-- [ ] I added or updated a test for the change, or I explained why it cannot be tested.
+- [ ] `node scripts/validate.mjs` passes.
 - [ ] I tested the change in Chrome with synthetic bookmarks, and I described the steps I took.
 - [ ] I tested a failure case, not only the happy path.
 - [ ] Commit messages follow the Conventional Commits style.

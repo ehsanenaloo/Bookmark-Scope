@@ -40,4 +40,4 @@ Read the [privacy policy](https://enaloo.com/apps/bookmark-scope/docs/privacy-po
 - Only the latest release is supported. Please update before you report a bug.
 - Please be kind. The [Code of Conduct](CODE_OF_CONDUCT.md) applies in every issue and pull request.
 
-If you want to help others, answering a question in an issue is a good way to contribute. Developers can run the unit tests with `node scripts/test.mjs`. See [CONTRIBUTING.md](CONTRIBUTING.md#checks).
+If you want to help others, answering a question in an issue is a good way to contribute. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to contribute.
