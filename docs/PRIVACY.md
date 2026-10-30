@@ -3,13 +3,14 @@
 The same text is on the guide site: https://enaloo.com/apps/bookmark-scope/docs/privacy-policy/
 
 **Bookmark Scope** (the "extension")
-Last updated: 2026-10-08
+Last updated: 2026-10-29
 
 Bookmark Scope is a Chrome extension that helps you inspect, organize and clean up your browser bookmarks. This policy explains what the extension accesses, what it stores, and what leaves your device. The short version: **the extension has no server, collects nothing about you, and sends no data to its author or to any third party.**
 
 ## Summary
 
 - Bookmark Scope does not collect, transmit, sell or share personal data.
+- Removing the extension may open an optional survey page (see Uninstall survey below).
 - There is no account, sign-in, analytics, telemetry, advertising or crash reporting.
 - Your bookmarks, tags and settings stay in your browser's local extension storage.
 - The only network requests the extension makes on its own are link-health checks to the websites **you** bookmarked, and only after you grant permission and start a scan (or enable scheduled scans).
@@ -30,7 +31,8 @@ Bookmark Scope is a Chrome extension that helps you inspect, organize and clean 
 1. **Link-health checks (optional).** When you start a scan, or enable scheduled background scans, your browser requests the bookmarked URLs directly (a `HEAD` request, with a `GET` request as fallback) to learn whether each page responds, redirects or fails. These requests go **only** to the sites you bookmarked and are made from your device, so those sites can see the request as they would from any visit. Results are stored locally. Nothing is sent to the extension's author. Chrome Web Store hosts and non-web URLs are skipped.
 2. **Permission to contact websites is optional.** The extension requests access to `http://*/*` and `https://*/*` as an *optional* permission, only at the moment you start a scan or enable scheduled scans. If you decline, scans do not run and every other feature keeps working. You can revoke the permission at any time in Chrome's extension settings.
 3. **Links you choose to open.** The footer and settings contain links to this project's user guide and GitHub page, a donation page and the Chrome Web Store review page. They open in a new tab only when you click them.
-4. **Chrome's update service.** Like all Web Store extensions, Chrome itself checks for new versions. That is Chrome's feature, not the extension's.
+4. **Uninstall survey (optional).** When you remove the extension, your browser may open a short survey page on enaloo.com. The page address holds the extension version, language, browser, operating system and a rough install age (for example "less than a week"). It holds no identifier and no bookmark data. The extension has already been removed and sends nothing itself. If you answer, only your answer and comment are kept, with those details.
+5. **Chrome's update service.** Like all Web Store extensions, Chrome itself checks for new versions. That is Chrome's feature, not the extension's.
 
 The extension loads its translations from files packaged inside it. It does not download code, translations or configuration from the internet and does not use remote code.
 
