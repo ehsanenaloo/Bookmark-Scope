@@ -12,11 +12,13 @@ import { REVIEW_REMINDER_ALARM,  getReviewReminderSettings, buildReviewReminderL
 import { registerContextMenus, attachContextMenuListener } from './src/services/context-menu-service.js';
 import { BG_HEALTH_SCAN_ALARM, scheduleBgHealthScan, runScheduledHealthScan } from './src/services/scheduled-health-scan-service.js';
 import { updateTagsMap, removeTagsForBookmark } from './src/services/tag-service.js';
-import { addAlarmListener, addBookmarkEventListeners, addRuntimeInstalledListener, addRuntimeMessageListener, addRuntimeStartupListener, addStorageChangedListener, addTabActivatedListener, addTabUpdatedListener, createNotification, clearNotification, addNotificationClickedListener, addNotificationClosedListener, createTab, getBookmarksManagerUrl, getExtensionsManagerUrl, getTab, queryTabs, setBadgeBackgroundColor, setBadgeText } from './src/platform/browser-api.js';
+import { addAlarmListener, addCommandListener, openSidePanel, addBookmarkEventListeners, addRuntimeInstalledListener, addRuntimeMessageListener, addRuntimeStartupListener, addStorageChangedListener, addTabActivatedListener, addTabUpdatedListener, createNotification, clearNotification, addNotificationClickedListener, addNotificationClosedListener, createTab, getBookmarksManagerUrl, getExtensionsManagerUrl, getTab, queryTabs, setBadgeBackgroundColor, setBadgeText } from './src/platform/browser-api.js';
 import { createLogger } from './src/services/diagnostics-service.js';
 import { initializeStorageLayer, getLocalStorage } from './src/services/storage-service.js';
 import { now } from './src/platform/time.js';
 import { SUPPORT_NUDGE_BADGE_COLOR, SUPPORT_NUDGE_BADGE_TEXT, isSupportNudgeDue, readSupportNudge, seedSupportNudge } from './src/services/support-nudge-service.js';
+import { openWelcomePage } from './src/services/site-pages-service.js';
+import { registerUninstallSurvey } from './src/services/uninstall-survey-service.js';
 import { MESSAGE_TYPES, getMessageType } from './src/runtime/messages.js';
 import { classifyHealthResponse, createHealthFailure, shouldSkipHealthCheck } from './src/background/health-check.js';
 
@@ -122,6 +124,12 @@ async function notifyPinOnboarding() {
 }
 
 addTabActivatedListener(({ tabId }) => { scheduleBadgeUpdateForTab(tabId); });
+
+// Keyboard shortcut for the side panel. The call must run inside the command handler (user input), before any await.
+addCommandListener((command, tab) => {
+  if (command !== 'open-side-panel') return;
+  openSidePanel(tab?.windowId).catch((error) => console.warn('Side panel did not open.', error));
+});
 addTabUpdatedListener((tabId, changeInfo, tab) => {
   if (tab.active && (changeInfo.status === 'complete' || changeInfo.url)) scheduleBadgeUpdateForTab(tabId);
 });
@@ -192,6 +200,7 @@ addRuntimeInstalledListener(async (details) => {
   await i18nReady;
   await logger.info('runtime_installed', { reason: details?.reason || 'unknown' });
   await seedSupportNudge().catch((error) => console.warn('Failed to start the support reminder.', error));
+  await registerUninstallSurvey().catch((error) => console.warn('Failed to set the uninstall survey address.', error));
   await refreshBadgeForCurrentTab();
   await scheduleReviewReminderAlarm();
   await scheduleBgHealthScan();
@@ -199,6 +208,7 @@ addRuntimeInstalledListener(async (details) => {
   if (details?.reason === 'install') {
     await setPinOnboardingVisible(true);
     await notifyPinOnboarding();
+    await openWelcomePage().catch((error) => console.warn('Failed to open the welcome page.', error));
   }
 });
 
@@ -207,6 +217,7 @@ addRuntimeStartupListener(async () => {
   await i18nReady;
   await logger.info('runtime_startup');
   await seedSupportNudge().catch((error) => console.warn('Failed to start the support reminder.', error));
+  await registerUninstallSurvey().catch((error) => console.warn('Failed to set the uninstall survey address.', error));
   await refreshBadgeForCurrentTab();
   await scheduleReviewReminderAlarm();
   await scheduleBgHealthScan();

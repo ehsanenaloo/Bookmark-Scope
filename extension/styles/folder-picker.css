@@ -1,0 +1,110 @@
+/*
+ * Bookmark Scope - Domain & Page Manager
+ * Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.
+ *
+ * Folder picker dialog (src/ui/folder-picker.js). Shared by the dashboard and
+ * the side panel.
+ */
+
+.folder-picker {
+  width: min(100%, 460px);
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+.folder-picker-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.folder-picker-title {
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+  font-weight: var(--weight-semibold);
+  color: var(--text);
+}
+.folder-picker-description {
+  color: var(--text-2);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  overflow-wrap: anywhere;
+}
+.folder-picker-list {
+  min-height: 160px;
+  max-height: min(46vh, 340px);
+  overflow: auto;
+  padding: var(--space-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+.folder-picker-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 30px;
+  padding-block: 4px;
+  padding-inline-end: var(--space-2);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  user-select: none;
+}
+.folder-picker-row:hover:not(.disabled) { background: var(--hover); }
+.folder-picker-row.selected { background: var(--accent-soft); color: var(--accent-text); }
+.folder-picker-row.disabled { color: var(--subtle); cursor: not-allowed; opacity: 0.6; }
+.folder-picker-row .icon-svg { flex: none; width: 16px; height: 16px; }
+.folder-picker-row .icon-svg svg { width: 100%; height: 100%; }
+.folder-picker-name { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.folder-picker-count { flex: none; color: var(--muted); font-size: var(--text-2xs); }
+.folder-picker-empty { padding: var(--space-4); color: var(--muted); text-align: center; font-size: var(--text-sm); }
+.folder-picker-status { min-height: 1.2em; color: var(--text-2); font-size: var(--text-xs); }
+.folder-picker-create { display: flex; gap: var(--space-2); }
+.folder-picker-create-input { flex: 1; min-width: 0; }
+.folder-picker-actions { display: flex; justify-content: flex-end; gap: var(--space-2); }
+
+/* The manager stays below the dashboard's confirmation dialog and above the page. */
+.folder-manager-overlay { z-index: calc(var(--z-modal) - 1); }
+.folder-manager { width: min(100%, 560px); }
+.folder-manager-toolbar { display: flex; gap: var(--space-2); }
+.folder-manager-toolbar .folder-picker-search { flex: 1; min-width: 0; }
+/* The row buttons float over the row so the bookmark count always sits at the far edge. */
+.folder-manager-row { position: relative; }
+.folder-manager-tools {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding-inline: var(--space-1);
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+}
+.folder-manager-row:hover .folder-manager-tools,
+.folder-manager-row:focus-within .folder-manager-tools { background: var(--hover); }
+.folder-manager-row .folder-picker-count { min-width: 28px; text-align: end; }
+.folder-manager-action { width: 26px; height: 26px; }
+@media (hover: hover) {
+  .folder-manager-row:not(:hover):not(:focus-within) .folder-manager-tools { opacity: 0; }
+}
+.folder-manager-input { flex: 1; min-width: 0; height: 26px; }
+
+/* Touch: taller rows and buttons; the list uses more of the screen. */
+@media (pointer: coarse) {
+  .folder-picker-row { min-height: 44px; }
+  .folder-manager-action { width: 40px; height: 40px; }
+  .folder-picker-list { max-height: min(55vh, 420px); }
+  .folder-picker-actions .ghost-button,
+  .folder-picker-actions .primary-button,
+  .folder-picker-create-button { min-height: 44px; }
+  .folder-picker-search,
+  .folder-picker-create-input,
+  .folder-manager-input { min-height: 44px; font-size: 16px; }
+}
+@media (max-width: 520px) {
+  .folder-picker-overlay { padding: var(--space-2); }
+  .folder-picker { padding: var(--space-3); }
+}

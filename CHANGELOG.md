@@ -6,6 +6,42 @@ The format follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+## [5.3.0] - 2026-10-29
+
+### Added
+
+- A side panel for Chrome, Edge and Firefox. It stays open beside the page and has two views: **This site** and **All**. Open it from the browser's side panel menu or with **Open side panel** in the popup menu. The **By folder** button groups the list as a folder tree with counts, in both views. In that tree you can drag a bookmark or a folder onto a folder to move it, with Undo. The popup header has a button that opens the panel. Press Alt+Shift+S to open it. The panel remembers its view and folder. Chrome and Edge now list the extension with a new `sidePanel` permission.
+- Folder management in the dashboard. Create, rename, move and delete empty folders from **Manage folders…** in the list menu.
+- **Move to folder** moves selected bookmarks, or one bookmark from its row menu, into a folder you pick. You can make a new folder in the same dialog. A toast offers Undo.
+- With **Group by folder**, drop bookmarks on a group header to move them into that folder.
+- A short welcome page opens once, in a background tab, after a fresh install.
+- "Report a problem" and "Suggest a feature" buttons in the About dialogs open a feedback page on the website. They send nothing from the extension.
+- After you remove the extension, your browser opens a short, optional survey that asks why. The extension adds only the version, language, browser, operating system and a rough install age to the address. It sends no bookmark data and no identifier.
+
+### Fixed
+
+- In the side panel, folders are announced as buttons that open or close, so screen readers no longer treat the list as a tree they cannot move through.
+- In the side panel, a folder you open or close with Enter or Space keeps keyboard focus.
+- A link scan that was paused while saving its last results now finishes instead of staying paused at 100%.
+- If an import was cut off, the next import no longer records a bookmark you added yourself as part of it. Such bookmarks are listed as unverified in the import record. An import also does not start if the check of the earlier one fails.
+- Importing with "Skip matches" or "Merge tags" is much faster on a large library: the bookmark list is read once per 250 items instead of once per item.
+- A resumable scan that stops on an unexpected error is now marked **Failed** with the reason, and **Resume** continues from the saved position. A scan that was cut off by a closed page shows as paused.
+- Resumable scans of very large libraries no longer risk running out of extension storage, and save their progress with far fewer writes.
+- The manual and the scheduled link scan no longer run at the same time.
+- If an import is cut off, the next import checks which bookmarks of it were created, and the import record says so.
+- Link-health counts say "unique addresses" where duplicates are counted once.
+
+### Changed
+
+- Chrome and Edge 114 or newer are required, the first versions with the side panel.
+- Lists of tens of thousands of bookmarks refresh faster in the side panel, the popup and the dashboard.
+- In the popup, click a bookmark's title to open it. Ctrl or Cmd plus click, or a middle click, opens it in a background tab. The separate Open button is gone.
+- The popup no longer repeats the site name on every row, which gives the rows more room.
+- The Support buttons open https://enaloo.com/support/ and read **Support**. The support text no longer mentions coffee.
+- The footers and the About dialogs show "Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License."
+- On touch screens the popup fills the screen, and buttons and folder dialogs are larger.
+- The dashboard **Library tools** dialog is now a **Tools** menu with five groups. Each row has a hint and many show a live count. A command that cannot run yet is greyed out and says why. The menu works with the arrow keys, Enter and Esc. Manage folders and Move to folder are in the menu too, and the same commands are in the command palette.
+
 ## [5.2.2] - 2026-10-13
 
 ### Added
@@ -242,7 +278,8 @@ Known limitations:
 
 - Several smaller bug fixes.
 
-[Unreleased]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.2.2...main
+[Unreleased]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.3.0...main
+[5.3.0]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.2.2...v5.3.0
 [5.2.2]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.2.1...v5.2.2
 [5.2.1]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.2.0...v5.2.1
 [5.2.0]: https://github.com/ehsanenaloo/Bookmark-Scope/compare/v5.1.0...v5.2.0

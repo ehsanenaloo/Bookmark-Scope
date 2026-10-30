@@ -1,0 +1,75 @@
+/*
+ * Bookmark Scope - Domain & Page Manager
+ * Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.
+ *
+ * Dashboard Tools menu (src/dashboard/tools-menu.js).
+ */
+
+.tools-menu-trigger { display: inline-flex; align-items: center; gap: var(--space-1); }
+.tools-menu-caret svg { width: 14px; height: 14px; }
+.tools-menu-trigger[aria-expanded="true"] .tools-menu-caret { transform: rotate(180deg); }
+
+.tools-menu {
+  position: fixed;
+  z-index: calc(var(--z-modal) - 2);
+  overflow: auto;
+  padding: var(--space-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-4);
+  animation: fade-in var(--dur-fast) var(--ease);
+}
+.tools-menu-group + .tools-menu-group { margin-top: var(--space-1); padding-top: var(--space-1); border-top: 1px solid var(--divider); }
+.tools-menu-heading {
+  padding: var(--space-2) var(--space-3) var(--space-1);
+  color: var(--muted);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+.tools-menu-item {
+  appearance: none;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.tools-menu-item:hover,
+.tools-menu-item:focus-visible { background: var(--hover); outline: none; }
+.tools-menu-item:focus-visible { box-shadow: inset 0 0 0 2px var(--focus-ring); }
+.tools-menu-icon { flex: none; margin-top: 2px; color: var(--muted); }
+.tools-menu-icon svg { width: 16px; height: 16px; }
+.tools-menu-copy { flex: 1; min-width: 0; display: grid; gap: 1px; }
+.tools-menu-label { font-size: var(--text-sm); font-weight: var(--weight-medium); }
+.tools-menu-hint { color: var(--muted); font-size: var(--text-xs); line-height: var(--leading-snug); }
+.tools-menu-status {
+  flex: none;
+  margin-top: 1px;
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--surface-3);
+  color: var(--text-2);
+  font-size: var(--text-2xs);
+  white-space: nowrap;
+}
+.tools-menu-item.danger .tools-menu-label,
+.tools-menu-item.danger .tools-menu-icon { color: var(--danger-fg); }
+.tools-menu-item.danger:hover:not(.blocked) { background: var(--danger-bg); }
+.tools-menu-item.blocked { cursor: not-allowed; }
+.tools-menu-item.blocked .tools-menu-label,
+.tools-menu-item.blocked .tools-menu-icon { color: var(--subtle); }
+.tools-menu-item.blocked:hover { background: transparent; }
+
+@media (pointer: coarse) {
+  .tools-menu-item { min-height: 52px; }
+}

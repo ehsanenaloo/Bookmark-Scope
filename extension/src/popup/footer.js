@@ -1,5 +1,6 @@
 import { createTab, getManifest } from '../platform/browser-api.js';
 import { getRuntimeConfig } from '../config/runtime-config.js';
+import { featureText } from '../locales/feature-messages.js';
 
 export function createPopupFooter(deps) {
   const { state, footerRefs, formatNumber, hasSourceMessage, t, create, createFooterActionButton } = deps;
@@ -10,7 +11,7 @@ export function createPopupFooter(deps) {
   function localizeConfigString(value = '') {
     const source = String(value || '').trim();
     if (!source) return '';
-    return hasSourceMessage(source) ? t(source) : source;
+    return hasSourceMessage(source) ? t(source) : featureText(source);
   }
 
   // The About tab shows identity (name, version, author, license) instead of plain copy.
@@ -26,8 +27,7 @@ export function createPopupFooter(deps) {
     const title = create('span', 'footer-about-title');
     title.append(create('strong', 'footer-about-name', t('Bookmark Scope')));
     if (version) title.append(create('span', 'footer-about-version', 'v' + version));
-    const author = t('Made by Ehsan Enaloo.').replace(/[.。।۔]$/, '');
-    body.append(title, create('span', 'footer-about-credit', author + ' · MIT'));
+    body.append(title, create('span', 'footer-about-credit', t('Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.')));
     body.title = tab.message || '';
   }
 

@@ -21,6 +21,7 @@ export const SORT_OPTIONS = {
 export const POPUP_MAX_ROWS = 20;
 // Choices in Options. 0 means no limit.
 export const POPUP_ROW_LIMIT_UNLIMITED = 0;
+export const SIDE_PANEL_VIEWS = Object.freeze({ SITE: 'site', ALL: 'all' });
 export const POPUP_ROW_LIMIT_CHOICES = [20, 50, 100, 200, POPUP_ROW_LIMIT_UNLIMITED];
 
 export const POPUP_WIDTHS = {
@@ -67,6 +68,9 @@ export const STORAGE_KEYS = {
   POPUP_WIDTH: 'popupWidth',
   POPUP_ROW_LIMIT: 'popupRowLimit',
   POPUP_LAZY_LOAD: 'popupLazyLoad',
+  SIDE_PANEL_VIEW: 'sidePanelView',
+  SIDE_PANEL_FOLDER: 'sidePanelFolder',
+  SIDE_PANEL_GROUP: 'sidePanelGroup',
   MERGE_STRATEGY: 'mergeStrategy',
   CLEANUP_FILTER: 'cleanupFilter',
   REVIEW_SESSIONS: 'reviewSessions',
@@ -90,6 +94,7 @@ export const STORAGE_KEYS = {
   IMPORT_JOURNAL: 'importJournal',
   SMART_VIEWS: 'smartViews',
   HEALTH_SCAN_JOB: 'healthScanJob',
+  HEALTH_SCAN_TARGETS: 'healthScanTargets',
   SNAPSHOT_RESTORE_JOURNAL: 'snapshotRestoreJournal',
   // Support reminder state. Owned by support-nudge-service.js and deliberately outside the sanitized schema snapshot.
   SUPPORT_NUDGE: 'supportNudge',
@@ -160,7 +165,8 @@ export const HEALTH_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 // from a chrome.alarms callback. Caps are conservative because the scan
 // runs in the service worker which Chrome can terminate at any time.
 export const BG_HEALTH_SCAN_MAX_PER_RUN = 250;
-export const BG_HEALTH_SCAN_CONCURRENCY = 2;
+// One lock for the manual and the scheduled scan: they never run together.
+export const HEALTH_SCAN_LOCK_NAME = 'bookmark-scope-health-scan';
 export const BG_HEALTH_SCAN_DEFAULT_INTERVAL_DAYS = 7;
 
 // Tag system: user-defined labels stored as a bookmarkId → tags[] map in

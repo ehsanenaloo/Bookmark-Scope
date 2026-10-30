@@ -1,4 +1,4 @@
-import { DASHBOARD_STORAGE_KEYS, MATCH_MODES, POPUP_MAX_ROWS, POPUP_ROW_LIMIT_CHOICES, POPUP_WIDTHS, SORT_OPTIONS, CLEANUP_FILTERS, GROUP_BY_OPTIONS, GROUP_SORT_OPTIONS, MERGE_STRATEGIES, STORAGE_KEYS, THEME_MODES } from '../core/constants.js';
+import { DASHBOARD_STORAGE_KEYS, SIDE_PANEL_VIEWS, MATCH_MODES, POPUP_MAX_ROWS, POPUP_ROW_LIMIT_CHOICES, POPUP_WIDTHS, SORT_OPTIONS, CLEANUP_FILTERS, GROUP_BY_OPTIONS, GROUP_SORT_OPTIONS, MERGE_STRATEGIES, STORAGE_KEYS, THEME_MODES } from '../core/constants.js';
 import { getLocalStorage, setLocalStorage } from './storage-service.js';
 
 export async function loadPopupPreferences() {
@@ -33,6 +33,26 @@ export async function savePopupPreferences({ mode, sort, ignoreQueryString, igno
     [STORAGE_KEYS.POPUP_SORT]: sort,
     [STORAGE_KEYS.IGNORE_QUERY]: ignoreQueryString,
     [STORAGE_KEYS.IGNORE_HASH]: ignoreHashFragment
+  });
+}
+
+/** The side panel's last view ('site' or 'all') and folder filter ('' for all folders). */
+export async function loadSidePanelPreferences() {
+  const stored = await getLocalStorage([STORAGE_KEYS.SIDE_PANEL_VIEW, STORAGE_KEYS.SIDE_PANEL_FOLDER, STORAGE_KEYS.SIDE_PANEL_GROUP]);
+  const view = stored[STORAGE_KEYS.SIDE_PANEL_VIEW];
+  const folder = stored[STORAGE_KEYS.SIDE_PANEL_FOLDER];
+  return {
+    view: Object.values(SIDE_PANEL_VIEWS).includes(view) ? view : SIDE_PANEL_VIEWS.SITE,
+    folderId: typeof folder === 'string' ? folder : '',
+    groupByFolder: stored[STORAGE_KEYS.SIDE_PANEL_GROUP] === true
+  };
+}
+
+export async function saveSidePanelPreferences({ view, folderId, groupByFolder }) {
+  return setLocalStorage({
+    [STORAGE_KEYS.SIDE_PANEL_VIEW]: Object.values(SIDE_PANEL_VIEWS).includes(view) ? view : SIDE_PANEL_VIEWS.SITE,
+    [STORAGE_KEYS.SIDE_PANEL_FOLDER]: typeof folderId === 'string' ? folderId : '',
+    [STORAGE_KEYS.SIDE_PANEL_GROUP]: groupByFolder === true
   });
 }
 

@@ -7,15 +7,15 @@ const EN_TRANSLATION_ENTRIES = [
   [  "Bookmark Scope Settings", "Bookmark Scope Settings"],
   [  "Inspect, organize, and clean bookmarks by page, domain, duplicates, and age—with a full dashboard for triage, health scans, reminders, and cleanup.", "Inspect, organize, and clean bookmarks by page, domain, duplicates, and age—with a full dashboard for triage, health scans, reminders, and cleanup."],
   [  "About", "About"],
-  [  "Learn More", "Learn More"],
+  [  "Open WebSite", "Open WebSite"],
   [  "GitHub", "GitHub"],
-  [  "Source code, releases, and project details live in your GitHub repo.", "Source code, releases, and project details live in your GitHub repo."],
+  [  "Source code, releases, and project details.", "Source code, releases, and project details."],
   [  "Open GitHub", "Open GitHub"],
   [  "Rate", "Rate"],
   [  "Enjoying the extension? A good rating helps the extension build trust faster.", "Enjoying the extension? A good rating helps the extension build trust faster."],
-  [  "Rate on Store", "Rate on Store"],
+  [  "Rate On Store", "Rate On Store"],
   [  "Support", "Support"],
-  [  "If Bookmark Scope saves you time, you can support the project with a small coffee.", "If Bookmark Scope saves you time, you can support the project with a small coffee."],
+  [  "Saving you time? Support the project with a small coffee.", "Saving you time? Support the project with a small coffee."],
   [  "Buy me a coffee", "Buy me a coffee"],
   [  "Confirm action", "Confirm action"],
   [  "Confirm", "Confirm"],
@@ -465,7 +465,9 @@ const EN_TRANSLATION_ENTRIES = [
   [  "Unlimited", "Unlimited"],
   [  "Load more rows while scrolling", "Load more rows while scrolling"],
   [  "When off, the popup lists only the first rows and points to the dashboard.", "When off, the popup lists only the first rows and points to the dashboard."],
-  [  "Loading bookmarks…", "Loading bookmarks…"]
+  [  "Loading bookmarks…", "Loading bookmarks…"],
+  [  "Report a problem", "Report a problem"],
+  [  "Suggest a feature", "Suggest a feature"]
 ];
 
 export { EN_TRANSLATION_ENTRIES };

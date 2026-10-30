@@ -1,4 +1,7 @@
 {
+   "command_open_side_panel": {
+      "message": "باز کردن پنل کناری Bookmark Scope"
+   },
    "action_title": {
       "message": "Bookmark Scope"
    },

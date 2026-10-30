@@ -65,15 +65,24 @@ export function createPopupActions(deps) {
     state.bookmarkedUrlsSet = new Set(state.allBookmarks.map((bookmark) => bookmark.url));
   }
 
+  function scopeCandidates() {
+    if (state.view === 'all') {
+      return state.folderIds ? state.allBookmarks.filter((bookmark) => state.folderIds.has(bookmark.parentId)) : state.allBookmarks;
+    }
+    if (!state.target?.valid) return null;
+    return state.allBookmarks.filter((bookmark) => matchesMode(bookmark, state.target, state.mode));
+  }
+
   function recalculate() {
-    if (!state.target?.valid) {
+    const candidates = scopeCandidates();
+    if (!candidates) {
       state.scopeBookmarks = [];
       state.visibleBookmarks = [];
       state.visibleFromFuzzy = false;
       state.scopeSummary = getCleanupSummary([]);
       return;
     }
-    state.scopeBookmarks = state.allBookmarks.filter((bookmark) => matchesMode(bookmark, state.target, state.mode));
+    state.scopeBookmarks = candidates;
     state.scopeSummary = getCleanupSummary(state.scopeBookmarks);
     // searchScopedBookmarks first tries the existing strict matcher; if it
     // returns nothing and there are no operator filters in the query, it
@@ -135,9 +144,9 @@ export function createPopupActions(deps) {
     await createTab({ url: getRuntimeUrl('pages/dashboard/dashboard.html'), active: true });
   }
 
-  async function openUrl(url) {
+  async function openUrl(url, { background = false } = {}) {
     if (!url) return;
-    await createTab({ url, active: true });
+    await createTab({ url, active: !background });
   }
 
   async function openFolder(parentId) {

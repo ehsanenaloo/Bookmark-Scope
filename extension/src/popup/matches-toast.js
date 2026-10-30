@@ -1,5 +1,7 @@
 import { MATCH_MODES, POPUP_MAX_ROWS, POPUP_ROW_LIMIT_UNLIMITED } from '../core/constants.js';
 import { getBookmarksManagerUrl } from '../platform/browser-api.js';
+import { describeBookmarkUrl } from './url-label.js';
+import { featureText } from '../locales/feature-messages.js';
 
 const SCROLL_LOAD_MARGIN_PX = 240;
 
@@ -14,8 +16,13 @@ export function createPopupMatchesToast(deps) {
     create,
     setSearchRef,
     groupDuplicates,
-    actions
+    actions,
+    onMoveBookmark = null
   } = deps;
+
+  function isLibraryView() {
+    return state.view === 'all';
+  }
 
   function modeLabel(mode) {
     switch (mode) {
@@ -63,25 +70,47 @@ export function createPopupMatchesToast(deps) {
     const main = create('div', 'item-main');
     const favicon = createFaviconNode(bookmark, create);
     const body = create('div');
-    const title = create('h3', 'item-title', bookmark.title);
-    title.dir = 'auto';
-    title.title = bookmark.title || '';
-    const url = create('div', 'item-url', bookmark.url);
-    url.dir = 'auto';
-    url.title = bookmark.url || '';
+    const title = create('h3', 'item-title');
+    const link = create('a', 'item-link', bookmark.title);
+    link.href = bookmark.url;
+    link.dir = 'auto';
+    link.title = bookmark.url || '';
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      actions.openUrl(bookmark.url, { background: event.ctrlKey || event.metaKey });
+    });
+    link.addEventListener('auxclick', (event) => {
+      if (event.button !== 1) return;
+      event.preventDefault();
+      actions.openUrl(bookmark.url, { background: true });
+    });
+    title.append(link);
+    body.append(title);
+
+    const urlLabel = describeBookmarkUrl(bookmark, isLibraryView() ? null : state.target);
+    if (urlLabel) {
+      const url = create('div', 'item-url', urlLabel);
+      url.dir = 'auto';
+      url.title = bookmark.url || '';
+      body.append(url);
+    }
     const path = create('div', 'item-path', bookmark.path || t('Root'));
     path.dir = 'auto';
     path.title = bookmark.path || t('Root');
-    body.append(title, url, path);
+    body.append(path);
 
     const actionsWrap = create('div', 'item-actions');
-    const open = createIconButton('open', t('Open'), 'icon-button');
-    open.addEventListener('click', () => actions.openUrl(bookmark.url));
     const folder = createIconButton('folder', t('Show in bookmarks'), 'icon-button');
     folder.addEventListener('click', () => actions.openFolder(bookmark.parentId));
     const remove = createIconButton('trash', t('Delete'), 'icon-button');
     remove.addEventListener('click', () => actions.deleteBookmark(bookmark));
-    actionsWrap.append(...(getBookmarksManagerUrl(bookmark.parentId) ? [open, folder, remove] : [open, remove]));
+    const buttons = getBookmarksManagerUrl(bookmark.parentId) ? [folder, remove] : [remove];
+    if (onMoveBookmark) {
+      const move = createIconButton('folderInput', featureText('Move to folder'), 'icon-button');
+      move.addEventListener('click', () => onMoveBookmark(bookmark));
+      buttons.unshift(move);
+    }
+    actionsWrap.append(...buttons);
 
     main.append(favicon, body);
     top.append(main, actionsWrap);
@@ -102,7 +131,7 @@ export function createPopupMatchesToast(deps) {
 
   function renderMatches(root) {
     const section = create('div', 'section popup-home');
-    if (!state.target?.valid) {
+    if (!isLibraryView() && !state.target?.valid) {
       const empty = create('div', 'empty');
       empty.append(create('div', 'metric-value', t('No scope')), create('div', 'empty-copy', t('Chrome internal pages are goblins. Use a normal site.')));
       section.append(empty);
@@ -147,7 +176,8 @@ export function createPopupMatchesToast(deps) {
       scopeSeg.append(btn);
     });
 
-    controlStrip.append(searchWrap, scopeSeg);
+    controlStrip.append(searchWrap);
+    if (!isLibraryView()) controlStrip.append(scopeSeg);
     section.append(controlStrip);
     const reviewLine = renderCompactReview();
     if (reviewLine) section.append(reviewLine);
@@ -163,9 +193,11 @@ export function createPopupMatchesToast(deps) {
     }
 
     const list = create('div', 'list');
-    if (!state.visibleBookmarks.length) {
+    if (state.groupByFolder && deps.renderFolderTree && deps.renderFolderTree(list)) {
+      // grouped by folder by the side panel
+    } else if (!state.visibleBookmarks.length) {
       const empty = create('div', 'empty');
-      empty.append(create('div', 'metric-value', formatNumber(0)), create('div', 'empty-copy', t('No bookmarks for {{mode}} after this filter.', { mode: modeLabel(state.mode).toLowerCase() })));
+      empty.append(create('div', 'metric-value', formatNumber(0)), create('div', 'empty-copy', isLibraryView() ? featureText('No bookmarks match this filter.') : t('No bookmarks for {{mode}} after this filter.', { mode: modeLabel(state.mode).toLowerCase() })));
       list.append(empty);
     } else {
       let rendered = 0;
@@ -213,5 +245,5 @@ export function createPopupMatchesToast(deps) {
     root.append(toast);
   }
 
-  return { modeLabel, duplicateGroupsCount, renderMatches, renderToast };
+  return { modeLabel, duplicateGroupsCount, renderMatches, renderToast, renderItem };
 }

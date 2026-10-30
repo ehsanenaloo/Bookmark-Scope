@@ -6,7 +6,7 @@ import { applyTagPreview, buildTagPreview, buildDuplicatePreview, prepareDuplica
 import { loadTagsMap } from '../services/tag-service.js';
 import { buildImportPreview, importBookmarks } from '../services/import-service.js';
 import { createDiagnosticExport } from '../services/diagnostic-export-service.js';
-import { createScanJob, loadScanJob, controlScanJob, runScanJob, scanCoverage, buildScanTargets } from '../services/scan-job-service.js';
+import { createScanJob, loadScanJob, controlScanJob, runScanJob, scanCoverage, buildScanTargets, recoverInterruptedScan } from '../services/scan-job-service.js';
 import { getBookmarkTree } from '../platform/browser-api.js';
 import { runtimeMessages } from '../runtime/messages.js';
 
@@ -200,7 +200,7 @@ export function createFeatureTools({state,create,trapFocus,t,setToast,downloadTe
     for(const id of state.inspectControllers)await sendMessage(runtimeMessages.abortUrlHealth(id));
   }
   async function showScan(){
-    let job=await loadScanJob();
+    let job=await recoverInterruptedScan();
     let open=true;
     const targets=[...targetRows()];const eligible=buildScanTargets(targets,options());
     openDialog('Resumable scan',({body,status,button})=>{
@@ -209,11 +209,11 @@ export function createFeatureTools({state,create,trapFocus,t,setToast,downloadTe
       body.append(create('p','',l('A paused scan can be resumed after reopening the dashboard.')));
       body.append(create('p','helper-text',l('Closing this dialog pauses the scan. Reopen Resumable scan to continue.')));
       const progress=create('div','feature-scan-progress');progress.setAttribute('aria-live','polite');body.append(progress);
-      const labels={none:'No saved scan',ready:'Ready to start',running:'Scanning',paused:'Paused',canceled:'Canceled',completed:'Completed'};
+      const labels={none:'No saved scan',ready:'Ready to start',running:'Scanning',paused:'Paused',failed:'Failed',canceled:'Canceled',completed:'Completed'};
       let controls=[];
       const unavailable=()=>state.isInspectingHealth || state.inspectLaunchPending || state.resumableScanRunning;
       const unfinished=()=>job && !['completed','canceled'].includes(job.status);
-      const update=current=>{job=current;const values=scanCoverage(current);progress.textContent=resultText('Completed / total / remaining',[values.completed,values.total,values.remaining])+' · '+l(labels[values.status]);for(const control of controls)control.updateAvailability();};update(job);
+      const update=current=>{job=current;const values=scanCoverage(current);progress.textContent=resultText('Completed / total / remaining',[values.completed,values.total,values.remaining])+' · '+l(labels[values.status])+(current?.status==='failed' && current.lastError?': '+current.lastError:'');for(const control of controls)control.updateAvailability();};update(job);
       // permissionHeld: the caller already obtained the grant in this click. Firefox rejects a second
       // permissions.request() once the click handler has awaited anything else, so it is not asked again.
       const execute=async({permissionHeld=false}={})=>{
@@ -227,7 +227,7 @@ export function createFeatureTools({state,create,trapFocus,t,setToast,downloadTe
       };
       const acknowledge=create('input');acknowledge.type='checkbox';const label=create('label','feature-field');label.append(acknowledge,create('span','',l('Starting a new scan replaces the previous progress.')));body.append(label);
       const start=button('Start new scan',async()=>{if(!await ensureHealthPermission())throw new Error('Health scan permission denied.');if(!open)return;job=await createScanJob(targets,options());update(job);await execute({permissionHeld:true});},body,{primary:true,enabled:()=>!unavailable() && eligible.length>0 && eligible.length<=50000 && (!unfinished() || acknowledge.checked)});
-      const resume=button('Resume scan',()=>execute(),body,{enabled:()=>!unavailable() && Boolean(job && ['ready','paused'].includes(job.status))});
+      const resume=button('Resume scan',()=>execute(),body,{enabled:()=>!unavailable() && Boolean(job && ['ready','paused','failed'].includes(job.status))});
       const pause=button('Pause scan',async()=>{await pauseScan();update(await loadScanJob());},body,{enabled:()=>job?.status==='running' || Boolean(runningJob)});
       const cancel=button('Cancel scan',async()=>{await pauseScan('canceled');update(await loadScanJob());},body,{enabled:()=>Boolean(unfinished())});
       controls=[start,resume,pause,cancel];acknowledge.addEventListener('change',()=>update(job));update(job);
@@ -247,18 +247,15 @@ export function createFeatureTools({state,create,trapFocus,t,setToast,downloadTe
       search.addEventListener('keydown',event=>{const buttons=[...list.querySelectorAll('button')];if(event.key==='ArrowDown'||event.key==='ArrowUp'){event.preventDefault();index=(index+(event.key==='ArrowDown'?1:-1)+buttons.length)%Math.max(1,buttons.length);update();list.querySelector('.active')?.scrollIntoView({block:'nearest'});}else if(event.key==='Enter'){event.preventDefault();buttons[index]?.click();}});update();queueMicrotask(()=>search.focus());
     });
   }
-  const commandGroups=[['Organize',['savedViews','bulkTags','duplicatePreview','deleteSelected']],['Check links',['resumableScan','inspectVisible','repairRedirects']],['Backup and import',['snapshotExport','snapshotRestore','importPreview','exportCsv']],['Troubleshoot',['diagnosticExport','clearHealth']]];
   async function appendScanSummary(parent){
-    const job=await loadScanJob();if(!parent.isConnected || !job || ['completed','canceled'].includes(job.status))return;
+    const job=await recoverInterruptedScan();if(!parent.isConnected || !job || ['completed','canceled'].includes(job.status))return;
     const values=scanCoverage(job);const summary=create('button','ghost-button feature-scan-summary',l('Saved scan progress')+': '+values.completed+' / '+values.total);summary.type='button';summary.addEventListener('click',()=>showScan().catch(error=>setToast(error.message,{error:true})));parent.append(summary);
   }
-  function showLibraryTools(){openDialog('Library tools',({body,button,report})=>{
-    body.append(create('p','helper-text',l('Use Resumable scan for saved progress; Inspect visible checks the current targets once. Snapshots include folders and tags.')));
-    body.append(create('p','helper-text',l('Snapshots and recovery journals contain bookmark URLs, titles and tags. Review them before sharing.')));
-    appendScanSummary(body).catch(report);
-    const entries=commands().list();
-    for(const [title,names] of commandGroups){const group=create('section','feature-command-group');group.append(create('h3','',l(title)));body.append(group);for(const name of names){const entry=entries.find(command=>command.name===name);if(entry)button(entry.label,async()=>{closeDialog();await commands().run(entry.name);},group);}}
-  });}
+  /** Progress of an unfinished saved scan for the Tools menu, or null. */
+  async function getScanProgress(){
+    const job=await recoverInterruptedScan();if(!job || ['completed','canceled'].includes(job.status))return null;
+    const values=scanCoverage(job);return {completed:values.completed,total:values.total,status:job.status};
+  }
   window.addEventListener('pagehide',()=>{if(runningJob){stopScan=true;void pauseScan().catch(()=>{});}},{once:true});
-  return {exportSnapshot,pickSnapshot,showSnapshotRestore,showDuplicatePreview,showSavedViews,showBulkTags,showImportPreview,showDiagnostics,showScan,showPalette,showLibraryTools,closeDialog,isDialogOpen:()=>Boolean(dialog),undoBulkTags,appendScanSummary};
+  return {exportSnapshot,pickSnapshot,showSnapshotRestore,showDuplicatePreview,showSavedViews,showBulkTags,showImportPreview,showDiagnostics,showScan,showPalette,getScanProgress,closeDialog,isDialogOpen:()=>Boolean(dialog),undoBulkTags,appendScanSummary};
 }

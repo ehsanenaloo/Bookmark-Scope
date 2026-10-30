@@ -22,7 +22,10 @@
     "pages/popup/footer-nav-config.js",
     "pages/popup/popup.css",
     "pages/popup/popup.html",
-    "pages/popup/popup.js"
+    "pages/popup/popup.js",
+    "pages/sidepanel/sidepanel.css",
+    "pages/sidepanel/sidepanel.html",
+    "pages/sidepanel/sidepanel.js"
   ],
   "directories": [
     "src",

@@ -31,6 +31,7 @@ html[dir="rtl"] .item.active-item { box-shadow: inset -2px 0 0 var(--accent-text
 
 /* Drag and drop: the dragged row dims; a 2px accent bar marks the drop slot. */
 .item.dragging { opacity: 0.45; }
+.bookmark-group-header.drop-target-into { box-shadow: inset 0 0 0 2px var(--accent-text); background: var(--accent-soft); }
 .item.drop-target-before::before,
 .item.drop-target-after::after {
   content: "";

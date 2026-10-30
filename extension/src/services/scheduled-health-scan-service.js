@@ -13,7 +13,9 @@
  *   - Each run attempts at most BG_HEALTH_SCAN_MAX_PER_RUN URLs serially.
  *     The persisted cursor advances before every attempt, including failures.
  *   - Sorted candidates wrap after that cursor independently of cache expiry.
- *     A shared scan lock prevents overlapping runs across extension contexts.
+ *     One scan lock, shared with the manual scan, prevents overlapping runs
+ *     across extension contexts; a scheduled run skips itself while a manual
+ *     scan runs.
  *   - Newly bad status transitions trigger a grouped notification. Expired
  *     observations cannot establish whether a bad result was already known.
  *
@@ -37,11 +39,10 @@ import {
   STORAGE_KEYS,
   HEALTH_STATUSES,
   BG_HEALTH_SCAN_MAX_PER_RUN,
-  BG_HEALTH_SCAN_CONCURRENCY,
+  HEALTH_SCAN_LOCK_NAME,
   BG_HEALTH_SCAN_DEFAULT_INTERVAL_DAYS,
   OPTIONAL_HOST_PATTERNS
 } from '../core/constants.js';
-import { runWithConcurrency } from '../dashboard/health.js';
 import { t } from '../locales/i18n.js';
 
 export const BG_HEALTH_SCAN_ALARM = 'bookmark-scope-scheduled-health-scan';
@@ -166,7 +167,7 @@ export function selectScanCandidatesAfterCursor(bookmarks, cursor = '', limit = 
 
 export async function runScheduledHealthScan({ runHealthFetch, logger = null } = {}) {
   if (typeof runHealthFetch !== 'function') throw new Error('runScheduledHealthScan requires runHealthFetch');
-  return navigator.locks.request('bookmark-scope-scheduled-scan', { ifAvailable: true }, async lock => {
+  return navigator.locks.request(HEALTH_SCAN_LOCK_NAME, { ifAvailable: true }, async lock => {
     if (!lock) return { ran: false, reason: 'already-running' };
     const settings = await loadBgHealthScanSettings();
     if (!settings.enabled) { await scheduleBgHealthScan(); return { ran: false, reason: 'disabled' }; }

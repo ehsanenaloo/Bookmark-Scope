@@ -41,6 +41,7 @@ import {
   addBookmarkEventListeners,
   addStorageChangedListener,
   createBookmark,
+  getBookmarkTree,
   getBookmarksManagerUrl,
   getManifest,
   getRuntimeUrl,
@@ -68,6 +69,10 @@ import { createGroupTools } from '../../src/dashboard/group-tools.js';
 import { createOverlayTools } from '../../src/dashboard/overlay-tools.js';
 import { createRenderTools } from '../../src/dashboard/render-tools.js';
 import { createActionTools } from '../../src/dashboard/action-tools.js';
+import { createFolderTools } from '../../src/dashboard/folder-tools.js';
+import { createToolsMenu } from '../../src/dashboard/tools-menu.js';
+import { openFolderPicker } from '../../src/ui/folder-picker.js';
+import { openFolderManager } from '../../src/ui/folder-manager.js';
 import { createSelectionTools } from '../../src/dashboard/selection-tools.js';
 import { createInspectTools } from '../../src/dashboard/inspect-tools.js';
 import { downloadTextFile, createCsvFile, parseImportedFilePreview } from '../../src/dashboard/import-export-tools.js';
@@ -289,6 +294,20 @@ const {
   handleRemoveTag
 } = actionTools;
 
+const folderTools = createFolderTools({
+  t,
+  formatNumber,
+  setToast,
+  refreshData,
+  pushCleanupHistory,
+  invalidateBookmarkCache,
+  // Same deferral as in actionTools: showConfirmDialog comes from overlayTools.
+  showConfirmDialog: (...args) => showConfirmDialog(...args),
+  openFolderPicker,
+  openFolderManager,
+  api: { getBookmarkTree, moveBookmark, createBookmark, updateBookmark, removeBookmark }
+});
+
 const reviewTools = createReviewTools({
   state,
   t,
@@ -387,6 +406,7 @@ const renderTools = createRenderTools({
   cleanupFilterLabel,
   groupByLabel,
   getGroupedVisibleBookmarks,
+  attachGroupDropTarget,
   setAllGroupsCollapsed,
   setCleanupFilter,
   handleCopySelectedUrls,
@@ -1343,6 +1363,8 @@ const commands = createCommandRegistry({
   deleteSelected: { label:'Delete selected', run:()=>handleDeleteMany(getSelectedBookmarks()) },
   repairRedirects: { label:'Repair redirected', run:()=>handleRepairRedirects() },
   clearHealth: { label:'Clear cached health data', run:()=>handleClearHealthData() },
+  manageFolders: { label:'Manage folders…', run:()=>folderTools.openFolders() },
+  moveSelected: { label:'Move to folder…', run:()=>folderTools.moveBookmarksToFolder(getSelectedBookmarks()) },
   async updateMode(mode) {
     state.mode = mode;
     await savePreferences();
@@ -1368,6 +1390,25 @@ const commands = createCommandRegistry({
     }
     await logger.debug('preference_updated', { name, needsReload });
     render();
+  }
+});
+
+const toolsMenu = createToolsMenu({
+  create,
+  t,
+  l: featureText,
+  formatNumber,
+  commands: () => commands,
+  setToast,
+  async getContext() {
+    return {
+      selected: getSelectedCount(),
+      visible: state.visibleBookmarks.length,
+      duplicateGroups: getScopeSummary().duplicateGroupCount,
+      redirected: getRedirectedBookmarks(state.visibleBookmarks, state.healthByKey).length,
+      healthEntries: Object.keys(state.healthByKey || {}).length,
+      scan: await featureTools.getScanProgress().catch(() => null)
+    };
   }
 });
 
@@ -1633,6 +1674,32 @@ function attachDragHandlers(itemEl, bookmark) {
     clearAllDropIndicators();
     resetDragSession();
     await handleDragDropMove(sourceBookmarks, bookmark, position);
+  });
+}
+
+// Dropping on a folder group header moves the dragged bookmarks into that
+// folder. Only for folder grouping, and only when every row in the group has
+// the same parent (two folders with the same path would share one group).
+function attachGroupDropTarget(headerEl, group) {
+  if (state.groupBy !== GROUP_BY_OPTIONS.FOLDER) return;
+  const parentId = group.items[0]?.parentId;
+  if (!parentId || group.items.some((bookmark) => bookmark.parentId !== parentId)) return;
+  headerEl.addEventListener('dragover', (event) => {
+    if (!_dragSession.sourceIds.length) return;
+    event.preventDefault();
+    if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+    headerEl.classList.add('drop-target-into');
+  });
+  headerEl.addEventListener('dragleave', (event) => {
+    if (!headerEl.contains(event.relatedTarget)) headerEl.classList.remove('drop-target-into');
+  });
+  headerEl.addEventListener('drop', async (event) => {
+    event.preventDefault();
+    headerEl.classList.remove('drop-target-into');
+    const ids = _dragSession.sourceIds.slice();
+    clearAllDropIndicators();
+    resetDragSession();
+    if (ids.length) await folderTools.moveIdsIntoFolder(ids, parentId);
   });
 }
 
@@ -2028,7 +2095,7 @@ function appendSidebarPanelContent(scroll) {
 
   if (state.sidebarTab === 'health') {
     const totalUniqueVisible = new Set(state.visibleBookmarks.map((bookmark) => getHealthKey(bookmark))).size;
-    const healthPanel = buildSidebarPanel(t('Health'), t('{{checked}}/{{total}} checked · {{redirected}} redirected · {{unhealthy}} unhealthy.', { checked: formatNumber(health.checked), total: formatNumber(totalUniqueVisible), redirected: formatNumber(health.redirected), unhealthy: formatNumber(health.broken + health.serverError + health.unreachable) }));
+    const healthPanel = buildSidebarPanel(t('Health'), featureText('{{checked}}/{{total}} unique addresses checked · {{redirected}} redirected · {{unhealthy}} unhealthy.', { checked: formatNumber(health.checked), total: formatNumber(totalUniqueVisible), redirected: formatNumber(health.redirected), unhealthy: formatNumber(health.broken + health.serverError + health.unreachable) }));
     const actions = create('div', 'footer-actions wrap');
     const inspectButton = buildInspectButton(getInspectButtonLabel(), getInspectTargetBookmarks().length || totalUniqueVisible, 'ghost-button');
     inspectButton.addEventListener('click', () => inspectBookmarksHealth(getInspectTargetBookmarks()));
@@ -2250,6 +2317,9 @@ function renderListPane(listPane) {
     const inspectBtn = makeIconBtn(iconSvg('inspect'), getInspectButtonLabel());
     inspectBtn.addEventListener('click', () => inspectBookmarksHealth(getInspectTargetBookmarks()));
 
+    const moveBtn = makeIconBtn(iconSvg('folderInput'), featureText('Move to folder'));
+    moveBtn.addEventListener('click', () => folderTools.moveBookmarksToFolder(getSelectedBookmarks()));
+
     const copyBtn = makeIconBtn(iconSvg('copy'), t('Copy URLs'));
     copyBtn.addEventListener('click', handleCopySelectedUrls);
 
@@ -2266,7 +2336,7 @@ function renderListPane(listPane) {
     const deleteBtn = makeIconBtn(iconSvg('trash'), t('Delete'), true);
     deleteBtn.addEventListener('click', () => handleDeleteMany(selected));
 
-    selActions.append(openBtn, inspectBtn, copyBtn, repairBtn, selDivider, deleteBtn);
+    selActions.append(openBtn, inspectBtn, moveBtn, copyBtn, repairBtn, selDivider, deleteBtn);
     selBar.append(selLeft, selActions);
 
     mainHead.append(selBar, headActions);
@@ -2303,10 +2373,7 @@ function renderListPane(listPane) {
     mainHead.append(headCopy, headActions);
   }
 
-  const libraryToolsButton=create('button','ghost-button compact-list-button',featureText('Library tools'));
-  libraryToolsButton.type='button';libraryToolsButton.dataset.libraryTools='true';
-  libraryToolsButton.addEventListener('click',()=>featureTools.showLibraryTools());
-  headActions.append(libraryToolsButton);
+  headActions.append(toolsMenu.createTrigger());
   featureTools.appendScanSummary(headActions).catch(error=>logger.warn('scan_progress_failed',{error:error.message}));
   listPane.append(mainHead);
 
@@ -2415,6 +2482,14 @@ function renderRowMenuOverlay(root) {
     // Edit mode requires list re-render to show inline editor; use full render
     render();
   });
+  const moveAction = create('button', 'row-menu-item', featureText('Move to folder…'));
+  moveAction.type = 'button';
+  moveAction.addEventListener('click', () => {
+    state.rowMenuBookmarkId = null;
+    state.rowMenuPosition = null;
+    renderOverlaysOnly();
+    folderTools.moveBookmarksToFolder([bookmark]);
+  });
   const repairAction = create('button', 'row-menu-item');
   repairAction.type = 'button';
   repairAction.textContent = t('Repair redirect');
@@ -2431,7 +2506,7 @@ function renderRowMenuOverlay(root) {
     state.rowMenuPosition = null;
     handleDeleteMany([bookmark]);
   });
-  menu.append(editAction, repairAction, deleteAction);
+  menu.append(editAction, moveAction, repairAction, deleteAction);
   root.append(menu);
   clampFixedMenuToViewport(menu);
 }
@@ -2458,7 +2533,7 @@ function renderFooter(root) {
     shortcuts.append(hint);
   });
 
-  const right = create('div', 'dashboard-footer-copy', t('Copyright (c) 2026 Ehsan Enaloo'));
+  const right = create('div', 'dashboard-footer-copy', t('Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.'));
   footer.append(left, shortcuts, right);
   root.append(footer);
 }

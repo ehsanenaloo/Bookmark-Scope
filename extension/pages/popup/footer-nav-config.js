@@ -9,14 +9,14 @@ window.FOOTER_NAV_CONFIG = {
       id: 'about',
       labelKey: 'About',
       messageKey: 'Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.',
-      ctaLabelKey: 'Learn More',
+      ctaLabelKey: 'Open WebSite',
       showCtaButton: false,
       action: 'info'
     },
     {
       id: 'github',
       labelKey: 'GitHub',
-      messageKey: 'Source code, releases, and project details live in your GitHub repo.',
+      messageKey: 'Source code, releases, and project details.',
       ctaLabelKey: 'Open GitHub',
       showCtaButton: true,
       url: 'https://github.com/ehsanenaloo/Bookmark-Scope',
@@ -26,7 +26,7 @@ window.FOOTER_NAV_CONFIG = {
       id: 'rate',
       labelKey: 'Rate',
       messageKey: 'Enjoying the extension? A good rating helps the extension build trust faster.',
-      ctaLabelKey: 'Rate on Store',
+      ctaLabelKey: 'Rate On Store',
       showCtaButton: true,
       url: '',
       action: 'link'
@@ -34,10 +34,10 @@ window.FOOTER_NAV_CONFIG = {
     {
       id: 'support',
       labelKey: 'Support',
-      messageKey: 'If Bookmark Scope saves you time, you can support the project with a small coffee.',
-      ctaLabelKey: 'Buy me a coffee',
+      messageKey: 'Saving you time? Help keep the project going.',
+      ctaLabelKey: 'Support',
       showCtaButton: true,
-      url: 'https://buymeacoffee.com/enaloo',
+      url: 'https://enaloo.com/support/',
       action: 'link'
     }
   ]

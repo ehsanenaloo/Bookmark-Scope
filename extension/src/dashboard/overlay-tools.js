@@ -7,6 +7,7 @@ import { runtimeMessages } from '../runtime/messages.js';
 import { getBookmarksManagerUrl } from '../platform/browser-api.js';
 import { getRuntimeConfig } from '../config/runtime-config.js';
 import { USER_GUIDE_URL } from '../config/footer-config.js';
+import { getFeedbackUrl } from '../services/site-pages-service.js';
 import { featureText as l } from '../locales/feature-messages.js';
 
 export function createOverlayTools(deps) {
@@ -114,7 +115,7 @@ export function createOverlayTools(deps) {
     return {
       github: find('github').url || 'https://github.com/ehsanenaloo/Bookmark-Scope',
       rate: find('rate').url || footerRateUrl,
-      support: find('support').url || 'https://buymeacoffee.com/enaloo'
+      support: find('support').url || 'https://enaloo.com/support/'
     };
   }
 
@@ -194,8 +195,14 @@ export function createOverlayTools(deps) {
     actions.append(
       createAboutLinkButton('help', l('User guide'), USER_GUIDE_URL),
       createAboutLinkButton('github', t('GitHub'), links.github),
-      createAboutLinkButton('star', t('Rate on Store'), links.rate),
-      createAboutLinkButton('coffee', t('Buy me a coffee'), links.support, 'primary')
+      createAboutLinkButton('star', t('Rate On Store'), links.rate),
+      createAboutLinkButton('heart', t('Support'), links.support, 'primary')
+    );
+
+    const feedbackActions = create('div', 'about-actions dashboard-about-actions');
+    feedbackActions.append(
+      createAboutLinkButton('repair', t('Report a problem'), getFeedbackUrl('bug')),
+      createAboutLinkButton('edit', t('Suggest a feature'), getFeedbackUrl('feature'))
     );
 
     const details = create('dl', 'about-details');
@@ -208,7 +215,7 @@ export function createOverlayTools(deps) {
 
     const footer = create('div', 'about-footer-note dashboard-about-footer', t('Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.'));
 
-    body.append(intro, actions, features, details, footer);
+    body.append(intro, actions, feedbackActions, features, details, footer);
     modal.append(head, body);
     modal.setAttribute('role', 'dialog');
     modal.setAttribute('aria-modal', 'true');
@@ -272,7 +279,7 @@ export function createOverlayTools(deps) {
   }
 
   function openSupportLink() {
-    sendMessage(runtimeMessages.openUrl('https://buymeacoffee.com/enaloo'));
+    sendMessage(runtimeMessages.openUrl('https://enaloo.com/support/'));
   }
 
   function closeListHeadMenu() {

@@ -1,4 +1,7 @@
 {
+   "command_open_side_panel": {
+      "message": "Open the Bookmark Scope side panel"
+   },
    "action_title": {
       "message": "Bookmark Scope"
    },

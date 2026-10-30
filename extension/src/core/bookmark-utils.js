@@ -339,21 +339,24 @@ export function searchScopedBookmarks(bookmarks, query, options = {}) {
   return { items: ranked.map((r) => r.bookmark), fuzzy: ranked.length > 0 };
 }
 
+// One collator for every comparison: localeCompare with options builds a new collator on each call, which dominated sorting 50,000 bookmarks.
+const baseCollator = new Intl.Collator(undefined, { sensitivity: 'base' });
+
 export function sortBookmarks(bookmarks, sortValue) {
   const items = [...bookmarks];
   items.sort((a, b) => {
     switch (sortValue) {
       case 'url-asc':
-        return a.url.localeCompare(b.url, undefined, { sensitivity: 'base' });
+        return baseCollator.compare(a.url, b.url);
       case 'newest':
         return (b.dateAdded || 0) - (a.dateAdded || 0);
       case 'oldest':
         return (a.dateAdded || 0) - (b.dateAdded || 0);
       case 'path-asc':
-        return (a.path || '').localeCompare(b.path || '', undefined, { sensitivity: 'base' });
+        return baseCollator.compare(a.path || '', b.path || '');
       case 'title-asc':
       default:
-        return a.title.localeCompare(b.title, undefined, { sensitivity: 'base' });
+        return baseCollator.compare(a.title, b.title);
     }
   });
   return items;

@@ -29,6 +29,13 @@ function createBookmarkDataSlice() {
 function createUiSlice() {
   return {
     query: '',
+    // 'site' lists the bookmarks of the active tab's scope (popup and side panel);
+    // 'all' lists the whole library (side panel only). folderIds, when set,
+    // limits 'all' to those folder ids. groupByFolder shows either list as a
+    // folder tree (side panel only).
+    view: 'site',
+    folderIds: null,
+    groupByFolder: false,
     toast: null,
     footerTab: '',
     footerAutoRotate: true,

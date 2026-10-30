@@ -122,6 +122,37 @@ export function addTabUpdatedListener(listener) {
   getChromeApi().tabs.onUpdated.addListener(listener);
 }
 
+export function addCommandListener(listener) {
+  getChromeApi().commands?.onCommand?.addListener(listener);
+}
+
+export function addWindowFocusListener(listener) {
+  getChromeApi().windows?.onFocusChanged?.addListener(listener);
+}
+
+/** True where the browser has a side panel (Chromium sidePanel) or sidebar (Firefox sidebarAction). */
+export function isSidePanelAvailable() {
+  const api = getChromeApi();
+  return typeof api.sidebarAction?.open === 'function' || typeof api.sidePanel?.open === 'function';
+}
+
+/**
+ * Opens the side panel. Must be called from a user action. Firefox only
+ * accepts sidebarAction.open() while the input handler is still running, so
+ * it is called before any await.
+ */
+export async function openSidePanel(windowId) {
+  const api = getChromeApi();
+  if (typeof api.sidebarAction?.open === 'function') return api.sidebarAction.open();
+  if (typeof api.sidePanel?.open === 'function') {
+    // With a known window id nothing is awaited first, which keeps the user gesture.
+    if (Number.isInteger(windowId)) return api.sidePanel.open({ windowId });
+    const current = await api.windows.getCurrent();
+    return api.sidePanel.open({ windowId: current.id });
+  }
+  throw new Error('This browser has no side panel.');
+}
+
 export function addBookmarkEventListeners(listeners) {
   const api = getChromeApi().bookmarks;
   if (listeners.created) api.onCreated.addListener(listeners.created);
@@ -169,6 +200,11 @@ export async function moveBookmark(id, destination) {
   return api.bookmarks.move(id, destination);
 }
 
+export async function getBookmark(id) {
+  const [node] = await getChromeApi().bookmarks.get(id);
+  return node || null;
+}
+
 export async function getBookmarkTree() {
   return getChromeApi().bookmarks.getTree();
 }
@@ -184,6 +220,14 @@ export function getRuntimeUrl(path) {
 export function getUiLanguage() {
   const api = getChromeApi();
   return api.i18n?.getUILanguage?.() || null;
+}
+
+export async function setUninstallUrl(url) {
+  return getChromeApi().runtime.setUninstallURL(url);
+}
+
+export async function getPlatformInfo() {
+  return getChromeApi().runtime.getPlatformInfo();
 }
 
 export async function containsPermissions(permissions) {

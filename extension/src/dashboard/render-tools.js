@@ -35,6 +35,7 @@ export function createRenderTools(deps) {
     cleanupFilterLabel,
     groupByLabel,
     getGroupedVisibleBookmarks,
+    attachGroupDropTarget,
     setAllGroupsCollapsed,
     setCleanupFilter,
     handleCopySelectedUrls,
@@ -139,6 +140,7 @@ export function createRenderTools(deps) {
     actions.append(selectButton, inspectButton, openButton);
 
     header.append(copy, actions);
+    if (attachGroupDropTarget) attachGroupDropTarget(header, group);
     section.append(header);
 
     if (!collapsed) {
@@ -186,7 +188,7 @@ export function createRenderTools(deps) {
 
     const supportButton = create('button', 'button primary-button dashboard-support-button');
     supportButton.type = 'button';
-    supportButton.textContent = t('Buy me a coffee');
+    supportButton.textContent = t('Support');
     supportButton.addEventListener('click', openSupportLink);
 
     const menuWrap = create('div', 'dashboard-header-menu-wrap');

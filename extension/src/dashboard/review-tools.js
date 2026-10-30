@@ -5,6 +5,7 @@
 
 import { CLEANUP_FILTERS, HEALTH_STATUSES } from '../core/constants.js';
 import { runtimeMessages } from '../runtime/messages.js';
+import { featureText } from '../locales/feature-messages.js';
 
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
@@ -145,7 +146,7 @@ export function createReviewTools(deps) {
     score -= Math.min(9, (scopeSummary.titleCollisionCount / total) * 22);
     const rounded = Math.round(clamp(score, 0, 100));
     const grade = rounded >= 90 ? 'A' : rounded >= 80 ? 'B' : rounded >= 70 ? 'C' : rounded >= 55 ? 'D' : 'F';
-    const confidence = health.checked ? t('Includes link-health data for {{count}} checked bookmarks.', { count: formatNumber(health.checked) }) : t('Metadata-only score until you run a health scan.');
+    const confidence = health.checked ? featureText('Includes link-health data for {{count}} checked addresses.', { count: formatNumber(health.checked) }) : t('Metadata-only score until you run a health scan.');
     return { score: rounded, grade, confidence, health, isMetadataOnly: !health.checked };
   }
 

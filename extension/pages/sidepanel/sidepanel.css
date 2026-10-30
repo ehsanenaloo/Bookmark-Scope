@@ -1,0 +1,115 @@
+/*
+ * Bookmark Scope - Domain & Page Manager
+ * Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.
+ *
+ * Side panel stylesheet. It reuses the popup layout and list styles and lets
+ * the page fill the panel instead of the fixed popup size.
+ */
+
+@import url("../../styles/base.css");
+@import url("../../styles/popup/layout.css");
+@import url("../../styles/popup/list.css");
+@import url("../../styles/popup/overlay.css");
+@import url("../../styles/folder-picker.css");
+
+html, body {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.side-header {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-3) var(--space-2);
+  border-bottom: 1px solid var(--divider);
+}
+.side-header-row { display: flex; align-items: center; gap: var(--space-2); min-width: 0; }
+.side-header-row .title { flex: 1; min-width: 0; margin: 0; }
+.side-header .brand-badge-logo { flex: none; }
+.side-page {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.side-view-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+}
+.side-view-switch button {
+  appearance: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  padding: 5px var(--space-2);
+  background: transparent;
+  color: var(--text-2);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+}
+.side-view-switch button[aria-pressed="true"] { background: var(--surface); color: var(--accent-text); box-shadow: var(--shadow-1, 0 1px 2px rgba(0, 0, 0, 0.12)); }
+.side-view-switch button:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring); }
+.side-filter { display: flex; gap: var(--space-2); padding: var(--space-2) var(--space-3) 0; }
+.side-filter .select { flex: 1; min-width: 0; }
+.side-meta { padding: var(--space-1) var(--space-3) 0; color: var(--muted); font-size: var(--text-xs); }
+.side-content { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+
+@media (pointer: coarse) {
+  .side-view-switch button { min-height: 44px; }
+  .folder-tree-row { min-height: 44px; }
+}
+.side-filter-end { justify-content: flex-end; }
+.side-group-toggle { display: inline-flex; align-items: center; gap: var(--space-1); flex: none; white-space: nowrap; }
+.side-group-toggle[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent-line); color: var(--accent-text); }
+.side-meta { text-align: end; }
+
+.folder-tree-list { overflow: auto; }
+.folder-tree-row[draggable="true"],
+.folder-tree .item[draggable="true"] { cursor: grab; }
+.folder-tree .dragging { opacity: 0.45; }
+.folder-tree-row.drop-into,
+.folder-tree .item.drop-into { background: var(--accent-soft); box-shadow: inset 0 0 0 2px var(--accent-text); }
+.folder-tree-row {
+  appearance: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 32px;
+  padding-block: 4px;
+  padding-inline-end: var(--space-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: var(--text-sm);
+  text-align: start;
+  cursor: pointer;
+}
+.folder-tree-row:hover { background: var(--hover); }
+.folder-tree-row:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--focus-ring); }
+.folder-tree-chevron { flex: none; color: var(--muted); transition: transform var(--dur-fast) var(--ease); }
+.folder-tree-chevron svg { width: 14px; height: 14px; }
+.folder-tree-row[aria-expanded="true"] .folder-tree-chevron { transform: rotate(90deg); }
+html[dir="rtl"] .folder-tree-chevron { transform: scaleX(-1); }
+html[dir="rtl"] .folder-tree-row[aria-expanded="true"] .folder-tree-chevron { transform: rotate(-90deg); }
+.folder-tree-icon { flex: none; color: var(--muted); }
+.folder-tree-icon svg { width: 16px; height: 16px; }
+.folder-tree-name { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: var(--weight-medium); }
+.folder-tree-count { flex: none; margin-inline-start: auto; color: var(--muted); font-size: var(--text-2xs); }
+.folder-tree-empty { padding: var(--space-2) var(--space-6); color: var(--muted); font-size: var(--text-xs); }
+.folder-tree-more { margin: var(--space-1) var(--space-6); }

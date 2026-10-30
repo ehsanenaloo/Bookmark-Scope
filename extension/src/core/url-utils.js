@@ -31,7 +31,20 @@ function normalizeHash(hash, ignoreHashFragment) {
   return hash || '';
 }
 
+// The answer depends only on the host name and the constant rule set, and a library repeats a few hundred hosts.
+const DOMAIN_CACHE_LIMIT = 50000;
+const domainCache = new Map();
+
 export function getRegistrableDomain(hostname) {
+  const cached = domainCache.get(hostname);
+  if (cached !== undefined) return cached;
+  const domain = computeRegistrableDomain(hostname);
+  if (domainCache.size >= DOMAIN_CACHE_LIMIT) domainCache.clear();
+  domainCache.set(hostname, domain);
+  return domain;
+}
+
+function computeRegistrableDomain(hostname) {
   let normalized = String(hostname || '').toLowerCase().trim().replace(/\.+$/, '');
   if (!normalized) return '';
   if (normalized === 'localhost' || normalized.includes(':') || /^\d{1,3}(\.\d{1,3}){3}$/.test(normalized)) return normalized;

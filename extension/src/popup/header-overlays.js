@@ -1,6 +1,7 @@
-import { createTab, getBookmarksManagerUrl, getManifest, getRuntimeUrl } from '../platform/browser-api.js';
+import { createTab, getBookmarksManagerUrl, getManifest, getRuntimeUrl, isSidePanelAvailable, openSidePanel } from '../platform/browser-api.js';
 import { featureText } from '../locales/feature-messages.js';
 import { USER_GUIDE_URL } from '../config/footer-config.js';
+import { getFeedbackUrl } from '../services/site-pages-service.js';
 import { getRuntimeConfig } from '../config/runtime-config.js';
 import { MATCH_MODES, OLD_BOOKMARK_DAYS, SORT_OPTIONS, THEME_MODES, COLOR_PALETTES } from '../core/constants.js';
 
@@ -128,7 +129,7 @@ export function createPopupHeaderOverlays(deps) {
   }
 
   function openPopupSupportLink() {
-    createTab({ url: 'https://buymeacoffee.com/enaloo', active: true });
+    createTab({ url: 'https://enaloo.com/support/', active: true });
   }
 
   function createAboutFeature(icon, title, copy, compact = false, titleOnly = false, extraClass = '') {
@@ -245,7 +246,7 @@ export function createPopupHeaderOverlays(deps) {
     const support = create('section', 'about-support-card popup-about-support-card');
     support.append(
       create('div', 'about-section-title', t('Like the extension?')),
-      create('div', 'about-copy', t('If Bookmark Scope saved you time or spared you a cleanup headache, you can buy me a coffee.'))
+      create('div', 'about-copy', featureText('If Bookmark Scope saved you time or spared you a cleanup headache, you can support the project.'))
     );
     const actionsRow = create('div', 'about-actions');
     const guide = create('button', 'button secondary about-action-button', featureText('User guide'));
@@ -254,14 +255,22 @@ export function createPopupHeaderOverlays(deps) {
     const github = create('button', 'button secondary about-action-button', t('GitHub'));
     github.type = 'button';
     github.addEventListener('click', () => createTab({ url: 'https://github.com/ehsanenaloo/Bookmark-Scope', active: true }));
-    const coffee = create('button', 'button primary about-action-button', t('Buy me a coffee'));
+    const coffee = create('button', 'button primary about-action-button', t('Support'));
     coffee.type = 'button';
     coffee.addEventListener('click', openPopupSupportLink);
     actionsRow.append(guide, github, coffee);
-    support.append(actionsRow);
+    const feedbackRow = create('div', 'about-actions');
+    const report = create('button', 'button secondary about-action-button', t('Report a problem'));
+    report.type = 'button';
+    report.addEventListener('click', () => createTab({ url: getFeedbackUrl('bug'), active: true }));
+    const suggest = create('button', 'button secondary about-action-button', t('Suggest a feature'));
+    suggest.type = 'button';
+    suggest.addEventListener('click', () => createTab({ url: getFeedbackUrl('feature'), active: true }));
+    feedbackRow.append(report, suggest);
+    support.append(actionsRow, feedbackRow);
 
     const credit = create('div', 'about-footer-note popup-about-credit');
-    credit.append(create('div', 'about-copy about-copy-muted', t('Made by Ehsan Enaloo.').replace(/[.。।۔]$/, '') + ' · ' + featureText('MIT License')));
+    credit.append(create('div', 'about-copy about-copy-muted', t('Copyright (c) 2026 Ehsan Enaloo. Released under the MIT License.')));
 
     body.append(hero, section, support, credit);
     modal.append(head, body);
@@ -291,6 +300,17 @@ export function createPopupHeaderOverlays(deps) {
       closeOverflowMenu();
       createTab({ url: getRuntimeUrl('pages/options/options.html'), active: true });
     });
+
+    let sidePanelAction = null;
+    if (isSidePanelAvailable()) {
+      sidePanelAction = create('button', 'overflow-item', featureText('Open side panel'));
+      sidePanelAction.type = 'button';
+      sidePanelAction.addEventListener('click', (event) => {
+        event.stopPropagation();
+        closeOverflowMenu();
+        openSidePanel().then(() => window.close()).catch((error) => console.warn('Side panel did not open.', error));
+      });
+    }
 
     // Firefox has no bookmarks-manager page an extension may open (getBookmarksManagerUrl() is null there).
     const managerUrl = getBookmarksManagerUrl();
@@ -365,7 +385,7 @@ export function createPopupHeaderOverlays(deps) {
     });
     paletteBlock.append(paletteButtons);
 
-    menu.append(...[settingsAction, chromeAction, aboutAction, sortBlock, paletteBlock, themeBlock].filter(Boolean));
+    menu.append(...[settingsAction, sidePanelAction, chromeAction, aboutAction, sortBlock, paletteBlock, themeBlock].filter(Boolean));
     return menu;
   }
 
@@ -440,7 +460,14 @@ export function createPopupHeaderOverlays(deps) {
       starBtn.style.opacity = '0.35';
     }
 
-    actionsWrap.append(dashBtn, starBtn, createOverflowMenu());
+    const sideBtn = isSidePanelAvailable() ? createIconButton('sidePanel', featureText('Open side panel'), 'icon-button mono-icon-button side-panel-btn') : null;
+    if (sideBtn) {
+      sideBtn.addEventListener('click', () => {
+        closeOverflowMenu({ rerender: false });
+        openSidePanel().then(() => window.close()).catch((error) => console.warn('Side panel did not open.', error));
+      });
+    }
+    actionsWrap.append(...[dashBtn, starBtn, sideBtn, createOverflowMenu()].filter(Boolean));
     topRow.append(left, actionsWrap);
 
     const strip = create('div', 'status-strip compact single-line-summary full-width-strip summary-strip-minimal');
@@ -516,12 +543,12 @@ export function createPopupHeaderOverlays(deps) {
     close.addEventListener('click', actions.dismissSupportNudge);
     head.append(headerCopy, close);
     const body = create('div', 'pin-onboarding-body');
-    body.append(create('div', 'pin-onboarding-copy', t('If Bookmark Scope saved you time or spared you a cleanup headache, you can buy me a coffee.')));
+    body.append(create('div', 'pin-onboarding-copy', featureText('If Bookmark Scope saved you time or spared you a cleanup headache, you can support the project.')));
     const actionsWrap = create('div', 'pin-onboarding-actions support-nudge-actions');
-    const coffee = create('button', 'button primary pin-onboarding-button', t('Buy me a coffee'));
+    const coffee = create('button', 'button primary pin-onboarding-button', t('Support'));
     coffee.type = 'button';
     coffee.addEventListener('click', () => { openPopupSupportLink(); actions.dismissSupportNudge(); });
-    const rate = create('button', 'button secondary pin-onboarding-button', t('Rate on Store'));
+    const rate = create('button', 'button secondary pin-onboarding-button', t('Rate On Store'));
     rate.type = 'button';
     rate.addEventListener('click', () => { createTab({ url: getRuntimeConfig().footerRateUrl, active: true }); actions.dismissSupportNudge(); });
     const later = create('button', 'button ghost pin-onboarding-button', featureText('Maybe later'));
